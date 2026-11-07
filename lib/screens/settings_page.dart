@@ -1757,6 +1757,120 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  Future<String?> _pickBackupPath({required bool save}) async {
+    final home = Platform.environment['HOME'] ?? '';
+    try {
+      final result = await Process.run('zenity', [
+        '--file-selection',
+        if (save) '--save',
+        if (save) '--confirm-overwrite',
+        if (save) '--filename=$home/x-wallet-backup.bnb',
+      ]);
+      if (result.exitCode == 0) {
+        final path = '${result.stdout}'.trim();
+        if (path.isNotEmpty) return path;
+      }
+    } catch (_) {
+      // Fall through to a typed path.
+    }
+    if (!mounted) return null;
+    return promptText(
+      context,
+      title: save ? 'Backup file path' : 'Backup file to restore',
+      label: 'Absolute path',
+      hintText: save
+          ? '$home/x-wallet-backup.bnb'
+          : '$home/x-wallet-backup.bnb',
+      validator: (value) => value.trim().isEmpty ? 'Path required' : null,
+    );
+  }
+
+  Future<void> _exportBackup() async {
+    final path = await _pickBackupPath(save: true);
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Export encrypted backup',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    try {
+      await appState.exportVault(password, path);
+      if (mounted) showInfo(context, 'Encrypted backup written to $path.');
+    } catch (error) {
+      if (mounted) showError(context, 'Backup failed: $error');
+    }
+  }
+
+  Future<void> _restoreBackup() async {
+    final path = await _pickBackupPath(save: false);
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Restore encrypted backup',
+      label: 'Backup password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    final confirmed = await confirmDialog(
+      context,
+      title: 'Replace the active vault?',
+      message:
+          'The selected backup will replace the current vault only after its '
+          'password and integrity are verified. Keep a copy of the current '
+          'vault if you are unsure.',
+      confirmLabel: 'Restore backup',
+    );
+    if (!confirmed || !mounted) return;
+    try {
+      await appState.importVault(
+        path,
+        password: password,
+        confirmReplace: true,
+      );
+      if (mounted) showInfo(context, 'Backup restored from $path.');
+    } catch (error) {
+      if (mounted) showError(context, 'Restore failed: $error');
+    }
+  }
+
+  Future<void> _changeVaultPath() async {
+    final path = await promptText(
+      context,
+      title: 'Move encrypted vault',
+      label: 'New absolute vault file path',
+      hintText: '/home/you/secure/x-wallet-vault.bnb',
+      validator: (value) => value.trim().isEmpty ? 'Path required' : null,
+    );
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Confirm vault password',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    try {
+      await appState.moveVault(password, path.trim());
+      if (mounted) showInfo(context, 'Vault moved to ${path.trim()}.');
+    } catch (error) {
+      if (mounted) showError(context, 'Vault move failed: $error');
+    }
+  }
+
+  Future<void> _resetVaultPath() async {
+    try {
+      await appState.resetVaultPath();
+      if (mounted) showInfo(context, 'Vault location reset to the default.');
+    } catch (error) {
+      if (mounted) showError(context, 'Could not reset vault location: $error');
+    }
+  }
+
   Widget _storageSection() {
     return InfoCard(
       child: Column(
@@ -1828,6 +1942,29 @@ class _SettingsPageState extends State<SettingsPage> {
                                 : () => Process.run('xdg-open', [dataPath]),
                             icon: const Icon(Icons.folder_open, size: 16),
                             label: const Text('Open data folder'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _changeVaultPath,
+                            icon: const Icon(Icons.drive_file_move, size: 16),
+                            label: const Text('Move vault'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _resetVaultPath,
+                            icon: const Icon(
+                              Icons.settings_backup_restore,
+                              size: 16,
+                            ),
+                            label: const Text('Reset vault path'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _exportBackup,
+                            icon: const Icon(Icons.save_alt, size: 16),
+                            label: const Text('Export encrypted backup'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _restoreBackup,
+                            icon: const Icon(Icons.restore, size: 16),
+                            label: const Text('Restore backup'),
                           ),
                         ],
                       ),
