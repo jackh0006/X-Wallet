@@ -1370,6 +1370,19 @@ class AppState extends ChangeNotifier {
   bool get torEnabled => AppStorage.torEnabled;
   String get torHost => AppStorage.torHost;
   int get torPort => AppStorage.torPort;
+  GlobalProxyConfig get torUpstream => AppStorage.torUpstream;
+  int get torChainDepth => AppStorage.torChainDepth;
+
+  Future<void> setTorUpstream(GlobalProxyConfig config) async {
+    await AppStorage.setTorUpstream(config);
+    await rpc.privacyChanged();
+    notifyListeners();
+  }
+
+  Future<void> setTorChainDepth(int value) async {
+    await AppStorage.setTorChainDepth(value);
+    notifyListeners();
+  }
 
   GlobalProxyConfig get globalProxy => AppStorage.globalProxy;
 

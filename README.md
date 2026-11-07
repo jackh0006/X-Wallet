@@ -282,6 +282,7 @@ control the security boundary.
 | [Backup and recovery](docs/BACKUP_AND_RECOVERY.md) | Recovery phrase and vault recovery |
 | [Cold wallet](docs/COLD_WALLET.md) | Offline signer and companion workflow |
 | [Network guide](docs/network/NETWORK_GUIDE.md) | RPC, Tor, proxies, and privacy |
+| [Privacy setup](docs/PRIVACY_SETUP.md) | VPN/VLESS before Tor, Tor chaining, proxy commands, and logs |
 | [Rename compatibility](docs/RENAME_COMPATIBILITY.md) | Preserved identifiers and package migration |
 | [High-value custody](docs/HIGH_VALUE_CUSTODY.md) | Custody tiers and hardware guidance |
 | [Release evidence](docs/RELEASE_EVIDENCE.md) | How releases are built and verified |

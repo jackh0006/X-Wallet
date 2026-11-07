@@ -143,6 +143,60 @@ void main() {
       expect(torrc, isNot(contains('ClientTransportPlugin custom')));
     });
 
+    test('writes a SOCKS5 upstream for VPN or VLESS before Tor', () {
+      final torrc = TorManager.buildTorrc(
+        port: 9050,
+        dataDirectory: '/tmp/bnb-tor-test/data',
+        bridgeType: TorBridgeType.none,
+        bridgeLines: const [],
+        upstream: const GlobalProxyConfig(
+          type: ProxyType.socks5h,
+          host: '127.0.0.1',
+          port: 10808,
+          username: 'vless',
+          password: 'secret',
+        ),
+      );
+      expect(torrc, contains('Socks5Proxy 127.0.0.1:10808'));
+      expect(torrc, contains('Socks5ProxyUsername vless'));
+      expect(torrc, contains('Socks5ProxyPassword secret'));
+    });
+
+    test('writes an HTTP CONNECT upstream with auth', () {
+      final torrc = TorManager.buildTorrc(
+        port: 9050,
+        dataDirectory: '/tmp/bnb-tor-test/data',
+        bridgeType: TorBridgeType.none,
+        bridgeLines: const [],
+        upstream: const GlobalProxyConfig(
+          type: ProxyType.httpConnect,
+          host: 'proxy.example',
+          port: 8443,
+          username: 'alice',
+          password: 'secret',
+        ),
+      );
+      expect(torrc, contains('HTTPSProxy proxy.example:8443'));
+      expect(torrc, contains('HTTPSProxyAuthenticator alice:secret'));
+    });
+
+    test('rejects control characters in an upstream proxy', () {
+      expect(
+        () => TorManager.buildTorrc(
+          port: 9050,
+          dataDirectory: '/tmp/bnb-tor-test/data',
+          bridgeType: TorBridgeType.none,
+          bridgeLines: const [],
+          upstream: const GlobalProxyConfig(
+            type: ProxyType.socks5h,
+            host: '127.0.0.1\nBadOption 1',
+            port: 10808,
+          ),
+        ),
+        throwsA(isA<TorStartException>()),
+      );
+    });
+
     test('direct Tor has no UseBridges line', () {
       final torrc = TorManager.buildTorrc(
         port: 9050,

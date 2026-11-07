@@ -224,6 +224,61 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                 style: TextStyle(fontSize: 13),
               ),
               const SizedBox(height: 12),
+              const Divider(),
+              const SizedBox(height: 8),
+              const Text(
+                'Common proxy setups',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'SSH SOCKS5: ssh -D 1080 -N user@your-vps\n'
+                'VLESS/Xray: run a local SOCKS inbound on 127.0.0.1:10808, '
+                'then use socks5h://127.0.0.1:10808.\n'
+                'HTTP CONNECT: point this dialog at the proxy host and port.\n'
+                'Proxy mode is fail-closed: if the route is down, requests '
+                'fail instead of falling back to your real IP.',
+                style: TextStyle(fontSize: 12, color: color.onSurfaceVariant),
+              ),
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 8,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Clipboard.setData(
+                        const ClipboardData(
+                          text: 'ssh -D 1080 -N user@your-vps',
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('SSH SOCKS5 command copied.'),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.copy, size: 16),
+                    label: const Text('Copy SSH SOCKS5'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Clipboard.setData(
+                        const ClipboardData(
+                          text: 'xray run -c /path/to/config.json',
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('VLESS/Xray command copied.'),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.copy, size: 16),
+                    label: const Text('Copy VLESS example'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -432,6 +487,12 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
   late final TextEditingController _managedPort;
   late final TextEditingController _externalPort;
   late final TextEditingController _bridges;
+  late final TextEditingController _upstreamHost;
+  late final TextEditingController _upstreamPort;
+  late final TextEditingController _upstreamUser;
+  late final TextEditingController _upstreamPass;
+  late ProxyType _upstreamType;
+  late int _chainDepth;
   late TorBridgeType _bridgeType;
   TorProbe? _probe;
   bool _busy = false;
@@ -450,6 +511,13 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
     _bridges = TextEditingController(
       text: AppStorage.torBridgeLines.join('\n'),
     );
+    final upstream = appState.torUpstream;
+    _upstreamType = upstream.type;
+    _upstreamHost = TextEditingController(text: upstream.host);
+    _upstreamPort = TextEditingController(text: '${upstream.port}');
+    _upstreamUser = TextEditingController(text: upstream.username ?? '');
+    _upstreamPass = TextEditingController(text: upstream.password ?? '');
+    _chainDepth = appState.torChainDepth;
     _bridgeType = AppStorage.torBridgeType;
     _tor.addListener(_torChanged);
     _refreshProbe();
@@ -462,6 +530,10 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
     _managedPort.dispose();
     _externalPort.dispose();
     _bridges.dispose();
+    _upstreamHost.dispose();
+    _upstreamPort.dispose();
+    _upstreamUser.dispose();
+    _upstreamPass.dispose();
     super.dispose();
   }
 
@@ -515,6 +587,44 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
     }
   }
 
+  Future<void> _saveUpstream() async {
+    final port = int.tryParse(_upstreamPort.text.trim());
+    if (_upstreamType != ProxyType.none &&
+        (_upstreamHost.text.trim().isEmpty ||
+            port == null ||
+            port <= 0 ||
+            port > 65535)) {
+      setState(() => _error = 'Enter a valid upstream proxy host and port.');
+      return;
+    }
+    try {
+      final upstream = _upstreamType == ProxyType.none
+          ? const GlobalProxyConfig.disabled()
+          : GlobalProxyConfig(
+              type: _upstreamType,
+              host: _upstreamHost.text.trim(),
+              port: port!,
+              username: _upstreamUser.text.trim().isEmpty
+                  ? null
+                  : _upstreamUser.text.trim(),
+              password: _upstreamPass.text.isEmpty ? null : _upstreamPass.text,
+            );
+      await appState.setTorUpstream(upstream);
+      await appState.setTorChainDepth(_chainDepth);
+      _changed = true;
+      if (!mounted) return;
+      setState(() {
+        _error = null;
+        _status = _upstreamType == ProxyType.none
+            ? 'Tor upstream disabled and chain depth set to $_chainDepth.'
+            : 'Tor upstream saved: ${upstream.description}; chain depth '
+                  '$_chainDepth. Start managed Tor to apply it.';
+      });
+    } catch (error) {
+      if (mounted) setState(() => _error = '$error');
+    }
+  }
+
   Future<void> _startManaged() async {
     final port = _parsePort(_managedPort);
     if (port == null) return;
@@ -530,7 +640,13 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
     });
     try {
       await AppStorage.setTorBridge(_bridgeType, lines);
-      await _tor.start(port: port, bridgeType: _bridgeType, bridgeLines: lines);
+      await _tor.start(
+        port: port,
+        bridgeType: _bridgeType,
+        bridgeLines: lines,
+        upstream: appState.torUpstream,
+        chainDepth: appState.torChainDepth,
+      );
       await appState.setTorHostPort('127.0.0.1', port);
       await appState.setTorEnabled(true);
       await appState.rpc.connect();
@@ -755,6 +871,167 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
               const Divider(),
               const SizedBox(height: 8),
               const Text(
+                'VPN / VLESS / proxy before Tor',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'A system VPN (WireGuard or OpenVPN) is used automatically '
+                'when it is connected before Tor. For a local VLESS/Xray '
+                'client, run a SOCKS inbound on localhost and enter it here. '
+                'Traffic then goes: this app → local VLESS client → your VPS '
+                '→ Tor. Chain depth 2 or 3 starts additional Tor instances in '
+                'front of the final hop; more hops are slower and '
+                'experimental.',
+                style: TextStyle(fontSize: 12, color: color.onSurfaceVariant),
+              ),
+              const SizedBox(height: 8),
+              DropdownButtonFormField<ProxyType>(
+                initialValue: _upstreamType,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Upstream before Tor',
+                  border: OutlineInputBorder(),
+                ),
+                items: ProxyType.values
+                    .map(
+                      (type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type.label),
+                      ),
+                    )
+                    .toList(),
+                onChanged: _busy
+                    ? null
+                    : (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _upstreamType = value;
+                          _error = null;
+                          _status = null;
+                        });
+                      },
+              ),
+              if (_upstreamType != ProxyType.none) ...[
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: TextField(
+                        controller: _upstreamHost,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        decoration: const InputDecoration(
+                          labelText: 'Upstream host',
+                          hintText: '127.0.0.1',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _upstreamPort,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Port',
+                          hintText: '10808',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _upstreamUser,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        decoration: const InputDecoration(
+                          labelText: 'Username (optional)',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _upstreamPass,
+                        obscureText: true,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        decoration: const InputDecoration(
+                          labelText: 'Password (optional)',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              const SizedBox(height: 8),
+              DropdownButtonFormField<int>(
+                initialValue: _chainDepth,
+                decoration: const InputDecoration(
+                  labelText: 'Tor chain depth',
+                  border: OutlineInputBorder(),
+                ),
+                items: const [
+                  DropdownMenuItem(value: 1, child: Text('1 — Tor (normal)')),
+                  DropdownMenuItem(value: 2, child: Text('2 — Tor over Tor')),
+                  DropdownMenuItem(
+                    value: 3,
+                    child: Text('3 — Tor over Tor over Tor'),
+                  ),
+                ],
+                onChanged: _busy
+                    ? null
+                    : (value) {
+                        if (value == null) return;
+                        setState(() => _chainDepth = value);
+                      },
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton(
+                    onPressed: _busy ? null : _saveUpstream,
+                    child: const Text('Save upstream and chain'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Clipboard.setData(
+                        const ClipboardData(
+                          text: 'xray run -c /path/to/config.json',
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('VLESS/Xray command copied.'),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.copy),
+                    label: const Text('Copy VLESS example'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'VLESS/Xray example: inbound protocol "socks", listen '
+                '"127.0.0.1", port 10808. Start it before managed Tor.',
+                style: TextStyle(fontSize: 11, color: color.onSurfaceVariant),
+              ),
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 8),
+              const Text(
                 'Managed Tor',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
@@ -867,7 +1144,7 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                 const SizedBox(height: 8),
                 Container(
                   width: double.infinity,
-                  constraints: const BoxConstraints(maxHeight: 120),
+                  constraints: const BoxConstraints(maxHeight: 180),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: color.surfaceContainerHighest,
@@ -876,7 +1153,7 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                   child: SingleChildScrollView(
                     child: Text(
                       _tor.logTail.reversed
-                          .take(8)
+                          .take(24)
                           .toList()
                           .reversed
                           .join('\n'),
@@ -886,6 +1163,24 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                       ),
                     ),
                   ),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {
+                        Clipboard.setData(
+                          ClipboardData(text: _tor.logTail.join('\n')),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Tor log copied.')),
+                        );
+                      },
+                      icon: const Icon(Icons.copy, size: 16),
+                      label: const Text('Copy log'),
+                    ),
+                  ],
                 ),
               ],
               const SizedBox(height: 16),
