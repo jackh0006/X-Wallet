@@ -66,7 +66,7 @@ Terminal=false
 Categories=Finance;Office;
 Keywords=bnb;bsc;crypto;wallet;
 StartupNotify=true
-StartupWMClass=bnb_wallet_gui
+StartupWMClass=com.jackh0006.xwallet
 DESKTOP
 chmod 0644 "$STAGE/usr/share/applications/x-wallet.desktop"
 

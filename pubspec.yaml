@@ -69,3 +69,4 @@ flutter:
   assets:
     - assets/icon/x-wallet-1024.png
     - assets/token_sources.json
+    - assets/tokens/

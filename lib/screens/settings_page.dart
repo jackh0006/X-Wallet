@@ -7,8 +7,11 @@ import 'package:flutter/services.dart'
 
 import '../app_state.dart';
 import '../models.dart';
+import '../net/privacy_client.dart';
+import '../rpc_service.dart';
 import '../security.dart';
 import '../storage.dart';
+import '../token_logos.dart';
 import '../wallet_core.dart';
 import 'backup_quiz_dialog.dart';
 import 'cold_wallet_dialogs.dart';
@@ -321,6 +324,124 @@ class _SettingsPageState extends State<SettingsPage> {
             label: const Text(
               'View example raw request (what the node actually receives)',
             ),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _testPrivacyRoute,
+            icon: const Icon(Icons.visibility_outlined),
+            label: const Text('Test privacy route — who sees what'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String> _runPrivacyRouteTest() async {
+    final tor = appState.torEnabled;
+    final proxy = appState.globalProxy;
+    final config = tor
+        ? GlobalProxyConfig(
+            type: ProxyType.socks5h,
+            host: appState.torHost,
+            port: appState.torPort,
+          )
+        : proxy;
+    final started = DateTime.now();
+    try {
+      if (tor || proxy.enabled) {
+        final message = await probeProxyRoute(
+          config,
+          BnbNetworks.mainnetFallbacks.first,
+        );
+        final elapsed = DateTime.now().difference(started).inMilliseconds;
+        return '$message\nLatency: $elapsed ms';
+      }
+      await appState.rpc.connect();
+      final elapsed = DateTime.now().difference(started).inMilliseconds;
+      return 'Direct HTTPS reached the node. Chain ID: ${appState.rpc.chainId}\n'
+          'Latency: $elapsed ms';
+    } catch (error) {
+      final elapsed = DateTime.now().difference(started).inMilliseconds;
+      return 'Test failed after $elapsed ms: $error';
+    }
+  }
+
+  String _privacyRouteReport(String testResult) {
+    final tor = appState.torEnabled;
+    final proxy = appState.globalProxy;
+    final upstream = appState.torUpstream;
+    final chain = appState.torChainDepth;
+    final route = tor
+        ? 'Managed/external Tor${upstream.enabled ? ' after ${upstream.description}' : ''}${chain > 1 ? ' · chain depth $chain' : ''}'
+        : proxy.enabled
+        ? proxy.description
+        : 'Direct HTTPS';
+
+    final isp = tor
+        ? (upstream.enabled
+              ? 'Sees a connection to your VPN/VLESS endpoint, not the RPC host.'
+              : 'Sees a connection to a Tor guard relay, not the RPC host.')
+        : proxy.enabled
+        ? 'Sees a connection to the proxy endpoint, not the RPC host.'
+        : 'Sees your real IP, the RPC hostname (SNI), and traffic timing.';
+    final vps = upstream.enabled
+        ? 'Your VPS sees your real IP and the Tor connection leaving for a guard. It does not see the RPC payload.'
+        : 'No VPS is configured before Tor; the Tor guard is the first external hop.';
+    final guard = tor
+        ? 'The Tor guard sees your VPN/VPS IP (or your real IP in direct Tor). The exit sees the RPC request, but not your keys.'
+        : 'No Tor guard is used in this route.';
+    final node = tor
+        ? 'The RPC node sees the Tor exit IP, the RPC calls, and address query linkage. It never sees your keys or seed.'
+        : proxy.enabled
+        ? 'The RPC node sees the proxy exit IP, the RPC calls, and address query linkage. It never sees your keys or seed.'
+        : 'The RPC node sees your real IP, the RPC calls, and address query linkage. It never sees your keys or seed.';
+    final chainView =
+        'The public blockchain sees addresses, amounts, timestamps, and contract calls forever. It does not see your IP or identity unless you link them.';
+
+    return 'Route: $route\n\n'
+        'REAL TEST RESULT\n$testResult\n\n'
+        'WHAT EACH PARTY SEES\n'
+        '• Your ISP / DPI: $isp\n'
+        '• Your VPN/VPS: $vps\n'
+        '• Tor guard/exit: $guard\n'
+        '• RPC node: $node\n'
+        '• Public blockchain: $chainView\n\n'
+        'This report describes the configured route. The app does not expose '
+        'the Tor exit IP to itself; only the RPC node sees it.';
+  }
+
+  Future<void> _testPrivacyRoute() async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Privacy route test'),
+        content: SizedBox(
+          width: 640,
+          child: FutureBuilder<String>(
+            future: _runPrivacyRouteTest(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text('Testing the real route…'),
+                );
+              }
+              final report = _privacyRouteReport(
+                snapshot.data ?? 'No result: ${snapshot.error}',
+              );
+              return SingleChildScrollView(
+                child: SelectableText(
+                  report,
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+                ),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
           ),
         ],
       ),
@@ -872,6 +993,24 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         actions: [
+          TextButton.icon(
+            onPressed: () {
+              final report = StringBuffer()
+                ..writeln('Node test: $label')
+                ..writeln('Result: ${blocking.isEmpty ? 'PASS' : 'BLOCKED'}')
+                ..writeln('');
+              for (final row in rows) {
+                report.writeln('${row.ok ? 'PASS' : 'WARN'} — ${row.label}');
+                report.writeln('  ${row.detail}');
+              }
+              Clipboard.setData(ClipboardData(text: report.toString()));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Full node test report copied.')),
+              );
+            },
+            icon: const Icon(Icons.copy, size: 16),
+            label: const Text('Copy full report'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Close'),
@@ -1207,6 +1346,96 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Future<void> _testToken() async {
+    final raw = _newTokenAddress.text.trim();
+    if (!WalletCore.isValidAddress(raw)) {
+      showError(context, 'Enter a valid contract address.');
+      return;
+    }
+    final started = DateTime.now();
+    final lines = <String>[
+      'Token contract: $raw',
+      'Network: ${appState.rpc.network} · chain ${appState.rpc.chainId}',
+      'Started: ${started.toIso8601String()}',
+      '',
+    ];
+    TokenInfo? meta;
+    try {
+      meta = await appState.rpc.tokenMeta(raw);
+      lines
+        ..add('Contract responded: YES')
+        ..add('Symbol: ${meta.symbol}')
+        ..add('Name: ${meta.name}')
+        ..add('Decimals: ${meta.decimals}')
+        ..add('Contract address normalized: ${meta.address}');
+      final wallet = appState.address;
+      if (wallet != null) {
+        final balance = await appState.rpc.getTokenBalance(raw, wallet);
+        lines
+          ..add('Wallet: $wallet')
+          ..add('Raw balance: $balance')
+          ..add(
+            'Formatted: ${WalletCore.formatUnits(balance, meta.decimals)} ${meta.symbol}',
+          );
+      } else {
+        lines.add('Balance: unavailable (no wallet address is loaded).');
+      }
+      lines
+        ..add('')
+        ..add('RESULT: PASS — this is a real ERC-20/BEP-20 contract.');
+    } catch (error) {
+      lines
+        ..add('RESULT: FAIL')
+        ..add('Reason: $error');
+    }
+    final elapsed = DateTime.now().difference(started).inMilliseconds;
+    lines.add('Elapsed: $elapsed ms');
+    final report = lines.join('\n');
+    final token = meta;
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(token == null ? 'Token test failed' : 'Token test passed'),
+        content: SizedBox(
+          width: 620,
+          child: SingleChildScrollView(
+            child: SelectableText(
+              report,
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: report));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Full token test log copied.')),
+              );
+            },
+            icon: const Icon(Icons.copy, size: 16),
+            label: const Text('Copy log'),
+          ),
+          if (token != null)
+            FilledButton(
+              onPressed: () async {
+                await appState.addToken(token);
+                _newTokenAddress.clear();
+                if (dialogContext.mounted) Navigator.pop(dialogContext);
+                if (mounted) showInfo(context, '${token.symbol} added.');
+              },
+              child: const Text('Add this token'),
+            ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _tokensSection() {
     return InfoCard(
       child: Column(
@@ -1256,13 +1485,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 icon: const Icon(Icons.add),
                 label: const Text('Add'),
               ),
+              OutlinedButton.icon(
+                onPressed: _testToken,
+                icon: const Icon(Icons.science_outlined),
+                label: const Text('Test token'),
+              ),
             ],
           ),
           const SizedBox(height: 10),
           for (final token in appState.customTokens)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.account_balance_wallet),
+              leading: TokenLogo(token: token),
               title: Text('${token.symbol} · ${token.decimals} decimals'),
               subtitle: Text(shortAddress(token.address)),
               trailing: IconButton(
@@ -1304,6 +1538,7 @@ class _SettingsPageState extends State<SettingsPage> {
               subtitle: token.native
                   ? const Text('Always shown')
                   : Text(shortAddress(token.address)),
+              secondary: TokenLogo(token: token, size: 24),
               value: !appState.isTokenHidden(token),
               onChanged: token.native
                   ? null
@@ -1541,6 +1776,77 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  Future<void> _testHistory() async {
+    final wallet = appState.address;
+    if (wallet == null) {
+      showError(context, 'Unlock or load a wallet address first.');
+      return;
+    }
+    if (appState.bscscanKey == null) {
+      showError(context, 'Add a BscScan API key first.');
+      return;
+    }
+    final started = DateTime.now();
+    try {
+      final rows = await appState.rpc.history(wallet);
+      final elapsed = DateTime.now().difference(started).inMilliseconds;
+      final report = StringBuffer()
+        ..writeln('BscScan history test')
+        ..writeln('Wallet: $wallet')
+        ..writeln('Network: ${appState.rpc.network}')
+        ..writeln('API: BscScan V1 (Etherscan-compatible)')
+        ..writeln('Rows returned: ${rows.length}')
+        ..writeln('Elapsed: $elapsed ms')
+        ..writeln('');
+      for (final row in rows.take(10)) {
+        report
+          ..writeln('Tx: ${row.hash}')
+          ..writeln('  from: ${row.from}')
+          ..writeln('  to: ${row.to}')
+          ..writeln('  value (wei): ${row.value}')
+          ..writeln('  timestamp: ${row.timestamp}')
+          ..writeln('  status: ${row.isError ? 'FAILED' : 'OK'}');
+      }
+      report.writeln('');
+      report.writeln('RESULT: PASS — the API key works and history was read.');
+      final text = report.toString();
+      if (!mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('History test passed'),
+          content: SizedBox(
+            width: 640,
+            child: SingleChildScrollView(
+              child: SelectableText(
+                text,
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton.icon(
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: text));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('History test log copied.')),
+                );
+              },
+              icon: const Icon(Icons.copy, size: 16),
+              label: const Text('Copy log'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Close'),
+            ),
+          ],
+        ),
+      );
+    } catch (error) {
+      if (mounted) showError(context, 'History test failed: $error');
+    }
+  }
+
   Widget _historyKeySection() {
     return InfoCard(
       child: Column(
@@ -1549,8 +1855,32 @@ class _SettingsPageState extends State<SettingsPage> {
           SectionTitle('Transaction history'),
           const SizedBox(height: 8),
           const Text(
-            'Optional API key for viewing public transaction history. Stored in secure on-device storage.',
+            'History uses the public BscScan API V1 (Etherscan-compatible). '
+            'You need a free BscScan API key; the free tier is enough for '
+            'normal account history. Create one at bscscan.com/myapikey, then '
+            'paste it below. The key is stored in secure on-device storage. '
+            'Without a key, the wallet still works; only explorer history is '
+            'unavailable.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => Process.run('xdg-open', const [
+                  'https://bscscan.com/myapikey',
+                ]),
+                icon: const Icon(Icons.open_in_new, size: 16),
+                label: const Text('Open BscScan API keys'),
+              ),
+              OutlinedButton.icon(
+                onPressed: _testHistory,
+                icon: const Icon(Icons.fact_check_outlined, size: 16),
+                label: const Text('Test history now'),
+              ),
+            ],
           ),
           const SizedBox(height: 10),
           if (appState.bscscanKey == null) ...[
@@ -2147,14 +2477,16 @@ class _SettingsPageState extends State<SettingsPage> {
             runSpacing: 8,
             children: [
               OutlinedButton.icon(
-                onPressed: () => _showSecurityNotice(),
-                icon: const Icon(Icons.shield_outlined),
-                label: const Text('Security notice'),
+                onPressed: _showAdvantages,
+                icon: const Icon(Icons.verified_outlined),
+                label: const Text('Advantages'),
               ),
               OutlinedButton.icon(
-                onPressed: _showHonestLimits,
-                icon: const Icon(Icons.info_outline),
-                label: const Text('Honest limits'),
+                onPressed: () => Process.run('xdg-open', const [
+                  'https://github.com/jackh0006/X-Wallet/blob/main/docs/HIGH_VALUE_CUSTODY.md',
+                ]),
+                icon: const Icon(Icons.shield_outlined),
+                label: const Text('Risk controls on GitHub'),
               ),
               OutlinedButton.icon(
                 onPressed: () => showDonationsDialog(context),
@@ -2168,66 +2500,28 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Future<void> _showSecurityNotice() {
+  Future<void> _showAdvantages() {
     return showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Security notice'),
-        content: const Text(
-          'Release status: there is no third-party audit yet — treat this as '
-          'experimental software until an independent audit exists. This is a '
-          'hot wallet: the signer exists in process memory while unlocked. Do '
-          'not use for large sums. A professional audit is required before '
-          'real-fund use.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _showHonestLimits() {
-    return showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('What this wallet cannot protect you from'),
+        title: const Text('Why X Wallet'),
         content: const SizedBox(
           width: 560,
           child: SingleChildScrollView(
             child: Text(
-              '• A compromised operating system, keyboard logger, screen '
-              'recorder or malicious app on this device can read what the '
-              'wallet reads while it is unlocked. No software wallet can fix '
-              'that.\n\n'
-              '• There is no third-party audit yet. The cryptography uses '
-              'maintained libraries, but the assembled wallet has not been '
-              'independently reviewed.\n\n'
-              '• The RPC node sees your IP and the addresses you query unless '
-              'you use Tor or your own node. It can lie about balances, fees '
-              'or pending transactions; the app checks the chain id and '
-              'double-checks receipts where it can, but it is not a full light '
-              'client.\n\n'
-              '• Cold/offline signing is implemented as a file/paste QR flow '
-              'on this build: the online companion prepares the unsigned '
-              'transaction, the cold device signs it without networking, and '
-              'the online side verifies the exact bytes with an independent '
-              'ethers.js check before broadcasting. Camera QR scanning is not '
-              'available on Linux, and there is no hardware-wallet '
-              'integration.\n\n'
-              '• Token names and symbols come from the contract. A fake token '
-              'can copy a real one; verify the contract address from the '
-              'issuer before trusting it.\n\n'
-              '• The clipboard clears after 30 seconds, but another app can '
-              'read it during that window.\n\n'
-              '• Light, dark and AMOLED themes are available. Navigation labels '
-              'are available in the selected language; detailed wallet and security '
-              'instructions are currently English.\n\n'
-              '• This is not financial, legal or tax advice, and it comes with '
-              'no warranty. Keep only what you can afford to lose.',
+              '• Your keys and recovery phrase stay on your device.\n\n'
+              '• The vault is encrypted with Argon2id and '
+              'XChaCha20-Poly1305.\n\n'
+              '• Transactions are signed locally and reviewed field by '
+              'field before signing.\n\n'
+              '• Tor, SOCKS5, SOCKS5h, and HTTP CONNECT are built in, with '
+              'fail-closed routing.\n\n'
+              '• Cold and offline signing is available in the same app.\n\n'
+              '• Activity logs and receipts are encrypted at rest.\n\n'
+              '• The wallet is free, open source, and has no ads or '
+              'recurring fees.\n\n'
+              'Risk controls and custody guidance: '
+              'github.com/jackh0006/X-Wallet/blob/main/docs/HIGH_VALUE_CUSTODY.md',
               style: TextStyle(fontSize: 12.5, height: 1.45),
             ),
           ),
@@ -2235,7 +2529,7 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('I understand'),
+            child: const Text('Close'),
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
 import '../models.dart';
+import '../token_logos.dart';
 import '../wallet_core.dart';
 import '../widgets/seed_picker.dart';
 import 'backup_quiz_dialog.dart';
@@ -498,6 +499,8 @@ class _WalletPageState extends State<WalletPage>
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
+                      TokenLogo(token: token, size: 24),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _balances![token.symbol]! < BigInt.zero
