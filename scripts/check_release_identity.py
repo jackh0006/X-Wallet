@@ -77,6 +77,7 @@ def is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
 # tests, manifests, and lockfiles are deliberately absent.
 SQUASH_ALLOWED_PATHS = {
     "README.md",
+    "AGENTS.md",
     "IMPLEMENTATION_STATUS.md",
     ".github/workflows/verify.yml",
     ".github/workflows/benchmark.yml",

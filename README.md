@@ -292,6 +292,7 @@ control the security boundary.
 | [Data control and AI boundary](docs/DATA_CONTROL.md) | What stays local and what leaves the device |
 | [High-value custody](docs/HIGH_VALUE_CUSTODY.md) | Custody tiers and operating guidance |
 | [Release evidence](docs/RELEASE_EVIDENCE.md) | How releases are built and verified |
+| [Update playbook](docs/UPDATE_PLAYBOOK.md) | Change-scoped verification and the fast release path |
 
 ## Contributing and security
 

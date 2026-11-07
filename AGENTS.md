@@ -1,13 +1,34 @@
 # AGENTS.md — Persistent Instructions for All OpenCode Sessions
 
+## MANDATORY: change-scoped re-verification
+
+Before any version update, read
+[docs/UPDATE_PLAYBOOK.md](docs/UPDATE_PLAYBOOK.md). It is the required,
+remembered procedure.
+
+- Verify the **changed surface completely**; reuse recorded evidence only for
+  files, dependencies, and build inputs that did not change.
+- Always run the cheap global gates (format, analyze, branding, free-use,
+  inventory, release evidence, manifest, docs sync, secret scan, dependency
+  audit, identity, release gate).
+- Run the full suite **once** for a release candidate or a shared-core or
+  dependency change — not repeatedly for every small edit.
+- Never publish `PENDING` results, an unsigned artifact, or a hash copied from
+  an older build.
+- Bind every result to the exact commit and state that the audit is internal,
+  not independent. Do not claim a guaranteed safety score.
+
+The 1.2.0 heavy verification path was about 40–50 minutes; the two-hour figure
+came from repeated full-suite runs. Follow the playbook to avoid that cost.
+
 ## Product Mission
 
 **X Wallet** — A complete, professional, highly secure, privacy-focused, self-custodial, open-source EVM wallet with:
 
 - Local encrypted storage (vaults)
 - Tor and proxy support (HTTP, HTTPS, SOCKS5)
-- Cold-wallet offline signing (hardware-wallet integration is **not implemented**)
-- Comprehensive EVM blockchain functionality (BNB Smart Chain enabled in 1.1.0; more networks planned)
+- Cold-wallet offline signing (hardware-wallet integration is **outside the 1.x scope**)
+- Comprehensive EVM blockchain functionality (BNB Smart Chain enabled in 1.2.0; more networks planned)
 - Transparent, encrypted local activity logs
 - Beautiful, exceptionally easy user experience (black/dark theme, orange/yellow accent)
 - First release: Ubuntu Linux amd64 `.deb`
@@ -25,7 +46,7 @@
 │  ├── Assets / Token Management                                          │
 │  ├── Send / Receive / Fee Selection                                     │
 │  ├── Transaction History / Explorer                                     │
-│  ├── Cold Wallet (hardware wallet not implemented)                      │
+│  ├── Cold Wallet (offline signing; hardware wallets out of scope)                      │
 │  ├── Network Settings / Tor / Proxy                                     │
 │  ├── Storage / Backup / Password                                        │
 │  ├── Activity Center / Security Center                                  │
