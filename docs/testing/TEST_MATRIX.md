@@ -101,6 +101,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
 | `localization_test.dart` | 1 | (light) | ✅ PASS | Text follows the selected locale |
 | `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
+| `data_boundary_test.dart` | 4 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |
@@ -191,7 +192,6 @@ flutter analyze --no-pub
 |------|-----|--------|
 | **Two-device cold wallet** | Physical exchange | No second device |
 | **Anvil/local chain integration** | Real broadcast test | `anvil` not installed |
-| **Hardware wallet** | Ledger/Trezor/SafePal | No physical devices |
 | **Linux QR camera** | Camera scanning | Plugin not integrated |
 | **Atomic vault write (crash sim)** | Power loss during rename | Manual only |
 | **Backup/restore** | Encrypted export/import | Manual only |

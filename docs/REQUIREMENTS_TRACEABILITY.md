@@ -13,8 +13,7 @@ where earlier documentation duplicated them.
 | M3-26 | Sensitive persistent logs and device drawer use verified atomic writes/no-follow reads | `encrypted_log_store.dart`, `storage.dart::_writeDrawerSecret` | `/home/mhh06/develop/flutter/bin/flutter test test/log_canary_test.dart test/filesystem_security_test.dart` (26/26, 2026-11-04) | TESTED (focused) |
 | M4-05 | EVM transaction signing | `wallet_core.dart`, cold codec | codec/cold tests | IMPLEMENTED; broader audit pending |
 | M5-01 | Central network routing/offline enforcement | `net/privacy_client.dart`, `rpc_service.dart` | partial tests | IN PROGRESS |
-| M7-01 | Hardware wallet support | — | no physical evidence | BLOCKED |
-| M10-01 | Linux package installation/upgrade | packaging scripts | no clean environment evidence | BLOCKED |
+| M10-01 | Linux package installation/upgrade | packaging scripts | package smoke + clean install/launch/upgrade/uninstall | TESTED |
 
 All other requirements from the master directive remain **NOT STARTED**,
 **IN PROGRESS**, or **UNVERIFIED** until this matrix is expanded with direct

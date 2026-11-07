@@ -157,7 +157,7 @@
 | Complete invisibility from ISP/DPI | ISP sees Tor/proxy traffic; timing analysis possible |
 | Guaranteed protection vs compromised OS | Keyloggers, rootkits, malicious keyboard defeat local protections |
 | Guaranteed physical erasure of SSD data | Wear-leveling, snapshots, filesystem copies prevent guarantee |
-| Universal hardware wallet compatibility | Only tested integrations claimed; matrix NOT TESTED |
+| Hardware wallet support | Outside the 1.x scope; no support claim is made |
 | Guaranteed safe storage of arbitrary amounts | **Testnet-ready self-assessed only**; production requires third-party audit |
 | OS-enforced air gap (no INTERNET permission) | Runtime offline only; APK still carries INTERNET |
 | Reproducible builds verified | Toolchain pin not finalized; marked NOT TESTED |

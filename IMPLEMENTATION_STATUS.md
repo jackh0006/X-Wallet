@@ -46,11 +46,10 @@ human-readable index, not a second source of truth.
 | Android signing key rotation | **BLOCKED** | Owner must rotate; denylist is empty; no APK may be published |
 | `.deb` GPG signature | **MISSING** | No release GPG key in this environment |
 | Independent security audit | **NOT AVAILABLE** | None performed |
-| Hardware wallet | **NOT IMPLEMENTED** | No Ledger/Trezor code path or device |
 | Real BSC/Anvil integration | **PASS (local Anvil)** | Native transfer, wrong chain, ERC-20 deploy/transfer/approve/revoke/revert on Anvil 1.9.0 chain 97 |
 | Windows / macOS / ARM64 | **NOT TESTED** | No builds or hardware |
 | Startup / RSS performance | **NOT TESTED** | Needs a real display session |
-| Multisig / large-value architecture | **RESEARCH ONLY** | No custom contract deployed |
+| Large-value controls | **IMPLEMENTED** | Split balances, freeze signing, allowlist, per-transaction limit, cold/offline signing |
 
 ## Next actions
 

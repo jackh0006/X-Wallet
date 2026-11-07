@@ -1,5 +1,5 @@
 {
-  "fileCount": 52,
+  "fileCount": 53,
   "files": [
     {
       "lines": 101,
@@ -65,6 +65,13 @@
       "sha256": "c23984165aed5768b70b077aacc1dbd301cab25bfac51b3ff72070bfaea5d86b",
       "tags": [],
       "tests": 3
+    },
+    {
+      "lines": 108,
+      "path": "test/data_boundary_test.dart",
+      "sha256": "d07992336fd28f80856cf85652a3ca831b4578b85d66598d366e91e6d75aef85",
+      "tags": [],
+      "tests": 4
     },
     {
       "lines": 51,
@@ -386,5 +393,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 318
+  "testCount": 322
 }

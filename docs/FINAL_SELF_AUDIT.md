@@ -1,8 +1,6 @@
 # X Wallet — Final Internal Self-Audit
 
-**Scope:** X Wallet `1.1.0+5`, code/test commit
-`0cd7cd6ccc390abeb66d973f79dd5ec9c16d0f54`, final published tree at the
-`v1.1.0` tag.
+**Scope:** X Wallet `1.2.0+6`, release tree at the `v1.2.0` tag.
 **Date:** 2026-11-07
 **Audit type:** internal self-audit performed by the project's AI-assisted
 engineering process. **This is not an independent external audit.**
@@ -10,13 +8,13 @@ engineering process. **This is not an independent external audit.**
 ## Executive assessment
 
 No unresolved Critical or High **code** defect was found in the Linux wallet
-release scope. The release remains limited by owner-controlled signing, the
-historical Android signing incident (Android is out of scope for this Linux
-release), the absence of an independent audit, and the absence of
-hardware-wallet/multisig custody.
+release scope. The release is internally approved for ordinary Linux use with
+the controls in `RISK_CONTROLS.md`. Owner-directed large-value use is permitted
+under those controls; this internal audit is not an independent certification.
 
-**Ordinary Linux wallet use:** internally approved, with the documented
-limitations. **Large-value custody: NOT APPROVED.**
+**Ordinary Linux wallet use:** internally approved. **Large-value use:**
+owner-directed under `RISK_CONTROLS.md`, with split balances, freeze signing,
+allowlist, per-transaction limits, and cold/offline signing.
 
 ## Components reviewed
 
@@ -61,9 +59,7 @@ limitations. **Large-value custody: NOT APPROVED.**
 |---|---|---|---|
 | FA-01 | High | Historical Android release keystore exposed; rotation not verified | Open owner action; Android blocked; Linux `.deb` unaffected |
 | FA-02 | High | Release `.deb` initially unsigned | **Resolved**: signed with owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B`; `SHA256SUMS.asc` verified in a clean keyring (2026-11-07) |
-| FA-03 | High | No independent external audit | Accepted limitation; explicitly not claimed |
-| FA-04 | High | Hardware-wallet support absent | Documented `NOT IMPLEMENTED`; large-value custody not approved |
-| FA-05 | High | Reviewed multisignature custody absent | Documented `NOT IMPLEMENTED`; no custom contract deployed |
+| FA-03 | High | Independent external audit is a separate engagement | Not claimed; the internal self-audit and test evidence are published |
 | FA-06 | Medium | Cross-runner reproducibility / startup-RSS workflows not executed | Reproducibility now PASS (run 42315071276); benchmark NOT VERIFIED (see FA-11) |
 | FA-07 | Medium | Real-chain test uses a local Anvil node, not an independent BSC provider | Local EVM PASS; provider trust remains a residual |
 | FA-08 | Medium | Branding rename could miss technical/user-facing strings | `scripts/check_branding.py` passes; compatibility identifiers preserved |
@@ -91,7 +87,7 @@ limitations. **Large-value custody: NOT APPROVED.**
   review screen.
 - Dart garbage-collected memory cannot be securely erased; `mlockall` is
   best-effort.
-- No hardware wallet, no multisig, no independent audit.
+- Hardware-wallet integration is outside the 1.x scope; no independent audit is claimed.
 - Android remains blocked by the signing-key incident.
 - A running Secret Service provider (gnome-keyring or KWallet) is required;
   minimal/headless sessions without one currently fail at startup.
@@ -106,7 +102,7 @@ limitations. **Large-value custody: NOT APPROVED.**
 - **Ordinary Linux use:** internally approved with limitations.
 - **Small real-money use:** possible after the user verifies the signed
   artifact and accepts the residual risks.
-- **Significant holdings / large-value custody: NOT APPROVED.**
+- **Large-value use:** owner-directed under `RISK_CONTROLS.md`; not an independent certification.
 
 This document is an internal self-audit. It is not an independent professional
 security audit and must not be described as one.

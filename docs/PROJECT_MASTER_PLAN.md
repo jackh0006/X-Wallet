@@ -23,7 +23,7 @@
 | **M10** | Proxies | HTTP/HTTPS/SOCKS5, DNS, failures | ⏳ PENDING |
 | **M11** | Tor & privacy | Tor, bridges, Strict/Offline modes, leak tests | ⏳ PENDING |
 | **M12** | Cold wallet | Offline signing, exchange protocols | ✅ IMPLEMENTED, TESTED |
-| **M13** | Hardware wallets | Ledger/Trezor/SafePal integrations | ⏳ PENDING |
+| **M13** | Hardware wallets | Explicitly removed from the 1.x product scope | ➖ OUT OF SCOPE |
 | **M14** | Final UX & branding | Black/orange theme, logo, accessibility, explanations | ⏳ PENDING |
 | **M15** | Compatibility & performance | Weak devices, distros, resources, unstable net | ⏳ PENDING |
 | **M16** | Final security validation | All tests, static analysis, secret scan, review | ⏳ PENDING |
@@ -224,16 +224,11 @@
 | M12-07 | Expiry + clock skew tolerance | ✅ DONE | 30 min default, 5 min skew |
 | M12-08 | Two-device field test | ⚠️ NOT TESTED | Requires second device |
 
-### MILESTONE 13 — Hardware Wallets
+### MILESTONE 13 — Hardware Wallets (REMOVED FROM 1.x SCOPE)
 
-| Task ID | Description | Status | Dependencies |
-|---------|-------------|--------|--------------|
-| M13-01 | Integration architecture (interface + transport) | ⏳ PENDING | M12 |
-| M13-02 | Ledger (USB/HID, EVM app, Linux udev) | ⚠️ NOT TESTED | Requires device |
-| M13-03 | Trezor (USB/HID, EVM, Linux udev) | ⚠️ NOT TESTED | Requires device |
-| M13-04 | SafePal (where official support exists) | ⚠️ NOT TESTED | Requires device |
-| M13-05 | Compatibility matrix (model, firmware, protocol) | ⏳ PENDING | M13-01 |
-| M13-06 | On-device confirmation display | ⏳ PENDING | M13-01 |
+Hardware-wallet integration was removed from the 1.x product scope. The
+supported isolation path is cold/offline signing plus the spending controls in
+`RISK_CONTROLS.md`. No hardware support is claimed.
 
 ### MILESTONE 14 — Final UX & Branding
 
@@ -291,7 +286,6 @@
 | M18-01 | Android platform storage (Keystore) | ⏳ BLOCKED | M17 |
 | M18-02 | Biometric unlock (local_auth) | ⏳ BLOCKED | M17 |
 | M18-03 | Android permissions review | ⏳ BLOCKED | M17 |
-| M18-04 | USB/BT hardware wallet support | ⏳ BLOCKED | M13, M17 |
 | M18-05 | Background networking behavior | ⏳ BLOCKED | M17 |
 | M18-06 | Clipboard / screenshot protection | ⏳ BLOCKED | M17 |
 | M18-07 | Backup behavior (Auto Backup) | ⏳ BLOCKED | M17 |
@@ -321,7 +315,6 @@
 - [ ] Network leak test evidence (packet capture)
 - [ ] Local activity logs (encrypted, searchable)
 - [ ] Cold wallet pairing + offline sign + verify + broadcast
-- [ ] Supported hardware wallet integrations (if any tested)
 - [ ] Complete documentation (user + developer)
 - [ ] Dependency inventory + SBOM
 - [ ] Secret scan clean

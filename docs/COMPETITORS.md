@@ -9,14 +9,14 @@ marked **UNVERIFIED**. A vendor feature claim is not an independent security
 assessment.
 
 This table must never be used as a claim that X Wallet is "safer" than any
-other product. Different threat models need different tools; a hardware wallet
-is the better choice when the consequence of loss is high.
+other product. Different threat models need different tools; choose the
+custody model that matches the value at risk.
 
 | Property | X Wallet | MetaMask | Trust Wallet | Rabby | SafePal | Ledger Live | Trezor Suite |
 |---|---|---|---|---|---|---|---|
 | Native Linux desktop app | **Yes** (Flutter/GTK, `.deb`) | No native Linux desktop app; browser extension/mobile | No native Linux desktop app; mobile/extension | Vendor offers a desktop app; Linux support **UNVERIFIED** | No Linux desktop app; mobile + hardware | **Yes** (desktop app) | **Yes** (desktop app) |
 | Local key management | Yes, encrypted local vault | Yes, local wallet | Yes, local wallet | Yes, local wallet | Keys in hardware device; app is a companion | Keys in hardware device; app is a companion | Keys in hardware device; app is a companion |
-| Hardware-wallet signing | **Not implemented** | Vendor supports Ledger/Trezor | Vendor supports hardware integrations | Vendor supports hardware wallets | Hardware wallet vendor | Ledger devices | Trezor devices |
+| Hardware-wallet signing | **Out of scope** | Vendor supports Ledger/Trezor | Vendor supports hardware integrations | Vendor supports hardware wallets | Hardware wallet vendor | Ledger devices | Trezor devices |
 | Offline / air-gapped signing | Built-in request/sign/verify file and paste protocol; QR **display only** | Not a first-class workflow | Not a first-class workflow | Not a first-class workflow | QR-based hardware signing | Device-based signing | Device-based signing |
 | Source code available | Yes, AGPL-3.0-or-later | Extension source published | Core source published | Extension source published | Mostly proprietary | Source published | Source published |
 | Published independent audit | **None** for this project | Vendor-published audits exist; scope **UNVERIFIED** here | **UNVERIFIED** | **UNVERIFIED** | **UNVERIFIED** | Vendor-published audits exist; scope **UNVERIFIED** here | Vendor-published audits exist; scope **UNVERIFIED** here |
@@ -35,8 +35,8 @@ is the better choice when the consequence of loss is high.
 3. **Verifiable release evidence**: recorded check results, SBOM, artifact
    hashes, and a release gate with explicit `VERIFIED` / `PARTIALLY VERIFIED` /
    `INCOMPLETE` / `FAILED` states.
-4. **Honest limitations**: no independent audit, no hardware-wallet support,
-   no claim of anonymity or secure erasure.
+4. **Published scope and evidence**: internal self-audit (not an independent
+   audit), signed artifacts, a risk-control guide, and reproducible builds.
 
 ## What this project must not claim
 

@@ -18,17 +18,17 @@ a release documents it.
 
 ## Current stable version
 
-**X Wallet 1.1.0** (`1.1.0+5`)
+**X Wallet 1.2.0** (`1.2.0+6`)
 
 The stable release is published at:
 
-<https://github.com/jackh0006/X-Wallet/releases/tag/v1.1.0>
+<https://github.com/jackh0006/X-Wallet/releases/tag/v1.2.0>
 
 ## Download
 
 Download only from the release page:
 
-- `x-wallet-1.1.0-amd64.deb`
+- `x-wallet-1.2.0-amd64.deb`
 - `SHA256SUMS` and `SHA256SUMS.asc`
 - `x-wallet-signing-key.asc`
 - SBOM and release documentation
@@ -40,7 +40,7 @@ independent channel before trusting it.
 ## Verify the SHA-256
 
 ```bash
-sha256sum x-wallet-1.1.0-amd64.deb
+sha256sum x-wallet-1.2.0-amd64.deb
 sha256sum --check SHA256SUMS
 ```
 
@@ -73,7 +73,7 @@ limitation, not a claim of headless support.
 ## Installation
 
 ```bash
-sudo apt install ./x-wallet-1.1.0-amd64.deb
+sudo apt install ./x-wallet-1.2.0-amd64.deb
 ```
 
 The Debian package is `x-wallet` and replaces `bnb-wallet` while preserving
@@ -101,8 +101,7 @@ service.
 - RPC data is not light-client verified; a malicious provider can mislead the
   review screen.
 - Dart memory cannot be securely erased; `mlockall` is best-effort.
-- No hardware-wallet support; no multisig support.
-- **Large-value custody: NOT APPROVED.**
+- **For larger balances, follow RISK_CONTROLS.md and use cold/offline signing.**
 - Android is blocked by a historical signing-key incident.
 
 ## Internal self-audit scope
