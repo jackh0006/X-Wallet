@@ -1,8 +1,8 @@
 {
   "artifactPathRecord": "x-wallet-1.2.0-amd64.deb (not committed; hash is evidence)",
-  "artifactSha256": "5836ce0de139fe025d0e4bf59550cc516d86b005589937adff0b8407ee7e436a",
+  "artifactSha256": "f4ce67143367152e9ea243abf0e92a004567d2b67548487cb636975fc029f2cc",
   "artifactSigned": true,
-  "artifactSourceCommit": "20cdcf4374b17e14775961f853afbc0f6264c515",
+  "artifactSourceCommit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
   "artifacts": [],
   "checks": [
     {
@@ -76,13 +76,13 @@
     },
     {
       "command": "bash scripts/build-deb.sh",
-      "commit": "20cdcf4374b17e14775961f853afbc0f6264c515",
-      "durationSeconds": 29.045,
+      "commit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
+      "durationSeconds": 34.458,
       "exitCode": 0,
-      "finishedAt": "2026-11-07T20:20:46.781195Z",
+      "finishedAt": "2026-11-07T21:10:52.814156Z",
       "id": "deb-build",
-      "log": "/tmp/opencode/evidence-1.2.0/deb-build.log",
-      "logSha256": "dcc38fb20aa13d095d8f41d8fd3e9952f60aebef20e4e1d864e9ff1a6ebe06ec",
+      "log": "/tmp/opencode/evidence-1.2.0-m/deb-build.log",
+      "logSha256": "96d731661c0a623c2d0c907ff7256314399e9f9510d9e47ab1eb44352be0179b",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -91,7 +91,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-07T20:20:17.736356Z",
+      "startedAt": "2026-11-07T21:10:18.355765Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -191,11 +191,11 @@
     },
     {
       "command": "bash scripts/package-smoke.sh --deb dist/x-wallet-1.2.0-amd64.deb --previous previous.deb --seconds 20",
-      "commit": "20cdcf4374b17e14775961f853afbc0f6264c515",
-      "durationSeconds": 170,
-      "evidence": "GitHub Actions package-smoke run 42410653447 (install, launch, upgrade, uninstall, reinstall)",
+      "commit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
+      "durationSeconds": 151,
+      "evidence": "GitHub Actions package-smoke run 42413593381 on f1006f2 (install, launch, upgrade, uninstall, reinstall)",
       "exitCode": 0,
-      "finishedAt": "2026-11-07T20:24:08Z",
+      "finishedAt": "2026-11-07T21:00:59Z",
       "id": "install-smoke",
       "log": null,
       "logSha256": null,
@@ -204,7 +204,7 @@
         "os": "Linux-ubuntu-24.04"
       },
       "required": true,
-      "startedAt": "2026-11-07T20:21:18Z",
+      "startedAt": "2026-11-07T20:58:28Z",
       "toolchain": {
         "dart": "3.13.5",
         "flutter": "3.47.6 stable"
@@ -350,13 +350,13 @@
     },
     {
       "command": "bash scripts/reproducibility-check.sh",
-      "commit": "20cdcf4374b17e14775961f853afbc0f6264c515",
-      "durationSeconds": 261.728,
+      "commit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
+      "durationSeconds": 256.453,
       "exitCode": 0,
-      "finishedAt": "2026-11-07T20:46:23.095555Z",
+      "finishedAt": "2026-11-07T21:15:15.863849Z",
       "id": "reproducibility",
-      "log": "/tmp/opencode/evidence-1.2.0-a3/reproducibility.log",
-      "logSha256": "66165ca67af388bd5771cee609095d9b9fd56fbc2af936c8e59e3cb6bd0a5a64",
+      "log": "/tmp/opencode/evidence-1.2.0-m/reproducibility.log",
+      "logSha256": "7c9274c7f3bec4d3fe899bff64bdd78f658871cbb9a7550669b1004b034eef7c",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -365,7 +365,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-07T20:42:01.367518Z",
+      "startedAt": "2026-11-07T21:10:59.410994Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -510,8 +510,8 @@
       }
     }
   ],
-  "checksCommit": "20cdcf4374b17e14775961f853afbc0f6264c515",
-  "identityNote": "All source checks, the signed .deb, and the source archive were produced at 20cdcf4, the reviewed 1.2.0 tree. Later commits contain only release evidence, generated documentation, and manifest updates; packaged files are unchanged.",
+  "checksCommit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
+  "identityNote": "The release commit f1006f2 is the squash merge of the reviewed 1.2.0 tree. The full source checks were executed at 20cdcf4; f1006f2 has an identical source, test, and asset tree, and differs only in release evidence and generated documentation. The signed artifact and the reproducibility run were produced from f1006f2.",
   "notes": [
     "Package is signed with owner key CC819EF5E109A1518E840379D8C0CEC84BCCE06B and verified in a clean keyring.",
     "No independent security audit is available or claimed; this is an internal self-audit with published evidence.",
@@ -529,13 +529,13 @@
     "file": "SHA256SUMS.asc",
     "fingerprint": "CC819EF5E109A1518E840379D8C0CEC84BCCE06B",
     "keyId": "D8C0CEC84BCCE06B",
-    "sha256Signature": "ce3a191f574110e6f03f21dc17f32c48eecaa6917009c8d1bedec0e5293ce8e6",
-    "sha256Sums": "6583d6a97c1ae13a677c03ceabe997d0bc83c6a43d43e0ed546b1a993af8ce18",
+    "sha256Signature": "a04cbe6c19eba39469268f772688bf97648ca1d3b237ba211ddb86ce29cc5b2b",
+    "sha256Sums": "ec32fed4482a03a60dd632d416d5837543ebc61b834e4c681fafacc3d8f8d28a",
     "verificationMethod": "scripts/verify-release-signature.sh and sha256sum --check in a clean GNUPGHOME containing only the published public key",
     "verified": true,
-    "verifiedAt": "2026-11-07T20:32:00Z"
+    "verifiedAt": "2026-11-07T21:20:00Z"
   },
-  "sourceCommit": "20cdcf4374b17e14775961f853afbc0f6264c515",
+  "sourceCommit": "f1006f2002f95c3296af1b9e06adfd8cd01dfbcf",
   "status": "RELEASE APPROVED",
   "version": "1.2.0+6"
 }

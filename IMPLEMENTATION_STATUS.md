@@ -17,7 +17,7 @@ runs. This file is a human-readable index, not a second source of truth.
 | Pull requests | merged through the 1.2.0 release PR |
 | Hosted CI | All required `main` workflows pass |
 | Release status | **RELEASE APPROVED / signed** |
-| Final package | `x-wallet-1.2.0-amd64.deb`, SHA-256 `5836ce0de139fe025d0e4bf59550cc516d86b005589937adff0b8407ee7e436a` |
+| Final package | `x-wallet-1.2.0-amd64.deb`, SHA-256 `f4ce67143367152e9ea243abf0e92a004567d2b67548487cb636975fc029f2cc` |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 
 ## Verified
