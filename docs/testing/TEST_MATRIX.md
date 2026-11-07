@@ -98,6 +98,7 @@ These tests are excluded from the default 47-file suite and run in the
 |-----------|-------|-----|--------|----------|
 | `widget_test.dart` | 3 | (light) | ✅ PASS | App launch, home tab, app lock |
 | `navigation_flow_test.dart` | 3 | (light) | ✅ PASS | Unlock→send, unlock→wallet, no save dialogs |
+| `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |
@@ -120,7 +121,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `log_presenter_test.dart` | 3 | (light) | ✅ PASS | Simple/Expert modes, category/level mapping |
 | `log_canary_test.dart` | 3 | (light) | ✅ PASS | Log canary integrity |
 | `story_test.dart` | 7 | (light) | ✅ PASS | Narration, debounce, budget, cascade cut |
-| `privacy_config_test.dart` | 9 | (light) | ✅ PASS | Proxy/Tor config persistence |
+| `privacy_config_test.dart` | 12 | (light) | ✅ PASS | Proxy/Tor config persistence |
 | `receipt_image_test.dart` | 1 | (light) | ✅ PASS | PNG rendering |
 
 ---
