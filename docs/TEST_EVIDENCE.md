@@ -12,7 +12,7 @@ reading the source or testing the wallet yourself.
 | Release | **X Wallet 1.2.0** (`1.2.0+6`) |
 | Tag | `v1.2.0` |
 | Package | `x-wallet-1.2.0-amd64.deb` |
-| SHA-256 | `06c8835ad238ba6d1056cee8a95425fc536c4f2fc6e4edf4c6b83664d8574bdf` |
+| SHA-256 | `d580d03909c0bf60cb036a87ba6300e55eb9a7865b19f539998bd46bad71387c` |
 | SBOM | `docs/SBOM.json` — 116 packages |
 | Signature | `SHA256SUMS.asc` — EdDSA |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
