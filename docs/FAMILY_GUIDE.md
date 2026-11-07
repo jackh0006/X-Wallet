@@ -2,7 +2,7 @@
 
 This guide is deliberately cautious. A software wallet can lose money if the
 computer is infected, the recovery phrase is copied, or the wrong address is
-approved. If an amount would be difficult to replace, use a hardware wallet.
+approved. For amounts that would be difficult to replace, split the balance and keep the larger part in cold/offline custody.
 
 ## First installation
 

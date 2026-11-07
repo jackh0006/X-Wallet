@@ -181,7 +181,6 @@ truncating them.
 - Access lists are rejected.
 - First 20 default BIP-44 accounts only (`m/44'/60'/0'/0/0..19`). Custom
   derivation paths are not carried in the request.
-- No hardware-wallet integration.
 - No camera QR on Linux.
 - No two-physical-device field test has been recorded.
 - No third-party audit.

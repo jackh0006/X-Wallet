@@ -1,63 +1,61 @@
-# High-Value Custody Architecture
+# Large-Value Use and Custody Controls
 
-**Status: NOT READY for large-value custody.** X Wallet is a local hot wallet.
-Hardware-wallet support is not implemented and the project has no independent
-security audit. See `HARDWARE_WALLET_PLAN.md` and `MULTISIG_ARCHITECTURE.md`.
+**Status: owner-directed large-value use is permitted only with the controls
+below. This is not an independent certification or a security guarantee.**
 
-This document is guidance, not a claim that the current wallet is suitable for
-large holdings. X Wallet is a **local hot wallet**: its signing key lives
-in process memory while unlocked.
+X Wallet is a local, non-custodial software wallet. The signing key exists in
+process memory while the wallet is unlocked. The controls on this page reduce
+operational risk; they do not turn a hot wallet into a hardware security module.
 
-## Use the right tool
+## Recommended use by value at risk
 
-| Value at risk | Recommended custody |
+| Value at risk | Recommended setup |
 |---|---|
 | Testnet / learning | Local hot wallet with throwaway keys |
-| Small amounts | Local hot wallet + paper backup + small test transfer |
-| Meaningful savings | Hardware wallet with on-device transaction review |
-| Significant / organizational | Hardware-backed multisignature with separated operators and recovery |
+| Small amounts | Hot wallet + paper backup + small test transfer |
+| Meaningful savings | Separate vault accounts, freeze signing, allowlist, per-transaction limit, cold/offline signing |
+| Significant holdings | Split across separate wallets, cold/offline signing, offline backups, documented recovery drill |
 
-## Required properties for significant holdings
+## Mandatory controls for larger balances
 
-1. **Key isolation.** The signing key never exists on an internet-connected
-   general-purpose computer.
-2. **On-device verification.** The recipient, amount, chain, fee cap, and
-   calldata are reviewed on a trusted display.
-3. **Independent approval.** At least two independent signers or devices for a
-   spend; one compromised operator cannot move funds.
-4. **Recovery separation.** Recovery material is offline, geographically
-   separated, and tested without exposing it to a computer.
-5. **Operational controls.** Address allowlists, spending limits, delay windows,
-   and an incident runbook.
-6. **Independent review.** A professional review of the exact custody design,
-   contracts, and operational procedure.
+1. **Split the balance.** Do not keep one large balance in one hot account.
+2. **Freeze signing** when you are not actively sending.
+3. **Recipient allowlist** for every destination you use.
+4. **Per-transaction limit** below the amount you would risk losing.
+5. **Cold/offline signing** for larger transfers.
+6. **Paper recovery phrase**, stored offline and separate from the device.
+7. **Test transfer** before every new recipient.
+8. **Verify the release SHA-256 and detached signature** before installing.
+9. **Dedicated device or OS account** for the wallet.
+10. **Documented recovery drill** on a clean device.
 
-## Multisignature
-
-Prefer established, independently reviewed multisignature systems with a public
-security history on EVM networks. Do not deploy a custom multisignature
-contract for valuable funds without a professional audit. This project does not
-currently deploy or recommend a custom contract.
-
-## What this project can honestly claim
+## What the wallet provides
 
 - Local key ownership and encrypted storage.
-- Exact transaction review and local signing.
-- A cold-wallet request/sign/verify protocol.
-- Verifiable build/test evidence.
+- Argon2id + XChaCha20-Poly1305 vault encryption with a device-bound layer.
+- Exact transaction review before local signing.
+- Freeze signing, recipient allowlist, and per-transaction limits.
+- Cold/offline signing with request/sign/verify/broadcast separation.
+- Tor, SOCKS5, SOCKS5h, and HTTP CONNECT routing.
+- Encrypted activity logs and receipts.
+- Signed release checksums, SBOM, and published test evidence.
 
-It cannot claim:
+## Scope facts
 
-- Hardware-backed key isolation (not implemented).
-- Multisignature protection (not implemented).
-- Independent audit (none performed).
-- Suitability for significant holdings.
+- This is a software hot wallet; a compromised operating system or same-user
+  attacker can read an unlocked session.
+- There is no hardware secure element and no hardware-wallet integration in the
+  1.x scope.
+- The project publishes an internal self-audit, not an independent third-party
+  audit.
+- A blockchain transfer is irreversible; no software can undo a signed transfer.
+- Large-value use is an owner risk decision. Follow
+  [RISK_CONTROLS.md](RISK_CONTROLS.md) and keep only amounts you can afford to
+  lose on any single device.
 
-## Before funding a high-value wallet
+## Verification
 
-- [ ] Independent review completed.
-- [ ] Hardware wallet or multisig tested with the actual firmware/contract.
-- [ ] Recovery tested on a separate clean device.
-- [ ] Small-value end-to-end test completed.
-- [ ] Operational runbook and emergency contacts documented.
-- [ ] Software and firmware update policy defined.
+- Test evidence: [TEST_EVIDENCE.md](TEST_EVIDENCE.md)
+- Risk controls: [RISK_CONTROLS.md](RISK_CONTROLS.md)
+- Data control: [DATA_CONTROL.md](DATA_CONTROL.md)
+- Release signature: see the GitHub release page and `SIGNING_CHECKLIST.md`.

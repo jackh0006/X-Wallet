@@ -9,10 +9,10 @@ reading the source or testing the wallet yourself.
 
 | Item | Value |
 |---|---|
-| Release | **X Wallet 1.1.0** (`1.1.0+5`) |
-| Tag | `v1.1.0` |
-| Package | `x-wallet-1.1.0-amd64.deb` |
-| SHA-256 | `66779cb03d843bf9fbb1bd9cf14d267a75c8d5b25e54909adac0b06bb4f4150b` |
+| Release | **X Wallet 1.2.0** (`1.2.0+6`) |
+| Tag | `v1.2.0` |
+| Package | `x-wallet-1.2.0-amd64.deb` |
+| SHA-256 | `5836ce0de139fe025d0e4bf59550cc516d86b005589937adff0b8407ee7e436a` |
 | SBOM | `docs/SBOM.json` — 116 packages |
 | Signature | `SHA256SUMS.asc` — EdDSA |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
@@ -26,10 +26,13 @@ reading the source or testing the wallet yourself.
 |---|---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | PASS in 1.5 s | The source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | PASS, no issues | The wallet code has no analyzer findings. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 48/48 non-integration files, 0 failed, 0 timed out, 631 s | Unit, widget, vault, network, transaction, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 52 files / 318 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 52/52 non-integration files, 0 failed, 0 timed out, 674 s | Unit, widget, vault, network, transaction, and security tests pass. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 53 files / 322 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` | PASS: 5/5 mutations killed, 97 s | Deliberately broken security checks are caught by the tests. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | PASS | User-facing product identity is consistent. |
+| ✅ PASS | Localization | `flutter test test/localization_test.dart` | PASS | The runtime `Text` layer follows the selected locale. |
+| ✅ PASS | Spending safety | `flutter test test/spending_policy_test.dart` | PASS: 5/5 | Freeze signing, recipient allowlist, and native per-transaction limit are enforced before signing. |
+| ✅ PASS | Data boundary | `flutter test test/data_boundary_test.dart` | PASS: 4/4 | No telemetry/ads/AI SDK; no network path in key or signing modules; a single HTTP choke point. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | PASS | No subscription, paywall, ads, or payment SDK. |
 
 ## Cryptography, vault, and signing
@@ -50,7 +53,7 @@ reading the source or testing the wallet yourself.
 
 | Mark | Check | Command / evidence | Result | What it proves |
 |---|---|---|---|---|
-| ✅ PASS | Real EVM integration | `bash scripts/run-anvil-tests.sh` against Anvil 1.9.0, chain 97 | PASS: 3/3, 10 s | Native transfer, wrong-chain rejection, and ERC-20 deploy/mint/transfer/approve/revoke/revert work against a real EVM node. |
+| ✅ PASS | Real EVM integration | `bash scripts/run-anvil-tests.sh` against Anvil, chain 97 | PASS: 3/3, 28 s | Native transfer, wrong-chain rejection, and ERC-20 deploy/mint/transfer/approve/revoke/revert work against a real EVM node. |
 | ✅ PASS | RPC adversarial tests | `flutter test test/rpc_adversarial_test.dart` | PASS: 6 tests | Wrong chain, non-JSON/HTML responses, oversized/malformed balances, network-switch mismatch, and unsafe URLs are rejected. |
 | ✅ PASS | TLS pinning | `flutter test test/tls_pinning_test.dart` | PASS: 7 tests | Standard certificate and hostname validation runs first; a pin cannot bypass it. |
 | ✅ PASS | Privacy dialogs and routing | `privacy_dialogs_test`, `privacy_config_test`, `tor_manager` tests | PASS in the default suite | Proxy/Tor options parse correctly and traffic follows the configured route. |
@@ -67,11 +70,11 @@ reading the source or testing the wallet yourself.
 | Mark | Check | Command / evidence | Result | What it proves |
 |---|---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | PASS, 123 s | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | PASS, 25 s | A real `x-wallet-1.1.0-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | PASS, 30 s | A real, signed `x-wallet-1.2.0-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | PASS | All native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | PASS: install, upgrade from `bnb-wallet` 1.0.9 with data preserved, launch, uninstall, reinstall | The real package lifecycle works and existing data survives the rename. |
-| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` | PASS: identical archive `0e3cb4c1…` and manifests, 254 s | Two builds at the same path produce the same archive. |
-| ✅ PASS | Cross-runner reproducibility | GitHub Actions `reproducibility` run `42315071276` | PASS | Separate runners reproduce the same fixed-path archive. |
+| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` | PASS: identical archive `dffb5b35…` and manifests, 262 s | Two builds at the same path produce the same archive. |
+| ✅ PASS | Cross-runner reproducibility | GitHub Actions `reproducibility` workflow, release commit | PASS | Separate runners reproduce the same fixed-path archive. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | PASS, 1.8 s | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | PASS, 4.6 s | No current advisory flags for the locked dependencies. |
 | ✅ PASS | License inventory | `python3 scripts/license-check.py` | PASS, 0.4 s | Every dependency license is inventoried. |

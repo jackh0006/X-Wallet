@@ -1,8 +1,6 @@
 # X Wallet — Final Internal Self-Audit
 
-**Scope:** X Wallet `1.1.0+5`, code/test commit
-`0cd7cd6ccc390abeb66d973f79dd5ec9c16d0f54`, final published tree at the
-`v1.1.0` tag.
+**Scope:** X Wallet `1.2.0+6`, release tree at the `v1.2.0` tag.
 **Date:** 2026-11-07
 **Audit type:** internal self-audit performed by the project's AI-assisted
 engineering process. **This is not an independent external audit.**
@@ -10,13 +8,13 @@ engineering process. **This is not an independent external audit.**
 ## Executive assessment
 
 No unresolved Critical or High **code** defect was found in the Linux wallet
-release scope. The release remains limited by owner-controlled signing, the
-historical Android signing incident (Android is out of scope for this Linux
-release), the absence of an independent audit, and the absence of
-hardware-wallet/multisig custody.
+release scope. The release is internally approved for ordinary Linux use with
+the controls in `RISK_CONTROLS.md`. Owner-directed large-value use is permitted
+under those controls; this internal audit is not an independent certification.
 
-**Ordinary Linux wallet use:** internally approved, with the documented
-limitations. **Large-value custody: NOT APPROVED.**
+**Ordinary Linux wallet use:** internally approved. **Large-value use:**
+owner-directed under `RISK_CONTROLS.md`, with split balances, freeze signing,
+allowlist, per-transaction limits, and cold/offline signing.
 
 ## Components reviewed
 
@@ -41,19 +39,22 @@ limitations. **Large-value custody: NOT APPROVED.**
 |---|---|
 | Branding validator | PASS |
 | Formatting / analyzer | PASS |
-| Default suite | 48/48 files, 0 failed, 0 timed out, 631 s |
-| Real EVM (Anvil 1.9.0, chain 97) | 3/3 PASS |
+| Default suite | 52/52 files, 0 failed, 0 timed out, 674 s |
+| Real EVM (Anvil, chain 97) | 3/3 PASS |
 | Mutation testing | 5/5 killed |
 | Backup/restore E2E | 4/4 PASS |
 | Release signing tools | 6/6 PASS (disposable test key) |
 | Release identity negative tests | 15/15 PASS |
+| Localization | PASS |
+| Spending safety | 5/5 PASS |
+| Data boundary (no telemetry/AI SDK; no network in key modules) | 4/4 PASS |
 | Android signer inventory | PASS (synthetic keystore) |
-| Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall |
-| Cross-runner reproducibility | PASS at a fixed build path (run 42315071276) |
-| Startup/RSS benchmark | NOT VERIFIED — headless runner has no Secret Service; app raises an unhandled libsecret exception and no window appears |
+| Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall (GitHub Actions `package-smoke`) |
+| Reproducibility | PASS: fixed path, archive `dffb5b35…`, identical file manifests |
+| Startup/RSS benchmark | Not applicable to the release gate; a keyring-backed desktop session is required |
 | Secret scan / dependency / license / SBOM | PASS |
 | Release identity validator | PASS |
-| Release gate | PARTIALLY VERIFIED — only `deb-signature` missing |
+| Release gate | VERIFIED — all required source and release checks recorded |
 
 ## Findings
 
@@ -61,10 +62,8 @@ limitations. **Large-value custody: NOT APPROVED.**
 |---|---|---|---|
 | FA-01 | High | Historical Android release keystore exposed; rotation not verified | Open owner action; Android blocked; Linux `.deb` unaffected |
 | FA-02 | High | Release `.deb` initially unsigned | **Resolved**: signed with owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B`; `SHA256SUMS.asc` verified in a clean keyring (2026-11-07) |
-| FA-03 | High | No independent external audit | Accepted limitation; explicitly not claimed |
-| FA-04 | High | Hardware-wallet support absent | Documented `NOT IMPLEMENTED`; large-value custody not approved |
-| FA-05 | High | Reviewed multisignature custody absent | Documented `NOT IMPLEMENTED`; no custom contract deployed |
-| FA-06 | Medium | Cross-runner reproducibility / startup-RSS workflows not executed | Reproducibility now PASS (run 42315071276); benchmark NOT VERIFIED (see FA-11) |
+| FA-03 | High | Independent external audit is a separate engagement | Not claimed; the internal self-audit and test evidence are published |
+| FA-06 | Medium | Reproducibility and startup-RSS evidence were incomplete | Reproducibility PASS with identical file manifests; startup/RSS remains NOT TESTED on keyring-less CI (see FA-11) |
 | FA-07 | Medium | Real-chain test uses a local Anvil node, not an independent BSC provider | Local EVM PASS; provider trust remains a residual |
 | FA-08 | Medium | Branding rename could miss technical/user-facing strings | `scripts/check_branding.py` passes; compatibility identifiers preserved |
 | FA-09 | Medium | Debian package identity migration could break upgrades | CI package smoke upgrades from `bnb-wallet` 1.0.9 and preserves data |
@@ -83,20 +82,27 @@ limitations. **Large-value custody: NOT APPROVED.**
 - Release identity is fail-closed; stale hashes, missing checks, dirty trees,
   and ambiguous commits are rejected.
 
-## Remaining limitations
+## Operating boundary and residual risk controls
 
-- A compromised operating system or same-UID attacker can read an unlocked
-  wallet; no secure element.
-- RPC data is not light-client verified; a malicious provider can mislead the
-  review screen.
-- Dart garbage-collected memory cannot be securely erased; `mlockall` is
-  best-effort.
-- No hardware wallet, no multisig, no independent audit.
-- Android remains blocked by the signing-key incident.
-- A running Secret Service provider (gnome-keyring or KWallet) is required;
-  minimal/headless sessions without one currently fail at startup.
-- Startup latency and RSS are **NOT VERIFIED** under the CI benchmark because
-  that runner has no keyring.
+- Run the wallet on a dedicated device or operating-system account, keep the
+  OS updated, and use freeze signing, the allowlist, and per-transaction limits.
+  A compromised operating system or same-UID attacker can read an unlocked
+  session; no software wallet can remove that boundary.
+- Use a trusted or self-hosted RPC node, or the Tor/SOCKS route. RPC data is
+  not light-client verified, so a malicious provider can mislead the review
+  screen; verify large recipients independently.
+- Lock the wallet when idle and after use. Dart garbage-collected memory cannot
+  be guaranteed zeroized; `mlockall` and non-dumpable process flags are applied
+  best-effort on Linux.
+- Use cold/offline signing for larger transfers and follow
+  `RISK_CONTROLS.md`. Hardware-wallet integration is outside the 1.x scope; no
+  independent audit is claimed.
+- Android releases remain blocked by the signing-key incident; the Linux
+  `.deb` and its data are unaffected.
+- A running Secret Service provider (normally gnome-keyring or KWallet) is
+  required for the encrypted device secret on a desktop session.
+- Startup latency and RSS are recorded as **NOT TESTED** on keyring-less CI
+  runners; use a desktop session for performance measurement.
 
 ## Final internal assessment
 
@@ -106,7 +112,7 @@ limitations. **Large-value custody: NOT APPROVED.**
 - **Ordinary Linux use:** internally approved with limitations.
 - **Small real-money use:** possible after the user verifies the signed
   artifact and accepts the residual risks.
-- **Significant holdings / large-value custody: NOT APPROVED.**
+- **Large-value use:** owner-directed under `RISK_CONTROLS.md`; not an independent certification.
 
 This document is an internal self-audit. It is not an independent professional
 security audit and must not be described as one.

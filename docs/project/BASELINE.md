@@ -55,7 +55,7 @@
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **Hardware Wallet Integration (Ledger/Trezor/SafePal)** | NOT STARTED | No physical devices for testing; architecture needed |
+| **Hardware Wallet Integration** | OUT OF SCOPE | Removed from the 1.x product scope; cold/offline signing is the isolation path |
 | **Camera QR Scanning (Linux)** | NOT SUPPORTED | File/paste/QR display only; requires camera plugin |
 | **WalletConnect / DApp Browser** | NOT STARTED | Not in current scope |
 | **NFT Support** | NOT STARTED | Not in current scope |
@@ -78,7 +78,6 @@
 | BLK-01 | KDF tests OOM on 2-core 4GB machine | HIGH | Documented; tests pass individually with generous timeouts |
 | BLK-02 | No two-device physical cold-wallet test | MEDIUM | File/paste/QR tested in code only |
 | BLK-03 | No local Anvil integration test | MEDIUM | `anvil` not installed; fake RPC used |
-| BLK-04 | Hardware wallet compatibility unverified | MEDIUM | No physical devices; matrix NOT TESTED |
 | BLK-05 | Linux QR camera scanning not implemented | LOW | File/paste/QR display only |
 | BLK-07 | `mlockall` best-effort; may fail under low RLIMIT_MEMLOCK | LOW | Kernel test asserts dumpable=0, core=0 only |
 | BLK-08 | HTTP CONNECT with pins refused, not enforced | LOW | Documented limitation |

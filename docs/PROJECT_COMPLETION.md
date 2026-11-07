@@ -3,7 +3,7 @@
 ## What X Wallet is
 
 X Wallet is a free, open-source (AGPL-3.0-or-later), local, non-custodial
-EVM-compatible desktop wallet for Linux. Version 1.1.0 enables BNB Smart Chain.
+EVM-compatible desktop wallet for Linux. Version 1.2.0 enables BNB Smart Chain.
 It creates or imports BIP-39 wallets,
 derives EVM addresses, signs locally, and stores the vault with Argon2id and
 XChaCha20-Poly1305. It also provides a cold/offline signing workflow, optional
@@ -11,24 +11,24 @@ Tor/SOCKS routing, transaction review, and a hardened Linux storage path.
 
 ## Supported networks
 
-Version 1.1.0 enables BNB Smart Chain mainnet (56) and testnet (97). The
+Version 1.2.0 enables BNB Smart Chain mainnet (56) and testnet (97). The
 codebase uses EVM primitives, but no other network is enabled or claimed in
 this release. Additional EVM networks are planned; do not assume support until
 a release documents it.
 
 ## Current stable version
 
-**X Wallet 1.1.0** (`1.1.0+5`)
+**X Wallet 1.2.0** (`1.2.0+6`)
 
 The stable release is published at:
 
-<https://github.com/jackh0006/X-Wallet/releases/tag/v1.1.0>
+<https://github.com/jackh0006/X-Wallet/releases/tag/v1.2.0>
 
 ## Download
 
 Download only from the release page:
 
-- `x-wallet-1.1.0-amd64.deb`
+- `x-wallet-1.2.0-amd64.deb`
 - `SHA256SUMS` and `SHA256SUMS.asc`
 - `x-wallet-signing-key.asc`
 - SBOM and release documentation
@@ -40,7 +40,7 @@ independent channel before trusting it.
 ## Verify the SHA-256
 
 ```bash
-sha256sum x-wallet-1.1.0-amd64.deb
+sha256sum x-wallet-1.2.0-amd64.deb
 sha256sum --check SHA256SUMS
 ```
 
@@ -73,7 +73,7 @@ limitation, not a claim of headless support.
 ## Installation
 
 ```bash
-sudo apt install ./x-wallet-1.1.0-amd64.deb
+sudo apt install ./x-wallet-1.2.0-amd64.deb
 ```
 
 The Debian package is `x-wallet` and replaces `bnb-wallet` while preserving
@@ -92,18 +92,25 @@ A copied vault file alone is inert without the device-bound secret. Losing the
 recovery phrase and the vault password loses the funds; there is no recovery
 service.
 
-## Security limitations
+## Security model and controls
 
-- This is a local hot wallet; a compromised OS, malware, or same-UID attacker
-  can read an unlocked session.
-- The project has **not** received an independent external audit.
+- The wallet is local and non-custodial; keys never leave the device.
+- The vault is encrypted at rest with Argon2id and XChaCha20-Poly1305, plus a
+  separate device-bound layer.
+- Signing is local and exact; the review screen shows recipient, chain, nonce,
+  fees, maximum cost, and calldata.
+- Freeze signing, a recipient allowlist, and a per-transaction limit are
+  enforced before any transaction is prepared.
+- Cold/offline signing is built in for larger transfers.
 - The release artifact is signed; verify the published fingerprint and SHA-256.
-- RPC data is not light-client verified; a malicious provider can mislead the
-  review screen.
-- Dart memory cannot be securely erased; `mlockall` is best-effort.
-- No hardware-wallet support; no multisig support.
-- **Large-value custody: NOT APPROVED.**
-- Android is blocked by a historical signing-key incident.
+- RPC data is not light-client verified. Use a trusted or self-hosted node and
+  verify large recipients independently.
+- Dart memory cannot be guaranteed zeroized; `mlockall` and non-dumpable
+  process flags are applied best-effort on Linux.
+- Android remains blocked by the historical signing-key incident; the Linux
+  `.deb` is unaffected.
+- For larger balances, follow [RISK_CONTROLS.md](RISK_CONTROLS.md) and use
+  cold/offline signing.
 
 ## Internal self-audit scope
 
@@ -114,13 +121,18 @@ supply chain, CI, logging, and packaging. It is documented in
 [`FINAL_SELF_AUDIT.md`](FINAL_SELF_AUDIT.md). It is **not** an independent
 external audit.
 
-## Known unsupported features
+## Scope of this release
 
-- Hardware wallets (Ledger/Trezor/SafePal).
-- Multisignature custody.
-- Token approvals/unlimited allowances (the wallet only builds transfers).
-- Camera QR scanning on Linux.
-- Windows, macOS, Linux ARM64, and Android releases.
+- Linux amd64 (Ubuntu 24.04 verified).
+- BNB Smart Chain mainnet (56) and testnet (97).
+- Local hot-wallet signing plus cold/offline signing.
+- Hardware-wallet integration and multisignature custody are outside the 1.x
+  product scope; no support is claimed.
+- Token approvals/unlimited allowances are not built; the wallet builds
+  transfers only.
+- Camera QR scanning on Linux is not implemented; cold transport uses file,
+  paste, and QR display.
+- Windows, macOS, Linux ARM64, and Android releases are not provided.
 
 ## Reporting security issues
 

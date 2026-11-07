@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "0cd7cd6ccc390abeb66d973f79dd5ec9c16d0f54",
+  "sourceCommit": "72367f8882ac79660779a8c55658fbf9761a2a83",
   "status": "PASS_FIXED_PATH",
-  "buildPath": "/tmp/bnb-repro-final",
+  "buildPath": "/tmp/bnb-repro-build",
   "environment": {
     "os": "Ubuntu 24.04.5 LTS",
     "architecture": "x86_64",
@@ -11,8 +11,8 @@
     "sourceDateEpoch": 0,
     "gzip": "gzip -n"
   },
-  "archiveSha256": "0e3cb4c1465ad0ac35f8104560ed623b79c4d7194bdb625119f858de1d0e8d4c",
+  "archiveSha256": "dffb5b355eeb4fb95fc26da409f357d3903f252171c40bfa2670bb3008108496",
   "fileManifestsIdentical": true,
   "constraint": "Flutter embeds the absolute build path in libapp.so and plugin .so files. Two different absolute paths are NOT guaranteed to match; this result is not an independent-machine proof.",
-  "evidence": "docs/evidence/2026-11-06/reproducibility-x-wallet.log"
+  "evidence": "docs/evidence/2026-11-07/reproducibility.log"
 }

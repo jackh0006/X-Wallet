@@ -103,10 +103,10 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.1.0+5":
-        errors.append(f"pubspec version is not 1.1.0+5: {version.group(1) if version else 'missing'}")
-    if not (ROOT / "docs" / "releases" / "1.1.0.md").is_file():
-        errors.append("missing docs/releases/1.1.0.md")
+    if not version or version.group(1) != "1.2.0+6":
+        errors.append(f"pubspec version is not 1.2.0+6: {version.group(1) if version else 'missing'}")
+    if not (ROOT / "docs" / "releases" / "1.2.0.md").is_file():
+        errors.append("missing docs/releases/1.2.0.md")
 
     if errors:
         for error in errors:

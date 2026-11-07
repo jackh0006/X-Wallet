@@ -5,7 +5,7 @@ occurred. The project is self-assessed; an independent audit is still absent.
 
 ## Scope
 
-- Linux amd64 Flutter/Dart EVM wallet (BNB Smart Chain enabled in 1.1.0).
+- Linux amd64 Flutter/Dart EVM wallet (BNB Smart Chain enabled in 1.2.0).
 - Vault encryption and recovery.
 - Native/pure-Dart Argon2id backend.
 - Transaction construction, review, signing, broadcast.
@@ -14,8 +14,8 @@ occurred. The project is self-assessed; an independent audit is still absent.
 - Release tooling, reproducibility, and supply chain.
 
 Out of scope unless separately agreed: Android APK signing (blocked), hardware
-wallets (not implemented), a professional multisig deployment, and real-money
-transactions.
+wallets (outside the 1.x scope), a professional multisig deployment, and
+real-money transactions.
 
 ## Evidence to start from
 

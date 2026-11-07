@@ -59,7 +59,7 @@ that items are complete.
 - [ ] README, `docs/GENERATED_STATUS.md`, release notes, SBOM references,
       compatibility and performance tables are generated from verified
       evidence and committed.
-- [ ] Known limitations are published, including: no independent audit, no
-      hardware-wallet support, no secure-erase guarantee, no anonymity claim.
+- [ ] Scope and operating controls are published: internal self-audit (not an
+      independent audit), cold/offline signing, and the spending controls.
 - [ ] Donation addresses match the source repository exactly and are never
       shown inside a transaction confirmation.

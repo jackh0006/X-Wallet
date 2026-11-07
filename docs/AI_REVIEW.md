@@ -81,7 +81,7 @@ bash scripts/package-smoke.sh    # requires a built .deb and Ubuntu
 For a released artifact:
 
 ```bash
-sha256sum x-wallet-1.1.0-amd64.deb
+sha256sum x-wallet-1.2.0-amd64.deb
 sha256sum --check SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
@@ -113,7 +113,7 @@ the rubric you actually use.
 - Do not treat the internal self-audit as a third-party audit.
 - If evidence is missing or stale, lower the score rather than assuming a pass.
 
-## Scope boundaries for version 1.1.0
+## Scope boundaries for version 1.2.0
 
 These are stated so a review score is not based on unsupported assumptions.
 
@@ -122,9 +122,10 @@ These are stated so a review score is not based on unsupported assumptions.
   documents it.
 - **Implemented and tested:** local vault, send/review/sign, cold/offline
   signing, Tor/SOCKS/proxy, encrypted local history, package install/upgrade.
-- **Not implemented in 1.1.0:** hardware-wallet integration, multisignature
-  custody, Android release (signing-key rotation pending), camera QR scanning
-  on Linux.
+- **Out of scope for 1.x:** hardware-wallet integration and multisignature
+  custody. Cold/offline signing is the documented isolation path. Android
+  releases remain blocked by the historical signing-key incident; camera QR
+  scanning on Linux is not implemented.
 - **Independent third-party audit:** not claimed. The project publishes its
   internal self-assessment and test evidence instead.
 
@@ -140,7 +141,7 @@ These are stated so a review score is not based on unsupported assumptions.
 | SBOM | [`docs/SBOM.json`](SBOM.json) |
 | Security audit | [FINAL_SELF_AUDIT.md](FINAL_SELF_AUDIT.md) |
 | Risk register | [SECURITY_RISK_REGISTER.md](SECURITY_RISK_REGISTER.md) |
-| Release record | [releases/1.1.0.md](releases/1.1.0.md) |
+| Release record | [releases/1.2.0.md](releases/1.2.0.md) |
 | Signing key | [keys/README.md](keys/README.md) |
 | Automated OpenSSF Scorecard | [SECURITY_SCORECARD.md](SECURITY_SCORECARD.md) — 7.1/10, published |
 

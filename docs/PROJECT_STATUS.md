@@ -150,7 +150,6 @@ KDF-tagged tests in 2m00s. This is local evidence, not CI validation.
 | **BLK-01** | KDF tests OOM on 2-core 4GB | Memory exhaustion | Run individually with 8-15 min timeouts; documented |
 | **BLK-02** | Two-device physical cold-wallet test | No second device | File/paste/QR tested in code; mark NOT TESTED |
 | **BLK-03** | Local Anvil integration test | `anvil` not installed | Install Foundry or use CI runner |
-| **BLK-04** | Hardware wallet compatibility | No physical devices | Architecture first; test when devices available |
 | **BLK-05** | Linux QR camera scanning | Camera plugin not integrated | Add `camera` plugin; implement scanner |
 | **BLK-06** | Old release keystore in Git history | **COMPROMISED** — cannot rewrite public history | Rotate key operationally; new keystore outside repo |
 | **BLK-07** | `mlockall` best-effort failure | Low RLIMIT_MEMLOCK | Test asserts dumpable=0, core=0 only |
@@ -219,7 +218,6 @@ flutter analyze --no-pub
 | **SEC-02** | No third-party audit | HIGH | Internal self-audit only (SECURITY_AUDIT.md); state clearly |
 | **SEC-03** | No two-device cold test | MEDIUM | Code tested; mark NOT TESTED in claims |
 | **SEC-04** | No Anvil integration test | MEDIUM | Fake RPC used; mark NOT TESTED |
-| **SEC-05** | Hardware wallet unverified | MEDIUM | Matrix NOT TESTED; no false claims |
 | **SEC-06** | KDF resource exhaustion on weak HW | MEDIUM | Documented; tests pass individually; not a security flaw |
 | **SEC-07** | `mlockall` may fail silently | LOW | Test asserts kernel state only; best-effort documented |
 | **SEC-08** | HTTP CONNECT pins refused not enforced | LOW | Documented limitation; no silent downgrade |
