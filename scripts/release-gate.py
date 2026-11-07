@@ -109,6 +109,7 @@ EVIDENCE_ONLY_PATHS = {
 # Release tooling may change between the tested commit and a later evidence
 # commit without invalidating the wallet checks.
 RELEASE_TOOLING_PATHS = {
+    "AGENTS.md",
     "IMPLEMENTATION_STATUS.md",
     ".github/workflows/verify.yml",
     ".github/workflows/benchmark.yml",
@@ -144,7 +145,7 @@ def evidence_commit_ok(source_commit: str) -> bool:
         text=True,
     ).splitlines()
     return all(
-        path in {"README.md", "IMPLEMENTATION_STATUS.md"}
+        path in {"README.md", "AGENTS.md", "IMPLEMENTATION_STATUS.md"}
         or path in RELEASE_TOOLING_PATHS
         or path.startswith("docs/")
         or path.startswith("release/")
