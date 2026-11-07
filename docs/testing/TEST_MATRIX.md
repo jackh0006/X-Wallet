@@ -99,6 +99,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `widget_test.dart` | 3 | (light) | ✅ PASS | App launch, home tab, app lock |
 | `navigation_flow_test.dart` | 3 | (light) | ✅ PASS | Unlock→send, unlock→wallet, no save dialogs |
 | `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
+| `localization_test.dart` | 1 | (light) | ✅ PASS | Text follows the selected locale |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |

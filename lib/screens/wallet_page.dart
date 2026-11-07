@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -69,12 +70,12 @@ class _VaultAccountTile extends StatelessWidget {
             if (!isCurrent)
               IconButton(
                 icon: const Icon(Icons.lock_open, size: 18),
-                tooltip: 'Unlock this account',
+                tooltip: tr(context, 'Unlock this account'),
                 onPressed: onUnlock,
               ),
             IconButton(
               icon: const Icon(Icons.edit, size: 18),
-              tooltip: 'Rename',
+              tooltip: tr(context, 'Rename'),
               onPressed: onRename,
             ),
             IconButton(
@@ -83,7 +84,7 @@ class _VaultAccountTile extends StatelessWidget {
                 size: 18,
                 color: Colors.redAccent,
               ),
-              tooltip: 'Delete from vault',
+              tooltip: tr(context, 'Delete from vault'),
               onPressed: onDelete,
             ),
           ],
@@ -436,12 +437,12 @@ class _WalletPageState extends State<WalletPage>
                 ),
               ),
               IconButton(
-                tooltip: 'Copy address',
+                tooltip: tr(context, 'Copy address'),
                 icon: const Icon(Icons.copy, size: 18),
                 onPressed: () => copyText(context, address, 'Address'),
               ),
               IconButton(
-                tooltip: 'Receive QR',
+                tooltip: tr(context, 'Receive QR'),
                 icon: const Icon(Icons.qr_code, size: 18),
                 onPressed: () => showQrDialog(context, address),
               ),
@@ -471,7 +472,7 @@ class _WalletPageState extends State<WalletPage>
                 ),
               ),
               IconButton(
-                tooltip: 'Refresh balances',
+                tooltip: tr(context, 'Refresh balances'),
                 icon: const Icon(Icons.refresh, size: 18),
                 onPressed: _loadBalancesSummary,
               ),
@@ -512,7 +513,7 @@ class _WalletPageState extends State<WalletPage>
                       if (!token.native)
                         IconButton(
                           visualDensity: VisualDensity.compact,
-                          tooltip: 'Hide ${token.symbol}',
+                          tooltip: tr(context, 'Hide ${token.symbol}'),
                           icon: const Icon(
                             Icons.visibility_off_outlined,
                             size: 16,
@@ -662,7 +663,7 @@ class _WalletPageState extends State<WalletPage>
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit_outlined, size: 18),
-                    tooltip: 'Rename wallet',
+                    tooltip: tr(context, 'Rename wallet'),
                     onPressed: () => _renameCurrentWallet(context),
                   ),
                   const SizedBox(width: 8),
@@ -1466,8 +1467,8 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InputDecorator(
-                    decoration: const InputDecoration(
-                      labelText: 'Wallet type',
+                    decoration: InputDecoration(
+                      labelText: tr(context, 'Wallet type'),
                       border: OutlineInputBorder(),
                     ),
                     child: DropdownButtonHideUnderline(
@@ -1534,9 +1535,7 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                     ),
                     const SizedBox(height: 8),
                     InputDecorator(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
+                      decoration: InputDecoration(border: OutlineInputBorder()),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           isExpanded: true,
@@ -1585,8 +1584,8 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                       TextField(
                         controller: accountIndexController,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Account index',
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Account index'),
                           helperText: '0 = first account, 1 = second account',
                           border: OutlineInputBorder(),
                         ),
@@ -1600,9 +1599,9 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                         controller: customPathController,
                         autocorrect: false,
                         enableSuggestions: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Custom BIP-32 path',
-                          hintText: "m/44'/60'/0'/0/0",
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Custom BIP-32 path'),
+                          hintText: tr(context, "m/44'/60'/0'/0/0"),
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (_) =>
@@ -1641,7 +1640,7 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                       autocorrect: false,
                       enableSuggestions: false,
                       decoration: InputDecoration(
-                        labelText: 'Passphrase (optional)',
+                        labelText: tr(context, 'Passphrase (optional)'),
                         border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                           tooltip: obscurePassphrase
@@ -1701,14 +1700,14 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                       autocorrect: false,
                       enableSuggestions: false,
                       decoration: InputDecoration(
-                        labelText: 'Private key (hidden)',
-                        hintText: '0x…',
+                        labelText: tr(context, 'Private key (hidden)'),
+                        hintText: tr(context, '0x…'),
                         border: const OutlineInputBorder(),
                         suffixIcon: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              tooltip: 'Paste from clipboard',
+                              tooltip: tr(context, 'Paste from clipboard'),
                               icon: const Icon(Icons.content_paste),
                               onPressed: () async {
                                 final data = await Clipboard.getData(

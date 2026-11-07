@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 /// One stop on the §10b journey map. [plainStatus] is the one-line plain-words
 /// status; [technical] is what the "More" expander shows; [logLines] are the

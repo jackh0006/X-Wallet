@@ -1,5 +1,7 @@
 import 'package:bip39_mnemonic/bip39_mnemonic.dart';
-import 'package:flutter/material.dart';
+
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 
 /// Place-based BIP-39 word picker for seed ENTRY.
@@ -146,8 +148,8 @@ class _SeedPickerDialogState extends State<_SeedPickerDialog> {
               controller: _search,
               autocorrect: false,
               enableSuggestions: false,
-              decoration: const InputDecoration(
-                labelText: 'Search word list',
+              decoration: InputDecoration(
+                labelText: tr(context, 'Search word list'),
                 border: OutlineInputBorder(),
               ),
             ),

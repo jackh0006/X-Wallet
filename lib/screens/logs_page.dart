@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 import '../app_state.dart';
 import '../encrypted_log_store.dart';
@@ -131,7 +131,7 @@ class _LogsPageState extends State<LogsPage> {
         title: const Text('Logs'),
         actions: [
           IconButton(
-            tooltip: 'View raw requests',
+            tooltip: tr(context, 'View raw requests'),
             onPressed: _showRawRequests,
             icon: const Icon(Icons.code),
           ),
@@ -141,7 +141,7 @@ class _LogsPageState extends State<LogsPage> {
             icon: Icon(_live ? Icons.pause_circle : Icons.play_circle_outline),
           ),
           IconButton(
-            tooltip: 'Refresh logs',
+            tooltip: tr(context, 'Refresh logs'),
             onPressed: _loading ? null : _load,
             icon: const Icon(Icons.refresh),
           ),
@@ -202,10 +202,13 @@ class _LogsPageState extends State<LogsPage> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: _search,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isDense: true,
                       prefixIcon: Icon(Icons.search, size: 20),
-                      hintText: 'Search messages, category, tx hash…',
+                      hintText: tr(
+                        context,
+                        'Search messages, category, tx hash…',
+                      ),
                     ),
                     onChanged: (value) => setState(() => _query = value),
                   ),
@@ -215,9 +218,9 @@ class _LogsPageState extends State<LogsPage> {
                       Expanded(
                         child: DropdownButtonFormField<String>(
                           initialValue: _category ?? 'all',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             isDense: true,
-                            labelText: 'Category',
+                            labelText: tr(context, 'Category'),
                           ),
                           items: [
                             const DropdownMenuItem(
@@ -239,9 +242,9 @@ class _LogsPageState extends State<LogsPage> {
                       Expanded(
                         child: DropdownButtonFormField<String>(
                           initialValue: _level ?? 'all',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             isDense: true,
-                            labelText: 'Level',
+                            labelText: tr(context, 'Level'),
                           ),
                           items: [
                             const DropdownMenuItem(

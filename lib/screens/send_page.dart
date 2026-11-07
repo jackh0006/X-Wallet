@@ -4,7 +4,8 @@ import 'dart:typed_data';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -403,8 +404,8 @@ class _SendPageState extends State<SendPage>
           const SizedBox(height: 16),
           DropdownButtonFormField<TokenInfo>(
             initialValue: _asset,
-            decoration: const InputDecoration(
-              labelText: 'Asset',
+            decoration: InputDecoration(
+              labelText: tr(context, 'Asset'),
               border: OutlineInputBorder(),
             ),
             items: [
@@ -432,9 +433,9 @@ class _SendPageState extends State<SendPage>
           const SizedBox(height: 14),
           TextField(
             controller: _to,
-            decoration: const InputDecoration(
-              labelText: 'Recipient address',
-              hintText: '0x…',
+            decoration: InputDecoration(
+              labelText: tr(context, 'Recipient address'),
+              hintText: tr(context, '0x…'),
               border: OutlineInputBorder(),
             ),
             autocorrect: false,
@@ -444,8 +445,8 @@ class _SendPageState extends State<SendPage>
           TextField(
             controller: _amount,
             decoration: InputDecoration(
-              labelText: 'Amount (${_asset.symbol})',
-              hintText: '0.02',
+              labelText: tr(context, 'Amount (${_asset.symbol})'),
+              hintText: tr(context, '0.02'),
               border: const OutlineInputBorder(),
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -1304,7 +1305,10 @@ class _SendPageState extends State<SendPage>
           content: TextField(
             controller: _suffix,
             decoration: InputDecoration(
-              labelText: 'Type the last 6 recipient characters ($suffix)',
+              labelText: tr(
+                context,
+                'Type the last 6 recipient characters ($suffix)',
+              ),
               border: const OutlineInputBorder(),
             ),
           ),

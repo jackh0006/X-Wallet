@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -134,7 +135,7 @@ Future<String?> showColdImportDialog(
                   enableSuggestions: false,
                   style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
                   decoration: InputDecoration(
-                    labelText: 'Payload',
+                    labelText: tr(context, 'Payload'),
                     errorText: error,
                     border: const OutlineInputBorder(),
                   ),
@@ -391,7 +392,7 @@ Future<void> coldSignPendingRequest(
       title: 'BIP-39 passphrase',
       label: 'Optional passphrase (hidden)',
       obscure: true,
-      hintText: 'Leave empty if the wallet has no passphrase',
+      hintText: tr(context, 'Leave empty if the wallet has no passphrase'),
     );
     if (passphrase == null || !context.mounted) return;
     final summary = [
