@@ -100,6 +100,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `navigation_flow_test.dart` | 3 | (light) | ✅ PASS | Unlock→send, unlock→wallet, no save dialogs |
 | `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
 | `localization_test.dart` | 1 | (light) | ✅ PASS | Text follows the selected locale |
+| `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |

@@ -1,5 +1,5 @@
 {
-  "fileCount": 51,
+  "fileCount": 52,
   "files": [
     {
       "lines": 101,
@@ -271,6 +271,13 @@
       "tests": 1
     },
     {
+      "lines": 71,
+      "path": "test/spending_policy_test.dart",
+      "sha256": "7e0060331d8c743d3b762043ab588d8d53f640129b9e8eb74555de4d093016ba",
+      "tags": [],
+      "tests": 5
+    },
+    {
       "lines": 130,
       "path": "test/story_test.dart",
       "sha256": "49603ae8f8deb11fed2ea400ffeeec04d871883f0d21d7e6df620ef2987a97b5",
@@ -379,5 +386,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 313
+  "testCount": 318
 }

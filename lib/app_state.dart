@@ -12,6 +12,7 @@ import 'encrypted_log_store.dart';
 import 'models.dart';
 import 'receipt_store.dart';
 import 'rpc_service.dart';
+import 'spending_policy.dart';
 import 'rpc_story.dart';
 import 'security.dart';
 import 'storage.dart';
@@ -1370,6 +1371,27 @@ class AppState extends ChangeNotifier {
   bool get torEnabled => AppStorage.torEnabled;
   String get torHost => AppStorage.torHost;
   int get torPort => AppStorage.torPort;
+  SpendingPolicy get spendingPolicy => SpendingPolicy(
+    frozen: AppStorage.spendingFrozen,
+    maxPerTxWei: AppStorage.spendingMaxPerTxWei,
+    allowlist: AppStorage.spendingAllowlist.toSet(),
+  );
+
+  Future<void> setSpendingFrozen(bool value) async {
+    await AppStorage.setSpendingFrozen(value);
+    notifyListeners();
+  }
+
+  Future<void> setSpendingMaxPerTxWei(BigInt value) async {
+    await AppStorage.setSpendingMaxPerTxWei(value);
+    notifyListeners();
+  }
+
+  Future<void> setSpendingAllowlist(List<String> values) async {
+    await AppStorage.setSpendingAllowlist(values);
+    notifyListeners();
+  }
+
   GlobalProxyConfig get torUpstream => AppStorage.torUpstream;
   int get torChainDepth => AppStorage.torChainDepth;
 

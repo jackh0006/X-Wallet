@@ -31,6 +31,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _rpcController = TextEditingController();
   final _newTokenAddress = TextEditingController();
+  final _maxPerTxController = TextEditingController();
+  final _allowlistController = TextEditingController();
 
   /// §10e trusted signing-list sources, loaded from assets/token_sources.json.
   List<Map<String, dynamic>> _tokenSources = const [];
@@ -39,6 +41,10 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _rpcController.text = appState.rpc.configuredRpc;
+    _maxPerTxController.text = WalletCore.formatEther(
+      appState.spendingPolicy.maxPerTxWei,
+    );
+    _allowlistController.text = appState.spendingPolicy.allowlist.join('\n');
     appState.addListener(_onStateChanged);
     _loadTokenSources();
   }
@@ -70,6 +76,8 @@ class _SettingsPageState extends State<SettingsPage> {
     appState.removeListener(_onStateChanged);
     _rpcController.dispose();
     _newTokenAddress.dispose();
+    _maxPerTxController.dispose();
+    _allowlistController.dispose();
     super.dispose();
   }
 
@@ -92,6 +100,8 @@ class _SettingsPageState extends State<SettingsPage> {
             _historyKeySection(),
             const SizedBox(height: 18),
             _storageSection(),
+            const SizedBox(height: 18),
+            _spendingSafetySection(),
             const SizedBox(height: 18),
             _securitySection(),
             const SizedBox(height: 18),
@@ -2314,6 +2324,111 @@ class _SettingsPageState extends State<SettingsPage> {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontSize: 11,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _spendingSafetySection() {
+    final policy = appState.spendingPolicy;
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('Spending safety'),
+          const SizedBox(height: 8),
+          Text(
+            'These limits apply before signing. A frozen wallet cannot sign at '
+            'all. An allowlist restricts recipients. A per-transaction limit '
+            'applies to native BNB transfers. These are local safeguards, not '
+            'a substitute for hardware or multisig custody.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Freeze signing'),
+            subtitle: const Text(
+              'Blocks every send until you deliberately unfreeze it.',
+            ),
+            value: policy.frozen,
+            onChanged: (value) => appState.setSpendingFrozen(value),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _maxPerTxController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: tr(
+                context,
+                'Max native BNB per transaction (0 = no limit)',
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _allowlistController,
+            minLines: 2,
+            maxLines: 5,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(
+              labelText: tr(
+                context,
+                'Allowed recipients (one address per line; empty = any)',
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              FilledButton.icon(
+                onPressed: () async {
+                  try {
+                    final wei = WalletCore.parseAmount(
+                      _maxPerTxController.text.trim().isEmpty
+                          ? '0'
+                          : _maxPerTxController.text.trim(),
+                      18,
+                    );
+                    final addresses = _allowlistController.text
+                        .split(RegExp(r'[\s,]+'))
+                        .map((value) => value.trim())
+                        .where((value) => value.isNotEmpty)
+                        .toList();
+                    for (final address in addresses) {
+                      if (!WalletCore.isValidAddress(address)) {
+                        showError(
+                          context,
+                          'Invalid allowlist address: $address',
+                        );
+                        return;
+                      }
+                    }
+                    await appState.setSpendingMaxPerTxWei(wei);
+                    await appState.setSpendingAllowlist(addresses);
+                    _maxPerTxController.text = WalletCore.formatEther(wei);
+                    _allowlistController.text = appState
+                        .spendingPolicy
+                        .allowlist
+                        .join('\n');
+                    if (mounted) showInfo(context, 'Spending safety saved.');
+                  } catch (error) {
+                    if (mounted) showError(context, error);
+                  }
+                },
+                icon: const Icon(Icons.save_outlined),
+                label: const Text('Save spending safety'),
+              ),
+            ],
           ),
         ],
       ),
