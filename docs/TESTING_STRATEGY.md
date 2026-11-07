@@ -18,7 +18,7 @@ not verification.
 | Secret scan (current tree) | `bash scripts/secret-scan.sh` | PASS |
 | Secret scan (history) | `bash scripts/secret-scan.sh --history` | KNOWN EXPOSURE: old Android keystore remains public; rotation `NOT VERIFIED` |
 | Dependency advisory audit | `python3 scripts/dependency-audit.py` | PASS: no current pub.dev advisory flags |
-| Licence inventory | `python3 scripts/license-check.py` | PASS for inventory; release-owner review still required |
+| License inventory | `python3 scripts/license-check.py` | PASS for inventory; release-owner review still required |
 | Independent transaction verification | `(cd verification && npm ci && node verify.cjs)` | PASS: 8 field substitutions rejected |
 | SBOM freshness | `python3 scripts/sbom.py --out docs/SBOM.json` | PASS |
 | Test inventory and docs | `test_inventory.py --check`, `release_manifest.py --check`, `generate_docs.py --check` | PASS |

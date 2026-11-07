@@ -25,4 +25,4 @@
 
 A finding is not “fixed” because code changed: reproduce the issue, run the
 regression, and record the exact commit and result. `VERIFIED` is never used
-for a risk that depends on the user's device or operational behaviour.
+for a risk that depends on the user's device or operational behavior.

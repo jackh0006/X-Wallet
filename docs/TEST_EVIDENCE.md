@@ -74,7 +74,7 @@ reading the source or testing the wallet yourself.
 | ✅ PASS | Cross-runner reproducibility | GitHub Actions `reproducibility` run `42315071276` | PASS | Separate runners reproduce the same fixed-path archive. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | PASS, 1.8 s | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | PASS, 4.6 s | No current advisory flags for the locked dependencies. |
-| ✅ PASS | Licence inventory | `python3 scripts/license-check.py` | PASS, 0.4 s | Every dependency licence is inventoried. |
+| ✅ PASS | License inventory | `python3 scripts/license-check.py` | PASS, 0.4 s | Every dependency license is inventoried. |
 | ✅ PASS | SBOM | `python3 scripts/sbom.py --out docs/SBOM.json` | PASS: 116 packages | The complete dependency inventory is generated and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | PASS | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `python3 scripts/test_release_identity.py` | PASS: 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |

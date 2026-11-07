@@ -201,7 +201,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | Cross-runner reproducibility | CI workflow run `42315071276` | Separate runners reproduce the same fixed-path archive. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | No current advisory flags for the locked dependencies. |
-| ✅ PASS | Licence inventory | `python3 scripts/license-check.py` | Every dependency licence is inventoried. |
+| ✅ PASS | License inventory | `python3 scripts/license-check.py` | Every dependency license is inventoried. |
 | ✅ PASS | SBOM | `python3 scripts/sbom.py` — 116 packages | The full dependency inventory is published and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `scripts/test_release_identity.py` — 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |

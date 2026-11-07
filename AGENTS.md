@@ -262,7 +262,7 @@ These rules apply to every human or AI agent:
    reporting completion, commit and push it to GitHub. If `main` is protected,
    create or update a focused pull request and report its URL and check state.
 2. Do not force-push, disable protections, or claim a merge/release is
-   complete when required checks are pending, cancelled, or failed.
+   complete when required checks are pending, canceled, or failed.
 3. Treat `pubspec.yaml`'s `version:` as the source version. Every version
    change needs a matching `docs/releases/<major>.<minor>.<patch>.md` record
    naming the exact version, including its build suffix.

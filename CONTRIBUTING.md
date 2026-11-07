@@ -20,9 +20,9 @@ under the same terms.
 3. **Never weaken cryptography to get green tests.** Production Argon2id is
    fixed at 64 MiB, t=3, p=4. Tests may use the assert-guarded test KDF for
    envelope/format coverage, but a real production-parameter test must remain.
-4. **Every new behaviour needs a test.** Add it to the appropriate suite and
+4. **Every new behavior needs a test.** Add it to the appropriate suite and
    regenerate `docs/testing/test-inventory.json` and `TEST_MATRIX.md`.
-5. **Every dependency change needs review.** Run the advisory and licence
+5. **Every dependency change needs review.** Run the advisory and license
    inventories, regenerate the SBOM, and explain why the dependency is needed.
 6. **Every PR explains security impact.** State what can go wrong, what you
    changed to prevent it, and which tests prove it.
@@ -71,7 +71,7 @@ small machine: that has caused native test-device segmentation faults.
 - [ ] I read the threat model and the relevant security docs.
 - [ ] The change has tests, and the test inventory is regenerated.
 - [ ] Static analysis, formatting, and the full suite pass locally.
-- [ ] Secret scan and dependency/licence checks pass.
+- [ ] Secret scan and dependency/license checks pass.
 - [ ] SBOM and release manifest are current.
 - [ ] I reviewed the security impact and wrote it in the PR.
 - [ ] I did not add or expose any secret.

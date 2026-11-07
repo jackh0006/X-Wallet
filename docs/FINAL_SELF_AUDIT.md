@@ -51,7 +51,7 @@ limitations. **Large-value custody: NOT APPROVED.**
 | Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall |
 | Cross-runner reproducibility | PASS at a fixed build path (run 42315071276) |
 | Startup/RSS benchmark | NOT VERIFIED — headless runner has no Secret Service; app raises an unhandled libsecret exception and no window appears |
-| Secret scan / dependency / licence / SBOM | PASS |
+| Secret scan / dependency / license / SBOM | PASS |
 | Release identity validator | PASS |
 | Release gate | PARTIALLY VERIFIED — only `deb-signature` missing |
 
