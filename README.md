@@ -162,9 +162,9 @@ Actions run. No new tests were invented for this page.
 |---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 575 s | Unit, widget, vault, network, and security tests pass. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 674 s | Unit, widget, vault, network, and security tests pass. |
 | ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 53 files / 322 declarations | Every test file is accounted for; none is silently missing. |
-| ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 89 s | Deliberately broken security checks are caught. |
+| ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 97 s | Deliberately broken security checks are caught. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
 

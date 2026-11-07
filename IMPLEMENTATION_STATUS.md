@@ -11,13 +11,13 @@ runs. This file is a human-readable index, not a second source of truth.
 |---|---|
 | Version | `1.2.0+6` |
 | Branch | `main` (use `git rev-parse HEAD` for the exact checkout) |
-| Tested source commit | `72367f8882ac79660779a8c55658fbf9761a2a83` |
+| Tested source commit | `20cdcf4374b17e14775961f853afbc0f6264c515` |
 | Release source commit | recorded in `release/evidence.json` (`sourceCommit`) |
 | Evidence bundle | `release/evidence.json` (release-approved, signed) |
 | Pull requests | merged through the 1.2.0 release PR |
 | Hosted CI | All required `main` workflows pass |
 | Release status | **RELEASE APPROVED / signed** |
-| Final package | `x-wallet-1.2.0-amd64.deb`, SHA-256 `d580d03909c0bf60cb036a87ba6300e55eb9a7865b19f539998bd46bad71387c` |
+| Final package | `x-wallet-1.2.0-amd64.deb`, SHA-256 `5836ce0de139fe025d0e4bf59550cc516d86b005589937adff0b8407ee7e436a` |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 
 ## Verified

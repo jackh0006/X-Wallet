@@ -39,7 +39,7 @@ allowlist, per-transaction limits, and cold/offline signing.
 |---|---|
 | Branding validator | PASS |
 | Formatting / analyzer | PASS |
-| Default suite | 52/52 files, 0 failed, 0 timed out, 575 s |
+| Default suite | 52/52 files, 0 failed, 0 timed out, 674 s |
 | Real EVM (Anvil, chain 97) | 3/3 PASS |
 | Mutation testing | 5/5 killed |
 | Backup/restore E2E | 4/4 PASS |

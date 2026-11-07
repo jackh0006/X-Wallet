@@ -7,7 +7,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 - Version: `1.2.0+6`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **INCOMPLETE**
+- Status: **RELEASE APPROVED**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -32,7 +32,30 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 ## Recorded checks for this commit
 
-No committed evidence bundle names this commit. **NOT TESTED / INCOMPLETE.**
+| Check | Exit | Duration (s) | Required | Log SHA-256 |
+|---|---|---|---|---|
+| backup-e2e | 0 | 12.885 | yes | e88446990daf2af0 |
+| cold-signature | 0 | 5.971 | yes | 87d225095d2a70a4 |
+| data-boundary | 0 | 8.527 | yes | 0b6069e2112161a2 |
+| deb-build | 0 | 29.045 | yes | dcc38fb20aa13d09 |
+| deb-signature | 0 | 0.187 | yes | 50bd6f7befeae07e |
+| dependency-audit | 0 | 28.526 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 673.834 | yes | 3d2bc88a77bc4547 |
+| identity-negative-tests | 0 | 0.366 | yes | b758e321d4c54be6 |
+| install-smoke | 0 | 170 | yes | — |
+| integration | 0 | 27.645 | yes | 923fc43acc8ddb66 |
+| license-inventory | 0 | 0.091 | yes | ab9b22cbedaa80d3 |
+| linux-build | 0 | 18.971 | yes | ceb4fad44ba25641 |
+| localization | 0 | 13.322 | yes | 4705d6d50211ad12 |
+| release-evidence | 0 | 0.05 | yes | 3b852b7433b74e16 |
+| release-signing-tests | 0 | 2.094 | yes | 041275c000cd6e48 |
+| reproducibility | 0 | 261.728 | yes | 66165ca67af388bd |
+| sbom | 0 | 0.124 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 3.373 | yes | 7ff728a5877b4846 |
+| security-mutation | 0 | 96.641 | yes | d04b5408453d3d8d |
+| spending-policy | 0 | 34.543 | yes | 41b11ae9362ba0ec |
+| static-analysis | 0 | 12.95 | yes | 970df57c6e2a6895 |
+| test-inventory | 0 | 0.107 | yes | 53ba54fdb93550bc |
 
 ## Artifacts
 
@@ -85,7 +108,3 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 - Artifacts: `release/artifacts.json`
 - Test inventory: `docs/testing/test-inventory.json`
 - SBOM: `docs/SBOM.json`
-
-## Open gate problems
-
-- no committed evidence bundle for this source commit
