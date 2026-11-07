@@ -8,6 +8,7 @@ import 'package:web3dart/web3dart.dart';
 
 import 'cold_wallet.dart' hide WalletMode, WalletModeLabel;
 import 'cold_wallet_service.dart';
+import 'default_tokens.dart';
 import 'encrypted_log_store.dart';
 import 'models.dart';
 import 'receipt_store.dart';
@@ -286,6 +287,22 @@ class AppState extends ChangeNotifier {
   bool get hasVault => _vaultExists;
   bool _vaultExists = false;
 
+  // Session-only vault state. Cleared by lock(), lockForTest(), and erase.
+  // The password is never written to disk and never logged.
+  String? _vaultSessionPassword;
+  List<VaultAccount>? _vaultAccountsCache;
+
+  bool get vaultUnlocked => _vaultAccountsCache != null;
+  List<VaultAccount>? get vaultAccountsCache => _vaultAccountsCache == null
+      ? null
+      : List.unmodifiable(_vaultAccountsCache!);
+
+  void lockVaultSession() {
+    _vaultSessionPassword = null;
+    _vaultAccountsCache = null;
+    notifyListeners();
+  }
+
   void _onRpcChanged() => notifyListeners();
 
   /// Test-only crypto substitution. [kDebugMode] is false in release builds,
@@ -313,7 +330,9 @@ class AppState extends ChangeNotifier {
     rpc.setBscscanKey(_bscscanKey);
     _profiles = AppStorage.profiles;
     _nodes = AppStorage.nodes;
-    _customTokens = AppStorage.customTokens;
+    _customTokens = withDefaultTokens(AppStorage.customTokens);
+    await AppStorage.setCustomTokens(_customTokens);
+    rpc.setCustomTokens(_customTokens);
     _hiddenTokens = AppStorage.hiddenTokens;
     _liteMode = AppStorage.liteMode;
     _themeModeIndex = AppStorage.themeModeIndex;
@@ -428,6 +447,8 @@ class AppState extends ChangeNotifier {
     _mnemonic = null;
     _watchAddress = null;
     _unlocked = false;
+    _vaultSessionPassword = null;
+    _vaultAccountsCache = null;
     notifyListeners();
   }
 
@@ -439,6 +460,8 @@ class AppState extends ChangeNotifier {
     _mnemonic = null;
     _watchAddress = null;
     _unlocked = false;
+    _vaultSessionPassword = null;
+    _vaultAccountsCache = null;
     notifyListeners();
   }
 
@@ -887,6 +910,9 @@ class AppState extends ChangeNotifier {
         'BNB Chain public backup',
         'Nariox public',
         'PublicNode mainnet',
+        '1RPC public',
+        'Blast public',
+        '48.club public',
       ],
       'testnet': ['BNB Chain official testnet', 'PublicNode testnet'],
     };
@@ -1016,6 +1042,21 @@ class AppState extends ChangeNotifier {
 
   Future<List<VaultAccount>> loadVaultAccounts(String password) async {
     final list = await _readVaultJson(password);
+    return _accountsFromJson(list);
+  }
+
+  /// Unlocks the vault for this session and caches the account list so the
+  /// wallet manager can show, switch, rename, and remove accounts without
+  /// asking for the same password on every rebuild.
+  Future<List<VaultAccount>> unlockVaultAccounts(String password) async {
+    final accounts = await loadVaultAccounts(password);
+    _vaultSessionPassword = password;
+    _vaultAccountsCache = accounts;
+    notifyListeners();
+    return accounts;
+  }
+
+  List<VaultAccount> _accountsFromJson(List<Map<String, dynamic>>? list) {
     if (list == null) return [];
     final addresses = <String>{};
     return [
@@ -1049,6 +1090,20 @@ class AppState extends ChangeNotifier {
           );
         }(),
     ];
+  }
+
+  /// Returns [tokens] plus any missing built-in BSC defaults.
+  List<TokenInfo> withDefaultTokens(List<TokenInfo> tokens) {
+    final result = [...tokens];
+    for (final token in DefaultTokens.bsc) {
+      final exists = result.any(
+        (item) =>
+            item.address.toLowerCase() == token.address.toLowerCase() &&
+            item.network == token.network,
+      );
+      if (!exists) result.add(token);
+    }
+    return result;
   }
 
   Future<void> saveVaultAccount(
@@ -1086,6 +1141,10 @@ class AppState extends ChangeNotifier {
       );
       await AppStorage.writeVaultAtomic(blob);
       _vaultExists = true;
+      _vaultSessionPassword = password;
+      _vaultAccountsCache = _accountsFromJson(
+        List<Map<String, dynamic>>.from(list),
+      );
       notifyListeners();
     });
   }
@@ -1104,6 +1163,9 @@ class AppState extends ChangeNotifier {
         await AppStorage.getOrGenerateDeviceSecret(),
       );
       await AppStorage.writeVaultAtomic(blob);
+      _vaultAccountsCache = _accountsFromJson(
+        List<Map<String, dynamic>>.from(list),
+      );
       notifyListeners();
     });
   }
@@ -1136,12 +1198,52 @@ class AppState extends ChangeNotifier {
         await AppStorage.getOrGenerateDeviceSecret(),
       );
       await AppStorage.writeVaultAtomic(blob);
+      _vaultAccountsCache = _accountsFromJson(updated);
       notifyListeners();
     });
   }
 
+  VaultAccount vaultAccountAt(int index) {
+    final cached = _vaultAccountsCache;
+    if (cached == null) {
+      throw StateError('Unlock the vault first.');
+    }
+    if (index < 0 || index >= cached.length) {
+      throw StateError('Vault account not found.');
+    }
+    return cached[index];
+  }
+
+  Future<void> renameVaultAccountWithSession(int index, String newLabel) {
+    final password = _vaultSessionPassword;
+    if (password == null) {
+      throw StateError('Unlock the vault first.');
+    }
+    return renameVaultAccount(password, index, newLabel);
+  }
+
+  Future<void> saveVaultAccountWithSession({
+    required String label,
+    required EthPrivateKey key,
+    String? mnemonic,
+  }) {
+    final password = _vaultSessionPassword;
+    if (password == null) {
+      throw StateError('Unlock the vault first.');
+    }
+    return saveVaultAccount(
+      password,
+      label: label,
+      key: key,
+      mnemonic: mnemonic,
+    );
+  }
+
   Future<VaultAccount> unlockVaultAccount(String password, int index) async {
-    final accounts = await loadVaultAccounts(password);
+    final cached = _vaultAccountsCache;
+    final accounts = cached != null && _vaultSessionPassword == password
+        ? cached
+        : await loadVaultAccounts(password);
     if (index < 0 || index >= accounts.length) {
       throw StateError('Vault account not found.');
     }
@@ -1812,8 +1914,8 @@ class AppState extends ChangeNotifier {
     if (oldPassword == newPassword) {
       throw ArgumentError('New password must be different from the old one.');
     }
-    if (newPassword.length < 16) {
-      throw ArgumentError('Use at least 16 characters for the new password.');
+    if (newPassword.isEmpty) {
+      throw ArgumentError('The new password cannot be empty.');
     }
 
     await withVaultOperationLock(() async {
@@ -1828,6 +1930,7 @@ class AppState extends ChangeNotifier {
       );
 
       await AppStorage.writeVaultAtomic(blob);
+      _vaultSessionPassword = newPassword;
       rpc.note('Vault password changed.', kind: RpcStoryKind.info);
     });
   }
@@ -1872,8 +1975,10 @@ class AppState extends ChangeNotifier {
       _mnemonic = null;
       _profiles = [];
       _nodes = [];
-      _customTokens = [];
+      _customTokens = [...DefaultTokens.bsc];
       _bscscanKey = null;
+      _vaultSessionPassword = null;
+      _vaultAccountsCache = null;
       _pending = [];
       _unlocked = false;
       _vaultExists = false;
@@ -1882,6 +1987,7 @@ class AppState extends ChangeNotifier {
       _drawerNoteShown = false;
       AppStorage.resetDeviceSecretMemo();
       rpc.setBscscanKey(null);
+      rpc.setCustomTokens(_customTokens);
       rpc.clearStory();
       await rpc.privacyChanged();
       rpc.note(

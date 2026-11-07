@@ -135,21 +135,27 @@ void main() {
       await tester.tap(find.text('Open my vault'));
       await tester.pumpAndSettle();
       expect(find.text('Unlock encrypted vault'), findsOneWidget);
-      await tester.enterText(find.byType(TextField), _testPassword);
-      final field = tester.widget<TextField>(find.byType(TextField));
+      final dialogField = find
+          .descendant(
+            of: find.byType(AlertDialog),
+            matching: find.byType(TextField),
+          )
+          .first;
+      await tester.enterText(dialogField, _testPassword);
+      final field = tester.widget<TextField>(dialogField);
       expect(
         field.controller?.text,
         _testPassword,
         reason: 'enterText must land in the password field',
       );
-      await tester.tap(find.text('OK'));
+      await tester.tap(find.text('Unlock'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(
         find.text('Unlock encrypted vault'),
         findsNothing,
         reason:
-            'OK must close the password dialog. On screen: ${_visibleTexts(tester)}',
+            'Unlock must close the password dialog. On screen: ${_visibleTexts(tester)}',
       );
       // The dialog handler has returned, but its filesystem-backed vault
       // operation needs a real-event-loop turn before widget frames resume.
@@ -159,9 +165,9 @@ void main() {
       await tester.pump();
       await _pumpUntil(
         tester,
-        () => find.text('Vault accounts').evaluate().isNotEmpty,
+        () => find.text('Choose a wallet').evaluate().isNotEmpty,
       );
-      if (find.text('Vault accounts').evaluate().isEmpty) {
+      if (find.text('Choose a wallet').evaluate().isEmpty) {
         fail(
           'Vault accounts dialog never appeared. On screen: ${_visibleTexts(tester)}',
         );
@@ -178,7 +184,7 @@ void main() {
         isTrue,
         reason: 'unlock must complete. On screen: ${_visibleTexts(tester)}',
       );
-      expect(find.text('Vault account unlocked.'), findsOneWidget);
+      expect(find.text('Vault W is now active.'), findsOneWidget);
       expect(
         find.text('Save public profile?'),
         findsNothing,
@@ -219,21 +225,27 @@ void main() {
     await tester.ensureVisible(open);
     await tester.tap(open);
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), _testPassword);
-    final field = tester.widget<TextField>(find.byType(TextField));
+    final dialogField = find
+        .descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(TextField),
+        )
+        .first;
+    await tester.enterText(dialogField, _testPassword);
+    final field = tester.widget<TextField>(dialogField);
     expect(
       field.controller?.text,
       _testPassword,
       reason: 'enterText must land in the password field',
     );
-    await tester.tap(find.text('OK'));
+    await tester.tap(find.text('Unlock'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(
       find.text('Unlock encrypted vault'),
       findsNothing,
       reason:
-          'OK must close the password dialog. On screen: ${_visibleTexts(tester)}',
+          'Unlock must close the password dialog. On screen: ${_visibleTexts(tester)}',
     );
     await tester.runAsync(
       () => Future<void>.delayed(const Duration(milliseconds: 250)),
@@ -241,9 +253,9 @@ void main() {
     await tester.pump();
     await _pumpUntil(
       tester,
-      () => find.text('Vault accounts').evaluate().isNotEmpty,
+      () => find.text('Choose a wallet').evaluate().isNotEmpty,
     );
-    if (find.text('Vault accounts').evaluate().isEmpty) {
+    if (find.text('Choose a wallet').evaluate().isEmpty) {
       fail(
         'Vault accounts dialog never appeared. On screen: ${_visibleTexts(tester)}',
       );
@@ -265,7 +277,7 @@ void main() {
       1,
       reason: 'unlocking from Home must show the wallet itself',
     );
-    expect(find.text('Vault account unlocked.'), findsOneWidget);
+    expect(find.text('Vault W is now active.'), findsOneWidget);
     expect(find.text('Save public profile?'), findsNothing);
     expect(find.text('Save encrypted vault?'), findsNothing);
     await tester.pump();

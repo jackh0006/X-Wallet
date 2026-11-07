@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bnb_wallet_gui/app_state.dart';
+import 'package:bnb_wallet_gui/rpc_service.dart';
 import 'package:bnb_wallet_gui/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,8 +76,8 @@ void main() {
         for (final n in state.nodes)
           if (n.network == 'testnet') n,
       ];
-      expect(mainnet.length, 4);
-      expect(testnet.length, 2);
+      expect(mainnet.length, BnbNetworks.mainnetFallbacks.length);
+      expect(testnet.length, BnbNetworks.testnetFallbacks.length);
       expect(mainnet.every((n) => n.url.startsWith('https://')), isTrue);
       expect(testnet.every((n) => n.url.startsWith('https')), isTrue);
     });

@@ -3,6 +3,33 @@
 All notable changes to this wallet. Dates in 2026; releases identify their
 supported artifacts explicitly.
 
+## 1.3.0+7 — multi-wallet vault, any password, default assets
+
+- **Multiple wallets in one encrypted vault:** add, switch, rename, and remove
+  wallets from the Wallet manager. One vault password protects every account.
+- **Unlock fix:** the pre-1.2 Linux application-support directory is migrated
+  automatically, so a vault created before the rename opens with its original
+  password and device secret.
+- **Any vault password:** the 16-character minimum is removed. Passwords are
+  never trimmed; creation uses a confirmation field and a live Very weak →
+  Very strong strength score.
+- **Default BSC tokens:** USDT and USDC are merged into every wallet alongside
+  BNB. Contracts and 18-decimal precision are verified on-chain.
+- **Verified public RPC nodes:** added 1RPC, Blast, and 48.club mainnet doors
+  that answered the correct chain ID.
+- **Private-key cold signing:** a wallet imported as a raw key can export a
+  cold pairing and sign offline; the signing path verifies the same fields,
+  replay protection, and response integrity as the phrase path.
+- **BscScan V2 endpoint:** history requests now use the chain-aware V2 API.
+
+## 1.2.0+6 — localization, spending safety, and release evidence
+
+- Complete static UI localization for six languages.
+- Freeze signing, recipient allowlist, and native per-transaction limit.
+- Node, token, history, privacy-route, and token-logo tooling.
+- X Wallet Linux identity `com.jackh0006.xwallet`.
+- Risk-control, data-control, self-audit, and signed release evidence.
+
 ## 1.1.0+5 — X Wallet product rename
 
 - **Official product name:** X Wallet across the application, six locales,

@@ -215,22 +215,29 @@ Future<void> coldExportPairing(BuildContext context) async {
     showInfo(context, 'Switch to Cold mode first.');
     return;
   }
-  if (appState.mnemonic == null) {
+  if (!appState.unlocked) {
     await showUnlockVaultDialog(context);
+    if (!context.mounted) return;
   }
   final phrase = appState.mnemonic;
-  if (phrase == null) {
+  final currentAddress = appState.address;
+  if (phrase == null &&
+      (currentAddress == null ||
+          appState.watchOnly ||
+          appState.privateKey == null)) {
     if (context.mounted) {
       showError(
         context,
-        'Cold pairing needs a recovery phrase. A wallet imported only as a '
-        'private key cannot export the address list this way.',
+        'Unlock a wallet with a recovery phrase or private key first. '
+        'A watch-only profile cannot export a cold pairing.',
       );
     }
     return;
   }
   try {
-    final addresses = WalletCore.deriveAddressList(phrase: phrase, count: 20);
+    final addresses = phrase != null
+        ? WalletCore.deriveAddressList(phrase: phrase, count: 20)
+        : <String>[currentAddress!];
     final pairing = ColdWalletProtocol.exportPairing(
       walletName: 'X Wallet cold signer',
       chainId: appState.rpc.chainId,
@@ -355,16 +362,17 @@ Future<void> coldSignPendingRequest(
         request ??
         await _importRequestPayload(context, title: 'Sign a cold request');
     if (incoming == null || !context.mounted) return;
-    if (appState.mnemonic == null) {
+    if (!appState.unlocked) {
       await showUnlockVaultDialog(context);
       if (!context.mounted) return;
     }
     final phrase = appState.mnemonic;
-    if (phrase == null) {
+    final privateKey = appState.privateKey;
+    if (phrase == null && privateKey == null) {
       showError(
         context,
-        'Unlock a wallet backed by a recovery phrase first. Cold signing '
-        'never asks for, or stores, a raw private key.',
+        'Unlock a wallet with a recovery phrase or private key first. '
+        'A watch-only profile cannot sign offline.',
       );
       return;
     }
@@ -374,11 +382,15 @@ Future<void> coldSignPendingRequest(
         'chain ${appState.rpc.chainId}.',
       );
     }
-    final addresses = WalletCore.deriveAddressList(phrase: phrase, count: 20);
+    final addresses = phrase != null
+        ? WalletCore.deriveAddressList(phrase: phrase, count: 20)
+        : <String>[privateKey!.address.eip55With0x];
     if (!addresses.any((a) => a.toLowerCase() == incoming.from.toLowerCase())) {
       throw StateError(
-        'The request signer is not one of this recovery phrase\'s first 20 '
-        'addresses on the default BIP-44 path.',
+        phrase != null
+            ? 'The request signer is not one of this recovery phrase\'s first '
+                  '20 addresses on the default BIP-44 path.'
+            : 'The request signer is not the unlocked private-key address.',
       );
     }
     final decoded = WalletCore.decodeTxRequest(
@@ -387,14 +399,18 @@ Future<void> coldSignPendingRequest(
       knownTokens: _knownTokens(),
     );
     if (!context.mounted) return;
-    final passphrase = await promptText(
-      context,
-      title: 'BIP-39 passphrase',
-      label: 'Optional passphrase (hidden)',
-      obscure: true,
-      hintText: tr(context, 'Leave empty if the wallet has no passphrase'),
-    );
-    if (passphrase == null || !context.mounted) return;
+    var passphrase = '';
+    if (phrase != null) {
+      final entered = await promptText(
+        context,
+        title: 'BIP-39 passphrase',
+        label: 'Optional passphrase (hidden)',
+        obscure: true,
+        hintText: tr(context, 'Leave empty if the wallet has no passphrase'),
+      );
+      if (entered == null || !context.mounted) return;
+      passphrase = entered;
+    }
     final summary = [
       'Network: BSC chain ${decoded.chainId}',
       'From: ${decoded.from}',
@@ -418,11 +434,16 @@ Future<void> coldSignPendingRequest(
       label: 'Hold to sign offline',
     );
     if (!held || !context.mounted) return;
-    final signature = await ColdWalletService.instance.signRequest(
-      request: incoming,
-      phrase: phrase,
-      passphrase: passphrase,
-    );
+    final signature = phrase != null
+        ? await ColdWalletService.instance.signRequest(
+            request: incoming,
+            phrase: phrase,
+            passphrase: passphrase,
+          )
+        : await ColdWalletService.instance.signRequestWithKey(
+            request: incoming,
+            key: privateKey!,
+          );
     if (!context.mounted) return;
     await showColdPayloadDialog(
       context,

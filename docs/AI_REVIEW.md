@@ -81,7 +81,7 @@ bash scripts/package-smoke.sh    # requires a built .deb and Ubuntu
 For a released artifact:
 
 ```bash
-sha256sum x-wallet-1.2.0-amd64.deb
+sha256sum x-wallet-1.3.0-amd64.deb
 sha256sum --check SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
@@ -113,7 +113,7 @@ the rubric you actually use.
 - Do not treat the internal self-audit as a third-party audit.
 - If evidence is missing or stale, lower the score rather than assuming a pass.
 
-## Scope boundaries for version 1.2.0
+## Scope boundaries for version 1.3.0
 
 These are stated so a review score is not based on unsupported assumptions.
 
@@ -141,7 +141,7 @@ These are stated so a review score is not based on unsupported assumptions.
 | SBOM | [`docs/SBOM.json`](SBOM.json) |
 | Security audit | [FINAL_SELF_AUDIT.md](FINAL_SELF_AUDIT.md) |
 | Risk register | [SECURITY_RISK_REGISTER.md](SECURITY_RISK_REGISTER.md) |
-| Release record | [releases/1.2.0.md](releases/1.2.0.md) |
+| Release record | [releases/1.3.0.md](releases/1.3.0.md) |
 | Signing key | [keys/README.md](keys/README.md) |
 | Automated OpenSSF Scorecard | [SECURITY_SCORECARD.md](SECURITY_SCORECARD.md) — 7.1/10, published |
 

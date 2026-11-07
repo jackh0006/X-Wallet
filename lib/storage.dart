@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1053,6 +1054,7 @@ class AppStorage {
   static SharedPreferences? _prefs;
 
   static Future<void> init() async {
+    await _migrateLegacyAppDirectory();
     _prefs ??= await SharedPreferences.getInstance();
     // Proxy passwords never go to SharedPreferences. Reading the secure store
     // is best-effort here so keyring-less systems still boot; a missing
@@ -1075,6 +1077,140 @@ class AppStorage {
         _torUpstreamPasswordCache = null;
       }
     }
+  }
+
+  /// Migrates data written under the pre-1.2 Linux application ID.
+  ///
+  /// The 1.2.0 rename changed the GTK application ID from
+  /// `com.jackh0006.bnb_wallet_gui` to `com.jackh0006.xwallet`, which also
+  /// changed Flutter's application-support directory. A vault created before
+  /// the rename therefore lived beside its device secret in the old directory,
+  /// while the new build looked in a new empty directory. The visible symptom
+  /// was "wrong password" even when the password was correct.
+  ///
+  /// This migration is non-destructive: it copies a legacy vault, device
+  /// secret, receipts, logs, and preferences into the current directory only
+  /// when the current directory has no vault. If the current vault exists but
+  /// its device secret is missing, only the missing device secret is copied.
+  /// The legacy files are left in place.
+  static Future<void> _migrateLegacyAppDirectory() async {
+    if (!Platform.isLinux) return;
+    // The test runner has no path_provider platform implementation; calling
+    // it here would leave the future pending in the fake-async zone.
+    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    final home = Platform.environment['HOME'];
+    if (home == null || home.isEmpty) return;
+    final dataHome =
+        Platform.environment['XDG_DATA_HOME'] ?? '$home/.local/share';
+    final Directory current;
+    try {
+      current = await getApplicationSupportDirectory();
+    } on Exception {
+      return;
+    }
+    final expected = _lexicalNormalize('$dataHome/com.jackh0006.xwallet');
+    if (_lexicalNormalize(current.path) != expected) {
+      // Tests and unusual launchers use a different support directory. Never
+      // touch the real user's legacy directory from there.
+      return;
+    }
+    await _migrateLegacyDirectories(
+      currentPath: current.path,
+      legacyPaths: [
+        '$dataHome/com.jackh0006.bnb_wallet_gui',
+        '$dataHome/com.jackh0006.bnbwallet',
+        '$dataHome/bnb_wallet_gui',
+      ],
+    );
+  }
+
+  @visibleForTesting
+  static Future<bool> migrateLegacyDirectoriesForTest({
+    required String currentPath,
+    required List<String> legacyPaths,
+  }) => _migrateLegacyDirectories(
+    currentPath: currentPath,
+    legacyPaths: legacyPaths,
+  );
+
+  static Future<bool> _migrateLegacyDirectories({
+    required String currentPath,
+    required List<String> legacyPaths,
+  }) async {
+    const vaultName = 'bnb-wallet-vault.bnb';
+    const deviceName = 'device_secret_v2.drawer';
+    final current = Directory(currentPath);
+    final currentVault = File('$currentPath/$vaultName');
+    final currentDevice = File('$currentPath/$deviceName');
+
+    Directory? source;
+    var sourceHasVault = false;
+    for (final path in legacyPaths) {
+      if (_lexicalNormalize(path) == _lexicalNormalize(currentPath)) continue;
+      final dir = Directory(path);
+      if (!await dir.exists()) continue;
+      final hasVault = await File('$path/$vaultName').exists();
+      final hasDevice = await File('$path/$deviceName').exists();
+      if (hasVault || (!await currentVault.exists() && hasDevice)) {
+        source = dir;
+        sourceHasVault = hasVault;
+        if (hasVault) break;
+      }
+    }
+    if (source == null) return false;
+
+    final currentHasVault = await currentVault.exists();
+    if (currentHasVault && !sourceHasVault) {
+      // Nothing to merge: the current wallet is already authoritative.
+      return false;
+    }
+
+    if (!await current.exists()) {
+      await current.create(recursive: true);
+      await Process.run('/bin/chmod', ['700', current.path]);
+    }
+
+    // A partial current vault is more dangerous than a missing one: copy only
+    // the missing device secret so the existing vault can open again.
+    if (currentHasVault && sourceHasVault) {
+      if (!await currentDevice.exists()) {
+        final legacyDevice = File('${source.path}/$deviceName');
+        if (await legacyDevice.exists()) {
+          await _copyLegacyFile(legacyDevice, currentDevice);
+        }
+      }
+      return true;
+    }
+
+    // Current directory has no vault: copy every regular legacy data file
+    // (vault, device secret, receipts, encrypted log, preferences). The lock
+    // object is intentionally left behind; it is recreated on demand.
+    var copied = false;
+    await for (final entity in source.list(followLinks: false)) {
+      if (entity is! File) continue;
+      final name = entity.uri.pathSegments.last;
+      if (name == _processStorageLockName || name.endsWith('.tmp')) continue;
+      final type = FileSystemEntity.typeSync(entity.path, followLinks: false);
+      if (type != FileSystemEntityType.file) continue;
+      final destination = File('$currentPath/$name');
+      if (await destination.exists()) continue;
+      await _copyLegacyFile(entity, destination);
+      copied = true;
+    }
+    return copied;
+  }
+
+  static Future<void> _copyLegacyFile(File source, File destination) async {
+    final bytes = await source.readAsBytes();
+    final temporary = File('${destination.path}.legacy.tmp');
+    if (await temporary.exists()) await temporary.delete();
+    await temporary.writeAsBytes(bytes, flush: true);
+    await Process.run('/bin/chmod', ['600', temporary.path]);
+    if (await destination.exists()) {
+      await temporary.delete();
+      return;
+    }
+    await temporary.rename(destination.path);
   }
 
   static SharedPreferences get prefs {

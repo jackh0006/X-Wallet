@@ -570,6 +570,24 @@ class WalletCore {
     String passphrase = '',
     String path = defaultPath,
   }) {
+    final privateKey = derivePrivateKey(
+      phrase: phrase,
+      passphrase: passphrase,
+      path: path,
+    );
+    return signTransactionWithKey(privateKey: privateKey, request: request);
+  }
+
+  /// Signs a cold request with an already-derived private key.
+  ///
+  /// This is the private-key-only path: a wallet imported as a raw key can
+  /// still export a pairing and sign offline without pretending it has a
+  /// recovery phrase. The request fields and `from` address are checked in
+  /// exactly the same way as the phrase path.
+  static ColdTxSignature signTransactionWithKey({
+    required EthPrivateKey privateKey,
+    required ColdTxRequest request,
+  }) {
     if (request.version != 1) {
       throw ArgumentError(
         'Unsupported cold request version: ${request.version}',
@@ -588,15 +606,10 @@ class WalletCore {
     }
 
     final fields = _fieldsFromRequest(request);
-    final privateKey = derivePrivateKey(
-      phrase: phrase,
-      passphrase: passphrase,
-      path: path,
-    );
     if (privateKey.address.eip55With0x.toLowerCase() !=
         request.from.toLowerCase()) {
       throw ArgumentError(
-        'Derived address does not match the "from" address in the request',
+        'Private key does not match the "from" address in the request',
       );
     }
 

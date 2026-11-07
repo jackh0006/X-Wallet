@@ -1,8 +1,8 @@
 # Security Scorecard
 
 **Date:** 2026-11-07
-**Release:** X Wallet `1.2.0+6`
-**Tested source commit:** `72367f8882ac79660779a8c55658fbf9761a2a83`
+**Release:** X Wallet `1.3.0+7`
+**Tested source commit:** PENDING
 **Status:** provisional, internal self-assessment. **This is not an independent
 audit.** A score never overrides a release blocker.
 

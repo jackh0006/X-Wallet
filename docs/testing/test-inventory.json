@@ -1,5 +1,5 @@
 {
-  "fileCount": 53,
+  "fileCount": 59,
   "files": [
     {
       "lines": 101,
@@ -30,6 +30,13 @@
       "sha256": "b204d7c59d3a471196abdcd2d6f70eb44e1a7968b5feee7fefe66d9bf4db8e45",
       "tags": [],
       "tests": 4
+    },
+    {
+      "lines": 82,
+      "path": "test/cold_private_key_test.dart",
+      "sha256": "5428d67777f3d654f5b3a7c1fef32d155b86e95cbe06bb7b32720024312bb32c",
+      "tags": [],
+      "tests": 3
     },
     {
       "lines": 182,
@@ -72,6 +79,13 @@
       "sha256": "d07992336fd28f80856cf85652a3ca831b4578b85d66598d366e91e6d75aef85",
       "tags": [],
       "tests": 4
+    },
+    {
+      "lines": 57,
+      "path": "test/default_tokens_test.dart",
+      "sha256": "f5280d6d475794998855d7a554a889b16491bc4fb1dba009ccbd9b57d2ac96af",
+      "tags": [],
+      "tests": 3
     },
     {
       "lines": 51,
@@ -162,6 +176,13 @@
       "tests": 3
     },
     {
+      "lines": 89,
+      "path": "test/legacy_migration_test.dart",
+      "sha256": "718469513f61193010c0b164a845d84a83beeb1fb15c755cc2953d409bdfea5f",
+      "tags": [],
+      "tests": 2
+    },
+    {
       "lines": 12,
       "path": "test/localization_catalog_test.dart",
       "sha256": "838e8461ca34abf33bfadb08e706143a8685093552e686cdcbfbe74bc3eab816",
@@ -199,9 +220,9 @@
       "tests": 2
     },
     {
-      "lines": 297,
+      "lines": 309,
       "path": "test/navigation_flow_test.dart",
-      "sha256": "480cce5c0ec65df4de0e2000206a8571bccb5c6668e2380f1f785ae60f2a44f8",
+      "sha256": "d167ce8b860ab11f3fa991af2683ade93a8305e2775d0af4df1c2bbae3e1c43c",
       "tags": [],
       "tests": 3
     },
@@ -213,11 +234,18 @@
       "tests": 17
     },
     {
-      "lines": 98,
+      "lines": 99,
       "path": "test/nodes_test.dart",
-      "sha256": "08c743e30d3628c6d0768f4bbe2b8df7be3626516e261c21c940aae123e08578",
+      "sha256": "3b44d6710ca194ce4889ade81684b0f68837dc75de6482ff1d338eaf6144b4b5",
       "tags": [],
       "tests": 6
+    },
+    {
+      "lines": 34,
+      "path": "test/password_strength_test.dart",
+      "sha256": "bb30ceeea93a58254528d44b37e526b7d747760b245b5b2759db2e14af2a98fd",
+      "tags": [],
+      "tests": 5
     },
     {
       "lines": 211,
@@ -232,6 +260,13 @@
       "sha256": "fbfb476d73ec7779cbc3745eb68b978a5f78cc9b766a3a440323e60916ceb1d1",
       "tags": [],
       "tests": 2
+    },
+    {
+      "lines": 35,
+      "path": "test/public_defaults_test.dart",
+      "sha256": "7563f4e227f22072cc21a57b123673cef60c3c4ebf168d8e59e4c63da8f6b9be",
+      "tags": [],
+      "tests": 3
     },
     {
       "lines": 56,
@@ -343,6 +378,13 @@
       "tests": 9
     },
     {
+      "lines": 137,
+      "path": "test/vault_multi_wallet_test.dart",
+      "sha256": "01de0a8296f9cebf3f6e47889a358f755073b264d93c635026399e09629543c1",
+      "tags": [],
+      "tests": 4
+    },
+    {
       "lines": 63,
       "path": "test/vault_rename_test.dart",
       "sha256": "13e342a3a35ef04ba38af882fedb53bd5f6045159a9681154d198e24bc9eb5b1",
@@ -393,5 +435,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 322
+  "testCount": 342
 }

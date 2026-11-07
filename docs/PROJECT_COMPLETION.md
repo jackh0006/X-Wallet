@@ -3,7 +3,7 @@
 ## What X Wallet is
 
 X Wallet is a free, open-source (AGPL-3.0-or-later), local, non-custodial
-EVM-compatible desktop wallet for Linux. Version 1.2.0 enables BNB Smart Chain.
+EVM-compatible desktop wallet for Linux. Version 1.3.0 enables BNB Smart Chain.
 It creates or imports BIP-39 wallets,
 derives EVM addresses, signs locally, and stores the vault with Argon2id and
 XChaCha20-Poly1305. It also provides a cold/offline signing workflow, optional
@@ -11,24 +11,24 @@ Tor/SOCKS routing, transaction review, and a hardened Linux storage path.
 
 ## Supported networks
 
-Version 1.2.0 enables BNB Smart Chain mainnet (56) and testnet (97). The
+Version 1.3.0 enables BNB Smart Chain mainnet (56) and testnet (97). The
 codebase uses EVM primitives, but no other network is enabled or claimed in
 this release. Additional EVM networks are planned; do not assume support until
 a release documents it.
 
 ## Current stable version
 
-**X Wallet 1.2.0** (`1.2.0+6`)
+**X Wallet 1.3.0** (`1.3.0+7`)
 
 The stable release is published at:
 
-<https://github.com/jackh0006/X-Wallet/releases/tag/v1.2.0>
+<https://github.com/jackh0006/X-Wallet/releases/tag/v1.3.0>
 
 ## Download
 
 Download only from the release page:
 
-- `x-wallet-1.2.0-amd64.deb`
+- `x-wallet-1.3.0-amd64.deb`
 - `SHA256SUMS` and `SHA256SUMS.asc`
 - `x-wallet-signing-key.asc`
 - SBOM and release documentation
@@ -40,7 +40,7 @@ independent channel before trusting it.
 ## Verify the SHA-256
 
 ```bash
-sha256sum x-wallet-1.2.0-amd64.deb
+sha256sum x-wallet-1.3.0-amd64.deb
 sha256sum --check SHA256SUMS
 ```
 
@@ -73,7 +73,7 @@ limitation, not a claim of headless support.
 ## Installation
 
 ```bash
-sudo apt install ./x-wallet-1.2.0-amd64.deb
+sudo apt install ./x-wallet-1.3.0-amd64.deb
 ```
 
 The Debian package is `x-wallet` and replaces `bnb-wallet` while preserving
@@ -101,7 +101,16 @@ service.
   fees, maximum cost, and calldata.
 - Freeze signing, a recipient allowlist, and a per-transaction limit are
   enforced before any transaction is prepared.
-- Cold/offline signing is built in for larger transfers.
+- Cold/offline signing is built in for larger transfers, including
+  private-key-only wallets.
+- One encrypted vault can hold several wallets; add, switch, rename, and remove
+  them with one vault password.
+- Any non-empty vault password is accepted, with a live strength score and a
+  confirmation field so typos cannot silently create an unopenable vault.
+- BNB, USDT, and USDC appear by default; the token contracts and 18-decimal
+  precision are verified on-chain.
+- Default RPC doors are free public HTTPS endpoints: BNB Chain, PublicNode,
+  1RPC, Blast, and 48.club.
 - The release artifact is signed; verify the published fingerprint and SHA-256.
 - RPC data is not light-client verified. Use a trusted or self-hosted node and
   verify large recipients independently.
