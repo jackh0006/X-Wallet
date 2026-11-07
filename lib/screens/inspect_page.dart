@@ -186,6 +186,32 @@ class _InspectPageState extends State<InspectPage>
                 style: TextStyle(color: Color(0xFF6E6E6E)),
               ),
             const SizedBox(height: 18),
+            SectionTitle('Connection and data'),
+            _info(
+              'Network',
+              '${appState.rpc.network} · chain ${appState.rpc.chainId}',
+            ),
+            _info('Active node', appState.rpc.configuredRpc),
+            _info(
+              'Privacy route',
+              appState.torEnabled
+                  ? 'Tor via ${appState.torHost}:${appState.torPort}'
+                  : appState.proxyEnabled
+                  ? appState.globalProxy.description
+                  : 'Direct HTTPS',
+            ),
+            _info(
+              'Vault mode',
+              const [
+                'Normal (hot wallet)',
+                'Cold (offline signer)',
+                'Online (watch-only companion)',
+              ][appState.walletModeIndex],
+            ),
+            _info('Tracked tokens', '${appState.rpc.tokens.length}'),
+            if (_nonce != null) _info('Nonce', '$_nonce'),
+            if (_block != null) _info('Latest block', '$_block'),
+            const SizedBox(height: 18),
             SectionTitle('Safety'),
             const Text(
               'This only reads public blockchain data. No secrets are accessed.',
@@ -193,6 +219,27 @@ class _InspectPageState extends State<InspectPage>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _info(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 110,
+            child: Text(
+              label,
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
+            ),
+          ),
+          Expanded(
+            child: SelectableText(value, style: const TextStyle(fontSize: 12)),
+          ),
+        ],
       ),
     );
   }

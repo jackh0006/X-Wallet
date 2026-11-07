@@ -16,6 +16,7 @@ import '../fee_engine.dart';
 import '../models.dart';
 import '../rpc_service.dart';
 import '../send_intent.dart';
+import '../token_logos.dart';
 import '../tx_lifecycle.dart';
 import '../wallet_core.dart';
 import '../widgets/hold_to_confirm.dart';
@@ -410,10 +411,17 @@ class _SendPageState extends State<SendPage>
               for (final token in _assets)
                 DropdownMenuItem(
                   value: token,
-                  child: Text(
-                    token.native
-                        ? 'BNB (native gas token)'
-                        : '${token.symbol} — ${shortAddress(token.address)}',
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TokenLogo(token: token, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        token.native
+                            ? 'BNB (native gas token)'
+                            : '${token.symbol} — ${shortAddress(token.address)}',
+                      ),
+                    ],
                   ),
                 ),
             ],
