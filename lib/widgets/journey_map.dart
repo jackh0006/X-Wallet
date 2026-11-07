@@ -62,7 +62,7 @@ class JourneyMap extends StatelessWidget {
                             size: 18,
                             color: states[i - 1] == JourneyState.ok
                                 ? const Color(0xFF69C77A)
-                                : Colors.white24,
+                                : Color(0xFF8E8E8E),
                           )
                         : Container(
                             width: 26,
@@ -70,7 +70,7 @@ class JourneyMap extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: states[i - 1] == JourneyState.ok
                                   ? const Color(0xFF69C77A)
-                                  : Colors.white24,
+                                  : Color(0xFF8E8E8E),
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -90,7 +90,7 @@ class JourneyMap extends StatelessWidget {
           LinearProgressIndicator(
             value: stops.isEmpty ? 0 : done / stops.length,
             minHeight: 3,
-            backgroundColor: Colors.white12,
+            backgroundColor: Color(0x33808080),
           ),
       ],
     );
@@ -138,7 +138,7 @@ class JourneyMap extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               'State: ${_stateWord(state)}',
-              style: const TextStyle(color: Colors.white70, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const Divider(height: 24),
             ExpansionTile(
@@ -153,7 +153,7 @@ class JourneyMap extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12.5,
                       height: 1.4,
-                      color: Colors.white70,
+                      color: Color(0xFF6E6E6E),
                     ),
                   ),
                 ),
@@ -249,7 +249,7 @@ class _StateIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (IconData icon, Color color) = switch (state) {
-      JourneyState.waiting => (Icons.circle_outlined, Colors.white38),
+      JourneyState.waiting => (Icons.circle_outlined, Color(0xFF808080)),
       JourneyState.working => (Icons.autorenew, const Color(0xFF64B5F6)),
       JourneyState.ok => (Icons.check_circle, const Color(0xFF69C77A)),
       JourneyState.problem => (Icons.cancel, const Color(0xFFFF6B6B)),
@@ -292,7 +292,7 @@ class _PulseState extends State<_Pulse> with SingleTickerProviderStateMixin {
 }
 
 Color _stateColor(JourneyState state) => switch (state) {
-  JourneyState.waiting => Colors.white38,
+  JourneyState.waiting => Color(0xFF808080),
   JourneyState.working => const Color(0xFF64B5F6),
   JourneyState.ok => const Color(0xFF69C77A),
   JourneyState.problem => const Color(0xFFFF6B6B),

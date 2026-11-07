@@ -96,7 +96,7 @@ class ReceiptPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   const Text(
                     'To (full address — verify ALL of it):',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                   ),
                   const SizedBox(height: 4),
                   SelectableText(
@@ -110,7 +110,7 @@ class ReceiptPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   const Text(
                     'From:',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                   ),
                   SelectableText(
                     _groupAddress(receipt.from),
@@ -127,7 +127,7 @@ class ReceiptPage extends StatelessWidget {
                     ),
                     const Text(
                       'Only the network fee was spent; the amount was not transferred.',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                      style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                     ),
                   ],
                 ],
@@ -182,7 +182,10 @@ class ReceiptPage extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     'Hash: ${receipt.hash}',
-                    style: const TextStyle(fontSize: 11, color: Colors.white70),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF6E6E6E),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Wrap(
@@ -320,7 +323,7 @@ class ReceiptPage extends StatelessWidget {
                     Text(
                       'Why that fee: ${receipt.reason}',
                       style: const TextStyle(
-                        color: Colors.white70,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 12,
                       ),
                     ),
@@ -355,7 +358,7 @@ class ReceiptPage extends StatelessWidget {
                         '${WalletCore.formatEther(BigInt.parse(receipt.balanceAfterWei!))} '
                         '(may include other activity in the same gap).',
                         style: const TextStyle(
-                          color: Colors.white70,
+                          color: Color(0xFF6E6E6E),
                           fontSize: 12,
                         ),
                       ),
@@ -376,7 +379,7 @@ class ReceiptPage extends StatelessWidget {
                   const Text(
                     'A receipt is a public record of this transaction. Sharing it '
                     'reveals your address and activity, so each option asks first.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   Wrap(
@@ -427,7 +430,10 @@ class ReceiptPage extends StatelessWidget {
                     'Transport: ${receipt.transport}\n'
                     'The node knows the transaction and your IP${receipt.transport.toLowerCase().contains('tor') ? ' — hidden behind Tor here' : ' (unless you use Tor mode)'}. '
                     'It never saw your keys, your seed, or the other accounts on this device.',
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    style: const TextStyle(
+                      color: Color(0xFF6E6E6E),
+                      fontSize: 12,
+                    ),
                   ),
                   if (receipt.rawTxHex != null) ...[
                     const SizedBox(height: 8),
@@ -440,7 +446,10 @@ class ReceiptPage extends StatelessWidget {
                       children: [
                         const Text(
                           'These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.',
-                          style: TextStyle(color: Colors.white70, fontSize: 12),
+                          style: TextStyle(
+                            color: Color(0xFF6E6E6E),
+                            fontSize: 12,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         SelectableText(

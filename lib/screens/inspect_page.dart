@@ -153,7 +153,7 @@ class _InspectPageState extends State<InspectPage>
                     Text(
                       'nonce ${_nonce!} · block ${_block!}',
                       style: const TextStyle(
-                        color: Colors.white54,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 12,
                       ),
                     ),
@@ -183,13 +183,13 @@ class _InspectPageState extends State<InspectPage>
             else
               const Text(
                 'Enter an address to see public balances.',
-                style: TextStyle(color: Colors.white54),
+                style: TextStyle(color: Color(0xFF6E6E6E)),
               ),
             const SizedBox(height: 18),
             SectionTitle('Safety'),
             const Text(
               'This only reads public blockchain data. No secrets are accessed.',
-              style: TextStyle(color: Colors.white70, fontSize: 13),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             ),
           ],
         ),

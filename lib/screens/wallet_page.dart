@@ -43,14 +43,14 @@ class _VaultAccountTile extends StatelessWidget {
         side: BorderSide(
           color: isCurrent
               ? Colors.greenAccent.withValues(alpha: 0.5)
-              : Colors.white12,
+              : Color(0x33808080),
         ),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         leading: Icon(
           isCurrent ? Icons.check_circle : Icons.lock_outline,
-          color: isCurrent ? Colors.greenAccent : Colors.white38,
+          color: isCurrent ? Colors.greenAccent : Color(0xFF808080),
         ),
         title: Text(
           account.label,
@@ -479,7 +479,7 @@ class _WalletPageState extends State<WalletPage>
           if (_balances == null)
             const Text(
               'Fetching balances…',
-              style: TextStyle(color: Colors.white54, fontSize: 13),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             )
           else
             for (final token in [
@@ -608,7 +608,7 @@ class _WalletPageState extends State<WalletPage>
           const SizedBox(height: 6),
           const Text(
             'Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
 
@@ -644,7 +644,7 @@ class _WalletPageState extends State<WalletPage>
                         Text(
                           '$currentAddress  •  source: $currentSource',
                           style: const TextStyle(
-                            color: Colors.white70,
+                            color: Color(0xFF6E6E6E),
                             fontSize: 12,
                             fontFamily: 'monospace',
                           ),
@@ -707,7 +707,7 @@ class _WalletPageState extends State<WalletPage>
             const SizedBox(height: 4),
             const Text(
               'Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.',
-              style: TextStyle(color: Colors.white54, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 8),
             FutureBuilder<List<VaultAccount>>(
@@ -728,7 +728,7 @@ class _WalletPageState extends State<WalletPage>
                       const Expanded(
                         child: Text(
                           'Vault is locked or has no accounts.',
-                          style: TextStyle(color: Colors.white54),
+                          style: TextStyle(color: Color(0xFF6E6E6E)),
                         ),
                       ),
                       TextButton(
@@ -764,11 +764,11 @@ class _WalletPageState extends State<WalletPage>
               decoration: BoxDecoration(
                 color: const Color(0x11FFFFFF),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.white12),
+                border: Border.all(color: Color(0x33808080)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.lock_outline, color: Colors.white38),
+                  const Icon(Icons.lock_outline, color: Color(0xFF808080)),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -780,7 +780,10 @@ class _WalletPageState extends State<WalletPage>
                         ),
                         const Text(
                           'Create a wallet first, then save it to the vault from the unlocked wallet actions.',
-                          style: TextStyle(color: Colors.white54, fontSize: 12),
+                          style: TextStyle(
+                            color: Color(0xFF6E6E6E),
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
@@ -807,7 +810,7 @@ class _WalletPageState extends State<WalletPage>
             const SizedBox(height: 4),
             const Text(
               'These are just labels + addresses for quick reference. No secrets stored.',
-              style: TextStyle(color: Colors.white54, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 8),
             for (var i = 0; i < profiles.length; i++)
@@ -815,7 +818,7 @@ class _WalletPageState extends State<WalletPage>
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(
                   Icons.bookmark_outline,
-                  color: Colors.white38,
+                  color: Color(0xFF808080),
                 ),
                 title: Text(profiles[i].label),
                 subtitle: Text(shortAddress(profiles[i].address)),
@@ -1041,7 +1044,7 @@ class _WalletPageState extends State<WalletPage>
           if (_receipts != null && _receipts!.isNotEmpty) ...[
             const Text(
               'Local receipts (kept encrypted, offline)',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 4),
             for (final receipt in _filteredReceipts)
@@ -1085,7 +1088,7 @@ class _WalletPageState extends State<WalletPage>
             const Text(
               'Add a BscScan API key in Settings to enable full history. '
               'Balances and transfers do not need it.',
-              style: TextStyle(color: Colors.white70, fontSize: 13),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             )
           else if (_loadingHistory)
             const Padding(
@@ -1100,7 +1103,7 @@ class _WalletPageState extends State<WalletPage>
           else if (_history == null || _history!.isEmpty)
             const Text(
               'No normal transactions found.',
-              style: TextStyle(color: Colors.white54),
+              style: TextStyle(color: Color(0xFF6E6E6E)),
             )
           else
             for (final tx in _history!)
@@ -1142,7 +1145,7 @@ class _WalletPageState extends State<WalletPage>
           const Text(
             'Revealing a private key or recovery phrase gives anyone who sees the screen full control. '
             'Never share them, never type them into a website.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           Wrap(

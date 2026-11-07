@@ -132,7 +132,7 @@ class _SeedPickerDialogState extends State<_SeedPickerDialog> {
             Text(
               'Search the word, then tap it. Only tap-order builds the phrase — '
               'the keyboard never sees the words themselves.',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 10),
             if (_pasteError != null) ...[
@@ -186,7 +186,7 @@ class _SeedPickerDialogState extends State<_SeedPickerDialog> {
                     if (_picked.isEmpty)
                       const Text(
                         'No words yet — pick word 1.',
-                        style: TextStyle(color: Colors.white38),
+                        style: TextStyle(color: Color(0xFF808080)),
                       ),
                   ],
                 ),

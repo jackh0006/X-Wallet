@@ -197,7 +197,7 @@ class _LogsPageState extends State<LogsPage> {
                     'Logs stay on this device, encrypted, and never contain seed '
                     'words or keys. Exporting a log can reveal your activity — '
                     'share it only when you choose to.',
-                    style: TextStyle(color: Colors.white54, fontSize: 12.5),
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
                   ),
                   const SizedBox(height: 8),
                   TextField(
@@ -290,7 +290,7 @@ class _LogsPageState extends State<LogsPage> {
             'No log lines yet. Every network action, fee check and transaction '
             'step is written here in plain words.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white54),
+            style: TextStyle(color: Color(0xFF6E6E6E)),
           ),
         ),
       );
@@ -320,7 +320,7 @@ class _LogsPageState extends State<LogsPage> {
       child: Text(
         '$stamp  ·  session',
         style: const TextStyle(
-          color: Colors.white54,
+          color: Color(0xFF6E6E6E),
           fontSize: 11,
           letterSpacing: 0.6,
         ),
@@ -363,7 +363,7 @@ class _LogsPageState extends State<LogsPage> {
                   Text(
                     clock,
                     style: const TextStyle(
-                      color: Colors.white54,
+                      color: Color(0xFF6E6E6E),
                       fontSize: 12,
                       fontFeatures: [FontFeature.tabularFigures()],
                     ),
@@ -393,7 +393,7 @@ class _LogsPageState extends State<LogsPage> {
                     Text(
                       clock,
                       style: const TextStyle(
-                        color: Colors.white54,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 11,
                         fontFeatures: [FontFeature.tabularFigures()],
                       ),
@@ -421,7 +421,7 @@ class _LogsPageState extends State<LogsPage> {
                     Text(
                       '${entry['category'] ?? 'system'}',
                       style: const TextStyle(
-                        color: Colors.white38,
+                        color: Color(0xFF808080),
                         fontSize: 10.5,
                       ),
                     ),
@@ -457,7 +457,7 @@ class _LogsPageState extends State<LogsPage> {
                 'list lives only in memory, newest first, and is never written '
                 'to the log file. Addresses and a broadcast transaction are '
                 'public on-chain, but they still reveal your activity.',
-                style: TextStyle(color: Colors.white54, fontSize: 12),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
               ),
               const SizedBox(height: 8),
               Expanded(
@@ -482,7 +482,7 @@ class _LogsPageState extends State<LogsPage> {
                               '$clock  ·  ${exchange.url}',
                               style: const TextStyle(
                                 fontSize: 10.5,
-                                color: Colors.white54,
+                                color: Color(0xFF6E6E6E),
                               ),
                             ),
                             childrenPadding: const EdgeInsets.fromLTRB(

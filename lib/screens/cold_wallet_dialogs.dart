@@ -46,7 +46,10 @@ Future<void> showColdPayloadDialog(
             children: [
               Text(
                 note,
-                style: const TextStyle(color: Colors.white70, fontSize: 12.5),
+                style: const TextStyle(
+                  color: Color(0xFF6E6E6E),
+                  fontSize: 12.5,
+                ),
               ),
               const SizedBox(height: 12),
               Center(
@@ -117,7 +120,10 @@ Future<String?> showColdImportDialog(
               children: [
                 Text(
                   hint,
-                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  style: const TextStyle(
+                    color: Color(0xFF6E6E6E),
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 TextField(
