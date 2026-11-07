@@ -99,10 +99,10 @@ the rubric you actually use.
 | Key and vault lifecycle | 15 | Create/import/backup/restore/erase flows are covered; wrong password/device, tamper, truncation, and migration are tested. |
 | Transaction integrity | 15 | Chain, nonce, recipient, value, fee, maximum cost, and calldata are checked before signing; cold envelopes reject substitution and replay. |
 | Test depth and reproducibility | 15 | Default suite, KDF, integration, mutation, backup E2E, and independent cross-check pass; results are bound to a commit; reproducible build is recorded. |
-| Supply chain and release integrity | 15 | Dependencies are pinned; SBOM, licence inventory, CodeQL, secret scan, checksums, signed manifest, and release identity are present and verified. |
+| Supply chain and release integrity | 15 | Dependencies are pinned; SBOM, license inventory, CodeQL, secret scan, checksums, signed manifest, and release identity are present and verified. |
 | Privacy and network safety | 5 | TLS validation cannot be bypassed; Tor/SOCKS/proxy routing is explicit; fail-closed behavior is tested; User-Agent is scrubbed. |
 | Documentation and maintainability | 5 | Architecture, threat model, recovery, limitations, and release process are current and internally consistent. |
-| Open-source and licence clarity | 5 | AGPL-3.0-or-later is present; dependency licences are inventoried; no proprietary gate, ads, or payment SDK. |
+| Open-source and license clarity | 5 | AGPL-3.0-or-later is present; dependency licenses are inventoried; no proprietary gate, ads, or payment SDK. |
 
 ### Scoring integrity rules
 

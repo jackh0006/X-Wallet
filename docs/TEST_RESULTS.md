@@ -18,7 +18,7 @@ Do not treat a timeout, OOM, cancellation, or skipped test as a pass.
 | 6 | Secret scan (current tree) | `bash scripts/secret-scan.sh` | `e474b89` | PASS | 1.8 s | local; CI `secret-scan` |
 | 7 | Secret scan (history) | `bash scripts/secret-scan.sh --history` | `e474b89` | KNOWN EXPOSURE | — | commit IDs only; see incident record |
 | 8 | Dependency advisory audit | `python3 scripts/dependency-audit.py` | `e474b89` | PASS (no current pub.dev flags) | 4.6 s | local; CI `flutter` job |
-| 9 | Licence inventory | `python3 scripts/license-check.py` | `e474b89` | PASS for inventory; owner review required | 0.4 s | local; CI |
+| 9 | License inventory | `python3 scripts/license-check.py` | `e474b89` | PASS for inventory; owner review required | 0.4 s | local; CI |
 | 10 | SBOM | `python3 scripts/sbom.py --out docs/SBOM.json` | `e474b89` | PASS; 116 packages | 0.05 s | `docs/SBOM.json` |
 | 11 | Test inventory | `python3 scripts/test_inventory.py --check` | `e474b89` | PASS; 47 files / 299 declarations | 0.1 s | `docs/testing/test-inventory.json` |
 | 12 | Release evidence | `python3 scripts/check_release_evidence.py` | `e474b89` | PASS | 0.05 s | `docs/releases/1.0.10.md` |

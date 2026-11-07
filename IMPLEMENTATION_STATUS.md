@@ -28,7 +28,7 @@ human-readable index, not a second source of truth.
 - 49 test files / 308 declarations; default suite 48/48 pass in 600 s; 3 real-Anvil tests; mutation score 5/5; backup E2E 4/4.
 - Independent ethers.js cold-signature verification; 8 substitutions rejected.
 - Linux `flutter build linux --release` pass; `.deb` package built.
-- Secret scan, dependency advisory audit, licence inventory, SBOM, test
+- Secret scan, dependency advisory audit, license inventory, SBOM, test
   inventory, generated-doc drift, dependency review, and CodeQL pass.
 - Reproducibility: two clean builds at fixed path `/tmp/bnb-repro-final` with
   `SOURCE_DATE_EPOCH=0` and `gzip -n` produced archive

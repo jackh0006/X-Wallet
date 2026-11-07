@@ -27,7 +27,7 @@
 
 *The suites now use the reference native Argon2 library when available; the
 real production path is measured in `kdf_production_test.dart`. Envelope tests
-use an assert-guarded test KDF so they prove format/tamper behaviour without
+use an assert-guarded test KDF so they prove format/tamper behavior without
 paying for repeated 64 MiB derivations.
 
 ### Property-Based and Fuzz-Style

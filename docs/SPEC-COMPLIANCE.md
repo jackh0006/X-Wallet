@@ -156,7 +156,7 @@ the internal self-assessment is [`SECURITY_AUDIT.md`](../SECURITY_AUDIT.md).
 |---|---|---|
 | Journey Map view, node card, privacy card, tx stepper | ✅ | `widgets/journey_map.dart`: 5-stop horizontal map with waiting/working/ok/problem states, tap → per-stop detail + raw lines; Home node card has answer-time gauge, latest block, right-chain badge, privacy route, latency sparkline, session request count, switch-node link and a point-in-time "Compare another" chain/block check; send has the tx stepper |
 | Simple vs Expert log modes | ✅ | `logs_page.dart` + `log_presenter.dart`: same encrypted source, Simple timeline and Expert filtered record, tests for every category/level mapping |
-| Accessibility labels/colors + haptics | 🟡 | semantic labels, non-colour status words and system reduce-motion → Lite behaviour present; haptics and a full screen-reader pass remain |
+| Accessibility labels/colors + haptics | 🟡 | semantic labels, non-color status words and system reduce-motion → Lite behavior present; haptics and a full screen-reader pass remain |
 
 ## §10c Receipts
 

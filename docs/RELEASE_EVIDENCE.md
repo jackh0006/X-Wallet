@@ -68,7 +68,7 @@ test matrix counts) must be regenerated and committed whenever their inputs
 change. CI rejects drift; never hand-edit a generated block.
 
 A result from another commit, another artifact, or another machine is not
-evidence for this release. A cancelled check, timeout, or OOM is not a pass.
+evidence for this release. A canceled check, timeout, or OOM is not a pass.
 
 A release may add an **evidence-only** follow-up commit (for example
 `release/evidence.json`, the regenerated manifest, and generated docs). The

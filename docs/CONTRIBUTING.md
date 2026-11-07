@@ -6,7 +6,7 @@ Thanks for looking at this wallet. It is AGPL-3.0-or-later (see `LICENSE`).
 
 1. **Privacy first, no exceptions.** Any change that adds a network call
    must route through `RpcService` + `net/privacy_client.dart` (UA scrub,
-   SOCKS5/Tor honoured, no silent fallbacks). Proxies that "helpfully"
+   SOCKS5/Tor honored, no silent fallbacks). Proxies that "helpfully"
    call out to third services will be refused.
 2. **Secrets never move.** Seed words, private keys, vault payload must not
    be logged, clipboarded, hashed into a story line, or sent to disk unencrypted.

@@ -137,7 +137,7 @@ the data in v2. The version byte must be 1 for the v1 path.
 - Failed-unlock backoff: after the n-th failure, the next attempt waits
   `min(2^(n-1), 900)` seconds. State is `"<count>:<untilEpochMs>"` in
   secure-storage key `app_lock_backoff`; reading the remaining window
-  re-anchors it to "now + remaining", so booting backwards/forwards does
+  re-anchors it to "now + remaining", so booting backward/forward does
   not reset it. Vault password attempts are already rate-limited by
   Argon2id's cost.
 
@@ -237,7 +237,7 @@ new one.
 3. Remove every preference key the app owns.
 4. Clear in-memory caches and UI state.
 
-Recovery afterwards requires the 24-word seed phrase. Nothing in the app
+Recovery afterward requires the 24-word seed phrase. Nothing in the app
 can recover funds without it.
 
 ## Honest caveats

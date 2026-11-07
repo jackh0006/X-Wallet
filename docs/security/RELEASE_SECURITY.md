@@ -141,7 +141,7 @@ python3 scripts/sbom.py --out docs/SBOM.json
 - [ ] `bash scripts/test-suite.sh` → all pass (non-KDF 209, KDF individually)
 - [ ] `bash scripts/secret-scan.sh` → clean
 - [ ] `cd verification && npm ci && node verify.cjs` → pass
-- [ ] `python3 scripts/license-check.py` → all locked packages have licence text
+- [ ] `python3 scripts/license-check.py` → all locked packages have license text
 - [ ] `python3 scripts/sbom.py --out docs/SBOM.json` → committed
 - [ ] `git diff --exit-code docs/SBOM.json` → clean
 - [ ] Update `CHANGELOG.md`

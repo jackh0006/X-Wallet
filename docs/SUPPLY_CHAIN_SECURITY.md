@@ -14,7 +14,7 @@
 | Static analysis | `flutter analyze`, CodeQL (Actions/C++/JS/Python) | CI |
 | Dependency review | `actions/dependency-review-action` | PR `review` |
 | Advisory audit | `scripts/dependency-audit.py` | CI `flutter` job |
-| Licence inventory | `scripts/license-check.py` | CI |
+| License inventory | `scripts/license-check.py` | CI |
 | SBOM | `scripts/sbom.py` (116 packages) | `docs/SBOM.json` |
 | Provenance | `actions/attest-build-provenance` + `attest-sbom` on tag builds | `.github/workflows/release-build.yml` |
 | Reproducibility | Fixed-path two-build comparison | `scripts/reproducibility-check.sh` |
@@ -43,7 +43,7 @@
 
 ## Rules for contributors
 
-1. Never add a dependency without reviewing purpose, licence, maintenance, and
+1. Never add a dependency without reviewing purpose, license, maintenance, and
    advisory history.
 2. Never weaken a scan, pin, or permission to make CI green.
 3. Regenerate the SBOM and manifest after dependency changes.
