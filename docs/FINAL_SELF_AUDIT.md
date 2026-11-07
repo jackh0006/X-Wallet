@@ -47,6 +47,12 @@ allowlist, per-transaction limits, and cold/offline signing.
 | Release identity negative tests | 15/15 PASS |
 | Localization | PASS |
 | Spending safety | 5/5 PASS |
+| Multi-wallet vault | 4/4 PASS |
+| Password strength | 5/5 PASS |
+| Default BSC tokens | 3/3 PASS |
+| Private-key cold signing | 3/3 PASS |
+| Legacy data migration | 2/2 PASS |
+| Public RPC defaults | 3/3 PASS |
 | Data boundary (no telemetry/AI SDK; no network in key modules) | 4/4 PASS |
 | Android signer inventory | PASS (synthetic keystore) |
 | Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall (GitHub Actions `package-smoke`) |
