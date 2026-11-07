@@ -1,5 +1,5 @@
 {
-  "fileCount": 49,
+  "fileCount": 50,
   "files": [
     {
       "lines": 101,
@@ -206,16 +206,16 @@
       "tests": 6
     },
     {
-      "lines": 157,
+      "lines": 211,
       "path": "test/privacy_config_test.dart",
-      "sha256": "2ec1e5106cdec592376acc5bba720d3d7bd1ab617abd0a56cab1ecc1eda1c8c0",
+      "sha256": "57a9dcd81f7cde706a54084c037699c3cd6d0fe06df021101fdb5cdef4f51ccc",
       "tags": [],
-      "tests": 9
+      "tests": 12
     },
     {
-      "lines": 99,
+      "lines": 100,
       "path": "test/privacy_dialogs_test.dart",
-      "sha256": "7fb2d4e0affe57ac38bcd5aa988369330fd309597bec2c198f3483e8f527e8f5",
+      "sha256": "fbfb476d73ec7779cbc3745eb68b978a5f78cc9b766a3a440323e60916ceb1d1",
       "tags": [],
       "tests": 2
     },
@@ -255,6 +255,13 @@
       "sha256": "b55d7da026d4eec2d804bab31f62d5b2488c369de98908befd8dd4baddd58122",
       "tags": [],
       "tests": 19
+    },
+    {
+      "lines": 39,
+      "path": "test/settings_state_test.dart",
+      "sha256": "ef73afb373b22e4af2800ea18d760aaf932a8520d03086ee6befe8743a219162",
+      "tags": [],
+      "tests": 1
     },
     {
       "lines": 130,
@@ -365,5 +372,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 308
+  "testCount": 312
 }

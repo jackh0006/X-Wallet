@@ -29,11 +29,11 @@
   },
   "schemaVersion": 1,
   "tests": {
-    "files": 49,
+    "files": 50,
     "matches": true,
     "path": "docs/testing/test-inventory.json",
-    "recordedFiles": 49,
-    "sha256": "92f89070d12aea86f3e0bb86c4ee87f76451029ec45bf8b634b2abfc2e2156b5"
+    "recordedFiles": 50,
+    "sha256": "f60f95ce4136169353c6404fbcb4a16aa5b87d2fb7ae5ccb66353febafe4522c"
   },
   "toolchain": {
     "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",

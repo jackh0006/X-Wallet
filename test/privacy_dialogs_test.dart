@@ -86,6 +86,7 @@ void main() {
     expect(find.text('Existing Tor or Orbot'), findsOneWidget);
     expect(find.text('Start managed Tor'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('No bridge (direct Tor)').last);
     await tester.tap(find.text('No bridge (direct Tor)').last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('obfs4').last);

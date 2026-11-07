@@ -65,6 +65,9 @@ class TorManager extends ChangeNotifier {
   Directory? _directory;
   StreamSubscription<String>? _stdout;
   StreamSubscription<String>? _stderr;
+  final List<Process> _chainProcesses = [];
+  final List<Directory> _chainDirectories = [];
+  final List<StreamSubscription<String>> _chainSubscriptions = [];
   Completer<void>? _bootstrap;
   Completer<int>? _exited;
   TorProbe? _probeCache;
@@ -130,11 +133,19 @@ class TorManager extends ChangeNotifier {
   }
 
   /// Starts a private Tor daemon on 127.0.0.1:[port] and waits for 100%
-  /// bootstrap. Throws with a readable reason if the daemon cannot start.
+  /// bootstrap. When [chainDepth] is greater than one, extra Tor instances are
+  /// started in front of the final hop. Each extra hop uses the previous hop's
+  /// SOCKS port as its upstream; the final hop listens on [port].
+  ///
+  /// [upstream] is an optional VPN/VLESS/local SOCKS or HTTP CONNECT proxy used
+  /// by the first hop. This is how traffic can enter Tor after the system VPN
+  /// or a local VLESS/Xray client.
   Future<void> start({
     required int port,
     required TorBridgeType bridgeType,
     required List<String> bridgeLines,
+    GlobalProxyConfig? upstream,
+    int chainDepth = 1,
   }) async {
     if (!supported) {
       throw const TorStartException(
@@ -146,10 +157,21 @@ class TorManager extends ChangeNotifier {
     if (port <= 0 || port > 65535) {
       throw const TorStartException('Tor SOCKS port must be 1–65535.');
     }
+    final depth = chainDepth.clamp(1, 3);
+    if (depth > 1) {
+      for (var offset = 1; offset < depth; offset++) {
+        final hopPort = port + offset;
+        if (hopPort > 65535) {
+          throw const TorStartException(
+            'The selected SOCKS port leaves no room for Tor chain hops.',
+          );
+        }
+      }
+    }
     if (_starting) {
       throw const TorStartException('Tor is already starting.');
     }
-    if (_process != null) await stop();
+    if (_process != null || _chainProcesses.isNotEmpty) await stop();
 
     _starting = true;
     _ready = false;
@@ -158,7 +180,7 @@ class TorManager extends ChangeNotifier {
     _logTail.clear();
     notifyListeners();
 
-    Directory? directory;
+    final createdDirectories = <Directory>[];
     try {
       final probe = await this.probe(refresh: true);
       if (probe.torPath == null) {
@@ -189,49 +211,75 @@ class TorManager extends ChangeNotifier {
         }
       }
 
-      await _ensurePortFree(port);
-      directory = await Directory.systemTemp.createTemp('x-wallet-tor-');
-      await _chmod(directory.path, '700');
-      final data = Directory('${directory.path}/data');
-      await data.create();
-      await _chmod(data.path, '700');
+      for (var hop = 1; hop <= depth; hop++) {
+        final hopPort = depth == 1 ? port : port + (depth - hop);
+        await _ensurePortFree(hopPort);
+        final directory = await Directory.systemTemp.createTemp(
+          'x-wallet-tor-hop$hop-',
+        );
+        createdDirectories.add(directory);
+        await _chmod(directory.path, '700');
+        final data = Directory('${directory.path}/data');
+        await data.create();
+        await _chmod(data.path, '700');
 
-      final config = buildTorrc(
-        port: port,
-        dataDirectory: data.path,
-        bridgeType: bridgeType,
-        bridgeLines: bridgeLines,
-        transportBinary: transportPath,
-      );
-      final configFile = File('${directory.path}/torrc');
-      await configFile.writeAsString(config, flush: true);
-      await _chmod(configFile.path, '600');
+        final hopUpstream = hop == 1
+            ? upstream
+            : GlobalProxyConfig(
+                type: ProxyType.socks5h,
+                host: '127.0.0.1',
+                port: port + (depth - hop + 1),
+              );
+        final config = buildTorrc(
+          port: hopPort,
+          dataDirectory: data.path,
+          bridgeType: bridgeType,
+          bridgeLines: bridgeLines,
+          transportBinary: transportPath,
+          upstream: hopUpstream,
+        );
+        final configFile = File('${directory.path}/torrc');
+        await configFile.writeAsString(config, flush: true);
+        await _chmod(configFile.path, '600');
 
-      final process = await Process.start(probe.torPath!, [
-        '-f',
-        configFile.path,
-      ], runInShell: false);
-      _process = process;
-      _directory = directory;
-      _intentionalStop = false;
-      _bootstrap = Completer<void>();
-      _exited = Completer<int>();
+        final process = await Process.start(probe.torPath!, [
+          '-f',
+          configFile.path,
+        ], runInShell: false);
+        final bootstrap = Completer<void>();
+        final stdout = process.stdout
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen((line) => _handleHopLog(hop, line, bootstrap));
+        final stderr = process.stderr
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen((line) => _handleHopLog(hop, line, bootstrap));
 
-      _stdout = process.stdout
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())
-          .listen(_handleLogLine);
-      _stderr = process.stderr
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())
-          .listen(_handleLogLine);
-      unawaited(
-        process.exitCode.then((code) {
-          _handleExit(code);
-        }),
-      );
+        if (hop == depth) {
+          _process = process;
+          _directory = directory;
+          _bootstrap = bootstrap;
+          _stdout = stdout;
+          _stderr = stderr;
+          _exited = Completer<int>();
+          unawaited(process.exitCode.then(_handleExit));
+        } else {
+          _chainProcesses.add(process);
+          _chainDirectories.add(directory);
+          _chainSubscriptions.addAll([stdout, stderr]);
+          unawaited(
+            process.exitCode.then((code) => _handleChainExit(hop, code)),
+          );
+        }
 
-      await _bootstrap!.future.timeout(const Duration(seconds: 90));
+        _bootstrapPercent = ((hop - 1) * 100 / depth).round();
+        notifyListeners();
+        await bootstrap.future.timeout(const Duration(seconds: 90));
+        _bootstrapPercent = (hop * 100 / depth).round();
+        notifyListeners();
+      }
+
       _ready = true;
       _starting = false;
       _bootstrapPercent = 100;
@@ -242,8 +290,11 @@ class TorManager extends ChangeNotifier {
       _ready = false;
       _lastError = _friendly(error);
       await _forceStop();
+      _chainProcesses.clear();
+      _chainDirectories.clear();
+      _chainSubscriptions.clear();
       _directory = null;
-      if (directory != null) {
+      for (final directory in createdDirectories) {
         try {
           await directory.delete(recursive: true);
         } catch (_) {}
@@ -254,83 +305,105 @@ class TorManager extends ChangeNotifier {
     }
   }
 
-  /// Stops ONLY the process this app spawned. Safe to call repeatedly.
+  /// Stops ONLY the processes this app spawned. Safe to call repeatedly.
   Future<void> stop() async {
     _intentionalStop = true;
     _starting = false;
-    final process = _process;
-    if (process == null) {
-      _ready = false;
-      await _removeDirectory();
-      notifyListeners();
-      return;
-    }
-    try {
-      process.kill(ProcessSignal.sigterm);
-    } catch (_) {}
-    final exited = _exited?.future;
-    if (exited != null) {
+    final processes = [..._chainProcesses, ?_process];
+    for (final process in processes) {
       try {
-        await exited.timeout(const Duration(seconds: 8));
+        process.kill(ProcessSignal.sigterm);
+      } catch (_) {}
+    }
+    for (final process in processes) {
+      try {
+        await process.exitCode.timeout(const Duration(seconds: 8));
       } on TimeoutException {
         try {
           process.kill(ProcessSignal.sigkill);
         } catch (_) {}
-        try {
-          await exited.timeout(const Duration(seconds: 3));
-        } catch (_) {}
-      }
+      } catch (_) {}
     }
+    _chainProcesses.clear();
     _process = null;
     _ready = false;
     _bootstrapPercent = 0;
-    await _removeDirectory();
+    await _cancelSubscriptions();
+    await _removeDirectories();
     notifyListeners();
   }
 
   Future<void> _forceStop() async {
-    final process = _process;
     _intentionalStop = true;
-    if (process != null) {
+    final processes = [..._chainProcesses, ?_process];
+    for (final process in processes) {
       try {
         process.kill(ProcessSignal.sigterm);
       } catch (_) {}
+    }
+    for (final process in processes) {
       try {
-        await _exited?.future.timeout(const Duration(seconds: 4));
-      } catch (_) {
+        await process.exitCode.timeout(const Duration(seconds: 4));
+      } on TimeoutException {
         try {
           process.kill(ProcessSignal.sigkill);
         } catch (_) {}
-      }
+      } catch (_) {}
     }
+    _chainProcesses.clear();
     _process = null;
     _ready = false;
-    await _removeDirectory();
+    await _cancelSubscriptions();
+    await _removeDirectories();
   }
 
-  void _handleLogLine(String line) {
+  void _handleHopLog(int hop, String line, Completer<void> bootstrap) {
     final text = line
         .replaceAll(RegExp(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]'), '')
         .trim();
     if (text.isEmpty) return;
-    _logTail.add(text);
-    if (_logTail.length > 40) _logTail.removeAt(0);
-
+    _logTail.add('[hop $hop] $text');
+    if (_logTail.length > 80) _logTail.removeAt(0);
     final match = RegExp(r'Bootstrapped (\d+)%').firstMatch(text);
     if (match != null) {
       final percent = int.tryParse(match.group(1) ?? '') ?? 0;
-      if (percent != _bootstrapPercent) {
-        _bootstrapPercent = percent;
-        notifyListeners();
-      }
-    }
-    if (text.contains('Bootstrapped 100%') ||
-        text.contains('Bootstrapped 100 %')) {
-      if (!(_bootstrap?.isCompleted ?? true)) _bootstrap!.complete();
+      if (percent >= 100 && !bootstrap.isCompleted) bootstrap.complete();
+      notifyListeners();
     }
     if (text.contains('[err]') || text.contains('[warn]')) {
       _lastError = text;
       notifyListeners();
+    }
+  }
+
+  void _handleChainExit(int hop, int code) {
+    if (_intentionalStop) return;
+    _lastError = 'Tor chain hop $hop exited with code $code.';
+    _ready = false;
+    _starting = false;
+    unawaited(_forceStop());
+    notifyListeners();
+  }
+
+  Future<void> _cancelSubscriptions() async {
+    for (final subscription in _chainSubscriptions) {
+      await subscription.cancel();
+    }
+    _chainSubscriptions.clear();
+    await _stdout?.cancel();
+    await _stderr?.cancel();
+    _stdout = null;
+    _stderr = null;
+  }
+
+  Future<void> _removeDirectories() async {
+    final directories = [..._chainDirectories, ?_directory];
+    _chainDirectories.clear();
+    _directory = null;
+    for (final directory in directories) {
+      try {
+        await directory.delete(recursive: true);
+      } catch (_) {}
     }
   }
 
@@ -341,6 +414,7 @@ class TorManager extends ChangeNotifier {
     if (!_intentionalStop) {
       _lastError =
           'Tor exited with code $code. ${_logTail.isEmpty ? '' : _logTail.last}';
+      unawaited(_forceStop());
     }
     if (!(_bootstrap?.isCompleted ?? true)) {
       _bootstrap!.completeError(
@@ -350,21 +424,9 @@ class TorManager extends ChangeNotifier {
       );
     }
     if (!(_exited?.isCompleted ?? true)) _exited!.complete(code);
-    unawaited(_removeDirectory());
+    unawaited(_cancelSubscriptions());
+    unawaited(_removeDirectories());
     notifyListeners();
-  }
-
-  Future<void> _removeDirectory() async {
-    final directory = _directory;
-    _directory = null;
-    await _stdout?.cancel();
-    await _stderr?.cancel();
-    _stdout = null;
-    _stderr = null;
-    if (directory == null) return;
-    try {
-      await directory.delete(recursive: true);
-    } catch (_) {}
   }
 
   static Future<void> _ensurePortFree(int port) async {
@@ -534,6 +596,7 @@ class TorManager extends ChangeNotifier {
     required TorBridgeType bridgeType,
     required List<String> bridgeLines,
     String? transportBinary,
+    GlobalProxyConfig? upstream,
   }) {
     if (port <= 0 || port > 65535) {
       throw const TorStartException('Tor SOCKS port must be 1–65535.');
@@ -552,6 +615,31 @@ class TorManager extends ChangeNotifier {
       ..writeln('ClientOnly 1')
       ..writeln('AvoidDiskWrites 1')
       ..writeln('SafeLogging 1');
+    if (upstream != null && upstream.enabled) {
+      final host = upstream.host.trim();
+      final user = upstream.username?.trim() ?? '';
+      final pass = upstream.password ?? '';
+      if (host.isEmpty ||
+          host.contains(RegExp(r'[\s\x00-\x1F\x7F]')) ||
+          upstream.port <= 0 ||
+          upstream.port > 65535) {
+        throw const TorStartException('Invalid Tor upstream proxy endpoint.');
+      }
+      if (user.contains(RegExp(r'[\s\x00-\x1F\x7F]')) ||
+          pass.contains(RegExp(r'[\x00-\x1F\x7F]'))) {
+        throw const TorStartException('Invalid Tor upstream credentials.');
+      }
+      if (upstream.type == ProxyType.httpConnect) {
+        buffer.writeln('HTTPSProxy $host:${upstream.port}');
+        if (user.isNotEmpty || pass.isNotEmpty) {
+          buffer.writeln('HTTPSProxyAuthenticator $user:$pass');
+        }
+      } else {
+        buffer.writeln('Socks5Proxy $host:${upstream.port}');
+        if (user.isNotEmpty) buffer.writeln('Socks5ProxyUsername $user');
+        if (pass.isNotEmpty) buffer.writeln('Socks5ProxyPassword $pass');
+      }
+    }
     if (bridgeType != TorBridgeType.none) {
       buffer.writeln('UseBridges 1');
       if (bridgeType != TorBridgeType.custom) {

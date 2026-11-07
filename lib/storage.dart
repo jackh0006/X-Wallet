@@ -1066,8 +1066,13 @@ class AppStorage {
         _proxyPasswordCache = await _secure
             .read(key: 'proxy_password')
             .timeout(_keyringTimeout);
+        _torUpstreamPasswordCache = await _secure
+            .read(key: 'tor_upstream_password')
+            .timeout(_keyringTimeout);
       } catch (_) {
         _proxyPasswordCache = null;
+        _torUpstreamPasswordCache = null;
+        _torUpstreamPasswordCache = null;
       }
     }
   }
@@ -1623,12 +1628,14 @@ class AppStorage {
       } catch (_) {}
     }
     _proxyPasswordCache = null;
+    _torUpstreamPasswordCache = null;
     for (final task in [
       clearBscscanKey,
       clearPinHash,
       clearDeviceSecret,
       clearBackoffState,
       () => _secure.delete(key: 'proxy_password'),
+      () => _secure.delete(key: 'tor_upstream_password'),
     ]) {
       try {
         await task();
@@ -1959,6 +1966,7 @@ class AppStorage {
   // ---- global custom proxy (SOCKS5/SOCKS5h/HTTP CONNECT) ----
 
   static String? _proxyPasswordCache;
+  static String? _torUpstreamPasswordCache;
 
   static ProxyType get proxyType {
     final raw = prefs.getString('proxy_type') ?? ProxyType.none.name;
@@ -2041,6 +2049,66 @@ class AppStorage {
     await prefs.setString('tor_bridge_type', type.name);
     await prefs.setString('tor_bridge_lines', jsonEncode(lines));
   }
+
+  // ---- managed Tor upstream proxy and chain depth ----
+
+  static ProxyType get torUpstreamType {
+    final raw = prefs.getString('tor_upstream_type') ?? ProxyType.none.name;
+    return ProxyType.values.firstWhere(
+      (type) => type.name == raw,
+      orElse: () => ProxyType.none,
+    );
+  }
+
+  static String get torUpstreamHost =>
+      prefs.getString('tor_upstream_host') ?? '';
+  static int get torUpstreamPort => prefs.getInt('tor_upstream_port') ?? 1080;
+  static String? get torUpstreamUser {
+    final value = prefs.getString('tor_upstream_user');
+    return (value == null || value.isEmpty) ? null : value;
+  }
+
+  static String? get torUpstreamPassword => _torUpstreamPasswordCache;
+
+  static GlobalProxyConfig get torUpstream => GlobalProxyConfig(
+    type: torUpstreamType,
+    host: torUpstreamHost,
+    port: torUpstreamPort,
+    username: torUpstreamUser,
+    password: _torUpstreamPasswordCache,
+  );
+
+  static Future<void> setTorUpstream(GlobalProxyConfig config) async {
+    await prefs.setString('tor_upstream_type', config.type.name);
+    await prefs.setString('tor_upstream_host', config.host.trim());
+    await prefs.setInt('tor_upstream_port', config.port);
+    final user = config.username?.trim() ?? '';
+    if (user.isEmpty) {
+      await prefs.remove('tor_upstream_user');
+    } else {
+      await prefs.setString('tor_upstream_user', user);
+    }
+    final pass = config.password ?? '';
+    _torUpstreamPasswordCache = pass.isEmpty ? null : pass;
+    try {
+      if (pass.isEmpty) {
+        await _secure.delete(key: 'tor_upstream_password');
+      } else {
+        await _secure.write(key: 'tor_upstream_password', value: pass);
+      }
+    } catch (_) {
+      // Session-only fallback; the UI warns that it was not stored.
+    }
+  }
+
+  static Future<void> clearTorUpstream() =>
+      setTorUpstream(const GlobalProxyConfig.disabled());
+
+  static int get torChainDepth =>
+      (prefs.getInt('tor_chain_depth') ?? 1).clamp(1, 3);
+
+  static Future<void> setTorChainDepth(int value) =>
+      prefs.setInt('tor_chain_depth', value.clamp(1, 3));
 
   /// "Use only my node" (§10d strict mode): the wallet talks to the selected
   /// door ONLY — no built-in fallbacks, no other candidate, nothing else.

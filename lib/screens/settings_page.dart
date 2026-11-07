@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart'
+    show Clipboard, ClipboardData, rootBundle;
 
 import '../app_state.dart';
 import '../models.dart';
@@ -34,7 +35,12 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _rpcController.text = appState.rpc.configuredRpc;
+    appState.addListener(_onStateChanged);
     _loadTokenSources();
+  }
+
+  void _onStateChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadTokenSources() async {
@@ -57,6 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void dispose() {
+    appState.removeListener(_onStateChanged);
     _rpcController.dispose();
     _newTokenAddress.dispose();
     super.dispose();
@@ -79,6 +86,8 @@ class _SettingsPageState extends State<SettingsPage> {
             _tokensSection(),
             const SizedBox(height: 18),
             _historyKeySection(),
+            const SizedBox(height: 18),
+            _storageSection(),
             const SizedBox(height: 18),
             _securitySection(),
             const SizedBox(height: 18),
@@ -121,7 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Exactly one route is active for every RPC and explorer request. '
             'There is no direct fallback: if the selected route is down, '
             'requests fail instead of revealing your IP address.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           ListTile(
@@ -132,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   : Icons.public,
               color: appState.torEnabled || appState.proxyEnabled
                   ? const Color(0xFFF0B90B)
-                  : Colors.white54,
+                  : Color(0xFF6E6E6E),
             ),
             title: const Text('Active route'),
             subtitle: Text(route, style: const TextStyle(fontSize: 12)),
@@ -188,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'existing Tor/Orbot SOCKS port or let the app start a managed '
             'Tor daemon with obfs4, Snowflake, WebTunnel, meek or custom '
             'bridge lines.',
-            style: TextStyle(color: Colors.white54, fontSize: 12),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
         ],
       ),
@@ -284,15 +293,21 @@ class _SettingsPageState extends State<SettingsPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.redAccent),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
-                  SizedBox(width: 8),
+                  const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.redAccent,
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Direct mode: your ISP sees the RPC hostname and your IP. '
                       'Enable Tor or a proxy to hide both.',
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 13,
+                      ),
                     ),
                   ),
                 ],
@@ -353,24 +368,29 @@ class _SettingsPageState extends State<SettingsPage> {
     required List<String> canSee,
     required List<String> cannotSee,
   }) {
+    final color = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0x11FFFFFF),
+        color: color.surfaceContainerHighest.withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: color.outlineVariant),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+              color: color.onSurface,
+            ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             '✅ CAN see:',
-            style: TextStyle(color: Colors.redAccent, fontSize: 12),
+            style: TextStyle(color: color.error, fontSize: 12),
           ),
           const SizedBox(height: 4),
           for (final item in canSee)
@@ -378,13 +398,13 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.only(left: 8, bottom: 2),
               child: Text(
                 '• $item',
-                style: const TextStyle(color: Colors.white70, fontSize: 12),
+                style: TextStyle(color: color.onSurfaceVariant, fontSize: 12),
               ),
             ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             '❌ CANNOT see:',
-            style: TextStyle(color: Color(0xFF4CAF50), fontSize: 12),
+            style: TextStyle(color: color.tertiary, fontSize: 12),
           ),
           const SizedBox(height: 4),
           for (final item in cannotSee)
@@ -392,7 +412,7 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.only(left: 8, bottom: 2),
               child: Text(
                 '• $item',
-                style: const TextStyle(color: Colors.white54, fontSize: 12),
+                style: TextStyle(color: color.onSurfaceVariant, fontSize: 12),
               ),
             ),
         ],
@@ -416,7 +436,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Locks the wallet when it has been idle. The lock also happens immediately '
             'whenever the app goes to the background. Times are measured with a '
             'monotonic timer, not the wall clock.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           Wrap(
@@ -503,7 +523,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'Switching networks verifies the chain ID before any RPC call.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           SegmentedButton<String>(
@@ -531,7 +551,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           TextField(
@@ -608,7 +628,7 @@ class _SettingsPageState extends State<SettingsPage> {
             '(practice coins). The switch on every row turns a door off — a '
             'switched-off door is never asked anything. Book order is '
             'priority order: move doors with the ▲▼ actions.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 6),
           SwitchListTile.adaptive(
@@ -629,7 +649,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Icons.looks_one_outlined,
               color: appState.strictNodeMode
                   ? const Color(0xFFF0B90B)
-                  : Colors.white38,
+                  : Color(0xFF808080),
             ),
           ),
           const SizedBox(height: 6),
@@ -637,7 +657,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const Text(
               'No phone book entries for this side yet — I will use the '
               'official door until you add one.',
-              style: TextStyle(color: Colors.white54, fontSize: 13),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             )
           else
             for (var i = 0; i < appState.nodes.length; i++)
@@ -677,7 +697,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 '${appState.nodes.length - appState.currentNetworkNodes.length} '
                 'more door(s) live on the other side — switch the network there '
                 'to see them.',
-                style: const TextStyle(color: Colors.white38, fontSize: 12),
+                style: const TextStyle(color: Color(0xFF808080), fontSize: 12),
               ),
             ),
         ],
@@ -832,7 +852,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     '${row.ok ? '✅' : '⚠️'} ${row.label} — ${row.detail}',
                     style: TextStyle(
                       fontSize: 12.5,
-                      color: row.ok ? Colors.white70 : Colors.orangeAccent,
+                      color: row.ok ? Color(0xFF6E6E6E) : Colors.orangeAccent,
                     ),
                   ),
                 ),
@@ -845,7 +865,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     : 'Fix the blocking check or pick another door — the wallet '
                           'refuses to use a door that is not on our chain or will '
                           'not answer.',
-                style: const TextStyle(color: Colors.white54, fontSize: 13),
+                style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
               ),
               ..._transportNote(),
             ],
@@ -879,7 +899,7 @@ class _SettingsPageState extends State<SettingsPage> {
     const SizedBox(height: 6),
     Text(
       appState.rpc.routeDescription,
-      style: TextStyle(color: Colors.white54, fontSize: 12),
+      style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
     ),
   ];
 
@@ -900,13 +920,15 @@ class _SettingsPageState extends State<SettingsPage> {
         color: active
             ? const Color(0xFFF0B90B)
             : node.enabled
-            ? Colors.white38
-            : Colors.white24,
+            ? Color(0xFF808080)
+            : Color(0xFF8E8E8E),
       ),
       title: Text(
         node.label,
         style: TextStyle(
-          color: node.enabled ? Colors.white : Colors.white38,
+          color: node.enabled
+              ? Theme.of(context).colorScheme.onSurface
+              : const Color(0xFF808080),
           decoration: node.enabled ? null : TextDecoration.lineThrough,
         ),
       ),
@@ -916,7 +938,9 @@ class _SettingsPageState extends State<SettingsPage> {
         '${node.enabled ? '' : ' — switched OFF, never asked'}'
         '\nTransport: $transportLabel',
         style: TextStyle(
-          color: active && node.enabled ? Colors.white : Colors.white54,
+          color: active && node.enabled
+              ? Theme.of(context).colorScheme.onSurface
+              : const Color(0xFF6E6E6E),
           fontSize: 12,
         ),
       ),
@@ -929,11 +953,16 @@ class _SettingsPageState extends State<SettingsPage> {
             child: DropdownButton<NodeTransport>(
               value: node.transport,
               underline: Container(),
-              dropdownColor: const Color(0xFF1E1E1E),
-              style: const TextStyle(color: Colors.white, fontSize: 12),
+              dropdownColor: Theme.of(context)
+                  .colorScheme
+                  .surfaceContainerHighest,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: 12,
+              ),
               icon: const Icon(
                 Icons.arrow_drop_down,
-                color: Colors.white54,
+                color: Color(0xFF6E6E6E),
                 size: 20,
               ),
               items: NodeTransport.values
@@ -1187,7 +1216,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'Adds a token contract address to your balance list. Verified on-chain before saving.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           Wrap(
@@ -1245,7 +1274,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           const SizedBox(height: 14),
-          const Divider(color: Colors.white12),
+          const Divider(color: Color(0x33808080)),
           const SizedBox(height: 10),
           const Text(
             'Show or hide tokens',
@@ -1256,7 +1285,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Hiding only changes this screen and the send picker; the token '
             'and its on-chain balance stay exactly where they are. BNB is '
             'always shown because it pays network fees.',
-            style: TextStyle(color: Colors.white70, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           for (final token in [
             const TokenInfo(
@@ -1281,7 +1310,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   : (visible) => appState.setTokenHidden(token, !visible),
             ),
           const SizedBox(height: 14),
-          const Divider(color: Colors.white12),
+          const Divider(color: Color(0x33808080)),
           const SizedBox(height: 10),
           _tokenSourcesSection(),
         ],
@@ -1315,7 +1344,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   'ships them so you do not have to trust a search engine. '
                   'Verify on two of them and the issuer\'s own site before '
                   'adding anything.',
-                  style: TextStyle(color: Colors.white70, fontSize: 12.5),
+                  style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -1341,7 +1370,7 @@ class _SettingsPageState extends State<SettingsPage> {
           '② Check the name, symbol and logo against the issuer\'s own page.\n'
           '③ Paste the address into the field above — the wallet verifies the '
           'contract on-chain (symbol, decimals, live) before saving it.',
-          style: TextStyle(color: Colors.white70, fontSize: 13),
+          style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
         ),
         const SizedBox(height: 8),
         const Text(
@@ -1355,7 +1384,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const Text(
             '(The shipped source list could not be read from the app bundle — '
             'report this to jackh109867@gmail.com.)',
-            style: TextStyle(color: Colors.white38, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF808080), fontSize: 12.5),
           )
         else
           for (final source in _tokenSources)
@@ -1372,7 +1401,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               subtitle: Text(
                 '${source['description'] ?? ''}\n${source['url'] ?? ''}',
-                style: const TextStyle(color: Colors.white54, fontSize: 12),
+                style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
               ),
               isThreeLine: true,
               trailing: Row(
@@ -1397,20 +1426,20 @@ class _SettingsPageState extends State<SettingsPage> {
           userLinks.isEmpty
               ? 'Your own trusted links: none yet — you can add ones you verified yourself.'
               : 'Your own trusted links (add / reorder / remove):',
-          style: const TextStyle(color: Colors.white54, fontSize: 13),
+          style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
         ),
         for (var i = 0; i < userLinks.length; i++)
           ListTile(
             contentPadding: EdgeInsets.zero,
             dense: true,
-            leading: const Icon(Icons.person, color: Colors.white38),
+            leading: const Icon(Icons.person, color: Color(0xFF808080)),
             title: Text(
               userLinks[i]['name'] ?? '',
               style: const TextStyle(fontSize: 14),
             ),
             subtitle: Text(
               userLinks[i]['url'] ?? '',
-              style: const TextStyle(color: Colors.white54, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -1521,7 +1550,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'Optional API key for viewing public transaction history. Stored in secure on-device storage.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           if (appState.bscscanKey == null) ...[
@@ -1544,7 +1573,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ] else ...[
             Text(
               'API key configured (hidden).',
-              style: const TextStyle(color: Colors.white70, fontSize: 13),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             ),
             const SizedBox(height: 8),
             FilledButton.icon(
@@ -1569,7 +1598,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Lite mode keeps the same facts and honest states but removes the '
             'pulsing animation and shortens list motion — useful on a weak '
             'device or when animations are distracting.',
-            style: TextStyle(color: Colors.white70, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           SwitchListTile.adaptive(
             contentPadding: EdgeInsets.zero,
@@ -1583,14 +1612,14 @@ class _SettingsPageState extends State<SettingsPage> {
           const Divider(height: 24),
           const Text(
             'Theme affects the entire app. AMOLED black saves power on OLED screens.',
-            style: TextStyle(color: Colors.white70, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text('Theme'),
             subtitle: Text(
               _themeLabel(appState.themeModeIndex),
-              style: const TextStyle(color: Colors.white54, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showThemeDialog(context),
@@ -1609,7 +1638,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: const Text('Language'),
             subtitle: Text(
               _languageLabel(appState.locale),
-              style: const TextStyle(color: Colors.white54, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguageDialog(context),
@@ -1728,6 +1757,238 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  Future<String?> _pickBackupPath({required bool save}) async {
+    final home = Platform.environment['HOME'] ?? '';
+    try {
+      final result = await Process.run('zenity', [
+        '--file-selection',
+        if (save) '--save',
+        if (save) '--confirm-overwrite',
+        if (save) '--filename=$home/x-wallet-backup.bnb',
+      ]);
+      if (result.exitCode == 0) {
+        final path = '${result.stdout}'.trim();
+        if (path.isNotEmpty) return path;
+      }
+    } catch (_) {
+      // Fall through to a typed path.
+    }
+    if (!mounted) return null;
+    return promptText(
+      context,
+      title: save ? 'Backup file path' : 'Backup file to restore',
+      label: 'Absolute path',
+      hintText: save
+          ? '$home/x-wallet-backup.bnb'
+          : '$home/x-wallet-backup.bnb',
+      validator: (value) => value.trim().isEmpty ? 'Path required' : null,
+    );
+  }
+
+  Future<void> _exportBackup() async {
+    final path = await _pickBackupPath(save: true);
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Export encrypted backup',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    try {
+      await appState.exportVault(password, path);
+      if (mounted) showInfo(context, 'Encrypted backup written to $path.');
+    } catch (error) {
+      if (mounted) showError(context, 'Backup failed: $error');
+    }
+  }
+
+  Future<void> _restoreBackup() async {
+    final path = await _pickBackupPath(save: false);
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Restore encrypted backup',
+      label: 'Backup password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    final confirmed = await confirmDialog(
+      context,
+      title: 'Replace the active vault?',
+      message:
+          'The selected backup will replace the current vault only after its '
+          'password and integrity are verified. Keep a copy of the current '
+          'vault if you are unsure.',
+      confirmLabel: 'Restore backup',
+    );
+    if (!confirmed || !mounted) return;
+    try {
+      await appState.importVault(
+        path,
+        password: password,
+        confirmReplace: true,
+      );
+      if (mounted) showInfo(context, 'Backup restored from $path.');
+    } catch (error) {
+      if (mounted) showError(context, 'Restore failed: $error');
+    }
+  }
+
+  Future<void> _changeVaultPath() async {
+    final path = await promptText(
+      context,
+      title: 'Move encrypted vault',
+      label: 'New absolute vault file path',
+      hintText: '/home/you/secure/x-wallet-vault.bnb',
+      validator: (value) => value.trim().isEmpty ? 'Path required' : null,
+    );
+    if (path == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Confirm vault password',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    try {
+      await appState.moveVault(password, path.trim());
+      if (mounted) showInfo(context, 'Vault moved to ${path.trim()}.');
+    } catch (error) {
+      if (mounted) showError(context, 'Vault move failed: $error');
+    }
+  }
+
+  Future<void> _resetVaultPath() async {
+    try {
+      await appState.resetVaultPath();
+      if (mounted) showInfo(context, 'Vault location reset to the default.');
+    } catch (error) {
+      if (mounted) showError(context, 'Could not reset vault location: $error');
+    }
+  }
+
+  Widget _storageSection() {
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('Storage and data'),
+          const SizedBox(height: 8),
+          Text(
+            'The vault, receipts, and activity log are encrypted at rest. '
+            'These paths are local to this device and are never uploaded.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder<Directory>(
+            future: AppStorage.getDataDirectory(),
+            builder: (context, dataSnapshot) {
+              final dataPath = dataSnapshot.data?.path;
+              return FutureBuilder<File>(
+                future: AppStorage.vaultFile(),
+                builder: (context, vaultSnapshot) {
+                  final vaultPath = vaultSnapshot.data?.path;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectableText(
+                        'Data folder: ${dataPath ?? 'loading…'}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(height: 4),
+                      SelectableText(
+                        'Vault file: ${vaultPath ?? 'loading…'}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: dataPath == null
+                                ? null
+                                : () {
+                                    Clipboard.setData(
+                                      ClipboardData(text: dataPath),
+                                    );
+                                    showInfo(context, 'Data folder copied.');
+                                  },
+                            icon: const Icon(Icons.copy, size: 16),
+                            label: const Text('Copy data path'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: vaultPath == null
+                                ? null
+                                : () {
+                                    Clipboard.setData(
+                                      ClipboardData(text: vaultPath),
+                                    );
+                                    showInfo(context, 'Vault path copied.');
+                                  },
+                            icon: const Icon(Icons.copy, size: 16),
+                            label: const Text('Copy vault path'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: dataPath == null
+                                ? null
+                                : () => Process.run('xdg-open', [dataPath]),
+                            icon: const Icon(Icons.folder_open, size: 16),
+                            label: const Text('Open data folder'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _changeVaultPath,
+                            icon: const Icon(Icons.drive_file_move, size: 16),
+                            label: const Text('Move vault'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _resetVaultPath,
+                            icon: const Icon(
+                              Icons.settings_backup_restore,
+                              size: 16,
+                            ),
+                            label: const Text('Reset vault path'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _exportBackup,
+                            icon: const Icon(Icons.save_alt, size: 16),
+                            label: const Text('Export encrypted backup'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _restoreBackup,
+                            icon: const Icon(Icons.restore, size: 16),
+                            label: const Text('Restore backup'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'The vault can be moved with the existing vault move flow. '
+            'Receipts follow the vault folder; the activity log and device '
+            'secret stay in the data folder.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _securitySection() {
     return InfoCard(
       child: Column(
@@ -1737,7 +1998,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'Optional PIN or biometrics to reopen the app after it goes to the background.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           SwitchListTile.adaptive(
@@ -1753,14 +2014,17 @@ class _SettingsPageState extends State<SettingsPage> {
               }
             },
             secondary: appState.usePin
-                ? const Icon(Icons.lock, color: Colors.white)
-                : const Icon(Icons.lock_open, color: Colors.white70),
+                ? Icon(
+                    Icons.lock,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  )
+                : const Icon(Icons.lock_open, color: Color(0xFF6E6E6E)),
           ),
           if (appState.usePin) ...[
             const SizedBox(height: 4),
             Text(
               'Background lock is active.',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
           ],
           const Divider(height: 26),
@@ -1855,17 +2119,17 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'License: AGPL-3.0-or-later (see LICENSE in the app package).',
-            style: TextStyle(color: Colors.white70, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           const Text(
             'Check the build yourself: verify SHA256SUMS '
             '(sha256sum -c SHA256SUMS). If a signature is published, verify it '
             'against an independently obtained fingerprint before installing.',
-            style: TextStyle(color: Colors.white54, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           const Text(
             'Component inventory: docs/SBOM.json in the app package.',
-            style: TextStyle(color: Colors.white54, fontSize: 12.5),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           const SizedBox(height: 8),
           const Text(
@@ -1875,7 +2139,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 2),
           const Text(
             'jackh109867@gmail.com',
-            style: TextStyle(color: Colors.white54, fontSize: 12),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -2297,7 +2561,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Hot wallet holds the seed and can sign. Cold (offline signer) holds '
               'the seed but uses no network. Online companion holds no secrets — '
               'it prepares and broadcasts for a cold device.',
-              style: TextStyle(color: Colors.white70, fontSize: 12.5),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
             ),
             const SizedBox(height: 10),
             RadioListTile<int>(
@@ -2307,7 +2571,7 @@ class _SettingsPageState extends State<SettingsPage> {
               value: 0,
               secondary: Icon(
                 Icons.wallet,
-                color: appState.hotMode ? Colors.amber : Colors.white38,
+                color: appState.hotMode ? Colors.amber : Color(0xFF808080),
               ),
             ),
             RadioListTile<int>(
@@ -2319,7 +2583,7 @@ class _SettingsPageState extends State<SettingsPage> {
               value: 1,
               secondary: Icon(
                 Icons.smartphone,
-                color: appState.coldMode ? Colors.amber : Colors.white38,
+                color: appState.coldMode ? Colors.amber : Color(0xFF808080),
               ),
             ),
             RadioListTile<int>(
@@ -2331,7 +2595,7 @@ class _SettingsPageState extends State<SettingsPage> {
               value: 2,
               secondary: Icon(
                 Icons.wifi_tethering,
-                color: appState.onlineMode ? Colors.amber : Colors.white38,
+                color: appState.onlineMode ? Colors.amber : Color(0xFF808080),
               ),
             ),
             if (appState.coldMode) ...[
@@ -2413,7 +2677,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'How the wallet picks which RPC node to talk to for reads and '
               'broadcasts. Per-node "use for reads / broadcast" overrides are set '
               'in the node list.',
-              style: TextStyle(color: Colors.white70, fontSize: 12.5),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
             ),
             const SizedBox(height: 10),
             RadioListTile<NodeSelectionMode>(
