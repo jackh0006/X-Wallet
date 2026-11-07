@@ -2,8 +2,10 @@
 const Map<String, Map<String, String>> uiTranslations = {
   "es": {
     "(The shipped source list could not be read from the app bundle — ": "(La lista de fuentes enviada no se pudo leer desde el paquete de aplicaciones.",
-    "/home/you/secure/x-wallet-vault.bnb": "/home/you/secure/x-wallet-vault.bnb",
-    "0x followed by 64 hex characters": "0x seguido de 64 caracteres hexadecimales",
+    "/home/you/secure/x-wallet-vault.bnb":
+        "/home/you/secure/x-wallet-vault.bnb",
+    "0x followed by 64 hex characters":
+        "0x seguido de 64 caracteres hexadecimales",
     "1 — Tor (normal)": "1-Tor (normal)",
     "12 or 24 words": "12 o 24 palabras",
     "12 words": "12 palabras",
@@ -11,10 +13,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "2 — Tor over Tor": "2 - Tor sobre Tor",
     "24 words": "24 palabras",
     "3 — Tor over Tor over Tor": "3 - Tor sobre Tor sobre Tor",
-    "A node you add can see your IP address (unless you route through ": "Un nodo que añadas puede ver tu dirección IP (a menos que atravieses",
-    "A plain-words timeline (Simple) and the full technical record ": "Una línea de tiempo sencilla (Simple) y el registro técnico completo",
-    "A receipt is a public record of this transaction. Sharing it ": "Un recibo es un registro público de esta transacción. ",
-    "A system VPN (WireGuard or OpenVPN) is used automatically ": "Se utiliza automáticamente una VPN del sistema (WireGuard u OpenVPN)",
+    "A node you add can see your IP address (unless you route through ":
+        "Un nodo que añadas puede ver tu dirección IP (a menos que atravieses",
+    "A plain-words timeline (Simple) and the full technical record ":
+        "Una línea de tiempo sencilla (Simple) y el registro técnico completo",
+    "A receipt is a public record of this transaction. Sharing it ":
+        "Un recibo es un registro público de esta transacción. ",
+    "A system VPN (WireGuard or OpenVPN) is used automatically ":
+        "Se utiliza automáticamente una VPN del sistema (WireGuard u OpenVPN)",
     "AMOLED black": "AMOLED negro",
     "API key (hidden)": "Clave API (oculta)",
     "API key configured (hidden).": "Clave API configurada (oculta).",
@@ -22,7 +28,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Absolute path": "Ruta de acceso absoluta",
     "Account index": "índice de cuentas",
     "Active route": "Ruta activa",
-    "Actual paid fee appears on the receipt when the chain answers.": "La tarifa pagada real aparece en el recibo cuando la cadena responde.",
+    "Actual paid fee appears on the receipt when the chain answers.":
+        "La tarifa pagada real aparece en el recibo cuando la cadena responde.",
     "Add": "Agregar",
     "Add API key": "Agregar clave API",
     "Add a BscScan API key in Settings to enable full history. ": "Agregue una clave API de BscScan en Configuración para habilitar el historial completo.",
@@ -33,32 +40,40 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Add your own link": "Agrega tu enlace",
     "Add your own link…": "Añade tu propio enlace...",
     "Address": "Dirección",
-    "Address (https, or http for local/LAN/.onion)": "Dirección (https o http para local/LAN/.onion)",
-    "Address — https:// (or http:// for localhost/LAN/.onion)": "Dirección — https:// (o http:// para localhost/LAN/.onion)",
-    "Adds a token contract address to your balance list. Verified on-chain before saving.": "Agrega una dirección de contrato simbólico a su lista de saldo. ",
+    "Address (https, or http for local/LAN/.onion)":
+        "Dirección (https o http para local/LAN/.onion)",
+    "Address — https:// (or http:// for localhost/LAN/.onion)":
+        "Dirección — https:// (o http:// para localhost/LAN/.onion)",
+    "Adds a token contract address to your balance list. Verified on-chain before saving.":
+        "Agrega una dirección de contrato simbólico a su lista de saldo. ",
     "Advanced fee": "Tarifa avanzada",
     "Advanced: enter my own fee": "Avanzado: ingrese mi propia tarifa",
     "Advantages": "Ventajas",
     "All": "Todo",
-    "Always pick the fastest-responding node": "Elija siempre el nodo que responda más rápido",
+    "Always pick the fastest-responding node":
+        "Elija siempre el nodo que responda más rápido",
     "Always shown": "Siempre mostrado",
     "Always use the selected node": "Utilice siempre el nodo seleccionado",
     "Answer time": "tiempo de respuesta",
-    "Answer-time history (oldest → newest)": "Historial de tiempo de respuesta (más antiguo → más nuevo)",
+    "Answer-time history (oldest → newest)":
+        "Historial de tiempo de respuesta (más antiguo → más nuevo)",
     "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.": "Cualquiera que pueda ver esta pantalla puede robar todos los fondos. Revela secretos solo en un dispositivo privado de confianza.",
     "Asset": "Activo",
     "Authentication (Bearer/Basic)": "Autenticación (portadora/básica)",
     "Auto-fastest": "Auto-rápido",
     "BIP-39 passphrase": "Frase de contraseña BIP-39",
-    "BIP-39 passphrase (25th word) — optional": "Frase de contraseña BIP-39 (palabra 25): opcional",
+    "BIP-39 passphrase (25th word) — optional":
+        "Frase de contraseña BIP-39 (palabra 25): opcional",
     "BNB balance at review: ": "Saldo de BNB en revisión:",
     "Back": "Atrás",
-    "Back up your new private key": "Haga una copia de seguridad de su nueva clave privada",
+    "Back up your new private key":
+        "Haga una copia de seguridad de su nueva clave privada",
     "Background lock is active.": "El bloqueo de fondo está activo.",
     "Backup": "Respaldo",
     "Backup password": "Contraseña de Copia de Seguridad",
     "Balances": "Saldos",
-    "Base64 SHA-256 of SPKI (one per line)": "Base64 SHA-256 de SPKI (uno por línea)",
+    "Base64 SHA-256 of SPKI (one per line)":
+        "Base64 SHA-256 de SPKI (uno por línea)",
     "Basic auth": "Basic Auth",
     "Bearer token": "Token de portador",
     "Bridge lines": "Líneas de puentes",
@@ -72,10 +87,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Chain facts": "Hechos en cadena",
     "Change transport…": "Cambiar transporte…",
     "Check": "Controlar",
-    "Check the build yourself: verify SHA256SUMS ": "Verifique la compilación usted mismo: verifique SHA256SUMS",
+    "Check the build yourself: verify SHA256SUMS ":
+        "Verifique la compilación usted mismo: verifique SHA256SUMS",
     "Check this node now": "Compruebe este nodo ahora",
     "Checks & notes": "Cheques y notas",
-    "Choose another wallet stored on this device": "Elija otra billetera almacenada en este dispositivo",
+    "Choose another wallet stored on this device":
+        "Elija otra billetera almacenada en este dispositivo",
     "Choose export": "Elija exportar",
     "Clear": "Claro",
     "Clear all logs": "Borrar todos los registros",
@@ -94,7 +111,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Confirm PIN (hidden)": "Confirmar PIN (oculto)",
     "Confirm app PIN": "Confirma el PIN de la aplicación",
     "Confirm vault password": "Confirmar contraseña de la bóveda",
-    "Connection story — what just happened, in plain words": "Historia de conexión: lo que acaba de suceder, en palabras sencillas",
+    "Connection story — what just happened, in plain words":
+        "Historia de conexión: lo que acaba de suceder, en palabras sencillas",
     "Continue": "Continuar",
     "Continue to verification": "Continuar con la verificación",
     "Contract address": "Dirección del contrato",
@@ -118,12 +136,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Copy raw transaction": "Copiar transacción sin procesar",
     "Copy recovery phrase": "Copiar frase de recuperación",
     "Copy text": "Copiar texto",
-    "Copy the hash or open in explorer:": "Copie el hash o ábralo en el explorador:",
+    "Copy the hash or open in explorer:":
+        "Copie el hash o ábralo en el explorador:",
     "Copy to clipboard": "Copiar al portapapeles",
     "Copy vault path": "Copiar ruta de bóveda",
     "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ": "Cree una nueva billetera BIP-39 o importe una clave privada existente, una frase de recuperación,",
     "Create a new wallet": "Crear una nueva billetera",
-    "Create a new wallet or import an existing one to see balances, ": "Cree una nueva billetera o importe una existente para ver los saldos,",
+    "Create a new wallet or import an existing one to see balances, ":
+        "Cree una nueva billetera o importe una existente para ver los saldos,",
     "Create a wallet first, then save it to the vault from the unlocked wallet actions.": "Primero cree una billetera, luego guárdela en la bóveda desde las acciones de billetera desbloqueada.",
     "Create vault": "Crear bóveda",
     "Create wallet": "Crear billetera",
@@ -131,41 +151,52 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Custom": "CUSTOM",
     "Custom BIP-32 path": "Ruta BIP-32 personalizada",
     "Custom proxy": "proxy personalizado",
-    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ": "Proxy personalizado: SOCKS5, SOCKS5h o HTTP CONNECT, con dominio/IP",
+    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ":
+        "Proxy personalizado: SOCKS5, SOCKS5h o HTTP CONNECT, con dominio/IP",
     "Custom proxy…": "Proxy personalizado…",
     "Dark": "Oscuro",
-    "Default — holds seed, signs, broadcasts": "Predeterminado: retiene semillas, señales y transmisiones",
+    "Default — holds seed, signs, broadcasts":
+        "Predeterminado: retiene semillas, señales y transmisiones",
     "Delete": "Eliminar",
     "Delete from vault": "Eliminar de la bóveda",
     "Delete vault account": "Eliminar cuenta de Vault",
     "Deletes the encrypted vault, the PIN, the device-bound key and every ": "Elimina la bóveda cifrada, el PIN, la clave vinculada al dispositivo y todos",
     "Derivation path": "Ruta de derivación",
-    "Direct mode: your ISP sees the RPC hostname and your IP. ": "Modo directo: su ISP ve el nombre de host RPC y su IP.",
+    "Direct mode: your ISP sees the RPC hostname and your IP. ":
+        "Modo directo: su ISP ve el nombre de host RPC y su IP.",
     "Disable Tor": "Deshabilitar Tor",
     "Disable Tor route": "Deshabilitar la ruta Tor",
     "Disable proxy": "Deshabilitar proxy",
-    "Donations are irreversible. This dialog never appears in a ": "Las donaciones son irreversibles. ",
+    "Donations are irreversible. This dialog never appears in a ":
+        "Las donaciones son irreversibles. ",
     "Done": "Hecho",
     "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.": "Cada cuenta de bóveda tiene su propia clave privada y una frase de recuperación opcional. ",
-    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.": "Cada billetera guarda sus propios secretos. ",
+    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.":
+        "Cada billetera guarda sus propios secretos. ",
     "Edit": "Editar",
     "Edit node": "Editar nodo",
     "Enable app lock": "Habilitar bloqueo de aplicaciones",
     "Encrypted vault accounts": "Cuentas de bóveda cifradas",
     "Encrypted vault is the only persistent secret storage offered. ": "La bóveda cifrada es el único almacenamiento secreto persistente que se ofrece.",
     "English": "Inglés",
-    "Enter an address to see public balances.": "Ingrese una dirección para ver balances públicos.",
-    "Enter vault password to list accounts": "Introduzca la contraseña de la bóveda para listar",
+    "Enter an address to see public balances.":
+        "Ingrese una dirección para ver balances públicos.",
+    "Enter vault password to list accounts":
+        "Introduzca la contraseña de la bóveda para listar",
     "Erase all data?": "Borrar todos los datos",
     "Erase everything…": "Borrar todo…",
     "Español (Spanish)": "Español (español)",
     "Ethereum V3 keystore": "Almacén de claves Ethereum V3",
-    "Every RPC and explorer request uses this one route. There is ": "Cada solicitud de RPC y explorador utiliza esta ruta. ",
+    "Every RPC and explorer request uses this one route. There is ":
+        "Cada solicitud de RPC y explorador utiliza esta ruta. ",
     "Every stored log line on this device will be deleted. Receipts and ": "Se eliminarán todas las líneas de registro almacenadas en este dispositivo. Recibos y",
-    "Everyone on the blockchain (public forever)": "Todo el mundo en la cadena de bloques (público para siempre)",
+    "Everyone on the blockchain (public forever)":
+        "Todo el mundo en la cadena de bloques (público para siempre)",
     "Exactly one route is active for every RPC and explorer request. ": "Hay exactamente una ruta activa para cada solicitud de RPC y explorador.",
-    "Exactly what was sent to the node and what it answered. This ": "Exactamente qué se envió al nodo y qué respondió. ",
-    "Example raw request (balance check)": "Ejemplo de solicitud sin procesar (verificación de saldo)",
+    "Exactly what was sent to the node and what it answered. This ":
+        "Exactamente qué se envió al nodo y qué respondió. ",
+    "Example raw request (balance check)":
+        "Ejemplo de solicitud sin procesar (verificación de saldo)",
     "Existing Tor or Orbot": "Tor u Orbot existente",
     "Existing private key (paste)": "Clave privada existente (pegar)",
     "Expert": "Experto",
@@ -180,24 +211,34 @@ const Map<String, Map<String, String>> uiTranslations = {
     "First time sending to this address on this device — double-check every character.": "Primera vez que envía a esta dirección en este dispositivo: verifique cada carácter.",
     "Forget the story": "Olvídate de la historia",
     "Friendly name": "Nombre simple",
-    "Friendly name (e.g. My home node)": "Nombre amistoso (por ejemplo, Mi nodo de origen)",
+    "Friendly name (e.g. My home node)":
+        "Nombre amistoso (por ejemplo, Mi nodo de origen)",
     "From:": "De:",
-    "Full node test report copied.": "Se copió el informe de prueba completo del nodo.",
+    "Full node test report copied.":
+        "Se copió el informe de prueba completo del nodo.",
     "Full test": "prueba completa",
-    "Full token test log copied.": "Se copió el registro de prueba de token completo.",
+    "Full token test log copied.":
+        "Se copió el registro de prueba de token completo.",
     "Gas limit": "límite de gas",
     "HTTP CONNECT": "CONEXIÓN HTTP",
     "Hash QR": "hash QR",
-    "Hiding only changes this screen and the send picker; the token ": "Ocultar solo cambia esta pantalla y el selector de envío; ",
-    "History test log copied.": "Se copió el registro de pruebas del historial.",
+    "Hiding only changes this screen and the send picker; the token ":
+        "Ocultar solo cambia esta pantalla y el selector de envío; ",
+    "History test log copied.":
+        "Se copió el registro de pruebas del historial.",
     "History test passed": "examen de historia aprobado",
-    "History uses the public BscScan API V1 (Etherscan-compatible). ": "History utiliza la API pública BscScan V1 (compatible con Etherscan).",
+    "History uses the public BscScan API V1 (Etherscan-compatible). ":
+        "History utiliza la API pública BscScan V1 (compatible con Etherscan).",
     "Hold to sign offline": "Mantener para firmar sin conexión",
-    "Holds seed, no network — signs requests offline": "Retiene semilla, sin red: firma solicitudes sin conexión",
-    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ": "La billetera caliente contiene la semilla y puede firmar. ",
+    "Holds seed, no network — signs requests offline":
+        "Retiene semilla, sin red: firma solicitudes sin conexión",
+    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ":
+        "La billetera caliente contiene la semilla y puede firmar. ",
     "Hot wallet: the signing key exists in memory while unlocked. Back up ": "Cartera activa: la clave de firma existe en la memoria mientras está desbloqueada. ",
-    "How the wallet picks which RPC node to talk to for reads and ": "Cómo la billetera elige con qué nodo RPC hablar para lecturas y",
-    "I found your encrypted vault on this device": "Encontré tu bóveda cifrada en este dispositivo",
+    "How the wallet picks which RPC node to talk to for reads and ":
+        "Cómo la billetera elige con qué nodo RPC hablar para lecturas y",
+    "I found your encrypted vault on this device":
+        "Encontré tu bóveda cifrada en este dispositivo",
     "I understand": "Entiendo",
     "I wrote down the whole private key.": "Anoté toda la clave privada.",
     "If you set one, the exact same passphrase is required ": "Si configura una, se requiere exactamente la misma frase de contraseña",
@@ -212,7 +253,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Import signed response": "Importar respuesta firmada",
     "Incoming (received)": "Entrante (recibido)",
     "Inspect any address": "Inspeccionar cualquier dirección",
-    "It starts with 0x and has 64 hexadecimal characters after ": "Comienza con 0x y tiene 64 caracteres hexadecimales después",
+    "It starts with 0x and has 64 hexadecimal characters after ":
+        "Comienza con 0x y tiene 64 caracteres hexadecimales después",
     "Keep session-only": "Mantener solo sesión",
     "Keystore JSON": "Keystore JSON",
     "Keystore password": "'Contraseña del almacén de claves';",
@@ -220,26 +262,32 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Language": "Idioma",
     "Last signed response": "respuesta firmada",
     "Latest block": "Último bloque",
-    "Leave empty if the wallet has no passphrase": "Dejar vacío si el monedero no tiene contraseña",
+    "Leave empty if the wallet has no passphrase":
+        "Dejar vacío si el monedero no tiene contraseña",
     "Level": "Nivel",
     "License: AGPL-3.0-or-later (see LICENSE in the app package).": "Licencia: AGPL-3.0 o posterior (consulte LICENCIA en el paquete de la aplicación).",
     "Light": "Luz",
     "Lite mode": "modo sencillo",
     "Lite mode keeps the same facts and honest states but removes the ": "El modo Lite mantiene los mismos hechos y estados honestos pero elimina la",
-    "Local receipts (kept encrypted, offline)": "Recibos locales (mantenidos encriptados, sin conexión)",
-    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.": "Monedero EVM local sin custodia. ",
+    "Local receipts (kept encrypted, offline)":
+        "Recibos locales (mantenidos encriptados, sin conexión)",
+    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.":
+        "Monedero EVM local sin custodia. ",
     "Lock": "Cerrar",
     "Lock wallet": "billetera con candado",
-    "Locks the wallet when it has been idle. The lock also happens immediately ": "Bloquea la billetera cuando ha estado inactiva. ",
+    "Locks the wallet when it has been idle. The lock also happens immediately ":
+        "Bloquea la billetera cuando ha estado inactiva. ",
     "Log details": "Detalles del registro",
     "Log lines contain the nodes you talked to, times, and transaction ": "Las líneas de registro contienen los nodos con los que habló, los tiempos y las transacciones.",
     "Logs": "Registros",
     "Logs stay on this device, encrypted, and never contain seed ": "Los registros permanecen en este dispositivo, cifrados y nunca contienen semillas",
     "Made by jackh0006": "Hecho por jackh0006",
-    "Made by jackh0006 · jackh109867@gmail.com": "Hecho por jackh0006 · jackh109867@gmail.com",
+    "Made by jackh0006 · jackh109867@gmail.com":
+        "Hecho por jackh0006 · jackh109867@gmail.com",
     "Mainnet (56)": "Red principal (56)",
     "Managed Tor": "Tor administrado",
-    "Managed Tor is started and stopped by this app on Linux. It ": "Esta aplicación inicia y detiene Managed Tor en Linux. ",
+    "Managed Tor is started and stopped by this app on Linux. It ":
+        "Esta aplicación inicia y detiene Managed Tor en Linux. ",
     "Manual": "Manual",
     "More — technical details": "Más – detalles técnicos",
     "Move down": "Bajar",
@@ -248,10 +296,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Move vault": "Mover bóveda",
     "My phone": "Mi teléfono",
     "My receive QR": "Mi recibo QR",
-    "Name (e.g. Company X token page)": "Nombre (por ejemplo, página de tokens de la empresa X)",
+    "Name (e.g. Company X token page)":
+        "Nombre (por ejemplo, página de tokens de la empresa X)",
     "Names and public addresses only — the phone book holds no secrets. ": "Solo nombres y direcciones públicas: la guía telefónica no guarda secretos.",
     "Native coin only": "Solo moneda nativa",
-    "Navigation labels update immediately. Detailed wallet and security ": "Las etiquetas de navegación se actualizan inmediatamente. ",
+    "Navigation labels update immediately. Detailed wallet and security ":
+        "Las etiquetas de navegación se actualizan inmediatamente. ",
     "Network": "Red de trabajo",
     "Network & assets": "Red y activos",
     "Network fee speed": "Velocidad de la tarifa de red",
@@ -259,24 +309,33 @@ const Map<String, Map<String, String>> uiTranslations = {
     "New absolute vault file path": "Nueva ruta de archivo de bóveda absoluta",
     "New label": "Nueva etiqueta",
     "New private key (generated)": "Nueva clave privada (generada)",
-    "New recovery phrase or private key": "Nueva frase de recuperación o clave privada",
+    "New recovery phrase or private key":
+        "Nueva frase de recuperación o clave privada",
     "No encrypted vault yet": "Aún no hay bóveda cifrada",
     "No key for this address exists on this device, so it cannot ": "No existe ninguna clave para esta dirección en este dispositivo, por lo que no puede",
-    "No log lines yet. Every network action, fee check and transaction ": "Aún no hay líneas de registro. ",
-    "No normal transactions found.": "No se encontraron transacciones normales.",
-    "No phone book entries for this side yet — I will use the ": "Aún no hay entradas en la guía telefónica para este lado. Usaré el",
+    "No log lines yet. Every network action, fee check and transaction ":
+        "Aún no hay líneas de registro. ",
+    "No normal transactions found.":
+        "No se encontraron transacciones normales.",
+    "No phone book entries for this side yet — I will use the ":
+        "Aún no hay entradas en la guía telefónica para este lado. Usaré el",
     "No pulse; static state icons and progress bar": "Sin pulso; ",
     "No request yet this session.": "Aún no hay solicitudes para esta sesión.",
-    "No secrets — prepares & broadcasts for cold device": "Sin secretos: prepara y transmite para dispositivos fríos",
-    "No wallet unlocked. Create, import, or unlock from vault below.": "Ninguna billetera desbloqueada. ",
+    "No secrets — prepares & broadcasts for cold device":
+        "Sin secretos: prepara y transmite para dispositivos fríos",
+    "No wallet unlocked. Create, import, or unlock from vault below.":
+        "Ninguna billetera desbloqueada. ",
     "No words yet — pick word 1.": "Aún no hay palabras: elija la palabra 1.",
     "Node": "Nodo",
     "Node & privacy details": "Detalles de nodo y privacidad",
     "Normal (hot wallet)": "Normal (billetera caliente)",
-    "Nothing yet. Every time I check the blockchain I will write one ": "Nada todavía. ",
+    "Nothing yet. Every time I check the blockchain I will write one ":
+        "Nada todavía. ",
     "Online (watch-only companion)": "En línea (compañero solo para ver)",
-    "Only copy a secret when you are restoring it now. ": "Copie un secreto sólo cuando lo esté restaurando ahora.",
-    "Only the network fee was spent; the amount was not transferred.": "Sólo se gastó la tarifa de la red; ",
+    "Only copy a secret when you are restoring it now. ":
+        "Copie un secreto sólo cuando lo esté restaurando ahora.",
+    "Only the network fee was spent; the amount was not transferred.":
+        "Sólo se gastó la tarifa de la red; ",
     "Open": "Abierto",
     "Open BscScan API keys": "Abrir claves API de BscScan",
     "Open data folder": "Abrir carpeta de datos",
@@ -285,7 +344,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Open in browser": "Abrir en el navegador",
     "Open in explorer": "Abrir en el explorador",
     "Open my vault": "abre mi bóveda",
-    "Open or import a wallet first. The Wallet tab does it in two taps.": "Primero abra o importe una billetera. ",
+    "Open or import a wallet first. The Wallet tab does it in two taps.":
+        "Primero abra o importe una billetera. ",
     "Open settings to pair": "Abrir configuración para emparejar",
     "Open the block explorer?": "¿Abrir el explorador de bloques?",
     "Optional PIN or biometrics to reopen the app after it goes to the background.": "PIN o datos biométricos opcionales para volver a abrir la aplicación después de que pase a segundo plano.",
@@ -297,14 +357,17 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Passphrase": "Frase de contraseña",
     "Passphrase (optional)": "Frase de contraseña (opcional)",
     "Password": "Contraseña",
-    "Password (16+ characters, hidden)": "Contraseña (más de 16 caracteres, oculta)",
+    "Password (16+ characters, hidden)":
+        "Contraseña (más de 16 caracteres, oculta)",
     "Password (hidden)": "Contraseña: - oculto -",
     "Password (optional)": "Contraseña (opcional)",
-    "Password (will be stored encrypted in vault)": "Contraseña (se almacenará encriptada en la bóveda)",
+    "Password (will be stored encrypted in vault)":
+        "Contraseña (se almacenará encriptada en la bóveda)",
     "Paste clipboard": "Pegar portapapeles",
     "Paste from clipboard": "Pegar desde portapapeles",
     "Paste lines": "Pegar líneas",
-    "Paste or type an existing 0x + 64 hex private key. This ": "Pegue o escriba una clave privada hexadecimal 0x + 64 existente. ",
+    "Paste or type an existing 0x + 64 hex private key. This ":
+        "Pegue o escriba una clave privada hexadecimal 0x + 64 existente. ",
     "Paste phrase": "Pegar frase",
     "Paste proxy URL": "Pegar URL del proxy",
     "Paste proxy URL (optional)": "Pegar URL de proxy (opcional)",
@@ -313,7 +376,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Path": "Ruta",
     "Payload": "Carga útil",
     "Pending cold request": "Solicitud fría pendiente",
-    "Point the wallet at a SOCKS port that another Tor instance ": "Apunte la billetera a un puerto SOCKS que otra instancia de Tor",
+    "Point the wallet at a SOCKS port that another Tor instance ":
+        "Apunte la billetera a un puerto SOCKS que otra instancia de Tor",
     "Port": "Puerto",
     "Privacy": "Privacidad",
     "Privacy route test": "Prueba de ruta de privacidad",
@@ -327,11 +391,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Proxy port": "Puerto proxy",
     "Proxy settings…": "Configuración de proxy...",
     "Proxy type": "Tipo de proxy",
-    "Public address (0x + 40 hex characters)": "Dirección pública (0x + 40 caracteres hexadecimales)",
+    "Public address (0x + 40 hex characters)":
+        "Dirección pública (0x + 40 caracteres hexadecimales)",
     "Public profiles (labels only)": "Perfiles públicos (solo etiquetas)",
     "QR / file to carry back online": "QR/archivo para volver a llevar online",
-    "QR / file with public addresses only": "QR/archivo solo con direcciones públicas",
-    "Query N nodes and cross-check answers": "Consulta N nodos y verifica las respuestas",
+    "QR / file with public addresses only":
+        "QR/archivo solo con direcciones públicas",
+    "Query N nodes and cross-check answers":
+        "Consulta N nodos y verifica las respuestas",
     "Quorum": "Quórum",
     "Raw call data": "Datos de llamadas sin procesar",
     "Raw lines for this stop": "Líneas sin procesar para esta parada.",
@@ -340,14 +407,16 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Raw signed transaction": "Transacción firmada sin procesar",
     "Read file": "leer archivo",
     "Read payload from file": "Leer carga útil del archivo",
-    "Read-only: no key is imported or stored": "Sólo lectura: no se importa ni almacena ninguna clave",
+    "Read-only: no key is imported or stored":
+        "Sólo lectura: no se importa ni almacena ninguna clave",
     "Receipt": "Recibo",
     "Receive": "Recibir",
     "Receive QR": "Recibir QR",
     "Receive address": "Recibir dirección",
     "Recipient address": "Dirección del destinatario",
     "Recovery phrase": "Frase de recuperación",
-    "Recovery phrase (12 / 24 words)": "Frase de recuperación (12 / 24 palabras)",
+    "Recovery phrase (12 / 24 words)":
+        "Frase de recuperación (12 / 24 palabras)",
     "Recovery phrase length": "Longitud de la frase de recuperación",
     "Recovery phrase, private key, keystore, or watch-only": "Frase de recuperación, clave privada, almacén de claves o solo visualización",
     "Refresh": "Refresh",
@@ -361,7 +430,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Rename vault account": "Cambiar el nombre de la cuenta de Vault",
     "Rename wallet": "Cambiar el nombre del monedero",
     "Replace the active vault?": "¿Reemplazar la bóveda activa?",
-    "Request to carry to the cold signer": "Solicitud de transferencia al firmante en frío",
+    "Request to carry to the cold signer":
+        "Solicitud de transferencia al firmante en frío",
     "Reset": "Reiniciar",
     "Reset node list?": "¿Restablecer lista de nodos?",
     "Reset to official list": "Restablecer a la lista oficial",
@@ -375,7 +445,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Review offline signing": "Revisar la firma sin conexión",
     "Review transaction": "Revisar transacción",
     "Risk controls on GitHub": "Controles de riesgo en GitHub",
-    "Rotate through enabled nodes for privacy": "Gire a través de nodos habilitados para mayor privacidad",
+    "Rotate through enabled nodes for privacy":
+        "Gire a través de nodos habilitados para mayor privacidad",
     "Round-robin / random": "Round-robin / aleatorio",
     "SOCKS host": "Anfitrión de CALCETINES",
     "SOCKS port": "SOCKS PORT",
@@ -398,8 +469,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Save public profile?": "Perfil Público",
     "Save to vault": "Guardar en bóveda",
     "Save upstream and chain": "Guardar aguas arriba y encadenar",
-    "Search messages, category, tx hash…": "Buscar mensajes, categoría, hash tx...",
-    "Search the word, then tap it. Only tap-order builds the phrase — ": "Busque la palabra y luego tóquela. ",
+    "Search messages, category, tx hash…":
+        "Buscar mensajes, categoría, hash tx...",
+    "Search the word, then tap it. Only tap-order builds the phrase — ":
+        "Busque la palabra y luego tóquela. ",
     "Search word list": "Buscar palabra",
     "Secret storage": "Almacenamiento secreto",
     "Select language": "Seleccionar idioma",
@@ -408,7 +481,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Selection mode / use for…": "Modo de selección/uso para…",
     "Send": "Enviar",
     "Send native coin or EVM tokens": "Envíe monedas nativas o tokens EVM",
-    "Sending is irreversible. Verify the recipient and amount independently.": "El envío es irreversible. ",
+    "Sending is irreversible. Verify the recipient and amount independently.":
+        "El envío es irreversible. ",
     "Sensitive actions": "Acciones sensibles",
     "Sensitive export": "Exportación sensible",
     "Set app PIN": "Establecer PIN de la aplicación",
@@ -435,42 +509,63 @@ const Map<String, Map<String, String>> uiTranslations = {
     "System default": "Valor predeterminado del sistema",
     "Take it with you": "Llévalo contigo",
     "Tap any stop for its own detail card and raw lines.": "Toque cualquier parada para ver su propia tarjeta de detalles y líneas sin formato.",
-    "Tell me your vault password and I will open it — then you ": "Dime tu contraseña de bóveda y la abriré; luego",
+    "Tell me your vault password and I will open it — then you ":
+        "Dime tu contraseña de bóveda y la abriré; luego",
     "Test": "Prueba",
     "Test external Tor": "Probar Tor externo",
     "Test history now": "Historial de pruebas ahora",
-    "Test privacy route — who sees what": "Pruebe la ruta de privacidad: quién ve qué",
+    "Test privacy route — who sees what":
+        "Pruebe la ruta de privacidad: quién ve qué",
     "Test token": "ficha de prueba",
     "Testing the real route…": "Probando la ruta real...",
     "Testnet (97)": "Red de prueba (97)",
     "The RPC node (the door you chose)": "El nodo RPC (la puerta que eligió)",
-    "The explorer is a third-party website. Opening it tells that site ": "El explorador es un sitio web de terceros. ",
-    "The key is shown once after you press Generate. The app ": "La clave se muestra una vez después de presionar Generar. ",
-    "The limit can never go below the simulation. A custom fee is ": "El límite nunca puede ir por debajo de la simulación. ",
-    "The receipt was fetched from two independent ": "El recibo se ha obtenido de dos",
+    "The explorer is a third-party website. Opening it tells that site ":
+        "El explorador es un sitio web de terceros. ",
+    "The key is shown once after you press Generate. The app ":
+        "La clave se muestra una vez después de presionar Generar. ",
+    "The limit can never go below the simulation. A custom fee is ":
+        "El límite nunca puede ir por debajo de la simulación. ",
+    "The receipt was fetched from two independent ":
+        "El recibo se ha obtenido de dos",
     "The selected backup will replace the current vault only after its ": "La copia de seguridad seleccionada reemplazará la bóveda actual solo después de su",
-    "The text contains your address, the recipient, the amount, and the ": "El texto contiene su dirección, el destinatario, el importe y el",
-    "The transaction is rehearsed on the chain first, then reviewed — ": "La transacción se ensaya primero en la cadena y luego se revisa.",
+    "The text contains your address, the recipient, the amount, and the ":
+        "El texto contiene su dirección, el destinatario, el importe y el",
+    "The transaction is rehearsed on the chain first, then reviewed — ":
+        "La transacción se ensaya primero en la cadena y luego se revisa.",
     "The vault can be moved with the existing vault move flow. ": "La bóveda se puede mover con el flujo de movimiento de bóveda existente.",
     "The vault, receipts, and activity log are encrypted at rest. ": "La bóveda, los recibos y el registro de actividad se cifran en reposo.",
-    "The wallet is unlocked. Compare this address with your other ": "La billetera está desbloqueada. ",
+    "The wallet is unlocked. Compare this address with your other ":
+        "La billetera está desbloqueada. ",
     "Theme": "Tema",
-    "Theme affects the entire app. AMOLED black saves power on OLED screens.": "El tema afecta a toda la aplicación. ",
-    "These are just labels + addresses for quick reference. No secrets stored.": "Estas son solo etiquetas y direcciones para referencia rápida. ",
+    "Theme affects the entire app. AMOLED black saves power on OLED screens.":
+        "El tema afecta a toda la aplicación. ",
+    "These are just labels + addresses for quick reference. No secrets stored.":
+        "Estas son solo etiquetas y direcciones para referencia rápida. ",
     "These are the only computers I may ask about balances and blocks. ": "Estas son las únicas computadoras a las que puedo preguntar sobre saldos y bloqueos.",
-    "These links are starting points, not blessings: the wallet ": "Estos vínculos son puntos de partida, no bendiciones: la billetera",
-    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.": "Estos bytes públicos son los que fueron a la red. ",
-    "This device holds the key but no network connection. Prepare ": "Este dispositivo tiene la clave pero no tiene conexión de red. ",
-    "This export can reveal your activity": "Esta exportación puede revelar su actividad.",
+    "These links are starting points, not blessings: the wallet ":
+        "Estos vínculos son puntos de partida, no bendiciones: la billetera",
+    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.":
+        "Estos bytes públicos son los que fueron a la red. ",
+    "This device holds the key but no network connection. Prepare ":
+        "Este dispositivo tiene la clave pero no tiene conexión de red. ",
+    "This export can reveal your activity":
+        "Esta exportación puede revelar su actividad.",
     "This is a watch-only profile": "Este es un perfil solo para ver",
-    "This is the ONLY way to restore this wallet. Write the ": "Esta es la ÚNICA forma de restaurar esta billetera. ",
-    "This online companion holds no key. Import the public pairing ": "Este compañero en línea no tiene clave. ",
-    "This only forgets the entry on this device. It does not stop ": "Esto solo olvida la entrada en este dispositivo. No se detiene",
-    "This only reads public blockchain data. No secrets are accessed.": "Esto solo lee datos públicos de blockchain. ",
+    "This is the ONLY way to restore this wallet. Write the ":
+        "Esta es la ÚNICA forma de restaurar esta billetera. ",
+    "This online companion holds no key. Import the public pairing ":
+        "Este compañero en línea no tiene clave. ",
+    "This only forgets the entry on this device. It does not stop ":
+        "Esto solo olvida la entrada en este dispositivo. No se detiene",
+    "This only reads public blockchain data. No secrets are accessed.":
+        "Esto solo lee datos públicos de blockchain. ",
     "This panel is generated from the calls this send actually made — not a fixed claim.": "Este panel se genera a partir de las llamadas que realmente realizó este envío, no un reclamo fijo.",
     "This permanently removes the account from the encrypted vault. The secret cannot be recovered.": "Esto elimina permanentemente la cuenta del almacén cifrado. El secreto no se puede recuperar.",
-    "To (full address — verify ALL of it):": "A (dirección completa; verifíquela TODA):",
-    "Token (will be stored encrypted in vault)": "Token (se almacenará encriptado en la bóveda)",
+    "To (full address — verify ALL of it):":
+        "A (dirección completa; verifíquela TODA):",
+    "Token (will be stored encrypted in vault)":
+        "Token (se almacenará encriptado en la bóveda)",
     "Tokens (USDT, USDC, etc.)": "Fichas (USDT, USDC, etc.)",
     "Tor & bridges…": "Tor y puentes…",
     "Tor and bridges": "Tor y puentes",
@@ -501,24 +596,31 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Use this door": "Usa esta puerta",
     "Use this fee": "Utilice esta tarifa",
     "Use this node for everything?": "¿Usar este nodo para todo?",
-    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.": "Se utiliza para saldos, nonce, tarifas, recibos y transmisiones. ",
+    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.":
+        "Se utiliza para saldos, nonce, tarifas, recibos y transmisiones. ",
     "Username": "Nombre de usuario",
     "Username (empty for none)": "Nombre de usuario (vacío para ninguno)",
     "Username (optional)": "Nombre de usuario (opcional)",
     "VLESS/Xray command copied.": "Se copió el comando VLESS/Xray.",
-    "VLESS/Xray example: inbound protocol \"socks\", listen ": "Ejemplo de VLESS/Xray: protocolo entrante \"calcetines\", escuche",
+    "VLESS/Xray example: inbound protocol \"socks\", listen ":
+        "Ejemplo de VLESS/Xray: protocolo entrante \"calcetines\", escuche",
     "VPN / VLESS / proxy before Tor": "VPN/VLESS/proxy antes de Tor",
     "Vault account label": "Etiqueta de cuenta de Vault",
     "Vault accounts": "Cuentas de bóveda",
-    "Vault is locked or has no accounts.": "La bóveda está bloqueada o no tiene cuentas.",
+    "Vault is locked or has no accounts.":
+        "La bóveda está bloqueada o no tiene cuentas.",
     "Vault password": "Contraseña del almacén",
-    "Vault password (16+ characters)": "Contraseña de la bóveda (más de 16 caracteres)",
+    "Vault password (16+ characters)":
+        "Contraseña de la bóveda (más de 16 caracteres)",
     "Vault password (hidden)": "Contraseña del almacén (oculta)",
-    "Vault password to confirm deletion": "Contraseña de bóveda para confirmar la eliminación",
+    "Vault password to confirm deletion":
+        "Contraseña de bóveda para confirmar la eliminación",
     "Verify": "Verificar",
     "Verify recovery phrase": "Verificar frase de recuperación",
-    "Verify strictly, then broadcast": "Verifique estrictamente y luego transmita",
-    "Verify the fingerprint, then watch only": "Verifique la huella digital y luego mire solo",
+    "Verify strictly, then broadcast":
+        "Verifique estrictamente y luego transmita",
+    "Verify the fingerprint, then watch only":
+        "Verifique la huella digital y luego mire solo",
     "View example raw request (what the node actually receives)": "Ver ejemplo de solicitud sin procesar (lo que realmente recibe el nodo)",
     "View raw requests": "Ver solicitudes sin procesar",
     "View receipt": "Ver recibo",
@@ -530,40 +632,51 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Wallet type": "Tipo de monedero",
     "Watch an address": "ver una dirección",
     "Watch-only · this device holds no key for this address": "Solo vigilancia · este dispositivo no tiene ninguna clave para esta dirección",
-    "WebTunnel and meek need their client binaries; Ubuntu does ": "WebTunnel y Meek necesitan los binarios de sus clientes; ",
+    "WebTunnel and meek need their client binaries; Ubuntu does ":
+        "WebTunnel y Meek necesitan los binarios de sus clientes; ",
     "Welcome": "Bienvenido",
-    "What the chain recorded (event logs)": "Lo que registró la cadena (registros de eventos)",
+    "What the chain recorded (event logs)":
+        "Lo que registró la cadena (registros de eventos)",
     "What the contract was told": "Lo que se dijo en el contrato.",
     "What the node knows": "Lo que sabe el nodo",
     "What the node sees": "Lo que ve el nodo",
     "What this door will see": "Lo que verá esta puerta",
     "What you paid": "lo que pagaste",
     "Why X Wallet": "¿Por qué X Wallet?",
-    "Write every word on paper, in this order. This phrase ": "Escribe cada palabra en un papel, en este orden. ",
-    "Writes a file in the system temp folder.": "Escribe un archivo en la carpeta temporal del sistema.",
+    "Write every word on paper, in this order. This phrase ":
+        "Escribe cada palabra en un papel, en este orden. ",
+    "Writes a file in the system temp folder.":
+        "Escribe un archivo en la carpeta temporal del sistema.",
     "X Wallet": "Cartera X",
     "X Wallet 1.1.0": "X Monedero 1.1.0",
     "Yes": "Sí",
-    "Your ISP / DPI (internet provider, firewalls)": "Su ISP / DPI (proveedor de Internet, firewalls)",
+    "Your ISP / DPI (internet provider, firewalls)":
+        "Su ISP / DPI (proveedor de Internet, firewalls)",
     "from your written backup": "de su copia de seguridad escrita",
     "jackh109867@gmail.com": "jackh109867@gmail.com",
     "proxy.example or 127.0.0.1": "proxy.example o 127.0.0.1",
     "right chain": "cadena derecha",
-    "socks5h://user:pass@host:1080 or https://host:8080": "socks5h://user:pass@host:1080 o https://host:8080",
-    "socks5h://user:pass@proxy.example:1080": "socks5h://usuario:pass@proxy.ejemplo:1080",
+    "socks5h://user:pass@host:1080 or https://host:8080":
+        "socks5h://user:pass@host:1080 o https://host:8080",
+    "socks5h://user:pass@proxy.example:1080":
+        "socks5h://usuario:pass@proxy.ejemplo:1080",
     "Русский (Russian)": "Русский (ruso)",
     "العربية (Arabic)": "العربية (árabe)",
     "فارسی (Persian)": "فارسی (persa)",
-    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.": "⚠ RIESGO DE ENVENENAMIENTO: existe una dirección guardada similar. ",
-    "⚠ Recipient is THIS wallet. This transfer would only spend gas.": "⚠ El destinatario es ESTA billetera. ",
+    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.":
+        "⚠ RIESGO DE ENVENENAMIENTO: existe una dirección guardada similar. ",
+    "⚠ Recipient is THIS wallet. This transfer would only spend gas.":
+        "⚠ El destinatario es ESTA billetera. ",
     "⚠️ Fake \"official\" sites are the most common way tokens are faked. ": "⚠️ Los sitios \"oficiales\" falsos son la forma más común en que se falsifican los tokens.",
     "✅ CAN see:": "✅ PUEDE ver:",
     "❌ CANNOT see:": "❌ NO PUEDO ver:",
     "中文 (Chinese)": "中文 (chino)",
   },
   "fa": {
-    "(The shipped source list could not be read from the app bundle — ": "(فهرست منبع ارسال شده را نمی توان از بسته برنامه خواند -",
-    "/home/you/secure/x-wallet-vault.bnb": "/home/you/secure/x-wallet-vault.bnb",
+    "(The shipped source list could not be read from the app bundle — ":
+        "(فهرست منبع ارسال شده را نمی توان از بسته برنامه خواند -",
+    "/home/you/secure/x-wallet-vault.bnb":
+        "/home/you/secure/x-wallet-vault.bnb",
     "0x followed by 64 hex characters": "0x به دنبال آن 64 کاراکتر هگز",
     "1 — Tor (normal)": "1 - Tor (معمولی)",
     "12 or 24 words": "12 یا 24 کلمه",
@@ -573,9 +686,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "24 words": "24 کلمه",
     "3 — Tor over Tor over Tor": "3 - Tor over Tor بر روی Tor",
     "A node you add can see your IP address (unless you route through ": "گره‌ای که اضافه می‌کنید می‌تواند آدرس IP شما را ببیند (مگر اینکه از طریق آن مسیریابی کنید)",
-    "A plain-words timeline (Simple) and the full technical record ": "جدول زمانی با کلمات ساده (ساده) و سابقه فنی کامل",
-    "A receipt is a public record of this transaction. Sharing it ": "رسید ثبت عمومی این معامله است. ",
-    "A system VPN (WireGuard or OpenVPN) is used automatically ": "یک VPN سیستم (WireGuard یا OpenVPN) به طور خودکار استفاده می شود",
+    "A plain-words timeline (Simple) and the full technical record ":
+        "جدول زمانی با کلمات ساده (ساده) و سابقه فنی کامل",
+    "A receipt is a public record of this transaction. Sharing it ":
+        "رسید ثبت عمومی این معامله است. ",
+    "A system VPN (WireGuard or OpenVPN) is used automatically ":
+        "یک VPN سیستم (WireGuard یا OpenVPN) به طور خودکار استفاده می شود",
     "AMOLED black": "AMOLED مشکی",
     "API key (hidden)": "کلید API (مخفی)",
     "API key configured (hidden).": "کلید API پیکربندی شد (پنهان).",
@@ -594,32 +710,40 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Add your own link": "لینک خود را اضافه کنید",
     "Add your own link…": "لینک خود را اضافه کنید…",
     "Address": "آدرس",
-    "Address (https, or http for local/LAN/.onion)": "آدرس (https یا http برای local/LAN/.onion)",
-    "Address — https:// (or http:// for localhost/LAN/.onion)": "آدرس — https:// (یا http:// برای localhost/LAN/.onion)",
-    "Adds a token contract address to your balance list. Verified on-chain before saving.": "آدرس قرارداد رمزی را به لیست موجودی شما اضافه می کند. ",
+    "Address (https, or http for local/LAN/.onion)":
+        "آدرس (https یا http برای local/LAN/.onion)",
+    "Address — https:// (or http:// for localhost/LAN/.onion)":
+        "آدرس — https:// (یا http:// برای localhost/LAN/.onion)",
+    "Adds a token contract address to your balance list. Verified on-chain before saving.":
+        "آدرس قرارداد رمزی را به لیست موجودی شما اضافه می کند. ",
     "Advanced fee": "هزینه پیشرفته",
     "Advanced: enter my own fee": "پیشرفته: هزینه خودم را وارد کنید",
     "Advantages": "مزایا",
     "All": "همه",
-    "Always pick the fastest-responding node": "همیشه سریع ترین گره را انتخاب کنید",
+    "Always pick the fastest-responding node":
+        "همیشه سریع ترین گره را انتخاب کنید",
     "Always shown": "همیشه نشان داده شده است",
     "Always use the selected node": "همیشه از گره انتخاب شده استفاده کنید",
     "Answer time": "زمان جواب دادن",
-    "Answer-time history (oldest → newest)": "تاریخچه زمان پاسخ (قدیمی ترین → جدیدترین)",
+    "Answer-time history (oldest → newest)":
+        "تاریخچه زمان پاسخ (قدیمی ترین → جدیدترین)",
     "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.": "هر کسی که بتواند این صفحه را ببیند، می‌تواند تمام وجوه را بدزدد. فقط اطلاعات محرمانه را در یک دستگاه خصوصی و قابل اعتماد فاش کنید.",
     "Asset": "دارایی",
     "Authentication (Bearer/Basic)": "احراز هویت (حامل/پایه)",
     "Auto-fastest": "سریعترین خودکار",
     "BIP-39 passphrase": "عبارت عبور BIP-39",
-    "BIP-39 passphrase (25th word) — optional": "عبارت عبور BIP-39 (کلمه بیست و پنجم) - اختیاری است",
+    "BIP-39 passphrase (25th word) — optional":
+        "عبارت عبور BIP-39 (کلمه بیست و پنجم) - اختیاری است",
     "BNB balance at review: ": "موجودی BNB در حال بررسی:",
     "Back": "برگشت",
-    "Back up your new private key": "از کلید خصوصی جدید خود نسخه پشتیبان تهیه کنید",
+    "Back up your new private key":
+        "از کلید خصوصی جدید خود نسخه پشتیبان تهیه کنید",
     "Background lock is active.": "قفل پس‌زمینه فعال است.",
     "Backup": "پشتیبان‌گیری",
     "Backup password": "رمز عبور پشتیبان",
     "Balances": "توازن",
-    "Base64 SHA-256 of SPKI (one per line)": "Base64 SHA-256 از SPKI (یکی در هر خط)",
+    "Base64 SHA-256 of SPKI (one per line)":
+        "Base64 SHA-256 از SPKI (یکی در هر خط)",
     "Basic auth": "احراز هویت پایه",
     "Bearer token": "حامل توکن",
     "Bridge lines": "خطوط پل",
@@ -633,10 +757,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Chain facts": "حقایق زنجیره ای",
     "Change transport…": "تغییر حمل و نقل…",
     "Check": "بررسی کنید",
-    "Check the build yourself: verify SHA256SUMS ": "خودتان بیلد را بررسی کنید: SHA256SUMS را تأیید کنید",
+    "Check the build yourself: verify SHA256SUMS ":
+        "خودتان بیلد را بررسی کنید: SHA256SUMS را تأیید کنید",
     "Check this node now": "همین الان این گره را بررسی کنید",
     "Checks & notes": "چک ها و یادداشت ها",
-    "Choose another wallet stored on this device": "کیف پول دیگری را که در این دستگاه ذخیره شده است انتخاب کنید",
+    "Choose another wallet stored on this device":
+        "کیف پول دیگری را که در این دستگاه ذخیره شده است انتخاب کنید",
     "Choose export": "صادرات را انتخاب کنید",
     "Clear": "پاک کردن",
     "Clear all logs": "تمام گزارش ها را پاک کنید",
@@ -651,11 +777,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Cold signing request": "درخواست امضای سرد",
     "Common proxy setups": "تنظیمات پراکسی رایج",
     "Compare another": "دیگری را مقایسه کنید",
-    "Component inventory: docs/SBOM.json in the app package.": "موجودی مؤلفه: docs/SBOM.json در بسته برنامه.",
+    "Component inventory: docs/SBOM.json in the app package.":
+        "موجودی مؤلفه: docs/SBOM.json در بسته برنامه.",
     "Confirm PIN (hidden)": "تأیید پین (پنهان)",
     "Confirm app PIN": "پین برنامه را تأیید کنید",
     "Confirm vault password": "رمز عبور گاوصندوق را تأیید کنید",
-    "Connection story — what just happened, in plain words": "داستان اتصال - به زبان ساده چه اتفاقی افتاده است",
+    "Connection story — what just happened, in plain words":
+        "داستان اتصال - به زبان ساده چه اتفاقی افتاده است",
     "Continue": "ادامه دهید",
     "Continue to verification": "به تأیید ادامه دهید",
     "Contract address": "آدرس قرارداد",
@@ -679,7 +807,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Copy raw transaction": "تراکنش خام را کپی کنید",
     "Copy recovery phrase": "عبارت بازیابی را کپی کنید",
     "Copy text": "متن را کپی کنید",
-    "Copy the hash or open in explorer:": "هش را کپی کنید یا در اکسپلورر باز کنید:",
+    "Copy the hash or open in explorer:":
+        "هش را کپی کنید یا در اکسپلورر باز کنید:",
     "Copy to clipboard": "در کلیپ بورد کپی کنید",
     "Copy vault path": "مسیر طاق را کپی کنید",
     "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ": "یک کیف پول BIP-39 جدید ایجاد کنید یا یک کلید خصوصی موجود، عبارت بازیابی را وارد کنید،",
@@ -688,44 +817,60 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Create a wallet first, then save it to the vault from the unlocked wallet actions.": "ابتدا یک کیف پول ایجاد کنید، سپس آن را از اقدامات قفل کیف پول در صندوق ذخیره کنید.",
     "Create vault": "طاق ایجاد کنید",
     "Create wallet": "کیف پول ایجاد کنید",
-    "Credentials are kept in the OS secure store, never in the ": "اعتبارنامه ها در فروشگاه امن سیستم عامل نگهداری می شوند، هرگز در آن",
+    "Credentials are kept in the OS secure store, never in the ":
+        "اعتبارنامه ها در فروشگاه امن سیستم عامل نگهداری می شوند، هرگز در آن",
     "Custom": "شخصی سازی شده",
     "Custom BIP-32 path": "مسیر سفارشی BIP-32",
     "Custom proxy": "پروکسی سفارشی",
-    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ": "پراکسی سفارشی: SOCKS5، SOCKS5h، یا HTTP CONNECT، با دامنه/IP",
+    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ":
+        "پراکسی سفارشی: SOCKS5، SOCKS5h، یا HTTP CONNECT، با دامنه/IP",
     "Custom proxy…": "پروکسی سفارشی…",
     "Dark": "تاریک",
-    "Default — holds seed, signs, broadcasts": "پیش‌فرض - حاوی دانه، علامت، پخش است",
+    "Default — holds seed, signs, broadcasts":
+        "پیش‌فرض - حاوی دانه، علامت، پخش است",
     "Delete": "حذف",
     "Delete from vault": "حذف از خزانه",
     "Delete vault account": "حذف حساب کاربری گاوصندوق",
-    "Deletes the encrypted vault, the PIN, the device-bound key and every ": "صندوق رمزگذاری شده، پین، کلید متصل به دستگاه و هر کدام را حذف می کند",
+    "Deletes the encrypted vault, the PIN, the device-bound key and every ":
+        "صندوق رمزگذاری شده، پین، کلید متصل به دستگاه و هر کدام را حذف می کند",
     "Derivation path": "مسیر اشتقاق",
-    "Direct mode: your ISP sees the RPC hostname and your IP. ": "حالت مستقیم: ISP شما نام میزبان RPC و IP شما را می بیند.",
+    "Direct mode: your ISP sees the RPC hostname and your IP. ":
+        "حالت مستقیم: ISP شما نام میزبان RPC و IP شما را می بیند.",
     "Disable Tor": "Tor را غیرفعال کنید",
     "Disable Tor route": "مسیر Tor را غیرفعال کنید",
     "Disable proxy": "غیر فعال کردن پروکسی",
-    "Donations are irreversible. This dialog never appears in a ": "کمک های مالی برگشت ناپذیر است. ",
+    "Donations are irreversible. This dialog never appears in a ":
+        "کمک های مالی برگشت ناپذیر است. ",
     "Done": "انجام شد",
-    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.": "هر حساب صندوق دارای کلید خصوصی و عبارت بازیابی اختیاری خود است. ",
-    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.": "هر کیف پول اسرار خود را حفظ می کند. ",
+    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.":
+        "هر حساب صندوق دارای کلید خصوصی و عبارت بازیابی اختیاری خود است. ",
+    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.":
+        "هر کیف پول اسرار خود را حفظ می کند. ",
     "Edit": "ویرایش کنید",
     "Edit node": "ویرایش گره",
     "Enable app lock": "فعال کردن قفل برنامه",
     "Encrypted vault accounts": "حساب های خزانه رمزگذاری شده",
-    "Encrypted vault is the only persistent secret storage offered. ": "طاق رمزگذاری شده تنها ذخیره سازی مخفی دائمی ارائه شده است.",
+    "Encrypted vault is the only persistent secret storage offered. ":
+        "طاق رمزگذاری شده تنها ذخیره سازی مخفی دائمی ارائه شده است.",
     "English": "انگلیسی",
-    "Enter an address to see public balances.": "برای مشاهده ترازهای عمومی آدرسی را وارد کنید.",
-    "Enter vault password to list accounts": "رمز عبور گاوصندوق را برای لیست کردن حساب‌ها وارد کنید",
+    "Enter an address to see public balances.":
+        "برای مشاهده ترازهای عمومی آدرسی را وارد کنید.",
+    "Enter vault password to list accounts":
+        "رمز عبور گاوصندوق را برای لیست کردن حساب‌ها وارد کنید",
     "Erase all data?": "پاک کردن تمامی اطلاعات",
     "Erase everything…": "همه چیز را پاک کن…",
     "Español (Spanish)": "اسپانیایی (اسپانیایی)",
     "Ethereum V3 keystore": "فروشگاه کلید اتریوم V3",
-    "Every RPC and explorer request uses this one route. There is ": "هر درخواست RPC و Explorer از این یک مسیر استفاده می کند. ",
-    "Every stored log line on this device will be deleted. Receipts and ": "هر خط گزارش ذخیره شده در این دستگاه حذف خواهد شد. رسیدها و",
-    "Everyone on the blockchain (public forever)": "همه افراد روی بلاکچین (برای همیشه عمومی)",
-    "Exactly one route is active for every RPC and explorer request. ": "دقیقاً یک مسیر برای هر درخواست RPC و کاوشگر فعال است.",
-    "Exactly what was sent to the node and what it answered. This ": "دقیقاً چه چیزی برای گره ارسال شد و چه چیزی پاسخ داد. ",
+    "Every RPC and explorer request uses this one route. There is ":
+        "هر درخواست RPC و Explorer از این یک مسیر استفاده می کند. ",
+    "Every stored log line on this device will be deleted. Receipts and ":
+        "هر خط گزارش ذخیره شده در این دستگاه حذف خواهد شد. رسیدها و",
+    "Everyone on the blockchain (public forever)":
+        "همه افراد روی بلاکچین (برای همیشه عمومی)",
+    "Exactly one route is active for every RPC and explorer request. ":
+        "دقیقاً یک مسیر برای هر درخواست RPC و کاوشگر فعال است.",
+    "Exactly what was sent to the node and what it answered. This ":
+        "دقیقاً چه چیزی برای گره ارسال شد و چه چیزی پاسخ داد. ",
     "Example raw request (balance check)": "نمونه درخواست خام (بررسی موجودی)",
     "Existing Tor or Orbot": "Tor یا Orbot موجود",
     "Existing private key (paste)": "کلید خصوصی موجود (رب)",
@@ -749,19 +894,26 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Gas limit": "حد گاز",
     "HTTP CONNECT": "HTTP CONNECT",
     "Hash QR": "هش QR",
-    "Hiding only changes this screen and the send picker; the token ": "پنهان کردن فقط این صفحه و انتخابگر ارسال را تغییر می دهد. ",
+    "Hiding only changes this screen and the send picker; the token ":
+        "پنهان کردن فقط این صفحه و انتخابگر ارسال را تغییر می دهد. ",
     "History test log copied.": "گزارش تست سابقه کپی شد.",
     "History test passed": "آزمون تاریخ قبول شد",
-    "History uses the public BscScan API V1 (Etherscan-compatible). ": "History از BscScan API عمومی V1 (سازگار با Etherscan) استفاده می کند.",
+    "History uses the public BscScan API V1 (Etherscan-compatible). ":
+        "History از BscScan API عمومی V1 (سازگار با Etherscan) استفاده می کند.",
     "Hold to sign offline": "برای ورود آفلاین نگه دارید",
     "Holds seed, no network — signs requests offline": "Seed را نگه می‌دارد، بدون شبکه - درخواست‌ها را به‌صورت آفلاین امضا می‌کند",
-    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ": "کیف پول داغ دانه را نگه می دارد و می تواند امضا کند. ",
-    "Hot wallet: the signing key exists in memory while unlocked. Back up ": "کیف پول داغ: کلید امضا در حین باز شدن قفل در حافظه وجود دارد. ",
-    "How the wallet picks which RPC node to talk to for reads and ": "چگونه کیف پول انتخاب می کند که با کدام گره RPC صحبت کند تا بخواند و",
-    "I found your encrypted vault on this device": "خزانه رمزگذاری شده شما را در این دستگاه پیدا کردم",
+    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ":
+        "کیف پول داغ دانه را نگه می دارد و می تواند امضا کند. ",
+    "Hot wallet: the signing key exists in memory while unlocked. Back up ":
+        "کیف پول داغ: کلید امضا در حین باز شدن قفل در حافظه وجود دارد. ",
+    "How the wallet picks which RPC node to talk to for reads and ":
+        "چگونه کیف پول انتخاب می کند که با کدام گره RPC صحبت کند تا بخواند و",
+    "I found your encrypted vault on this device":
+        "خزانه رمزگذاری شده شما را در این دستگاه پیدا کردم",
     "I understand": "من میفهمم",
     "I wrote down the whole private key.": "کل کلید خصوصی را یادداشت کردم.",
-    "If you set one, the exact same passphrase is required ": "اگر یکی را تنظیم کنید، دقیقاً همان عبارت عبور مورد نیاز است",
+    "If you set one, the exact same passphrase is required ":
+        "اگر یکی را تنظیم کنید، دقیقاً همان عبارت عبور مورد نیاز است",
     "Import": "واردات",
     "Import V3 keystore": "وارد کردن کلید نسخه ۳",
     "Import an existing wallet": "یک کیف پول موجود را وارد کنید",
@@ -773,7 +925,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Import signed response": "پاسخ امضا شده را وارد کنید",
     "Incoming (received)": "ورودی (دریافت شده)",
     "Inspect any address": "هر آدرسی را بررسی کنید",
-    "It starts with 0x and has 64 hexadecimal characters after ": "با 0x شروع می شود و 64 کاراکتر هگزادسیمال دارد",
+    "It starts with 0x and has 64 hexadecimal characters after ":
+        "با 0x شروع می شود و 64 کاراکتر هگزادسیمال دارد",
     "Keep session-only": "فقط جلسه نگه دارید",
     "Keystore JSON": "ذخیره کلید به فرمت JSON",
     "Keystore password": "رمز عبور فروشگاه کلید",
@@ -781,26 +934,33 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Language": "زبان",
     "Last signed response": "آخرین پاسخ امضا شده",
     "Latest block": "آخرین بلوک",
-    "Leave empty if the wallet has no passphrase": "اگر کیف پول رمز عبور ندارد، خالی بگذارید",
+    "Leave empty if the wallet has no passphrase":
+        "اگر کیف پول رمز عبور ندارد، خالی بگذارید",
     "Level": "مرحله",
-    "License: AGPL-3.0-or-later (see LICENSE in the app package).": "مجوز: AGPL-3.0 یا بالاتر (به LICENSE در بسته برنامه مراجعه کنید).",
+    "License: AGPL-3.0-or-later (see LICENSE in the app package).":
+        "مجوز: AGPL-3.0 یا بالاتر (به LICENSE در بسته برنامه مراجعه کنید).",
     "Light": "نور",
     "Lite mode": "حالت Lite",
     "Lite mode keeps the same facts and honest states but removes the ": "حالت Lite همان حقایق و حالات صادقانه را حفظ می کند اما آن را حذف می کند",
-    "Local receipts (kept encrypted, offline)": "رسیدهای محلی (به صورت رمزگذاری شده، آفلاین نگهداری می شود)",
-    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.": "کیف پول EVM محلی و غیر حافظ. ",
+    "Local receipts (kept encrypted, offline)":
+        "رسیدهای محلی (به صورت رمزگذاری شده، آفلاین نگهداری می شود)",
+    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.":
+        "کیف پول EVM محلی و غیر حافظ. ",
     "Lock": "قفل کنید",
     "Lock wallet": "قفل کیف پول",
-    "Locks the wallet when it has been idle. The lock also happens immediately ": "وقتی کیف پول بیکار بوده است قفل می کند. ",
+    "Locks the wallet when it has been idle. The lock also happens immediately ":
+        "وقتی کیف پول بیکار بوده است قفل می کند. ",
     "Log details": "جزئیات گزارش",
     "Log lines contain the nodes you talked to, times, and transaction ": "خطوط گزارش شامل گره هایی است که با آنها صحبت کرده اید، زمان ها و تراکنش ها",
     "Logs": "سیاههها",
     "Logs stay on this device, encrypted, and never contain seed ": "گزارش‌ها روی این دستگاه باقی می‌مانند، رمزگذاری شده‌اند و هرگز حاوی seed نیستند",
     "Made by jackh0006": "ساخته شده توسط jackh0006",
-    "Made by jackh0006 · jackh109867@gmail.com": "ساخته شده توسط jackh0006 · jackh109867@gmail.com",
+    "Made by jackh0006 · jackh109867@gmail.com":
+        "ساخته شده توسط jackh0006 · jackh109867@gmail.com",
     "Mainnet (56)": "شبکه اصلی (56)",
     "Managed Tor": "Tor را مدیریت کرد",
-    "Managed Tor is started and stopped by this app on Linux. It ": "Tor Managed توسط این برنامه در لینوکس راه اندازی و متوقف می شود. ",
+    "Managed Tor is started and stopped by this app on Linux. It ":
+        "Tor Managed توسط این برنامه در لینوکس راه اندازی و متوقف می شود. ",
     "Manual": "دستی",
     "More — technical details": "بیشتر - جزئیات فنی",
     "Move down": "به سمت پایین حرکت کنید",
@@ -812,7 +972,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Name (e.g. Company X token page)": "نام (مثلاً صفحه توکن شرکت X)",
     "Names and public addresses only — the phone book holds no secrets. ": "فقط نام‌ها و آدرس‌های عمومی - دفترچه تلفن هیچ رازی را در خود جای نداده است.",
     "Native coin only": "فقط سکه بومی",
-    "Navigation labels update immediately. Detailed wallet and security ": "برچسب های ناوبری بلافاصله به روز می شوند. ",
+    "Navigation labels update immediately. Detailed wallet and security ":
+        "برچسب های ناوبری بلافاصله به روز می شوند. ",
     "Network": "شبکه",
     "Network & assets": "شبکه و دارایی ها",
     "Network fee speed": "سرعت کارمزد شبکه",
@@ -822,22 +983,30 @@ const Map<String, Map<String, String>> uiTranslations = {
     "New private key (generated)": "کلید خصوصی جدید (تولید شده)",
     "New recovery phrase or private key": "عبارت بازیابی جدید یا کلید خصوصی",
     "No encrypted vault yet": "هنوز طاق رمزگذاری شده ای وجود ندارد",
-    "No key for this address exists on this device, so it cannot ": "هیچ کلیدی برای این آدرس در این دستگاه وجود ندارد، بنابراین نمی تواند",
-    "No log lines yet. Every network action, fee check and transaction ": "هنوز هیچ خط ورود وجود ندارد. ",
+    "No key for this address exists on this device, so it cannot ":
+        "هیچ کلیدی برای این آدرس در این دستگاه وجود ندارد، بنابراین نمی تواند",
+    "No log lines yet. Every network action, fee check and transaction ":
+        "هنوز هیچ خط ورود وجود ندارد. ",
     "No normal transactions found.": "هیچ تراکنش عادی پیدا نشد",
     "No phone book entries for this side yet — I will use the ": "هنوز هیچ ورودی دفترچه تلفن برای این سمت وجود ندارد - من از آن استفاده خواهم کرد",
     "No pulse; static state icons and progress bar": "بدون نبض؛ ",
     "No request yet this session.": "هنوز درخواستی در این جلسه وجود ندارد.",
-    "No secrets — prepares & broadcasts for cold device": "بدون راز - برای دستگاه سرد آماده و پخش می کند",
-    "No wallet unlocked. Create, import, or unlock from vault below.": "بدون قفل کیف پول ",
-    "No words yet — pick word 1.": "هنوز کلمه ای وجود ندارد - کلمه 1 را انتخاب کنید.",
+    "No secrets — prepares & broadcasts for cold device":
+        "بدون راز - برای دستگاه سرد آماده و پخش می کند",
+    "No wallet unlocked. Create, import, or unlock from vault below.":
+        "بدون قفل کیف پول ",
+    "No words yet — pick word 1.":
+        "هنوز کلمه ای وجود ندارد - کلمه 1 را انتخاب کنید.",
     "Node": "محتوای گره",
     "Node & privacy details": "جزئیات گره و حریم خصوصی",
     "Normal (hot wallet)": "معمولی (کیف پول داغ)",
-    "Nothing yet. Every time I check the blockchain I will write one ": "هنوز هیچی. ",
+    "Nothing yet. Every time I check the blockchain I will write one ":
+        "هنوز هیچی. ",
     "Online (watch-only companion)": "آنلاین (همراه فقط تماشا)",
-    "Only copy a secret when you are restoring it now. ": "فقط زمانی یک راز را کپی کنید که اکنون در حال بازیابی آن هستید.",
-    "Only the network fee was spent; the amount was not transferred.": "فقط هزینه شبکه خرج شد. ",
+    "Only copy a secret when you are restoring it now. ":
+        "فقط زمانی یک راز را کپی کنید که اکنون در حال بازیابی آن هستید.",
+    "Only the network fee was spent; the amount was not transferred.":
+        "فقط هزینه شبکه خرج شد. ",
     "Open": "باز کنید",
     "Open BscScan API keys": "کلیدهای BscScan API را باز کنید",
     "Open data folder": "پوشه داده را باز کنید",
@@ -846,7 +1015,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Open in browser": "بازکردن در مرورگر",
     "Open in explorer": "در اکسپلورر باز کنید",
     "Open my vault": "طاق من را باز کن",
-    "Open or import a wallet first. The Wallet tab does it in two taps.": "ابتدا یک کیف پول را باز یا وارد کنید. ",
+    "Open or import a wallet first. The Wallet tab does it in two taps.":
+        "ابتدا یک کیف پول را باز یا وارد کنید. ",
     "Open settings to pair": "تنظیمات را برای جفت شدن باز کنید",
     "Open the block explorer?": "کاوشگر بلوک را باز کنید؟",
     "Optional PIN or biometrics to reopen the app after it goes to the background.": "پین یا بیومتریک اختیاری برای باز کردن مجدد برنامه پس از رفتن به پس‌زمینه.",
@@ -861,11 +1031,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Password (16+ characters, hidden)": "رمز عبور (۱۶+ کاراکتر، پنهان)",
     "Password (hidden)": "رمز عبور (پنهان)",
     "Password (optional)": "& اسم رمز) اختیاری (: ‌",
-    "Password (will be stored encrypted in vault)": "رمز عبور (به صورت رمزگذاری شده در گاوصندوق ذخیره خواهد شد)",
+    "Password (will be stored encrypted in vault)":
+        "رمز عبور (به صورت رمزگذاری شده در گاوصندوق ذخیره خواهد شد)",
     "Paste clipboard": "چسباندن کلیپ بورد",
     "Paste from clipboard": "چسباندن از کلیپ‌بورد",
     "Paste lines": "چسباندن خطوط",
-    "Paste or type an existing 0x + 64 hex private key. This ": "یک کلید خصوصی 0x + 64 هگز موجود را جای‌گذاری یا تایپ کنید. ",
+    "Paste or type an existing 0x + 64 hex private key. This ":
+        "یک کلید خصوصی 0x + 64 هگز موجود را جای‌گذاری یا تایپ کنید. ",
     "Paste phrase": "عبارت را بچسبانید",
     "Paste proxy URL": "جایگذاری آدرس اینترنتی پروکسی",
     "Paste proxy URL (optional)": "جایگذاری آدرس پروکسی (اختیاری)",
@@ -874,7 +1046,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Path": "مسیر",
     "Payload": "payload",
     "Pending cold request": "درخواست سرد در انتظار",
-    "Point the wallet at a SOCKS port that another Tor instance ": "کیف پول را به سمت پورت SOCKS که نمونه Tor دیگری است، بگیرید",
+    "Point the wallet at a SOCKS port that another Tor instance ":
+        "کیف پول را به سمت پورت SOCKS که نمونه Tor دیگری است، بگیرید",
     "Port": "پورت",
     "Privacy": "حریم خصوصی",
     "Privacy route test": "تست مسیر حریم خصوصی",
@@ -892,7 +1065,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Public profiles (labels only)": "نمایه های عمومی (فقط برچسب ها)",
     "QR / file to carry back online": "QR / فایل برای حمل آنلاین",
     "QR / file with public addresses only": "QR / فایل فقط با آدرس های عمومی",
-    "Query N nodes and cross-check answers": "N گره را پرس و جو کنید و پاسخ ها را بررسی کنید",
+    "Query N nodes and cross-check answers":
+        "N گره را پرس و جو کنید و پاسخ ها را بررسی کنید",
     "Quorum": "حد نصاب",
     "Raw call data": "داده های تماس خام",
     "Raw lines for this stop": "خطوط خام برای این توقف",
@@ -901,7 +1075,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Raw signed transaction": "معامله امضا شده خام",
     "Read file": "فایل را بخوانید",
     "Read payload from file": "خواندن payload از فایل",
-    "Read-only: no key is imported or stored": "فقط خواندنی: هیچ کلیدی وارد یا ذخیره نمی شود",
+    "Read-only: no key is imported or stored":
+        "فقط خواندنی: هیچ کلیدی وارد یا ذخیره نمی شود",
     "Receipt": "رسید",
     "Receive": "دریافت کنید",
     "Receive QR": "QR دریافت",
@@ -910,7 +1085,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Recovery phrase": "عبارت بازیابی",
     "Recovery phrase (12 / 24 words)": "عبارت بازیابی (12/24 کلمه)",
     "Recovery phrase length": "طول عبارت بازیابی",
-    "Recovery phrase, private key, keystore, or watch-only": "عبارت بازیابی، کلید خصوصی، فروشگاه کلید، یا فقط برای تماشا",
+    "Recovery phrase, private key, keystore, or watch-only":
+        "عبارت بازیابی، کلید خصوصی، فروشگاه کلید، یا فقط برای تماشا",
     "Refresh": "تازه کردن",
     "Refresh balances": "تازه کردن تعادل",
     "Refresh logs": "گزارش‌ها را تازه‌سازی کنید",
@@ -936,7 +1112,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Review offline signing": "امضای آفلاین را مرور کنید",
     "Review transaction": "بررسی معامله",
     "Risk controls on GitHub": "کنترل ریسک در GitHub",
-    "Rotate through enabled nodes for privacy": "برای حفظ حریم خصوصی از طریق گره های فعال شده بچرخید",
+    "Rotate through enabled nodes for privacy":
+        "برای حفظ حریم خصوصی از طریق گره های فعال شده بچرخید",
     "Round-robin / random": "دورگرد / تصادفی",
     "SOCKS host": "میزبان SOCKS",
     "SOCKS port": "پورت SOCKS",
@@ -960,7 +1137,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Save to vault": "ذخیره در طاق",
     "Save upstream and chain": "بالادست و زنجیره را ذخیره کنید",
     "Search messages, category, tx hash…": "جستجوی پیام ها، دسته بندی، هش tx…",
-    "Search the word, then tap it. Only tap-order builds the phrase — ": "کلمه را جستجو کنید، سپس روی آن ضربه بزنید. ",
+    "Search the word, then tap it. Only tap-order builds the phrase — ":
+        "کلمه را جستجو کنید، سپس روی آن ضربه بزنید. ",
     "Search word list": "جستجوی فهرست کلمات",
     "Secret storage": "ذخیره سازی مخفی",
     "Select language": "زبان را انتخاب کنید",
@@ -969,7 +1147,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Selection mode / use for…": "حالت انتخاب / استفاده برای…",
     "Send": "ارسال کنید",
     "Send native coin or EVM tokens": "سکه های بومی یا توکن های EVM ارسال کنید",
-    "Sending is irreversible. Verify the recipient and amount independently.": "ارسال غیر قابل برگشت است ",
+    "Sending is irreversible. Verify the recipient and amount independently.":
+        "ارسال غیر قابل برگشت است ",
     "Sensitive actions": "اقدامات حساس",
     "Sensitive export": "صادرات حساس",
     "Set app PIN": "پین برنامه را تنظیم کنید",
@@ -988,50 +1167,76 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Start managed Tor": "Tor مدیریت شده را شروع کنید",
     "Stop managed Tor": "تور مدیریت شده را متوقف کنید",
     "Storage": "ذخیره سازی",
-    "Store the label and public address only. No secret is saved.": "فقط برچسب و آدرس عمومی را ذخیره کنید. هیچ رازی ذخیره نمی شود.",
+    "Store the label and public address only. No secret is saved.":
+        "فقط برچسب و آدرس عمومی را ذخیره کنید. هیچ رازی ذخیره نمی شود.",
     "Store this account in an Argon2id + XChaCha20-Poly1305 encrypted local vault.": "این حساب را در یک خزانه محلی رمزگذاری شده Argon2id + XChaCha20-Poly1305 ذخیره کنید.",
     "Successful only": "فقط موفق",
     "Switch node": "سوئیچ گره",
-    "Switching networks verifies the chain ID before any RPC call.": "سوئیچینگ شبکه ها شناسه زنجیره را قبل از هر تماس RPC تأیید می کند.",
+    "Switching networks verifies the chain ID before any RPC call.":
+        "سوئیچینگ شبکه ها شناسه زنجیره را قبل از هر تماس RPC تأیید می کند.",
     "System default": "پیش فرض سیستم",
     "Take it with you": "با خودت ببر",
-    "Tap any stop for its own detail card and raw lines.": "برای کارت جزئیات و خطوط خام خود، روی هر ایستگاهی ضربه بزنید.",
-    "Tell me your vault password and I will open it — then you ": "رمز عبور خزانه خود را به من بگویید و من آن را باز می کنم - سپس شما",
+    "Tap any stop for its own detail card and raw lines.":
+        "برای کارت جزئیات و خطوط خام خود، روی هر ایستگاهی ضربه بزنید.",
+    "Tell me your vault password and I will open it — then you ":
+        "رمز عبور خزانه خود را به من بگویید و من آن را باز می کنم - سپس شما",
     "Test": "تست کنید",
     "Test external Tor": "Tor خارجی را تست کنید",
     "Test history now": "اکنون سابقه آزمایش",
-    "Test privacy route — who sees what": "تست مسیر حریم خصوصی - چه کسی چه چیزی را می بیند",
+    "Test privacy route — who sees what":
+        "تست مسیر حریم خصوصی - چه کسی چه چیزی را می بیند",
     "Test token": "نشانه تست",
     "Testing the real route…": "تست مسیر واقعی…",
     "Testnet (97)": "شبکه تست (97)",
     "The RPC node (the door you chose)": "گره RPC (دری که انتخاب کردید)",
-    "The explorer is a third-party website. Opening it tells that site ": "کاوشگر یک وب سایت شخص ثالث است. ",
-    "The key is shown once after you press Generate. The app ": "بعد از اینکه Generate را فشار دادید، کلید یک بار نشان داده می شود. ",
-    "The limit can never go below the simulation. A custom fee is ": "محدودیت هرگز نمی تواند از شبیه سازی کمتر شود. ",
-    "The receipt was fetched from two independent ": "رسید از دو مستقل دریافت شد",
-    "The selected backup will replace the current vault only after its ": "پشتیبان انتخاب شده تنها پس از آن جایگزین خزانه فعلی می شود",
-    "The text contains your address, the recipient, the amount, and the ": "متن شامل آدرس شما، گیرنده، مبلغ، و",
-    "The transaction is rehearsed on the chain first, then reviewed — ": "تراکنش ابتدا در زنجیره تکرار می شود، سپس بررسی می شود -",
-    "The vault can be moved with the existing vault move flow. ": "طاق را می توان با جریان حرکت طاق موجود جابه جا کرد.",
-    "The vault, receipts, and activity log are encrypted at rest. ": "خزانه، رسیدها و گزارش فعالیت در حالت استراحت رمزگذاری می شوند.",
-    "The wallet is unlocked. Compare this address with your other ": "کیف پول آنلاک است. ",
+    "The explorer is a third-party website. Opening it tells that site ":
+        "کاوشگر یک وب سایت شخص ثالث است. ",
+    "The key is shown once after you press Generate. The app ":
+        "بعد از اینکه Generate را فشار دادید، کلید یک بار نشان داده می شود. ",
+    "The limit can never go below the simulation. A custom fee is ":
+        "محدودیت هرگز نمی تواند از شبیه سازی کمتر شود. ",
+    "The receipt was fetched from two independent ":
+        "رسید از دو مستقل دریافت شد",
+    "The selected backup will replace the current vault only after its ":
+        "پشتیبان انتخاب شده تنها پس از آن جایگزین خزانه فعلی می شود",
+    "The text contains your address, the recipient, the amount, and the ":
+        "متن شامل آدرس شما، گیرنده، مبلغ، و",
+    "The transaction is rehearsed on the chain first, then reviewed — ":
+        "تراکنش ابتدا در زنجیره تکرار می شود، سپس بررسی می شود -",
+    "The vault can be moved with the existing vault move flow. ":
+        "طاق را می توان با جریان حرکت طاق موجود جابه جا کرد.",
+    "The vault, receipts, and activity log are encrypted at rest. ":
+        "خزانه، رسیدها و گزارش فعالیت در حالت استراحت رمزگذاری می شوند.",
+    "The wallet is unlocked. Compare this address with your other ":
+        "کیف پول آنلاک است. ",
     "Theme": "موضوع",
-    "Theme affects the entire app. AMOLED black saves power on OLED screens.": "تم روی کل برنامه تاثیر می گذارد. ",
-    "These are just labels + addresses for quick reference. No secrets stored.": "اینها فقط برچسب ها + آدرس ها برای مرجع سریع هستند. ",
+    "Theme affects the entire app. AMOLED black saves power on OLED screens.":
+        "تم روی کل برنامه تاثیر می گذارد. ",
+    "These are just labels + addresses for quick reference. No secrets stored.":
+        "اینها فقط برچسب ها + آدرس ها برای مرجع سریع هستند. ",
     "These are the only computers I may ask about balances and blocks. ": "اینها تنها رایانه هایی هستند که ممکن است در مورد تعادل و بلوک ها بپرسم.",
-    "These links are starting points, not blessings: the wallet ": "این پیوندها نقطه شروع هستند، نه موهبت: کیف پول",
-    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.": "این بایت های عمومی همان چیزی است که به شبکه رفت. ",
-    "This device holds the key but no network connection. Prepare ": "این دستگاه کلید را نگه می دارد اما اتصال شبکه ندارد. ",
-    "This export can reveal your activity": "این صادرات می تواند فعالیت شما را نشان دهد",
+    "These links are starting points, not blessings: the wallet ":
+        "این پیوندها نقطه شروع هستند، نه موهبت: کیف پول",
+    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.":
+        "این بایت های عمومی همان چیزی است که به شبکه رفت. ",
+    "This device holds the key but no network connection. Prepare ":
+        "این دستگاه کلید را نگه می دارد اما اتصال شبکه ندارد. ",
+    "This export can reveal your activity":
+        "این صادرات می تواند فعالیت شما را نشان دهد",
     "This is a watch-only profile": "این نمایه فقط برای تماشا است",
-    "This is the ONLY way to restore this wallet. Write the ": "این تنها راه برای بازیابی این کیف پول است. ",
-    "This online companion holds no key. Import the public pairing ": "این همراه آنلاین هیچ کلیدی ندارد. ",
-    "This only forgets the entry on this device. It does not stop ": "این فقط ورودی این دستگاه را فراموش می کند. متوقف نمی شود",
-    "This only reads public blockchain data. No secrets are accessed.": "این فقط داده های بلاک چین عمومی را می خواند. ",
+    "This is the ONLY way to restore this wallet. Write the ":
+        "این تنها راه برای بازیابی این کیف پول است. ",
+    "This online companion holds no key. Import the public pairing ":
+        "این همراه آنلاین هیچ کلیدی ندارد. ",
+    "This only forgets the entry on this device. It does not stop ":
+        "این فقط ورودی این دستگاه را فراموش می کند. متوقف نمی شود",
+    "This only reads public blockchain data. No secrets are accessed.":
+        "این فقط داده های بلاک چین عمومی را می خواند. ",
     "This panel is generated from the calls this send actually made — not a fixed claim.": "این پانل از تماس‌هایی که این ارسال واقعاً انجام داده است ایجاد می‌شود - نه یک ادعای ثابت.",
     "This permanently removes the account from the encrypted vault. The secret cannot be recovered.": "این به طور دائم حساب را از خزانه رمزگذاری شده حذف می کند. راز را نمی توان پیدا کرد.",
     "To (full address — verify ALL of it):": "به (آدرس کامل - تأیید همه آن):",
-    "Token (will be stored encrypted in vault)": "رمز (به صورت رمزگذاری شده در خزانه ذخیره می شود)",
+    "Token (will be stored encrypted in vault)":
+        "رمز (به صورت رمزگذاری شده در خزانه ذخیره می شود)",
     "Tokens (USDT, USDC, etc.)": "توکن ها (USDT، USDC و غیره)",
     "Tor & bridges…": "تور و پل ها…",
     "Tor and bridges": "تور و پل ها",
@@ -1039,12 +1244,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Tor log copied.": "گزارش Tor کپی شد.",
     "Transaction hash": "هش تراکنش",
     "Transaction history": "تاریخچه معاملات",
-    "Transactions sent from this device that are not resolved yet. ": "تراکنش های ارسال شده از این دستگاه که هنوز حل نشده اند.",
+    "Transactions sent from this device that are not resolved yet. ":
+        "تراکنش های ارسال شده از این دستگاه که هنوز حل نشده اند.",
     "Type DELETE to confirm": "برای تایید، DELETE را تایپ کنید",
     "Type ERASE to confirm": "برای تایید، عبارت ERASE را تایپ کنید",
     "Type RESET to confirm": "برای تایید، RESET را تایپ کنید",
     "Type USE to confirm": "برای تایید، USE را تایپ کنید",
-    "Type these words from the paper backup you just made. The ": "این کلمات را از پشتیبان کاغذی که به تازگی ساخته اید تایپ کنید. ",
+    "Type these words from the paper backup you just made. The ":
+        "این کلمات را از پشتیبان کاغذی که به تازگی ساخته اید تایپ کنید. ",
     "URL (https:// only)": "URL (فقط https://)",
     "Unlock": "باز کردن قفل",
     "Unlock encrypted vault": "قفل طاق رمزگذاری شده را باز کنید",
@@ -1052,7 +1259,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Unlock vault": "قفل طاق را باز کنید",
     "Unlock vault account": "قفل حساب صندوق را باز کنید",
     "Unnamed wallet": "کیف پول بدون نام",
-    "Unused EIP-1559 headroom and gas limit are never charged.": "استفاده نشده EIP-1559 فضای سر و محدودیت گاز هرگز شارژ نمی شود.",
+    "Unused EIP-1559 headroom and gas limit are never charged.":
+        "استفاده نشده EIP-1559 فضای سر و محدودیت گاز هرگز شارژ نمی شود.",
     "Upstream before Tor": "بالادست قبل از Tor",
     "Upstream host": "میزبان بالادست",
     "Use ONLY my node (strict)": "از ONLY my node (سخت) استفاده کنید",
@@ -1062,25 +1270,31 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Use this door": "از این درب استفاده کنید",
     "Use this fee": "از این هزینه استفاده کنید",
     "Use this node for everything?": "از این گره برای همه چیز استفاده کنید؟",
-    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.": "برای موجودی ها، غیره، هزینه ها، رسیدها و پخش استفاده می شود. ",
+    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.":
+        "برای موجودی ها، غیره، هزینه ها، رسیدها و پخش استفاده می شود. ",
     "Username": "نام کاربری",
     "Username (empty for none)": "نام کاربری (خالی برای هیچ کدام)",
     "Username (optional)": "نام کاربری (اختیاری)",
     "VLESS/Xray command copied.": "دستور VLESS/Xray کپی شد.",
-    "VLESS/Xray example: inbound protocol \"socks\", listen ": "مثال VLESS/Xray: پروتکل ورودی \"جوراب\"، گوش کنید",
+    "VLESS/Xray example: inbound protocol \"socks\", listen ":
+        "مثال VLESS/Xray: پروتکل ورودی \"جوراب\"، گوش کنید",
     "VPN / VLESS / proxy before Tor": "VPN / VLESS / پروکسی قبل از Tor",
     "Vault account label": "برچسب حساب خزانه",
     "Vault accounts": "حساب های خزانه",
-    "Vault is locked or has no accounts.": "Vault قفل است یا هیچ حساب کاربری ندارد.",
+    "Vault is locked or has no accounts.":
+        "Vault قفل است یا هیچ حساب کاربری ندارد.",
     "Vault password": "رمز خزانه",
     "Vault password (16+ characters)": "رمز عبور خزانه (16+ نویسه)",
     "Vault password (hidden)": "رمز عبور صندوق (پنهان)",
-    "Vault password to confirm deletion": "رمز عبور را برای تأیید حذف ذخیره کنید",
+    "Vault password to confirm deletion":
+        "رمز عبور را برای تأیید حذف ذخیره کنید",
     "Verify": "تأیید کنید",
     "Verify recovery phrase": "عبارت بازیابی را تأیید کنید",
     "Verify strictly, then broadcast": "به شدت تأیید کنید، سپس پخش کنید",
-    "Verify the fingerprint, then watch only": "اثر انگشت را تأیید کنید، سپس فقط تماشا کنید",
-    "View example raw request (what the node actually receives)": "مشاهده نمونه درخواست خام (آنچه گره واقعاً دریافت می کند)",
+    "Verify the fingerprint, then watch only":
+        "اثر انگشت را تأیید کنید، سپس فقط تماشا کنید",
+    "View example raw request (what the node actually receives)":
+        "مشاهده نمونه درخواست خام (آنچه گره واقعاً دریافت می کند)",
     "View raw requests": "مشاهده درخواست های خام",
     "View receipt": "مشاهده رسید",
     "Waiting in the network": "در حال انتظار در شبکه",
@@ -1090,41 +1304,53 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Wallet name": "نام کیف پول",
     "Wallet type": "نوع کیف پول",
     "Watch an address": "یک آدرس را تماشا کنید",
-    "Watch-only · this device holds no key for this address": "فقط برای تماشا · این دستگاه کلیدی برای این آدرس ندارد",
-    "WebTunnel and meek need their client binaries; Ubuntu does ": "WebTunnel و meek به باینری های مشتری خود نیاز دارند. ",
+    "Watch-only · this device holds no key for this address":
+        "فقط برای تماشا · این دستگاه کلیدی برای این آدرس ندارد",
+    "WebTunnel and meek need their client binaries; Ubuntu does ":
+        "WebTunnel و meek به باینری های مشتری خود نیاز دارند. ",
     "Welcome": "خوش آمدید",
-    "What the chain recorded (event logs)": "آنچه زنجیره ثبت کرده است (گزارش های رویداد)",
+    "What the chain recorded (event logs)":
+        "آنچه زنجیره ثبت کرده است (گزارش های رویداد)",
     "What the contract was told": "قرارداد چه گفته شد",
     "What the node knows": "آنچه که گره می داند",
     "What the node sees": "چیزی که گره می بیند",
     "What this door will see": "این در چه خواهد دید",
     "What you paid": "چیزی که پرداختی",
     "Why X Wallet": "چرا کیف پول X",
-    "Write every word on paper, in this order. This phrase ": "هر کلمه را به این ترتیب روی کاغذ بنویسید. ",
-    "Writes a file in the system temp folder.": "فایلی را در پوشه temp system می نویسد.",
+    "Write every word on paper, in this order. This phrase ":
+        "هر کلمه را به این ترتیب روی کاغذ بنویسید. ",
+    "Writes a file in the system temp folder.":
+        "فایلی را در پوشه temp system می نویسد.",
     "X Wallet": "کیف پول X",
     "X Wallet 1.1.0": "کیف پول X 1.1.0",
     "Yes": "بله",
-    "Your ISP / DPI (internet provider, firewalls)": "ISP / DPI شما (ارائه دهنده اینترنت، فایروال)",
+    "Your ISP / DPI (internet provider, firewalls)":
+        "ISP / DPI شما (ارائه دهنده اینترنت، فایروال)",
     "from your written backup": "از پشتیبان کتبی شما",
     "jackh109867@gmail.com": "jackh109867@gmail.com",
     "proxy.example or 127.0.0.1": "proxy.example یا 127.0.0.1",
     "right chain": "زنجیر راست",
-    "socks5h://user:pass@host:1080 or https://host:8080": "socks5h://user:pass@host:1080 یا https://host:8080",
-    "socks5h://user:pass@proxy.example:1080": "socks5h://user:pass@proxy.example:1080",
+    "socks5h://user:pass@host:1080 or https://host:8080":
+        "socks5h://user:pass@host:1080 یا https://host:8080",
+    "socks5h://user:pass@proxy.example:1080":
+        "socks5h://user:pass@proxy.example:1080",
     "Русский (Russian)": "Русский (روسی)",
     "العربية (Arabic)": "العربية (عربي)",
     "فارسی (Persian)": "فارسی (فارسی)",
-    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.": "⚠ خطر مسمومیت: آدرس ذخیره شده مشابهی وجود دارد. ",
-    "⚠ Recipient is THIS wallet. This transfer would only spend gas.": "⚠ گیرنده این کیف پول است. ",
+    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.":
+        "⚠ خطر مسمومیت: آدرس ذخیره شده مشابهی وجود دارد. ",
+    "⚠ Recipient is THIS wallet. This transfer would only spend gas.":
+        "⚠ گیرنده این کیف پول است. ",
     "⚠️ Fake \"official\" sites are the most common way tokens are faked. ": "⚠️ سایت‌های «رسمی» جعلی رایج‌ترین روشی هستند که توکن‌ها را جعلی می‌کنند.",
     "✅ CAN see:": "✅ می توانید ببینید:",
     "❌ CANNOT see:": "❌ نمی توانم ببینم:",
     "中文 (Chinese)": "中文 (چینی)",
   },
   "ar": {
-    "(The shipped source list could not be read from the app bundle — ": "(تعذرت قراءة قائمة المصادر المشحونة من حزمة التطبيق —",
-    "/home/you/secure/x-wallet-vault.bnb": "/home/you/secure/x-wallet-vault.bnb",
+    "(The shipped source list could not be read from the app bundle — ":
+        "(تعذرت قراءة قائمة المصادر المشحونة من حزمة التطبيق —",
+    "/home/you/secure/x-wallet-vault.bnb":
+        "/home/you/secure/x-wallet-vault.bnb",
     "0x followed by 64 hex characters": "0x متبوعًا بـ 64 حرفًا سداسيًا عشريًا",
     "1 — Tor (normal)": "1 - تور (عادي)",
     "12 or 24 words": "12 أو 24 كلمة",
@@ -1134,9 +1360,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "24 words": "24 كلمة",
     "3 — Tor over Tor over Tor": "3 - تور فوق تور فوق تور",
     "A node you add can see your IP address (unless you route through ": "يمكن للعقدة التي تضيفها رؤية عنوان IP الخاص بك (ما لم تقم بالتوجيه من خلاله",
-    "A plain-words timeline (Simple) and the full technical record ": "جدول زمني واضح (بسيط) والسجل الفني الكامل",
-    "A receipt is a public record of this transaction. Sharing it ": "الإيصال هو سجل عام لهذه المعاملة. ",
-    "A system VPN (WireGuard or OpenVPN) is used automatically ": "يتم استخدام نظام VPN (WireGuard أو OpenVPN) تلقائيًا",
+    "A plain-words timeline (Simple) and the full technical record ":
+        "جدول زمني واضح (بسيط) والسجل الفني الكامل",
+    "A receipt is a public record of this transaction. Sharing it ":
+        "الإيصال هو سجل عام لهذه المعاملة. ",
+    "A system VPN (WireGuard or OpenVPN) is used automatically ":
+        "يتم استخدام نظام VPN (WireGuard أو OpenVPN) تلقائيًا",
     "AMOLED black": "أموليد أسود",
     "API key (hidden)": "مفتاح واجهة برمجة التطبيقات (مخفي)",
     "API key configured (hidden).": "تم تكوين مفتاح API (مخفي).",
@@ -1144,10 +1373,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Absolute path": "المسار المطلق",
     "Account index": "مؤشر الحساب",
     "Active route": "الطريق النشط",
-    "Actual paid fee appears on the receipt when the chain answers.": "تظهر الرسوم الفعلية المدفوعة على الإيصال عندما تجيب السلسلة.",
+    "Actual paid fee appears on the receipt when the chain answers.":
+        "تظهر الرسوم الفعلية المدفوعة على الإيصال عندما تجيب السلسلة.",
     "Add": "يضيف",
     "Add API key": "أضف مفتاح API",
-    "Add a BscScan API key in Settings to enable full history. ": "أضف مفتاح BscScan API في الإعدادات لتمكين السجل الكامل.",
+    "Add a BscScan API key in Settings to enable full history. ":
+        "أضف مفتاح BscScan API في الإعدادات لتمكين السجل الكامل.",
     "Add node": "إضافة عقدة",
     "Add node…": "إضافة عقدة...",
     "Add this token": "أضف هذا الرمز المميز",
@@ -1155,32 +1386,40 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Add your own link": "أضف الرابط الخاص بك",
     "Add your own link…": "أضف الرابط الخاص بك...",
     "Address": "العنوان",
-    "Address (https, or http for local/LAN/.onion)": "العنوان (https، أو http لـ local/LAN/.onion)",
-    "Address — https:// (or http:// for localhost/LAN/.onion)": "العنوان — https:// (أو http:// للمضيف المحلي/LAN/.onion)",
-    "Adds a token contract address to your balance list. Verified on-chain before saving.": "يضيف عنوان عقد رمزي إلى قائمة رصيدك. ",
+    "Address (https, or http for local/LAN/.onion)":
+        "العنوان (https، أو http لـ local/LAN/.onion)",
+    "Address — https:// (or http:// for localhost/LAN/.onion)":
+        "العنوان — https:// (أو http:// للمضيف المحلي/LAN/.onion)",
+    "Adds a token contract address to your balance list. Verified on-chain before saving.":
+        "يضيف عنوان عقد رمزي إلى قائمة رصيدك. ",
     "Advanced fee": "رسوم متقدمة",
     "Advanced: enter my own fee": "متقدم: أدخل الرسوم الخاصة بي",
     "Advantages": "المزايا",
     "All": "الجميع",
-    "Always pick the fastest-responding node": "اختر دائمًا العقدة الأسرع استجابة",
+    "Always pick the fastest-responding node":
+        "اختر دائمًا العقدة الأسرع استجابة",
     "Always shown": "تظهر دائما",
     "Always use the selected node": "استخدم العقدة المحددة دائمًا",
     "Answer time": "وقت الإجابة",
-    "Answer-time history (oldest → newest)": "سجل وقت الإجابة (الأقدم → الأحدث)",
+    "Answer-time history (oldest → newest)":
+        "سجل وقت الإجابة (الأقدم → الأحدث)",
     "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.": "يمكن لأي شخص يمكنه رؤية هذه الشاشة سرقة جميع الأموال. لا تكشف الأسرار إلا على جهاز خاص موثوق به.",
     "Asset": "الأصل",
     "Authentication (Bearer/Basic)": "المصادقة (الحامل/الأساسية)",
     "Auto-fastest": "السيارات الأسرع",
     "BIP-39 passphrase": "عبارة المرور BIP-39",
-    "BIP-39 passphrase (25th word) — optional": "عبارة مرور BIP-39 (الكلمة الخامسة والعشرون) — اختيارية",
+    "BIP-39 passphrase (25th word) — optional":
+        "عبارة مرور BIP-39 (الكلمة الخامسة والعشرون) — اختيارية",
     "BNB balance at review: ": "رصيد BNB قيد المراجعة:",
     "Back": "خلف",
-    "Back up your new private key": "قم بعمل نسخة احتياطية من مفتاحك الخاص الجديد",
+    "Back up your new private key":
+        "قم بعمل نسخة احتياطية من مفتاحك الخاص الجديد",
     "Background lock is active.": "قفل الخلفية نشط.",
     "Backup": "النسخ الاحتياطي",
     "Backup password": "كلمة المرور الاحتياطية",
     "Balances": "أرصدة",
-    "Base64 SHA-256 of SPKI (one per line)": "Base64 SHA-256 من SPKI (واحد لكل سطر)",
+    "Base64 SHA-256 of SPKI (one per line)":
+        "Base64 SHA-256 من SPKI (واحد لكل سطر)",
     "Basic auth": "مصادقة أساسية",
     "Bearer token": "رمز Bearer",
     "Bridge lines": "خطوط الجسور",
@@ -1194,10 +1433,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Chain facts": "حقائق السلسلة",
     "Change transport…": "تغيير النقل...",
     "Check": "يفحص",
-    "Check the build yourself: verify SHA256SUMS ": "تحقق من البنية بنفسك: تحقق من SHA256SUMS",
+    "Check the build yourself: verify SHA256SUMS ":
+        "تحقق من البنية بنفسك: تحقق من SHA256SUMS",
     "Check this node now": "تحقق من هذه العقدة الآن",
     "Checks & notes": "الشيكات والملاحظات",
-    "Choose another wallet stored on this device": "اختر محفظة أخرى مخزنة على هذا الجهاز",
+    "Choose another wallet stored on this device":
+        "اختر محفظة أخرى مخزنة على هذا الجهاز",
     "Choose export": "اختر تصدير",
     "Clear": "واضح",
     "Clear all logs": "مسح كافة السجلات",
@@ -1212,11 +1453,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Cold signing request": "توقيع بيانات الطلب",
     "Common proxy setups": "إعدادات الوكيل الشائعة",
     "Compare another": "قارن آخر",
-    "Component inventory: docs/SBOM.json in the app package.": "جرد المكونات: docs/SBOM.json في حزمة التطبيق.",
+    "Component inventory: docs/SBOM.json in the app package.":
+        "جرد المكونات: docs/SBOM.json في حزمة التطبيق.",
     "Confirm PIN (hidden)": "تأكيد رقم التعريف الشخصي (مخفي)",
     "Confirm app PIN": "تأكيد رقم التعريف الشخصي للتطبيق",
     "Confirm vault password": "تأكيد كلمة مرور المخزن",
-    "Connection story — what just happened, in plain words": "قصة الاتصال – ما حدث للتو، بكلمات واضحة",
+    "Connection story — what just happened, in plain words":
+        "قصة الاتصال – ما حدث للتو، بكلمات واضحة",
     "Continue": "يكمل",
     "Continue to verification": "الاستمرار في التحقق",
     "Contract address": "عنوان العقد",
@@ -1245,7 +1488,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Copy vault path": "نسخ مسار القبو",
     "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ": "قم بإنشاء محفظة BIP-39 جديدة أو قم باستيراد مفتاح خاص موجود، أو عبارة استرداد، أو",
     "Create a new wallet": "إنشاء محفظة جديدة",
-    "Create a new wallet or import an existing one to see balances, ": "قم بإنشاء محفظة جديدة أو قم باستيراد محفظة موجودة لمعرفة الأرصدة،",
+    "Create a new wallet or import an existing one to see balances, ":
+        "قم بإنشاء محفظة جديدة أو قم باستيراد محفظة موجودة لمعرفة الأرصدة،",
     "Create a wallet first, then save it to the vault from the unlocked wallet actions.": "أنشئ محفظة أولاً، ثم احفظها في المخزن من إجراءات المحفظة غير المؤمّنة.",
     "Create vault": "إنشاء قبو",
     "Create wallet": "إنشاء محفظة",
@@ -1253,41 +1497,57 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Custom": "المخصص",
     "Custom BIP-32 path": "مسار BIP -32 مخصص",
     "Custom proxy": "الوكيل المخصص",
-    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ": "الوكيل المخصص: SOCKS5، أو SOCKS5h، أو HTTP CONNECT، مع المجال/IP",
+    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ":
+        "الوكيل المخصص: SOCKS5، أو SOCKS5h، أو HTTP CONNECT، مع المجال/IP",
     "Custom proxy…": "وكيل مخصص...",
     "Dark": "مظلم",
-    "Default — holds seed, signs, broadcasts": "الافتراضي - يحمل البذور، والعلامات، والبث",
+    "Default — holds seed, signs, broadcasts":
+        "الافتراضي - يحمل البذور، والعلامات، والبث",
     "Delete": "حذف",
     "Delete from vault": "حذف من القبو",
     "Delete vault account": "حذف حساب المخزن",
-    "Deletes the encrypted vault, the PIN, the device-bound key and every ": "يحذف المخزن المشفر ورقم التعريف الشخصي والمفتاح المرتبط بالجهاز وكل",
+    "Deletes the encrypted vault, the PIN, the device-bound key and every ":
+        "يحذف المخزن المشفر ورقم التعريف الشخصي والمفتاح المرتبط بالجهاز وكل",
     "Derivation path": "مسار الاشتقاق",
-    "Direct mode: your ISP sees the RPC hostname and your IP. ": "الوضع المباشر: يرى موفر خدمة الإنترنت اسم مضيف RPC وIP الخاص بك.",
+    "Direct mode: your ISP sees the RPC hostname and your IP. ":
+        "الوضع المباشر: يرى موفر خدمة الإنترنت اسم مضيف RPC وIP الخاص بك.",
     "Disable Tor": "تعطيل تور",
     "Disable Tor route": "تعطيل طريق تور",
     "Disable proxy": "تعطيل الوكيل",
-    "Donations are irreversible. This dialog never appears in a ": "التبرعات لا رجعة فيها. ",
+    "Donations are irreversible. This dialog never appears in a ":
+        "التبرعات لا رجعة فيها. ",
     "Done": "منتهي",
-    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.": "يحتوي كل حساب قبو على مفتاحه الخاص وعبارة الاسترداد الاختيارية. ",
-    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.": "تحتفظ كل محفظة بأسرارها الخاصة. ",
+    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.":
+        "يحتوي كل حساب قبو على مفتاحه الخاص وعبارة الاسترداد الاختيارية. ",
+    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.":
+        "تحتفظ كل محفظة بأسرارها الخاصة. ",
     "Edit": "يحرر",
     "Edit node": "تحرير عقدة",
     "Enable app lock": "تمكين قفل التطبيق",
     "Encrypted vault accounts": "حسابات قبو مشفرة",
-    "Encrypted vault is the only persistent secret storage offered. ": "المخزن المشفر هو المخزن السري الدائم الوحيد المتوفر.",
+    "Encrypted vault is the only persistent secret storage offered. ":
+        "المخزن المشفر هو المخزن السري الدائم الوحيد المتوفر.",
     "English": "إنجليزي",
-    "Enter an address to see public balances.": "أدخل عنوانًا لرؤية الأرصدة العامة.",
-    "Enter vault password to list accounts": "أدخل كلمة مرور المخزن لإدراج الحسابات",
+    "Enter an address to see public balances.":
+        "أدخل عنوانًا لرؤية الأرصدة العامة.",
+    "Enter vault password to list accounts":
+        "أدخل كلمة مرور المخزن لإدراج الحسابات",
     "Erase all data?": "هل تريد مسح جميع البيانات ؟",
     "Erase everything…": "مسح كل شيء…",
     "Español (Spanish)": "الأسبانية (الإسبانية)",
     "Ethereum V3 keystore": "مخزن مفاتيح إيثريوم V3",
-    "Every RPC and explorer request uses this one route. There is ": "يستخدم كل طلب RPC والمستكشف هذا المسار الواحد. ",
-    "Every stored log line on this device will be deleted. Receipts and ": "سيتم حذف كل سطر سجل مخزن على هذا الجهاز. الإيصالات و",
-    "Everyone on the blockchain (public forever)": "الجميع على البلوك تشين (عامة إلى الأبد)",
-    "Exactly one route is active for every RPC and explorer request. ": "هناك مسار واحد نشط بالضبط لكل طلب RPC ومستكشف.",
-    "Exactly what was sent to the node and what it answered. This ": "بالضبط ما تم إرساله إلى العقدة وما أجاب عليه. ",
-    "Example raw request (balance check)": "مثال للطلب الأولي (التحقق من الرصيد)",
+    "Every RPC and explorer request uses this one route. There is ":
+        "يستخدم كل طلب RPC والمستكشف هذا المسار الواحد. ",
+    "Every stored log line on this device will be deleted. Receipts and ":
+        "سيتم حذف كل سطر سجل مخزن على هذا الجهاز. الإيصالات و",
+    "Everyone on the blockchain (public forever)":
+        "الجميع على البلوك تشين (عامة إلى الأبد)",
+    "Exactly one route is active for every RPC and explorer request. ":
+        "هناك مسار واحد نشط بالضبط لكل طلب RPC ومستكشف.",
+    "Exactly what was sent to the node and what it answered. This ":
+        "بالضبط ما تم إرساله إلى العقدة وما أجاب عليه. ",
+    "Example raw request (balance check)":
+        "مثال للطلب الأولي (التحقق من الرصيد)",
     "Existing Tor or Orbot": "تور أو أوربوت الحالي",
     "Existing private key (paste)": "المفتاح الخاص الموجود (لصق)",
     "Expert": "خبير",
@@ -1310,19 +1570,27 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Gas limit": "حد الغاز",
     "HTTP CONNECT": "اتصال HTTP",
     "Hash QR": "تجزئة QR",
-    "Hiding only changes this screen and the send picker; the token ": "يؤدي الإخفاء إلى تغيير هذه الشاشة ومنتقي الإرسال فقط؛ ",
+    "Hiding only changes this screen and the send picker; the token ":
+        "يؤدي الإخفاء إلى تغيير هذه الشاشة ومنتقي الإرسال فقط؛ ",
     "History test log copied.": "تم نسخ سجل اختبار التاريخ.",
     "History test passed": "تم اجتياز اختبار التاريخ",
-    "History uses the public BscScan API V1 (Etherscan-compatible). ": "يستخدم السجل BscScan API V1 العام (متوافق مع Etherscan).",
+    "History uses the public BscScan API V1 (Etherscan-compatible). ":
+        "يستخدم السجل BscScan API V1 العام (متوافق مع Etherscan).",
     "Hold to sign offline": "اضغط مع الاستمرار للتوقيع في وضع عدم الاتصال",
-    "Holds seed, no network — signs requests offline": "يحمل البذور، ولا توجد شبكة - يوقع الطلبات دون الاتصال بالإنترنت",
-    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ": "المحفظة الساخنة تحمل البذرة ويمكنها التوقيع. ",
-    "Hot wallet: the signing key exists in memory while unlocked. Back up ": "المحفظة الساخنة: مفتاح التوقيع موجود في الذاكرة أثناء فتحه. ",
-    "How the wallet picks which RPC node to talk to for reads and ": "كيف تختار المحفظة عقدة RPC التي تريد التحدث إليها للقراءة و",
-    "I found your encrypted vault on this device": "لقد وجدت قبوتك المشفرة على هذا الجهاز",
+    "Holds seed, no network — signs requests offline":
+        "يحمل البذور، ولا توجد شبكة - يوقع الطلبات دون الاتصال بالإنترنت",
+    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ":
+        "المحفظة الساخنة تحمل البذرة ويمكنها التوقيع. ",
+    "Hot wallet: the signing key exists in memory while unlocked. Back up ":
+        "المحفظة الساخنة: مفتاح التوقيع موجود في الذاكرة أثناء فتحه. ",
+    "How the wallet picks which RPC node to talk to for reads and ":
+        "كيف تختار المحفظة عقدة RPC التي تريد التحدث إليها للقراءة و",
+    "I found your encrypted vault on this device":
+        "لقد وجدت قبوتك المشفرة على هذا الجهاز",
     "I understand": "أنا أفهم",
     "I wrote down the whole private key.": "لقد كتبت المفتاح الخاص بالكامل.",
-    "If you set one, the exact same passphrase is required ": "إذا قمت بتعيين واحدة، فستكون عبارة المرور نفسها مطلوبة",
+    "If you set one, the exact same passphrase is required ":
+        "إذا قمت بتعيين واحدة، فستكون عبارة المرور نفسها مطلوبة",
     "Import": "يستورد",
     "Import V3 keystore": "استيراد مخزن المفاتيح V3",
     "Import an existing wallet": "استيراد محفظة موجودة",
@@ -1334,7 +1602,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Import signed response": "استيراد الاستجابة الموقعة",
     "Incoming (received)": "الوارد (المستلم)",
     "Inspect any address": "فحص أي عنوان",
-    "It starts with 0x and has 64 hexadecimal characters after ": "يبدأ بـ 0x ويحتوي على 64 حرفًا سداسيًا عشريًا بعده",
+    "It starts with 0x and has 64 hexadecimal characters after ":
+        "يبدأ بـ 0x ويحتوي على 64 حرفًا سداسيًا عشريًا بعده",
     "Keep session-only": "احتفظ بالجلسة فقط",
     "Keystore JSON": "مخزن المفاتيح JSON",
     "Keystore password": "كلمة مرور مخزن المفاتيح",
@@ -1342,26 +1611,36 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Language": "لغة",
     "Last signed response": "آخر رد تم التوقيع عليه",
     "Latest block": "أحدث كتلة",
-    "Leave empty if the wallet has no passphrase": "اتركه فارغًا إذا كانت المحفظة لا تحتوي على عبارة مرور",
+    "Leave empty if the wallet has no passphrase":
+        "اتركه فارغًا إذا كانت المحفظة لا تحتوي على عبارة مرور",
     "Level": "مستوى",
-    "License: AGPL-3.0-or-later (see LICENSE in the app package).": "الترخيص: AGPL-3.0 أو الأحدث (انظر الترخيص في حزمة التطبيق).",
+    "License: AGPL-3.0-or-later (see LICENSE in the app package).":
+        "الترخيص: AGPL-3.0 أو الأحدث (انظر الترخيص في حزمة التطبيق).",
     "Light": "ضوء",
     "Lite mode": "الوضع البسيط",
-    "Lite mode keeps the same facts and honest states but removes the ": "يحتفظ الوضع البسيط بنفس الحقائق والحالات الصادقة ولكنه يزيل",
-    "Local receipts (kept encrypted, offline)": "الإيصالات المحلية (يتم الاحتفاظ بها مشفرة وغير متصلة بالإنترنت)",
-    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.": "محفظة EVM محلية وغير حاضنة. ",
+    "Lite mode keeps the same facts and honest states but removes the ":
+        "يحتفظ الوضع البسيط بنفس الحقائق والحالات الصادقة ولكنه يزيل",
+    "Local receipts (kept encrypted, offline)":
+        "الإيصالات المحلية (يتم الاحتفاظ بها مشفرة وغير متصلة بالإنترنت)",
+    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.":
+        "محفظة EVM محلية وغير حاضنة. ",
     "Lock": "قفل",
     "Lock wallet": "قفل المحفظة",
-    "Locks the wallet when it has been idle. The lock also happens immediately ": "يقفل المحفظة عندما تكون خاملة. ",
+    "Locks the wallet when it has been idle. The lock also happens immediately ":
+        "يقفل المحفظة عندما تكون خاملة. ",
     "Log details": "تفاصيل السجل",
-    "Log lines contain the nodes you talked to, times, and transaction ": "تحتوي خطوط السجل على العقد التي تحدثت إليها والأوقات والمعاملات",
+    "Log lines contain the nodes you talked to, times, and transaction ":
+        "تحتوي خطوط السجل على العقد التي تحدثت إليها والأوقات والمعاملات",
     "Logs": "سجلات",
-    "Logs stay on this device, encrypted, and never contain seed ": "تبقى السجلات على هذا الجهاز، مشفرة، ولا تحتوي على بذور أبدًا",
+    "Logs stay on this device, encrypted, and never contain seed ":
+        "تبقى السجلات على هذا الجهاز، مشفرة، ولا تحتوي على بذور أبدًا",
     "Made by jackh0006": "مصنوع بواسطة jackh0006",
-    "Made by jackh0006 · jackh109867@gmail.com": "تم بواسطة jackh0006 · jackh109867@gmail.com",
+    "Made by jackh0006 · jackh109867@gmail.com":
+        "تم بواسطة jackh0006 · jackh109867@gmail.com",
     "Mainnet (56)": "الشبكة الرئيسية (56)",
     "Managed Tor": "تور المدارة",
-    "Managed Tor is started and stopped by this app on Linux. It ": "يتم تشغيل Managed Tor وإيقافه بواسطة هذا التطبيق على Linux. ",
+    "Managed Tor is started and stopped by this app on Linux. It ":
+        "يتم تشغيل Managed Tor وإيقافه بواسطة هذا التطبيق على Linux. ",
     "Manual": "يدوي",
     "More — technical details": "المزيد – التفاصيل الفنية",
     "Move down": "تحرك للأسفل",
@@ -1370,10 +1649,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Move vault": "نقل قبو",
     "My phone": "هاتفي",
     "My receive QR": "تلقي QR الخاص بي",
-    "Name (e.g. Company X token page)": "الاسم (على سبيل المثال، صفحة الرمز المميز للشركة X)",
-    "Names and public addresses only — the phone book holds no secrets. ": "الأسماء والعناوين العامة فقط - لا يحتوي دليل الهاتف على أي أسرار.",
+    "Name (e.g. Company X token page)":
+        "الاسم (على سبيل المثال، صفحة الرمز المميز للشركة X)",
+    "Names and public addresses only — the phone book holds no secrets. ":
+        "الأسماء والعناوين العامة فقط - لا يحتوي دليل الهاتف على أي أسرار.",
     "Native coin only": "العملة الوطنية فقط",
-    "Navigation labels update immediately. Detailed wallet and security ": "يتم تحديث تسميات التنقل على الفور. ",
+    "Navigation labels update immediately. Detailed wallet and security ":
+        "يتم تحديث تسميات التنقل على الفور. ",
     "Network": "الشبكة",
     "Network & assets": "الشبكة والأصول",
     "Network fee speed": "سرعة رسوم الشبكة",
@@ -1383,22 +1665,31 @@ const Map<String, Map<String, String>> uiTranslations = {
     "New private key (generated)": "مفتاح خاص جديد (تم إنشاؤه)",
     "New recovery phrase or private key": "عبارة استرداد جديدة أو مفتاح خاص",
     "No encrypted vault yet": "لا يوجد قبو مشفر حتى الآن",
-    "No key for this address exists on this device, so it cannot ": "لا يوجد مفتاح لهذا العنوان على هذا الجهاز، لذا لا يمكن",
-    "No log lines yet. Every network action, fee check and transaction ": "لا يوجد خطوط سجل حتى الآن. ",
+    "No key for this address exists on this device, so it cannot ":
+        "لا يوجد مفتاح لهذا العنوان على هذا الجهاز، لذا لا يمكن",
+    "No log lines yet. Every network action, fee check and transaction ":
+        "لا يوجد خطوط سجل حتى الآن. ",
     "No normal transactions found.": "لم يتم العثور على المعاملات العادية.",
-    "No phone book entries for this side yet — I will use the ": "لا توجد إدخالات في دفتر الهاتف لهذا الجانب حتى الآن - سأستخدم",
+    "No phone book entries for this side yet — I will use the ":
+        "لا توجد إدخالات في دفتر الهاتف لهذا الجانب حتى الآن - سأستخدم",
     "No pulse; static state icons and progress bar": "لا نبض. ",
     "No request yet this session.": "لا يوجد طلب حتى الآن هذه الدورة.",
-    "No secrets — prepares & broadcasts for cold device": "لا توجد أسرار — تستعد وتبث للجهاز البارد",
-    "No wallet unlocked. Create, import, or unlock from vault below.": "لا توجد محفظة مقفلة. ",
-    "No words yet — pick word 1.": "لا توجد كلمات حتى الآن — اختر الكلمة رقم 1.",
+    "No secrets — prepares & broadcasts for cold device":
+        "لا توجد أسرار — تستعد وتبث للجهاز البارد",
+    "No wallet unlocked. Create, import, or unlock from vault below.":
+        "لا توجد محفظة مقفلة. ",
+    "No words yet — pick word 1.":
+        "لا توجد كلمات حتى الآن — اختر الكلمة رقم 1.",
     "Node": "العقدة",
     "Node & privacy details": "تفاصيل العقدة والخصوصية",
     "Normal (hot wallet)": "عادي (المحفظة الساخنة)",
-    "Nothing yet. Every time I check the blockchain I will write one ": "لا شيء بعد. ",
+    "Nothing yet. Every time I check the blockchain I will write one ":
+        "لا شيء بعد. ",
     "Online (watch-only companion)": "عبر الإنترنت (رفيق للمشاهدة فقط)",
-    "Only copy a secret when you are restoring it now. ": "انسخ السر فقط عندما تقوم باستعادته الآن.",
-    "Only the network fee was spent; the amount was not transferred.": "تم إنفاق رسوم الشبكة فقط؛ ",
+    "Only copy a secret when you are restoring it now. ":
+        "انسخ السر فقط عندما تقوم باستعادته الآن.",
+    "Only the network fee was spent; the amount was not transferred.":
+        "تم إنفاق رسوم الشبكة فقط؛ ",
     "Open": "يفتح",
     "Open BscScan API keys": "افتح مفاتيح BscScan API",
     "Open data folder": "افتح مجلد البيانات",
@@ -1407,7 +1698,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Open in browser": "فتح في المتصفح",
     "Open in explorer": "فتح في المستكشف",
     "Open my vault": "افتح خزنتي",
-    "Open or import a wallet first. The Wallet tab does it in two taps.": "افتح المحفظة أو قم باستيرادها أولاً. ",
+    "Open or import a wallet first. The Wallet tab does it in two taps.":
+        "افتح المحفظة أو قم باستيرادها أولاً. ",
     "Open settings to pair": "افتح الإعدادات للاقتران",
     "Open the block explorer?": "فتح كتلة اكسبلورر؟",
     "Optional PIN or biometrics to reopen the app after it goes to the background.": "رقم تعريف شخصي اختياري أو قياسات حيوية لإعادة فتح التطبيق بعد انتقاله إلى الخلفية.",
@@ -1419,14 +1711,17 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Passphrase": "عبارة المرور",
     "Passphrase (optional)": "عبارة المرور (اختياري)",
     "Password": "كلمة المرور",
-    "Password (16+ characters, hidden)": "كلمة المرور (أكثر من 16 حرفًا، مخفية)",
+    "Password (16+ characters, hidden)":
+        "كلمة المرور (أكثر من 16 حرفًا، مخفية)",
     "Password (hidden)": "كلمة المرور (مخفية)",
     "Password (optional)": "كلمة المرور (اختياري)",
-    "Password (will be stored encrypted in vault)": "كلمة المرور (سيتم تخزينها مشفرة في قبو)",
+    "Password (will be stored encrypted in vault)":
+        "كلمة المرور (سيتم تخزينها مشفرة في قبو)",
     "Paste clipboard": "لصق الحافظة",
     "Paste from clipboard": "لصق من الحافظة",
     "Paste lines": "لصق الخطوط",
-    "Paste or type an existing 0x + 64 hex private key. This ": "قم بلصق أو كتابة مفتاح خاص سداسي عشري 0x + 64 موجود. ",
+    "Paste or type an existing 0x + 64 hex private key. This ":
+        "قم بلصق أو كتابة مفتاح خاص سداسي عشري 0x + 64 موجود. ",
     "Paste phrase": "لصق العبارة",
     "Paste proxy URL": "الصق عنوان URL للوكيل",
     "Paste proxy URL (optional)": "لصق عنوان URL للوكيل (اختياري)",
@@ -1435,7 +1730,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Path": "طريق",
     "Payload": "الحمولة",
     "Pending cold request": "في انتظار الطلب البارد",
-    "Point the wallet at a SOCKS port that another Tor instance ": "قم بتوجيه المحفظة إلى منفذ SOCKS الموجود في مثيل Tor آخر",
+    "Point the wallet at a SOCKS port that another Tor instance ":
+        "قم بتوجيه المحفظة إلى منفذ SOCKS الموجود في مثيل Tor آخر",
     "Port": "ميناء",
     "Privacy": "الخصوصية",
     "Privacy route test": "اختبار مسار الخصوصية",
@@ -1449,11 +1745,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Proxy port": "منفذ البروكسي",
     "Proxy settings…": "إعدادات الوكيل...",
     "Proxy type": "نوع الوكيل",
-    "Public address (0x + 40 hex characters)": "العنوان العام (0x + 40 حرفًا سداسيًا عشريًا)",
+    "Public address (0x + 40 hex characters)":
+        "العنوان العام (0x + 40 حرفًا سداسيًا عشريًا)",
     "Public profiles (labels only)": "الملفات الشخصية العامة (التسميات فقط)",
     "QR / file to carry back online": "QR / ملف للرجوع عبر الإنترنت",
     "QR / file with public addresses only": "QR / ملف بالعناوين العامة فقط",
-    "Query N nodes and cross-check answers": "عقد الاستعلام N والإجابات المتقاطعة",
+    "Query N nodes and cross-check answers":
+        "عقد الاستعلام N والإجابات المتقاطعة",
     "Quorum": "النصاب القانوني",
     "Raw call data": "بيانات المكالمة الخام",
     "Raw lines for this stop": "خطوط خام لهذه المحطة",
@@ -1462,7 +1760,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Raw signed transaction": "المعاملة الموقعة الخام",
     "Read file": "قراءة الملف",
     "Read payload from file": "قراءة الحمولة من الملف",
-    "Read-only: no key is imported or stored": "للقراءة فقط: لا يتم استيراد أو تخزين أي مفتاح",
+    "Read-only: no key is imported or stored":
+        "للقراءة فقط: لا يتم استيراد أو تخزين أي مفتاح",
     "Receipt": "إيصال",
     "Receive": "يستلم",
     "Receive QR": "QR للاستلام",
@@ -1471,7 +1770,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Recovery phrase": "عبارة الاسترداد",
     "Recovery phrase (12 / 24 words)": "عبارة الاسترداد (12/24 كلمة)",
     "Recovery phrase length": "طول عبارة الاسترداد",
-    "Recovery phrase, private key, keystore, or watch-only": "عبارة الاسترداد أو المفتاح الخاص أو مخزن المفاتيح أو المشاهدة فقط",
+    "Recovery phrase, private key, keystore, or watch-only":
+        "عبارة الاسترداد أو المفتاح الخاص أو مخزن المفاتيح أو المشاهدة فقط",
     "Refresh": "ينعش",
     "Refresh balances": "تحديث الأرصدة",
     "Refresh logs": "تحديث السجلات",
@@ -1497,7 +1797,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Review offline signing": "مراجعة التوقيع دون اتصال",
     "Review transaction": "مراجعة المعاملة",
     "Risk controls on GitHub": "ضوابط المخاطر على جيثب",
-    "Rotate through enabled nodes for privacy": "قم بالتدوير عبر العقد الممكّنة للخصوصية",
+    "Rotate through enabled nodes for privacy":
+        "قم بالتدوير عبر العقد الممكّنة للخصوصية",
     "Round-robin / random": "جولة روبن / عشوائي",
     "SOCKS host": "المضيف الجوارب",
     "SOCKS port": "منفذ الجوارب",
@@ -1520,8 +1821,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Save public profile?": "هل تريد حفظ الملف الشخصي العام؟",
     "Save to vault": "حفظ إلى قبو",
     "Save upstream and chain": "حفظ المنبع والسلسلة",
-    "Search messages, category, tx hash…": "البحث عن الرسائل والفئة وتجزئة تكساس ...",
-    "Search the word, then tap it. Only tap-order builds the phrase — ": "ابحث عن الكلمة، ثم اضغط عليها. ",
+    "Search messages, category, tx hash…":
+        "البحث عن الرسائل والفئة وتجزئة تكساس ...",
+    "Search the word, then tap it. Only tap-order builds the phrase — ":
+        "ابحث عن الكلمة، ثم اضغط عليها. ",
     "Search word list": "قائمة كلمات البحث",
     "Secret storage": "تخزين سري",
     "Select language": "اختر اللغة",
@@ -1530,7 +1833,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Selection mode / use for…": "وضع التحديد/الاستخدام لـ...",
     "Send": "يرسل",
     "Send native coin or EVM tokens": "أرسل عملة أصلية أو رموز EVM",
-    "Sending is irreversible. Verify the recipient and amount independently.": "إرسال لا رجعة فيه. ",
+    "Sending is irreversible. Verify the recipient and amount independently.":
+        "إرسال لا رجعة فيه. ",
     "Sensitive actions": "تصرفات حساسة",
     "Sensitive export": "تصدير حساس",
     "Set app PIN": "تعيين رقم التعريف الشخصي للتطبيق",
@@ -1549,15 +1853,19 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Start managed Tor": "ابدأ تشغيل Tor المُدار",
     "Stop managed Tor": "توقف عن إدارة تور",
     "Storage": "تخزين",
-    "Store the label and public address only. No secret is saved.": "قم بتخزين الملصق والعنوان العام فقط. لا يتم حفظ أي سر.",
-    "Store this account in an Argon2id + XChaCha20-Poly1305 encrypted local vault.": "قم بتخزين هذا الحساب في قبو محلي مشفر Argon2id + XChaCha20-Poly1305.",
+    "Store the label and public address only. No secret is saved.":
+        "قم بتخزين الملصق والعنوان العام فقط. لا يتم حفظ أي سر.",
+    "Store this account in an Argon2id + XChaCha20-Poly1305 encrypted local vault.":
+        "قم بتخزين هذا الحساب في قبو محلي مشفر Argon2id + XChaCha20-Poly1305.",
     "Successful only": "ناجحة فقط",
     "Switch node": "عقدة التبديل",
-    "Switching networks verifies the chain ID before any RPC call.": "يتحقق تبديل الشبكات من معرف السلسلة قبل أي استدعاء RPC.",
+    "Switching networks verifies the chain ID before any RPC call.":
+        "يتحقق تبديل الشبكات من معرف السلسلة قبل أي استدعاء RPC.",
     "System default": "الافتراضي للنظام",
     "Take it with you": "خذها معك",
     "Tap any stop for its own detail card and raw lines.": "اضغط على أي محطة للحصول على بطاقة التفاصيل والخطوط الأولية الخاصة بها.",
-    "Tell me your vault password and I will open it — then you ": "أخبرني بكلمة المرور الخاصة بخزنتك وسأفتحها، ثم أنت",
+    "Tell me your vault password and I will open it — then you ":
+        "أخبرني بكلمة المرور الخاصة بخزنتك وسأفتحها، ثم أنت",
     "Test": "امتحان",
     "Test external Tor": "اختبار تور الخارجي",
     "Test history now": "اختبار التاريخ الآن",
@@ -1566,33 +1874,55 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Testing the real route…": "اختبار المسار الحقيقي...",
     "Testnet (97)": "تيستنت (97)",
     "The RPC node (the door you chose)": "عقدة RPC (الباب الذي اخترته)",
-    "The explorer is a third-party website. Opening it tells that site ": "المستكشف هو موقع ويب تابع لجهة خارجية. ",
-    "The key is shown once after you press Generate. The app ": "يظهر المفتاح مرة واحدة بعد الضغط على إنشاء. ",
-    "The limit can never go below the simulation. A custom fee is ": "لا يمكن أبدًا أن ينخفض ​​الحد عن مستوى المحاكاة. ",
-    "The receipt was fetched from two independent ": "تم جلب الإيصال من شخصين مستقلين",
-    "The selected backup will replace the current vault only after its ": "لن تحل النسخة الاحتياطية المحددة محل المخزن الحالي إلا بعد اكتماله",
-    "The text contains your address, the recipient, the amount, and the ": "يحتوي النص على عنوانك والمستلم والمبلغ والعنوان",
-    "The transaction is rehearsed on the chain first, then reviewed — ": "يتم التدرب على المعاملة على السلسلة أولاً، ثم مراجعتها —",
-    "The vault can be moved with the existing vault move flow. ": "يمكن نقل القبو من خلال تدفق حركة القبو الموجود.",
-    "The vault, receipts, and activity log are encrypted at rest. ": "يتم تشفير المخزن والإيصالات وسجل الأنشطة أثناء عدم النشاط.",
-    "The wallet is unlocked. Compare this address with your other ": "المحفظة مقفلة. ",
+    "The explorer is a third-party website. Opening it tells that site ":
+        "المستكشف هو موقع ويب تابع لجهة خارجية. ",
+    "The key is shown once after you press Generate. The app ":
+        "يظهر المفتاح مرة واحدة بعد الضغط على إنشاء. ",
+    "The limit can never go below the simulation. A custom fee is ":
+        "لا يمكن أبدًا أن ينخفض ​​الحد عن مستوى المحاكاة. ",
+    "The receipt was fetched from two independent ":
+        "تم جلب الإيصال من شخصين مستقلين",
+    "The selected backup will replace the current vault only after its ":
+        "لن تحل النسخة الاحتياطية المحددة محل المخزن الحالي إلا بعد اكتماله",
+    "The text contains your address, the recipient, the amount, and the ":
+        "يحتوي النص على عنوانك والمستلم والمبلغ والعنوان",
+    "The transaction is rehearsed on the chain first, then reviewed — ":
+        "يتم التدرب على المعاملة على السلسلة أولاً، ثم مراجعتها —",
+    "The vault can be moved with the existing vault move flow. ":
+        "يمكن نقل القبو من خلال تدفق حركة القبو الموجود.",
+    "The vault, receipts, and activity log are encrypted at rest. ":
+        "يتم تشفير المخزن والإيصالات وسجل الأنشطة أثناء عدم النشاط.",
+    "The wallet is unlocked. Compare this address with your other ":
+        "المحفظة مقفلة. ",
     "Theme": "سمة",
-    "Theme affects the entire app. AMOLED black saves power on OLED screens.": "يؤثر الموضوع على التطبيق بأكمله. ",
-    "These are just labels + addresses for quick reference. No secrets stored.": "هذه مجرد تسميات + عناوين للرجوع إليها بسرعة. ",
-    "These are the only computers I may ask about balances and blocks. ": "هذه هي أجهزة الكمبيوتر الوحيدة التي قد أسألها عن الأرصدة والكتل.",
-    "These links are starting points, not blessings: the wallet ": "هذه الروابط هي نقاط البداية، وليست بركات: المحفظة",
-    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.": "هذه البايتات العامة هي التي انتقلت إلى الشبكة. ",
-    "This device holds the key but no network connection. Prepare ": "يحمل هذا الجهاز المفتاح ولكن لا يوجد اتصال بالشبكة. ",
+    "Theme affects the entire app. AMOLED black saves power on OLED screens.":
+        "يؤثر الموضوع على التطبيق بأكمله. ",
+    "These are just labels + addresses for quick reference. No secrets stored.":
+        "هذه مجرد تسميات + عناوين للرجوع إليها بسرعة. ",
+    "These are the only computers I may ask about balances and blocks. ":
+        "هذه هي أجهزة الكمبيوتر الوحيدة التي قد أسألها عن الأرصدة والكتل.",
+    "These links are starting points, not blessings: the wallet ":
+        "هذه الروابط هي نقاط البداية، وليست بركات: المحفظة",
+    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.":
+        "هذه البايتات العامة هي التي انتقلت إلى الشبكة. ",
+    "This device holds the key but no network connection. Prepare ":
+        "يحمل هذا الجهاز المفتاح ولكن لا يوجد اتصال بالشبكة. ",
     "This export can reveal your activity": "يمكن أن يكشف هذا التصدير عن نشاطك",
     "This is a watch-only profile": "هذا ملف تعريف للمشاهدة فقط",
-    "This is the ONLY way to restore this wallet. Write the ": "هذه هي الطريقة الوحيدة لاستعادة هذه المحفظة. ",
-    "This online companion holds no key. Import the public pairing ": "هذا الرفيق عبر الإنترنت لا يحمل أي مفتاح. ",
-    "This only forgets the entry on this device. It does not stop ": "هذا ينسى فقط الإدخال على هذا الجهاز. لا يتوقف",
-    "This only reads public blockchain data. No secrets are accessed.": "هذا يقرأ فقط بيانات blockchain العامة. ",
+    "This is the ONLY way to restore this wallet. Write the ":
+        "هذه هي الطريقة الوحيدة لاستعادة هذه المحفظة. ",
+    "This online companion holds no key. Import the public pairing ":
+        "هذا الرفيق عبر الإنترنت لا يحمل أي مفتاح. ",
+    "This only forgets the entry on this device. It does not stop ":
+        "هذا ينسى فقط الإدخال على هذا الجهاز. لا يتوقف",
+    "This only reads public blockchain data. No secrets are accessed.":
+        "هذا يقرأ فقط بيانات blockchain العامة. ",
     "This panel is generated from the calls this send actually made — not a fixed claim.": "يتم إنشاء هذه اللوحة من المكالمات التي تم إرسالها بالفعل - وليست مطالبة ثابتة.",
     "This permanently removes the account from the encrypted vault. The secret cannot be recovered.": "يؤدي هذا إلى إزالة الحساب نهائيًا من المخزن المشفر. لا يمكن استرداد السر.",
-    "To (full address — verify ALL of it):": "إلى (العنوان الكامل - التحقق من كل ذلك):",
-    "Token (will be stored encrypted in vault)": "الرمز المميز (سيتم تخزينه مشفرًا في قبو)",
+    "To (full address — verify ALL of it):":
+        "إلى (العنوان الكامل - التحقق من كل ذلك):",
+    "Token (will be stored encrypted in vault)":
+        "الرمز المميز (سيتم تخزينه مشفرًا في قبو)",
     "Tokens (USDT, USDC, etc.)": "الرموز (USDT، USDC، وما إلى ذلك)",
     "Tor & bridges…": "تور والجسور…",
     "Tor and bridges": "تور والجسور",
@@ -1600,7 +1930,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Tor log copied.": "تم نسخ سجل تور.",
     "Transaction hash": "تجزئة المعاملة",
     "Transaction history": "تاريخ المعاملات",
-    "Transactions sent from this device that are not resolved yet. ": "المعاملات المرسلة من هذا الجهاز والتي لم يتم حلها بعد.",
+    "Transactions sent from this device that are not resolved yet. ":
+        "المعاملات المرسلة من هذا الجهاز والتي لم يتم حلها بعد.",
     "Type DELETE to confirm": "اكتب DELETE للتأكيد",
     "Type ERASE to confirm": "اكتب ERASE للتأكيد",
     "Type RESET to confirm": "اكتب إعادة تعيين للتأكيد",
@@ -1623,12 +1954,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Use this door": "استخدم هذا الباب",
     "Use this fee": "استخدم هذه الرسوم",
     "Use this node for everything?": "استخدام هذه العقدة في كل شيء؟",
-    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.": "تستخدم للأرصدة والرقم والرسوم والإيصالات والإذاعة. ",
+    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.":
+        "تستخدم للأرصدة والرقم والرسوم والإيصالات والإذاعة. ",
     "Username": "اسم المستخدم",
     "Username (empty for none)": "اسم المستخدم (فارغ لعدم وجود)",
     "Username (optional)": "اسم المستخدم (اختياري)",
     "VLESS/Xray command copied.": "تم نسخ أمر VLESS/Xray.",
-    "VLESS/Xray example: inbound protocol \"socks\", listen ": "مثال VLESS/Xray: بروتوكول \"الجوارب\" الوارد، استمع",
+    "VLESS/Xray example: inbound protocol \"socks\", listen ":
+        "مثال VLESS/Xray: بروتوكول \"الجوارب\" الوارد، استمع",
     "VPN / VLESS / proxy before Tor": "VPN / VLESS / proxy قبل Tor",
     "Vault account label": "تسمية حساب Vault",
     "Vault accounts": "حسابات الخزنة",
@@ -1641,7 +1974,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Verify recovery phrase": "التحقق من عبارة الاسترداد",
     "Verify strictly, then broadcast": "تحقق بدقة، ثم قم بالبث",
     "Verify the fingerprint, then watch only": "تأكد من البصمة ثم شاهد فقط",
-    "View example raw request (what the node actually receives)": "عرض مثال للطلب الأولي (ما تتلقاه العقدة بالفعل)",
+    "View example raw request (what the node actually receives)":
+        "عرض مثال للطلب الأولي (ما تتلقاه العقدة بالفعل)",
     "View raw requests": "عرض الطلبات الأولية",
     "View receipt": "عرض الإيصال",
     "Waiting in the network": "في انتظار في الشبكة",
@@ -1651,8 +1985,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Wallet name": "اسم المحفظة",
     "Wallet type": "نوع المحفظة",
     "Watch an address": "مشاهدة عنوان",
-    "Watch-only · this device holds no key for this address": "للمشاهدة فقط · لا يحمل هذا الجهاز مفتاحًا لهذا العنوان",
-    "WebTunnel and meek need their client binaries; Ubuntu does ": "يحتاج WebTunnel وMeek إلى ثنائيات عملائهم؛ ",
+    "Watch-only · this device holds no key for this address":
+        "للمشاهدة فقط · لا يحمل هذا الجهاز مفتاحًا لهذا العنوان",
+    "WebTunnel and meek need their client binaries; Ubuntu does ":
+        "يحتاج WebTunnel وMeek إلى ثنائيات عملائهم؛ ",
     "Welcome": "مرحباً",
     "What the chain recorded (event logs)": "ما سجلته السلسلة (سجلات الأحداث)",
     "What the contract was told": "ما قيل في العقد",
@@ -1661,31 +1997,40 @@ const Map<String, Map<String, String>> uiTranslations = {
     "What this door will see": "ماذا سيشاهد هذا الباب",
     "What you paid": "ما دفعته",
     "Why X Wallet": "لماذا X المحفظة",
-    "Write every word on paper, in this order. This phrase ": "اكتب كل كلمة على الورق بهذا الترتيب. ",
-    "Writes a file in the system temp folder.": "يكتب ملفًا في مجلد النظام المؤقت.",
+    "Write every word on paper, in this order. This phrase ":
+        "اكتب كل كلمة على الورق بهذا الترتيب. ",
+    "Writes a file in the system temp folder.":
+        "يكتب ملفًا في مجلد النظام المؤقت.",
     "X Wallet": "محفظة X",
     "X Wallet 1.1.0": "محفظة إكس 1.1.0",
     "Yes": "نعم",
-    "Your ISP / DPI (internet provider, firewalls)": "ISP / DPI (مزود الإنترنت، جدران الحماية)",
+    "Your ISP / DPI (internet provider, firewalls)":
+        "ISP / DPI (مزود الإنترنت، جدران الحماية)",
     "from your written backup": "من النسخة الاحتياطية المكتوبة الخاصة بك",
     "jackh109867@gmail.com": "jackh109867@gmail.com",
     "proxy.example or 127.0.0.1": "proxy.example أو 127.0.0.1",
     "right chain": "السلسلة الصحيحة",
-    "socks5h://user:pass@host:1080 or https://host:8080": "الجوارب5h://user:pass@host:1080 أو https://host:8080",
-    "socks5h://user:pass@proxy.example:1080": "الجوارب5h://user:pass@proxy.example:1080",
+    "socks5h://user:pass@host:1080 or https://host:8080":
+        "الجوارب5h://user:pass@host:1080 أو https://host:8080",
+    "socks5h://user:pass@proxy.example:1080":
+        "الجوارب5h://user:pass@proxy.example:1080",
     "Русский (Russian)": "Русский (الروسية)",
     "العربية (Arabic)": "العربية (العربية)",
     "فارسی (Persian)": "فارسي (الفارسية)",
-    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.": "⚠ خطر التسمم: يوجد عنوان محفوظ مماثل. ",
-    "⚠ Recipient is THIS wallet. This transfer would only spend gas.": "⚠ المستلم هو هذه المحفظة. ",
+    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.":
+        "⚠ خطر التسمم: يوجد عنوان محفوظ مماثل. ",
+    "⚠ Recipient is THIS wallet. This transfer would only spend gas.":
+        "⚠ المستلم هو هذه المحفظة. ",
     "⚠️ Fake \"official\" sites are the most common way tokens are faked. ": "⚠️ المواقع \"الرسمية\" المزيفة هي الطريقة الأكثر شيوعًا لتزييف الرموز المميزة.",
     "✅ CAN see:": "✅يمكن رؤية:",
     "❌ CANNOT see:": "❌ لا يمكن رؤية:",
     "中文 (Chinese)": "中文 (الصينية)",
   },
   "zh": {
-    "(The shipped source list could not be read from the app bundle — ": "（无法从应用程序包中读取附带的源列表 -",
-    "/home/you/secure/x-wallet-vault.bnb": "/home/you/secure/x-wallet-vault.bnb",
+    "(The shipped source list could not be read from the app bundle — ":
+        "（无法从应用程序包中读取附带的源列表 -",
+    "/home/you/secure/x-wallet-vault.bnb":
+        "/home/you/secure/x-wallet-vault.bnb",
     "0x followed by 64 hex characters": "0x 后跟 64 个十六进制字符",
     "1 — Tor (normal)": "1 — Tor（正常）",
     "12 or 24 words": "12 或 24 个字",
@@ -1694,10 +2039,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "2 — Tor over Tor": "2 — Tor 之上的 Tor",
     "24 words": "24个字",
     "3 — Tor over Tor over Tor": "3 — Tor 超过 Tor 超过 Tor",
-    "A node you add can see your IP address (unless you route through ": "您添加的节点可以看到您的 IP 地址（除非您通过",
-    "A plain-words timeline (Simple) and the full technical record ": "简单明了的时间表（简单）和完整的技术记录",
-    "A receipt is a public record of this transaction. Sharing it ": "收据是该交易的公共记录。",
-    "A system VPN (WireGuard or OpenVPN) is used automatically ": "自动使用系统 VPN（WireGuard 或 OpenVPN）",
+    "A node you add can see your IP address (unless you route through ":
+        "您添加的节点可以看到您的 IP 地址（除非您通过",
+    "A plain-words timeline (Simple) and the full technical record ":
+        "简单明了的时间表（简单）和完整的技术记录",
+    "A receipt is a public record of this transaction. Sharing it ":
+        "收据是该交易的公共记录。",
+    "A system VPN (WireGuard or OpenVPN) is used automatically ":
+        "自动使用系统 VPN（WireGuard 或 OpenVPN）",
     "AMOLED black": "AMOLED黑色",
     "API key (hidden)": "API 密钥（隐藏）",
     "API key configured (hidden).": "API 密钥已配置（隐藏）。",
@@ -1705,10 +2054,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Absolute path": "绝对路径",
     "Account index": "账户索引",
     "Active route": "活动路线",
-    "Actual paid fee appears on the receipt when the chain answers.": "当连锁店应答时，实际支付的费用会显示在收据上。",
+    "Actual paid fee appears on the receipt when the chain answers.":
+        "当连锁店应答时，实际支付的费用会显示在收据上。",
     "Add": "添加",
     "Add API key": "添加API密钥",
-    "Add a BscScan API key in Settings to enable full history. ": "在“设置”中添加 BscScan API 密钥以启用完整历史记录。",
+    "Add a BscScan API key in Settings to enable full history. ":
+        "在“设置”中添加 BscScan API 密钥以启用完整历史记录。",
     "Add node": "添加节点",
     "Add node…": "添加节点...",
     "Add this token": "添加此令牌",
@@ -1716,9 +2067,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Add your own link": "添加您自己的链接",
     "Add your own link…": "添加您自己的链接...",
     "Address": "地址",
-    "Address (https, or http for local/LAN/.onion)": "地址（https，或本地/LAN/.onion 的http）",
-    "Address — https:// (or http:// for localhost/LAN/.onion)": "地址 — https://（或 http:// 表示 localhost/LAN/.onion）",
-    "Adds a token contract address to your balance list. Verified on-chain before saving.": "将代币合约地址添加到您的余额列表中。",
+    "Address (https, or http for local/LAN/.onion)":
+        "地址（https，或本地/LAN/.onion 的http）",
+    "Address — https:// (or http:// for localhost/LAN/.onion)":
+        "地址 — https://（或 http:// 表示 localhost/LAN/.onion）",
+    "Adds a token contract address to your balance list. Verified on-chain before saving.":
+        "将代币合约地址添加到您的余额列表中。",
     "Advanced fee": "预付费用",
     "Advanced: enter my own fee": "高级：输入我自己的费用",
     "Advantages": "优点",
@@ -1728,7 +2082,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Always use the selected node": "始终使用选定的节点",
     "Answer time": "回答时间",
     "Answer-time history (oldest → newest)": "回答时间历史记录（最旧 → 最新）",
-    "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.": "任何能看到此屏幕的人都可以窃取所有资金。仅在受信任的私人设备上泄露秘密。",
+    "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.":
+        "任何能看到此屏幕的人都可以窃取所有资金。仅在受信任的私人设备上泄露秘密。",
     "Asset": "资产",
     "Authentication (Bearer/Basic)": "身份验证（承载/基本）",
     "Auto-fastest": "自动最快",
@@ -1773,11 +2128,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Cold signing request": "冷签名请求",
     "Common proxy setups": "常见的代理设置",
     "Compare another": "比较另一个",
-    "Component inventory: docs/SBOM.json in the app package.": "组件清单：应用程序包中的 docs/SBOM.json。",
+    "Component inventory: docs/SBOM.json in the app package.":
+        "组件清单：应用程序包中的 docs/SBOM.json。",
     "Confirm PIN (hidden)": "确认 PIN（隐藏）",
     "Confirm app PIN": "确认应用程序 PIN",
     "Confirm vault password": "确认保管库密码",
-    "Connection story — what just happened, in plain words": "连接故事——用简单的话来说，刚刚发生了什么",
+    "Connection story — what just happened, in plain words":
+        "连接故事——用简单的话来说，刚刚发生了什么",
     "Continue": "继续",
     "Continue to verification": "继续验证",
     "Contract address": "合约地址",
@@ -1804,38 +2161,48 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Copy the hash or open in explorer:": "复制哈希值或在资源管理器中打开：",
     "Copy to clipboard": "复制到剪贴板",
     "Copy vault path": "复制保管库路径",
-    "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ": "创建新的 BIP-39 钱包或导入现有的私钥、恢复短语、",
+    "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ":
+        "创建新的 BIP-39 钱包或导入现有的私钥、恢复短语、",
     "Create a new wallet": "创建一个新钱包",
-    "Create a new wallet or import an existing one to see balances, ": "创建一个新钱包或导入现有钱包以查看余额，",
-    "Create a wallet first, then save it to the vault from the unlocked wallet actions.": "首先创建一个钱包，然后通过解锁的钱包操作将其保存到保管库。",
+    "Create a new wallet or import an existing one to see balances, ":
+        "创建一个新钱包或导入现有钱包以查看余额，",
+    "Create a wallet first, then save it to the vault from the unlocked wallet actions.":
+        "首先创建一个钱包，然后通过解锁的钱包操作将其保存到保管库。",
     "Create vault": "创建保管库",
     "Create wallet": "创建钱包",
-    "Credentials are kept in the OS secure store, never in the ": "凭证保存在操作系统安全存储中，而不是保存在",
+    "Credentials are kept in the OS secure store, never in the ":
+        "凭证保存在操作系统安全存储中，而不是保存在",
     "Custom": "自定义",
     "Custom BIP-32 path": "自定义 BIP-32 路径",
     "Custom proxy": "自定义代理",
-    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ": "自定义代理：SOCKS5、SOCKS5h 或 HTTP CONNECT，带域/IP",
+    "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ":
+        "自定义代理：SOCKS5、SOCKS5h 或 HTTP CONNECT，带域/IP",
     "Custom proxy…": "自定义代理...",
     "Dark": "黑暗的",
     "Default — holds seed, signs, broadcasts": "默认 — 保存种子、标志、广播",
     "Delete": "删除",
     "Delete from vault": "从保管库中删除",
     "Delete vault account": "删除保管库帐户",
-    "Deletes the encrypted vault, the PIN, the device-bound key and every ": "删除加密的保管库、PIN、设备绑定密钥以及所有内容",
+    "Deletes the encrypted vault, the PIN, the device-bound key and every ":
+        "删除加密的保管库、PIN、设备绑定密钥以及所有内容",
     "Derivation path": "推导路径",
-    "Direct mode: your ISP sees the RPC hostname and your IP. ": "直接模式：您的 ISP 会看到 RPC 主机名和您的 IP。",
+    "Direct mode: your ISP sees the RPC hostname and your IP. ":
+        "直接模式：您的 ISP 会看到 RPC 主机名和您的 IP。",
     "Disable Tor": "禁用 Tor",
     "Disable Tor route": "禁用 Tor 路由",
     "Disable proxy": "禁用代理",
     "Donations are irreversible. This dialog never appears in a ": "捐款不可撤销。",
     "Done": "完毕",
-    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.": "每个保管库帐户都有自己的私钥和可选的恢复短语。",
-    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.": "每个钱包都有自己的秘密。",
+    "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.":
+        "每个保管库帐户都有自己的私钥和可选的恢复短语。",
+    "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.":
+        "每个钱包都有自己的秘密。",
     "Edit": "编辑",
     "Edit node": "编辑节点",
     "Enable app lock": "启用应用程序锁定",
     "Encrypted vault accounts": "加密的保管库帐户",
-    "Encrypted vault is the only persistent secret storage offered. ": "加密保管库是唯一提供的持久秘密存储。",
+    "Encrypted vault is the only persistent secret storage offered. ":
+        "加密保管库是唯一提供的持久秘密存储。",
     "English": "英语",
     "Enter an address to see public balances.": "输入地址以查看公共余额。",
     "Enter vault password to list accounts": "输入保管库密码以列出帐户",
@@ -1843,11 +2210,15 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Erase everything…": "抹掉一切……",
     "Español (Spanish)": "西班牙语（西班牙语）",
     "Ethereum V3 keystore": "以太坊 V3 密钥库",
-    "Every RPC and explorer request uses this one route. There is ": "每个 RPC 和资源管理器请求都使用这一路由。",
-    "Every stored log line on this device will be deleted. Receipts and ": "该设备上存储的每个日志行都将被删除。收据和",
+    "Every RPC and explorer request uses this one route. There is ":
+        "每个 RPC 和资源管理器请求都使用这一路由。",
+    "Every stored log line on this device will be deleted. Receipts and ":
+        "该设备上存储的每个日志行都将被删除。收据和",
     "Everyone on the blockchain (public forever)": "区块链上的每个人（永远公开）",
-    "Exactly one route is active for every RPC and explorer request. ": "对于每个 RPC 和资源管理器请求，只有一条路由处于活动状态。",
-    "Exactly what was sent to the node and what it answered. This ": "确切地说，发送到节点的内容以及节点的响应内容。",
+    "Exactly one route is active for every RPC and explorer request. ":
+        "对于每个 RPC 和资源管理器请求，只有一条路由处于活动状态。",
+    "Exactly what was sent to the node and what it answered. This ":
+        "确切地说，发送到节点的内容以及节点的响应内容。",
     "Example raw request (balance check)": "原始请求示例（余额检查）",
     "Existing Tor or Orbot": "现有的 Tor 或 Orbot",
     "Existing private key (paste)": "现有私钥（粘贴）",
@@ -1860,7 +2231,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Failed only": "仅失败",
     "Fetching balances…": "正在获取余额...",
     "Final address check": "最终地址检查",
-    "First time sending to this address on this device — double-check every character.": "第一次发送到该设备上的该地址 - 仔细检查每个字符。",
+    "First time sending to this address on this device — double-check every character.":
+        "第一次发送到该设备上的该地址 - 仔细检查每个字符。",
     "Forget the story": "忘记故事",
     "Friendly name": "友好的名字",
     "Friendly name (e.g. My home node)": "友好名称（例如我的主节点）",
@@ -1871,19 +2243,25 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Gas limit": "气体限制",
     "HTTP CONNECT": "HTTP 连接",
     "Hash QR": "哈希二维码",
-    "Hiding only changes this screen and the send picker; the token ": "隐藏只会更改此屏幕和发送选择器；",
+    "Hiding only changes this screen and the send picker; the token ":
+        "隐藏只会更改此屏幕和发送选择器；",
     "History test log copied.": "已复制历史测试日志。",
     "History test passed": "历史测试通过",
-    "History uses the public BscScan API V1 (Etherscan-compatible). ": "历史记录使用公共 BscScan API V1（兼容 Etherscan）。",
+    "History uses the public BscScan API V1 (Etherscan-compatible). ":
+        "历史记录使用公共 BscScan API V1（兼容 Etherscan）。",
     "Hold to sign offline": "按住可离线签名",
     "Holds seed, no network — signs requests offline": "持有种子，无网络 - 离线签署请求",
-    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ": "热钱包保存种子并可以签名。",
-    "Hot wallet: the signing key exists in memory while unlocked. Back up ": "热钱包：解锁时签名密钥存在于内存中。",
-    "How the wallet picks which RPC node to talk to for reads and ": "钱包如何选择与哪个 RPC 节点进行读取和通信",
+    "Hot wallet holds the seed and can sign. Cold (offline signer) holds ":
+        "热钱包保存种子并可以签名。",
+    "Hot wallet: the signing key exists in memory while unlocked. Back up ":
+        "热钱包：解锁时签名密钥存在于内存中。",
+    "How the wallet picks which RPC node to talk to for reads and ":
+        "钱包如何选择与哪个 RPC 节点进行读取和通信",
     "I found your encrypted vault on this device": "我在此设备上找到了您的加密保管库",
     "I understand": "我明白",
     "I wrote down the whole private key.": "我写下了整个私钥。",
-    "If you set one, the exact same passphrase is required ": "如果您设置了一个，则需要完全相同的密码",
+    "If you set one, the exact same passphrase is required ":
+        "如果您设置了一个，则需要完全相同的密码",
     "Import": "进口",
     "Import V3 keystore": "导入V3密钥库",
     "Import an existing wallet": "导入现有钱包",
@@ -1895,7 +2273,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Import signed response": "导入签名响应",
     "Incoming (received)": "传入（已收到）",
     "Inspect any address": "检查任何地址",
-    "It starts with 0x and has 64 hexadecimal characters after ": "以 0x 开头，后面有 64 个十六进制字符",
+    "It starts with 0x and has 64 hexadecimal characters after ":
+        "以 0x 开头，后面有 64 个十六进制字符",
     "Keep session-only": "仅保留会话",
     "Keystore JSON": "密钥库 JSON",
     "Keystore password": "密钥库密码",
@@ -1905,24 +2284,32 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Latest block": "最新区块",
     "Leave empty if the wallet has no passphrase": "如果钱包没有密码则留空",
     "Level": "等级",
-    "License: AGPL-3.0-or-later (see LICENSE in the app package).": "许可证：AGPL-3.0 或更高版本（请参阅应用程序包中的许可证）。",
+    "License: AGPL-3.0-or-later (see LICENSE in the app package).":
+        "许可证：AGPL-3.0 或更高版本（请参阅应用程序包中的许可证）。",
     "Light": "光",
     "Lite mode": "精简模式",
-    "Lite mode keeps the same facts and honest states but removes the ": "精简模式保留相同的事实和诚实状态，但删除了",
+    "Lite mode keeps the same facts and honest states but removes the ":
+        "精简模式保留相同的事实和诚实状态，但删除了",
     "Local receipts (kept encrypted, offline)": "本地收据（加密保存，离线）",
-    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.": "本地非托管 EVM 钱包。 ",
+    "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.":
+        "本地非托管 EVM 钱包。 ",
     "Lock": "锁",
     "Lock wallet": "锁钱包",
-    "Locks the wallet when it has been idle. The lock also happens immediately ": "当钱包闲置时锁定钱包。",
+    "Locks the wallet when it has been idle. The lock also happens immediately ":
+        "当钱包闲置时锁定钱包。",
     "Log details": "日志详情",
-    "Log lines contain the nodes you talked to, times, and transaction ": "日志行包含您与之交谈的节点、时间和交易",
+    "Log lines contain the nodes you talked to, times, and transaction ":
+        "日志行包含您与之交谈的节点、时间和交易",
     "Logs": "日志",
-    "Logs stay on this device, encrypted, and never contain seed ": "日志保留在此设备上，经过加密，并且从不包含种子",
+    "Logs stay on this device, encrypted, and never contain seed ":
+        "日志保留在此设备上，经过加密，并且从不包含种子",
     "Made by jackh0006": "由 jackh0006 制作",
-    "Made by jackh0006 · jackh109867@gmail.com": "由 jackh0006 · jackh109867@gmail.com 制作",
+    "Made by jackh0006 · jackh109867@gmail.com":
+        "由 jackh0006 · jackh109867@gmail.com 制作",
     "Mainnet (56)": "主网 (56)",
     "Managed Tor": "托管 Tor",
-    "Managed Tor is started and stopped by this app on Linux. It ": "Managed Tor 由 Linux 上的此应用程序启动和停止。",
+    "Managed Tor is started and stopped by this app on Linux. It ":
+        "Managed Tor 由 Linux 上的此应用程序启动和停止。",
     "Manual": "手动的",
     "More — technical details": "更多 — 技术细节",
     "Move down": "下移",
@@ -1932,9 +2319,11 @@ const Map<String, Map<String, String>> uiTranslations = {
     "My phone": "我的手机",
     "My receive QR": "我收到二维码",
     "Name (e.g. Company X token page)": "名称（例如公司 X 令牌页面）",
-    "Names and public addresses only — the phone book holds no secrets. ": "只有姓名和公共地址——电话簿没有任何秘密。",
+    "Names and public addresses only — the phone book holds no secrets. ":
+        "只有姓名和公共地址——电话簿没有任何秘密。",
     "Native coin only": "仅原生硬币",
-    "Navigation labels update immediately. Detailed wallet and security ": "导航标签立即更新。",
+    "Navigation labels update immediately. Detailed wallet and security ":
+        "导航标签立即更新。",
     "Network": "网络",
     "Network & assets": "网络与资产",
     "Network fee speed": "网络资费速度",
@@ -1944,22 +2333,28 @@ const Map<String, Map<String, String>> uiTranslations = {
     "New private key (generated)": "新私钥（生成）",
     "New recovery phrase or private key": "新的恢复短语或私钥",
     "No encrypted vault yet": "还没有加密的保管库",
-    "No key for this address exists on this device, so it cannot ": "该设备上不存在该地址的密钥，因此无法",
-    "No log lines yet. Every network action, fee check and transaction ": "还没有日志行。",
+    "No key for this address exists on this device, so it cannot ":
+        "该设备上不存在该地址的密钥，因此无法",
+    "No log lines yet. Every network action, fee check and transaction ":
+        "还没有日志行。",
     "No normal transactions found.": "未发现正常交易。",
-    "No phone book entries for this side yet — I will use the ": "此方还没有电话簿条目 — 我将使用",
+    "No phone book entries for this side yet — I will use the ":
+        "此方还没有电话簿条目 — 我将使用",
     "No pulse; static state icons and progress bar": "无脉搏；",
     "No request yet this session.": "本次会议还没有请求。",
     "No secrets — prepares & broadcasts for cold device": "没有秘密——冷设备的准备和广播",
-    "No wallet unlocked. Create, import, or unlock from vault below.": "钱包没有解锁。",
+    "No wallet unlocked. Create, import, or unlock from vault below.":
+        "钱包没有解锁。",
     "No words yet — pick word 1.": "还没有单词 — 选择单词 1。",
     "Node": "节点",
     "Node & privacy details": "节点和隐私详细信息",
     "Normal (hot wallet)": "普通（热钱包）",
-    "Nothing yet. Every time I check the blockchain I will write one ": "还什么都没有。",
+    "Nothing yet. Every time I check the blockchain I will write one ":
+        "还什么都没有。",
     "Online (watch-only companion)": "在线（仅观看伴侣）",
     "Only copy a secret when you are restoring it now. ": "仅当您现在恢复机密时才复制它。",
-    "Only the network fee was spent; the amount was not transferred.": "只花费了网络费；",
+    "Only the network fee was spent; the amount was not transferred.":
+        "只花费了网络费；",
     "Open": "打开",
     "Open BscScan API keys": "打开 BscScan API 密钥",
     "Open data folder": "打开数据文件夹",
@@ -1968,10 +2363,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Open in browser": "在浏览器中打开",
     "Open in explorer": "在资源管理器中打开",
     "Open my vault": "打开我的金库",
-    "Open or import a wallet first. The Wallet tab does it in two taps.": "首先打开或导入钱包。 ",
+    "Open or import a wallet first. The Wallet tab does it in two taps.":
+        "首先打开或导入钱包。 ",
     "Open settings to pair": "打开设置进行配对",
     "Open the block explorer?": "打开区块浏览器？",
-    "Optional PIN or biometrics to reopen the app after it goes to the background.": "可选的 PIN 或生物识别，用于在应用程序进入后台后重新打开应用程序。",
+    "Optional PIN or biometrics to reopen the app after it goes to the background.":
+        "可选的 PIN 或生物识别，用于在应用程序进入后台后重新打开应用程序。",
     "Optional passphrase (hidden)": "可选密码（隐藏）",
     "Outgoing (sent)": "传出（已发送）",
     "Pair": "一对",
@@ -1987,7 +2384,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Paste clipboard": "粘贴剪贴板",
     "Paste from clipboard": "从剪贴板粘贴",
     "Paste lines": "粘贴线",
-    "Paste or type an existing 0x + 64 hex private key. This ": "粘贴或键入现有的 0x + 64 十六进制私钥。",
+    "Paste or type an existing 0x + 64 hex private key. This ":
+        "粘贴或键入现有的 0x + 64 十六进制私钥。",
     "Paste phrase": "粘贴短语",
     "Paste proxy URL": "粘贴代理 URL",
     "Paste proxy URL (optional)": "粘贴代理 URL（可选）",
@@ -1996,7 +2394,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Path": "小路",
     "Payload": "有效载荷",
     "Pending cold request": "待处理的冷请求",
-    "Point the wallet at a SOCKS port that another Tor instance ": "将钱包指向另一个 Tor 实例的 SOCKS 端口",
+    "Point the wallet at a SOCKS port that another Tor instance ":
+        "将钱包指向另一个 Tor 实例的 SOCKS 端口",
     "Port": "港口",
     "Privacy": "隐私",
     "Privacy route test": "隐私路由测试",
@@ -2054,7 +2453,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Reveal": "揭示",
     "Reveal secrets": "揭露秘密",
     "Reveal secrets?": "泄露秘密？",
-    "Revealing a private key or recovery phrase gives anyone who sees the screen full control. ": "泄露私钥或恢复短语可以让任何看到屏幕的人获得完全控制权。",
+    "Revealing a private key or recovery phrase gives anyone who sees the screen full control. ":
+        "泄露私钥或恢复短语可以让任何看到屏幕的人获得完全控制权。",
     "Review offline signing": "查看离线签名",
     "Review transaction": "审核交易",
     "Risk controls on GitHub": "GitHub上的风险控制",
@@ -2082,7 +2482,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Save to vault": "保存到保管库",
     "Save upstream and chain": "节省上游和链条",
     "Search messages, category, tx hash…": "搜索消息、类别、tx 哈希...",
-    "Search the word, then tap it. Only tap-order builds the phrase — ": "搜索该单词，然后点击它。",
+    "Search the word, then tap it. Only tap-order builds the phrase — ":
+        "搜索该单词，然后点击它。",
     "Search word list": "搜索词列表",
     "Secret storage": "秘密储藏室",
     "Select language": "选择语言",
@@ -2091,7 +2492,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Selection mode / use for…": "选择模式/用于…",
     "Send": "发送",
     "Send native coin or EVM tokens": "发送原生代币或 EVM 代币",
-    "Sending is irreversible. Verify the recipient and amount independently.": "发送是不可逆的。",
+    "Sending is irreversible. Verify the recipient and amount independently.":
+        "发送是不可逆的。",
     "Sensitive actions": "敏感动作",
     "Sensitive export": "敏感出口",
     "Set app PIN": "设置应用程序 PIN",
@@ -2110,15 +2512,20 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Start managed Tor": "启动托管 Tor",
     "Stop managed Tor": "停止托管 Tor",
     "Storage": "贮存",
-    "Store the label and public address only. No secret is saved.": "仅存储标签和公共地址。没有秘密被保存。",
-    "Store this account in an Argon2id + XChaCha20-Poly1305 encrypted local vault.": "将此帐户存储在 Argon2id + XChaCha20-Poly1305 加密的本地保管库中。",
+    "Store the label and public address only. No secret is saved.":
+        "仅存储标签和公共地址。没有秘密被保存。",
+    "Store this account in an Argon2id + XChaCha20-Poly1305 encrypted local vault.":
+        "将此帐户存储在 Argon2id + XChaCha20-Poly1305 加密的本地保管库中。",
     "Successful only": "仅成功",
     "Switch node": "切换节点",
-    "Switching networks verifies the chain ID before any RPC call.": "交换网络在任何 RPC 调用之前都会验证链 ID。",
+    "Switching networks verifies the chain ID before any RPC call.":
+        "交换网络在任何 RPC 调用之前都会验证链 ID。",
     "System default": "系统默认",
     "Take it with you": "随身携带",
-    "Tap any stop for its own detail card and raw lines.": "点击任意站点即可查看其自己的详细信息卡和原始线路。",
-    "Tell me your vault password and I will open it — then you ": "告诉我你的保险库密码，我会打开它 - 然后你",
+    "Tap any stop for its own detail card and raw lines.":
+        "点击任意站点即可查看其自己的详细信息卡和原始线路。",
+    "Tell me your vault password and I will open it — then you ":
+        "告诉我你的保险库密码，我会打开它 - 然后你",
     "Test": "测试",
     "Test external Tor": "测试外部 Tor",
     "Test history now": "现在测试历史记录",
@@ -2127,31 +2534,50 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Testing the real route…": "测试真实路线...",
     "Testnet (97)": "测试网 (97)",
     "The RPC node (the door you chose)": "RPC节点（你选择的门）",
-    "The explorer is a third-party website. Opening it tells that site ": "该浏览器是第三方网站。",
-    "The key is shown once after you press Generate. The app ": "按“生成”后，该密钥将显示一次。",
-    "The limit can never go below the simulation. A custom fee is ": "该限制永远不会低于模拟。",
+    "The explorer is a third-party website. Opening it tells that site ":
+        "该浏览器是第三方网站。",
+    "The key is shown once after you press Generate. The app ":
+        "按“生成”后，该密钥将显示一次。",
+    "The limit can never go below the simulation. A custom fee is ":
+        "该限制永远不会低于模拟。",
     "The receipt was fetched from two independent ": "收据是从两个独立的机构获取的",
-    "The selected backup will replace the current vault only after its ": "选定的备份仅在其完成后才会替换当前保管库",
-    "The text contains your address, the recipient, the amount, and the ": "文本包含您的地址、收件人、金额和金额",
-    "The transaction is rehearsed on the chain first, then reviewed — ": "交易首先在链上排练，然后进行审核——",
-    "The vault can be moved with the existing vault move flow. ": "可以使用现有的保管库移动流程来移动保管库。",
-    "The vault, receipts, and activity log are encrypted at rest. ": "保管库、收据和活动日志均进行静态加密。",
+    "The selected backup will replace the current vault only after its ":
+        "选定的备份仅在其完成后才会替换当前保管库",
+    "The text contains your address, the recipient, the amount, and the ":
+        "文本包含您的地址、收件人、金额和金额",
+    "The transaction is rehearsed on the chain first, then reviewed — ":
+        "交易首先在链上排练，然后进行审核——",
+    "The vault can be moved with the existing vault move flow. ":
+        "可以使用现有的保管库移动流程来移动保管库。",
+    "The vault, receipts, and activity log are encrypted at rest. ":
+        "保管库、收据和活动日志均进行静态加密。",
     "The wallet is unlocked. Compare this address with your other ": "钱包已解锁。",
     "Theme": "主题",
-    "Theme affects the entire app. AMOLED black saves power on OLED screens.": "主题影响整个应用程序。 ",
-    "These are just labels + addresses for quick reference. No secrets stored.": "这些只是供快速参考的标签+地址。",
-    "These are the only computers I may ask about balances and blocks. ": "这些是我可能询问余额和区块的唯一计算机。",
-    "These links are starting points, not blessings: the wallet ": "这些链接是起点，而不是祝福：钱包",
-    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.": "这些公共字节是进入网络的内容。",
-    "This device holds the key but no network connection. Prepare ": "该设备拥有密钥，但没有网络连接。",
+    "Theme affects the entire app. AMOLED black saves power on OLED screens.":
+        "主题影响整个应用程序。 ",
+    "These are just labels + addresses for quick reference. No secrets stored.":
+        "这些只是供快速参考的标签+地址。",
+    "These are the only computers I may ask about balances and blocks. ":
+        "这些是我可能询问余额和区块的唯一计算机。",
+    "These links are starting points, not blessings: the wallet ":
+        "这些链接是起点，而不是祝福：钱包",
+    "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.":
+        "这些公共字节是进入网络的内容。",
+    "This device holds the key but no network connection. Prepare ":
+        "该设备拥有密钥，但没有网络连接。",
     "This export can reveal your activity": "此导出可以泄露您的活动",
     "This is a watch-only profile": "这是仅供观看的个人资料",
     "This is the ONLY way to restore this wallet. Write the ": "这是恢复这个钱包的唯一方法。",
-    "This online companion holds no key. Import the public pairing ": "这个在线同伴没有钥匙。",
-    "This only forgets the entry on this device. It does not stop ": "这只会忘记该设备上的条目。它不会停止",
-    "This only reads public blockchain data. No secrets are accessed.": "这只读取公共区块链数据。",
-    "This panel is generated from the calls this send actually made — not a fixed claim.": "该面板是根据此发送实际进行的调用生成的，而不是固定的声明。",
-    "This permanently removes the account from the encrypted vault. The secret cannot be recovered.": "这将从加密保管库中永久删除该帐户。秘密无法恢复。",
+    "This online companion holds no key. Import the public pairing ":
+        "这个在线同伴没有钥匙。",
+    "This only forgets the entry on this device. It does not stop ":
+        "这只会忘记该设备上的条目。它不会停止",
+    "This only reads public blockchain data. No secrets are accessed.":
+        "这只读取公共区块链数据。",
+    "This panel is generated from the calls this send actually made — not a fixed claim.":
+        "该面板是根据此发送实际进行的调用生成的，而不是固定的声明。",
+    "This permanently removes the account from the encrypted vault. The secret cannot be recovered.":
+        "这将从加密保管库中永久删除该帐户。秘密无法恢复。",
     "To (full address — verify ALL of it):": "至（完整地址 - 验证所有地址）：",
     "Token (will be stored encrypted in vault)": "令牌（将加密存储在保险库中）",
     "Tokens (USDT, USDC, etc.)": "代币（USDT、USDC等）",
@@ -2161,12 +2587,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Tor log copied.": "Tor 日志已复制。",
     "Transaction hash": "交易哈希",
     "Transaction history": "交易记录",
-    "Transactions sent from this device that are not resolved yet. ": "从该设备发送的尚未解决的交易。",
+    "Transactions sent from this device that are not resolved yet. ":
+        "从该设备发送的尚未解决的交易。",
     "Type DELETE to confirm": "键入 DELETE 进行确认",
     "Type ERASE to confirm": "键入 ERASE 进行确认",
     "Type RESET to confirm": "键入 RESET 进行确认",
     "Type USE to confirm": "输入 USE 进行确认",
-    "Type these words from the paper backup you just made. The ": "从您刚刚制作的纸质备份中输入这些文字。",
+    "Type these words from the paper backup you just made. The ":
+        "从您刚刚制作的纸质备份中输入这些文字。",
     "URL (https:// only)": "URL（仅限 https://）",
     "Unlock": "开锁",
     "Unlock encrypted vault": "解锁加密的保管库",
@@ -2174,22 +2602,26 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Unlock vault": "解锁金库",
     "Unlock vault account": "解锁保险库帐户",
     "Unnamed wallet": "未命名钱包",
-    "Unused EIP-1559 headroom and gas limit are never charged.": "未使用的 EIP-1559 净空和 Gas 限制不会被收取费用。",
+    "Unused EIP-1559 headroom and gas limit are never charged.":
+        "未使用的 EIP-1559 净空和 Gas 限制不会被收取费用。",
     "Upstream before Tor": "Tor 之前的上游",
     "Upstream host": "上游主机",
     "Use ONLY my node (strict)": "仅使用我的节点（严格）",
     "Use external Tor": "使用外部 Tor",
-    "Use the Wallet tab to create or import a wallet, then return here ": "使用“钱包”选项卡创建或导入钱包，然后返回此处",
+    "Use the Wallet tab to create or import a wallet, then return here ":
+        "使用“钱包”选项卡创建或导入钱包，然后返回此处",
     "Use this URL": "使用此网址",
     "Use this door": "使用这扇门",
     "Use this fee": "使用此费用",
     "Use this node for everything?": "一切都用这个节点吗？",
-    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.": "用于余额、随机数、费用、收据和广播。",
+    "Used for balances, nonce, fees, receipts, and broadcast. Chain ID is re-verified before use.":
+        "用于余额、随机数、费用、收据和广播。",
     "Username": "用户名",
     "Username (empty for none)": "用户名（无则为空）",
     "Username (optional)": "用户名（可选）",
     "VLESS/Xray command copied.": "VLESS/Xray 命令已复制。",
-    "VLESS/Xray example: inbound protocol \"socks\", listen ": "VLESS/Xray 示例：入站协议“socks”，监听",
+    "VLESS/Xray example: inbound protocol \"socks\", listen ":
+        "VLESS/Xray 示例：入站协议“socks”，监听",
     "VPN / VLESS / proxy before Tor": "Tor 之前的 VPN / VLESS / 代理",
     "Vault account label": "保管库帐户标签",
     "Vault accounts": "保管库账户",
@@ -2202,7 +2634,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Verify recovery phrase": "验证恢复短语",
     "Verify strictly, then broadcast": "严格验证，然后播出",
     "Verify the fingerprint, then watch only": "验证指纹，然后仅观看",
-    "View example raw request (what the node actually receives)": "查看示例原始请求（节点实际收到的内容）",
+    "View example raw request (what the node actually receives)":
+        "查看示例原始请求（节点实际收到的内容）",
     "View raw requests": "查看原始请求",
     "View receipt": "查看收据",
     "Waiting in the network": "在网络中等待",
@@ -2212,8 +2645,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Wallet name": "钱包名称",
     "Wallet type": "钱包类型",
     "Watch an address": "观看地址",
-    "Watch-only · this device holds no key for this address": "仅限观看 · 该设备不持有该地址的密钥",
-    "WebTunnel and meek need their client binaries; Ubuntu does ": "WebTunnel 和 meek 需要他们的客户端二进制文件； ",
+    "Watch-only · this device holds no key for this address":
+        "仅限观看 · 该设备不持有该地址的密钥",
+    "WebTunnel and meek need their client binaries; Ubuntu does ":
+        "WebTunnel 和 meek 需要他们的客户端二进制文件； ",
     "Welcome": "欢迎",
     "What the chain recorded (event logs)": "链记录了什么（事件日志）",
     "What the contract was told": "合同内容",
@@ -2232,22 +2667,29 @@ const Map<String, Map<String, String>> uiTranslations = {
     "jackh109867@gmail.com": "jackh109867@gmail.com",
     "proxy.example or 127.0.0.1": "proxy.example 或 127.0.0.1",
     "right chain": "右链",
-    "socks5h://user:pass@host:1080 or https://host:8080": "ocks5h://用户:pass@主机:1080 或 https://主机:8080",
-    "socks5h://user:pass@proxy.example:1080": "ocks5h://用户:pass@proxy.example:1080",
+    "socks5h://user:pass@host:1080 or https://host:8080":
+        "ocks5h://用户:pass@主机:1080 或 https://主机:8080",
+    "socks5h://user:pass@proxy.example:1080":
+        "ocks5h://用户:pass@proxy.example:1080",
     "Русский (Russian)": "Русский（俄语）",
     "العربية (Arabic)": "阿拉伯语",
     "فارسی (Persian)": "波斯语",
-    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.": "⚠ 中毒风险：存在类似的保存地址。",
-    "⚠ Recipient is THIS wallet. This transfer would only spend gas.": "⚠ 收件人是这个钱包。",
-    "⚠️ Fake \"official\" sites are the most common way tokens are faked. ": "⚠️ 虚假“官方”网站是伪造代币的最常见方式。",
+    "⚠ POISONING RISK: a similar saved address exists. Compare EVERY character.":
+        "⚠ 中毒风险：存在类似的保存地址。",
+    "⚠ Recipient is THIS wallet. This transfer would only spend gas.":
+        "⚠ 收件人是这个钱包。",
+    "⚠️ Fake \"official\" sites are the most common way tokens are faked. ":
+        "⚠️ 虚假“官方”网站是伪造代币的最常见方式。",
     "✅ CAN see:": "✅ 可以看到：",
     "❌ CANNOT see:": "❌ 看不到：",
     "中文 (Chinese)": "中文（中文）",
   },
   "ru": {
     "(The shipped source list could not be read from the app bundle — ": "(Отправленный список исходного кода не удалось прочитать из пакета приложения —",
-    "/home/you/secure/x-wallet-vault.bnb": "/home/you/secure/x-wallet-vault.bnb",
-    "0x followed by 64 hex characters": "0x, за которым следуют 64 шестнадцатеричных символа",
+    "/home/you/secure/x-wallet-vault.bnb":
+        "/home/you/secure/x-wallet-vault.bnb",
+    "0x followed by 64 hex characters":
+        "0x, за которым следуют 64 шестнадцатеричных символа",
     "1 — Tor (normal)": "1 — Тор (обычный)",
     "12 or 24 words": "12 или 24 слова",
     "12 words": "12 слов",
@@ -2256,9 +2698,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "24 words": "24 слова",
     "3 — Tor over Tor over Tor": "3 — Тор через Тор через Тор",
     "A node you add can see your IP address (unless you route through ": "Добавляемый вами узел может видеть ваш IP-адрес (если вы не маршрутизируете через",
-    "A plain-words timeline (Simple) and the full technical record ": "Простая временная шкала (простая) и полная техническая запись.",
-    "A receipt is a public record of this transaction. Sharing it ": "Квитанция является публичной записью этой транзакции. ",
-    "A system VPN (WireGuard or OpenVPN) is used automatically ": "Системный VPN (WireGuard или OpenVPN) используется автоматически.",
+    "A plain-words timeline (Simple) and the full technical record ":
+        "Простая временная шкала (простая) и полная техническая запись.",
+    "A receipt is a public record of this transaction. Sharing it ":
+        "Квитанция является публичной записью этой транзакции. ",
+    "A system VPN (WireGuard or OpenVPN) is used automatically ":
+        "Системный VPN (WireGuard или OpenVPN) используется автоматически.",
     "AMOLED black": "AMOLED черный",
     "API key (hidden)": "API-ключ (скрытый)",
     "API key configured (hidden).": "Ключ API настроен (скрыт).",
@@ -2277,38 +2722,47 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Add your own link": "Добавьте свою ссылку",
     "Add your own link…": "Добавьте свою ссылку…",
     "Address": "Адрес",
-    "Address (https, or http for local/LAN/.onion)": "Адрес (https или http для local/LAN/.onion)",
-    "Address — https:// (or http:// for localhost/LAN/.onion)": "Адрес — https:// (или http:// для localhost/LAN/.onion)",
-    "Adds a token contract address to your balance list. Verified on-chain before saving.": "Добавляет адрес контракта токена в ваш список баланса. ",
+    "Address (https, or http for local/LAN/.onion)":
+        "Адрес (https или http для local/LAN/.onion)",
+    "Address — https:// (or http:// for localhost/LAN/.onion)":
+        "Адрес — https:// (или http:// для localhost/LAN/.onion)",
+    "Adds a token contract address to your balance list. Verified on-chain before saving.":
+        "Добавляет адрес контракта токена в ваш список баланса. ",
     "Advanced fee": "Расширенный сбор",
     "Advanced: enter my own fee": "Дополнительно: введите свой гонорар",
     "Advantages": "Преимущества",
     "All": "Все",
-    "Always pick the fastest-responding node": "Всегда выбирайте узел с самым быстрым откликом",
+    "Always pick the fastest-responding node":
+        "Всегда выбирайте узел с самым быстрым откликом",
     "Always shown": "Всегда отображается",
     "Always use the selected node": "Всегда использовать выбранный узел",
     "Answer time": "Время ответа",
-    "Answer-time history (oldest → newest)": "История времени ответа (самый старый → самый новый)",
+    "Answer-time history (oldest → newest)":
+        "История времени ответа (самый старый → самый новый)",
     "Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.": "Любой, кто увидит этот экран, может украсть все средства. Раскрывайте секреты только на доверенном частном устройстве.",
     "Asset": "Актив",
     "Authentication (Bearer/Basic)": "Аутентификация (на предъявителя/базовая)",
     "Auto-fastest": "Авто-самый быстрый",
     "BIP-39 passphrase": "Кодовая фраза BIP-39",
-    "BIP-39 passphrase (25th word) — optional": "Парольная фраза BIP-39 (25-е слово) — необязательно.",
+    "BIP-39 passphrase (25th word) — optional":
+        "Парольная фраза BIP-39 (25-е слово) — необязательно.",
     "BNB balance at review: ": "Баланс BNB на рассмотрении:",
     "Back": "Назад",
-    "Back up your new private key": "Создайте резервную копию вашего нового закрытого ключа",
+    "Back up your new private key":
+        "Создайте резервную копию вашего нового закрытого ключа",
     "Background lock is active.": "Фоновая блокировка активна.",
     "Backup": "Резервное копирование",
     "Backup password": "Резервный пароль",
     "Balances": "Балансы",
-    "Base64 SHA-256 of SPKI (one per line)": "Base64 SHA-256 SPKI (по одному на строку)",
+    "Base64 SHA-256 of SPKI (one per line)":
+        "Base64 SHA-256 SPKI (по одному на строку)",
     "Basic auth": "Basic Auth",
     "Bearer token": "Bearer токен",
     "Bridge lines": "Линии мостов",
     "Bridge type": "Тип моста",
     "Broadcast": "Транслировать",
-    "Broadcast this signed transfer?": "Транслировать эту подписанную передачу?",
+    "Broadcast this signed transfer?":
+        "Транслировать эту подписанную передачу?",
     "BscScan API key": "API-ключ BscScan",
     "Cancel": "Отмена",
     "Category": "Категория",
@@ -2316,10 +2770,12 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Chain facts": "Цепные факты",
     "Change transport…": "Сменить транспорт…",
     "Check": "Проверять",
-    "Check the build yourself: verify SHA256SUMS ": "Проверьте сборку самостоятельно: проверьте SHA256SUMS.",
+    "Check the build yourself: verify SHA256SUMS ":
+        "Проверьте сборку самостоятельно: проверьте SHA256SUMS.",
     "Check this node now": "Проверьте этот узел сейчас",
     "Checks & notes": "Чеки и примечания",
-    "Choose another wallet stored on this device": "Выберите другой кошелек, хранящийся на этом устройстве.",
+    "Choose another wallet stored on this device":
+        "Выберите другой кошелек, хранящийся на этом устройстве.",
     "Choose export": "Выберите экспорт",
     "Clear": "Прозрачный",
     "Clear all logs": "Очистить все журналы",
@@ -2334,11 +2790,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Cold signing request": "Запрос на холодную подпись",
     "Common proxy setups": "Общие настройки прокси",
     "Compare another": "Сравнить другой",
-    "Component inventory: docs/SBOM.json in the app package.": "Инвентаризация компонентов: docs/SBOM.json в пакете приложения.",
+    "Component inventory: docs/SBOM.json in the app package.":
+        "Инвентаризация компонентов: docs/SBOM.json в пакете приложения.",
     "Confirm PIN (hidden)": "Подтвердить PIN-код (скрыт)",
     "Confirm app PIN": "Подтвердите PIN-код приложения",
     "Confirm vault password": "Подтвердите пароль хранилища",
-    "Connection story — what just happened, in plain words": "История связей — что только что произошло, простыми словами",
+    "Connection story — what just happened, in plain words":
+        "История связей — что только что произошло, простыми словами",
     "Continue": "Продолжать",
     "Continue to verification": "Продолжить проверку",
     "Contract address": "Адрес контракта",
@@ -2362,7 +2820,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Copy raw transaction": "Копировать необработанную транзакцию",
     "Copy recovery phrase": "Фраза для восстановления",
     "Copy text": "Копировать текст",
-    "Copy the hash or open in explorer:": "Скопируйте хэш или откройте в проводнике:",
+    "Copy the hash or open in explorer:":
+        "Скопируйте хэш или откройте в проводнике:",
     "Copy to clipboard": "Копировать в буфер обмена",
     "Copy vault path": "Копировать путь к хранилищу",
     "Create a new BIP-39 wallet or import an existing private key, recovery phrase, ": "Создайте новый кошелек BIP-39 или импортируйте существующий закрытый ключ, фразу восстановления,",
@@ -2371,14 +2830,16 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Create a wallet first, then save it to the vault from the unlocked wallet actions.": "Сначала создайте кошелек, а затем сохраните его в хранилище из разблокированных действий кошелька.",
     "Create vault": "Создать хранилище",
     "Create wallet": "Создать кошелек",
-    "Credentials are kept in the OS secure store, never in the ": "Учетные данные хранятся в безопасном хранилище ОС, никогда в",
+    "Credentials are kept in the OS secure store, never in the ":
+        "Учетные данные хранятся в безопасном хранилище ОС, никогда в",
     "Custom": "Свой",
     "Custom BIP-32 path": "Пользовательский путь BIP-32",
     "Custom proxy": "Пользовательский прокси-сервер",
     "Custom proxy: SOCKS5, SOCKS5h, or HTTP CONNECT, with domain/IP ": "Пользовательский прокси-сервер: Socks5, Socks5h или HTTP-соединение С доменом/IP",
     "Custom proxy…": "Пользовательский прокси-сервер...",
     "Dark": "Темный",
-    "Default — holds seed, signs, broadcasts": "По умолчанию — содержит семена, знаки, трансляции",
+    "Default — holds seed, signs, broadcasts":
+        "По умолчанию — содержит семена, знаки, трансляции",
     "Delete": "Удалить",
     "Delete from vault": "Удалить из хранилища",
     "Delete vault account": "Удалить учетную запись хранилища",
@@ -2388,7 +2849,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Disable Tor": "Отключить Tor",
     "Disable Tor route": "Отключить маршрут Tor",
     "Disable proxy": "& Не использовать прокси- сервер",
-    "Donations are irreversible. This dialog never appears in a ": "Пожертвования необратимы. Это диалоговое окно никогда не появляется в",
+    "Donations are irreversible. This dialog never appears in a ":
+        "Пожертвования необратимы. Это диалоговое окно никогда не появляется в",
     "Done": "Готово",
     "Each vault account has its own private key and optional recovery phrase. Unlock any account to switch to it.": "Каждая учетная запись Vault имеет свой закрытый ключ и необязательную фразу для восстановления. Разблокируйте любую учетную запись, чтобы переключиться на нее.",
     "Each wallet keeps its own secrets. Lock to switch, or manage vault accounts below.": "Каждый кошелек хранит свои секреты. Заблокируйте, чтобы переключиться или управлять учетными записями Vault ниже.",
@@ -2398,18 +2860,24 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Encrypted vault accounts": "Зашифрованные аккаунты Vault",
     "Encrypted vault is the only persistent secret storage offered. ": "Зашифрованное хранилище - это единственное постоянное секретное хранилище.",
     "English": "<g id=\"Documents.NoBold\">Английский язык</g>",
-    "Enter an address to see public balances.": "Введите адрес, чтобы увидеть публичные балансы.",
-    "Enter vault password to list accounts": "Введите пароль хранилища, чтобы получить список учетных записей",
+    "Enter an address to see public balances.":
+        "Введите адрес, чтобы увидеть публичные балансы.",
+    "Enter vault password to list accounts":
+        "Введите пароль хранилища, чтобы получить список учетных записей",
     "Erase all data?": "Удалить все данные?",
     "Erase everything…": "Стереть все",
     "Español (Spanish)": "Español",
     "Ethereum V3 keystore": "Хранилище ключей Ethereum V3",
     "Every RPC and explorer request uses this one route. There is ": "Каждый запрос RPC и проводника использует этот один маршрут. Существует",
     "Every stored log line on this device will be deleted. Receipts and ": "Каждая сохраненная строка журнала на этом устройстве будет удалена. Квитанции и",
-    "Everyone on the blockchain (public forever)": "Все в блокчейне (публично навсегда)",
-    "Exactly one route is active for every RPC and explorer request. ": "Для каждого запроса RPC и проводника активен ровно один маршрут.",
-    "Exactly what was sent to the node and what it answered. This ": "Что именно было отправлено на узел и что он ответил. Это",
-    "Example raw request (balance check)": "Пример необработанного запроса (проверка баланса)",
+    "Everyone on the blockchain (public forever)":
+        "Все в блокчейне (публично навсегда)",
+    "Exactly one route is active for every RPC and explorer request. ":
+        "Для каждого запроса RPC и проводника активен ровно один маршрут.",
+    "Exactly what was sent to the node and what it answered. This ":
+        "Что именно было отправлено на узел и что он ответил. Это",
+    "Example raw request (balance check)":
+        "Пример необработанного запроса (проверка баланса)",
     "Existing Tor or Orbot": "Существующий Tor или Orbot",
     "Existing private key (paste)": "Существующий закрытый ключ (вставить)",
     "Expert": "Эксперт",
@@ -2424,27 +2892,36 @@ const Map<String, Map<String, String>> uiTranslations = {
     "First time sending to this address on this device — double-check every character.": "Первая отправка на этот адрес на этом устройстве — перепроверьте каждый символ.",
     "Forget the story": "Забудьте историю",
     "Friendly name": "Дружественное имя",
-    "Friendly name (e.g. My home node)": "Понятное имя (например, Мой домашний узел)",
+    "Friendly name (e.g. My home node)":
+        "Понятное имя (например, Мой домашний узел)",
     "From:": "От:",
-    "Full node test report copied.": "Полный отчет об испытании узла скопирован.",
+    "Full node test report copied.":
+        "Полный отчет об испытании узла скопирован.",
     "Full test": "Полное испытание",
-    "Full token test log copied.": "Полный журнал тестирования маркеров скопирован.",
+    "Full token test log copied.":
+        "Полный журнал тестирования маркеров скопирован.",
     "Gas limit": "Лимит газа",
     "HTTP CONNECT": "HTTP-СОЕДИНЕНИЕ",
     "Hash QR": "Хеш QR",
-    "Hiding only changes this screen and the send picker; the token ": "Скрытие изменяет только этот экран и средство выбора отправки; маркер",
+    "Hiding only changes this screen and the send picker; the token ":
+        "Скрытие изменяет только этот экран и средство выбора отправки; маркер",
     "History test log copied.": "Журнал тестов истории скопирован.",
     "History test passed": "Тест истории пройден",
-    "History uses the public BscScan API V1 (Etherscan-compatible). ": "История использует публичный BscScan API V1 (Etherscan-совместимый).",
+    "History uses the public BscScan API V1 (Etherscan-compatible). ":
+        "История использует публичный BscScan API V1 (Etherscan-совместимый).",
     "Hold to sign offline": "Удерживайте, чтобы подписать оффлайн",
-    "Holds seed, no network — signs requests offline": "Удерживает Seed, нет сети — подписывает запросы в автономном режиме",
+    "Holds seed, no network — signs requests offline":
+        "Удерживает Seed, нет сети — подписывает запросы в автономном режиме",
     "Hot wallet holds the seed and can sign. Cold (offline signer) holds ": "Горячий кошелек удерживает семена и может подписывать. Холодные (оффлайн-подписант) удержания",
     "Hot wallet: the signing key exists in memory while unlocked. Back up ": "Горячий кошелек: ключ подписи существует в памяти при разблокировке. Резервное копирование",
-    "How the wallet picks which RPC node to talk to for reads and ": "Как кошелек выбирает, к какому RPC-узлу обращаться для чтения и",
-    "I found your encrypted vault on this device": "Я нашел ваше зашифрованное хранилище на этом устройстве",
+    "How the wallet picks which RPC node to talk to for reads and ":
+        "Как кошелек выбирает, к какому RPC-узлу обращаться для чтения и",
+    "I found your encrypted vault on this device":
+        "Я нашел ваше зашифрованное хранилище на этом устройстве",
     "I understand": "Я понимаю",
     "I wrote down the whole private key.": "Я записал весь закрытый ключ.",
-    "If you set one, the exact same passphrase is required ": "Если вы установите один, потребуется точно такая же парольная фраза",
+    "If you set one, the exact same passphrase is required ":
+        "Если вы установите один, потребуется точно такая же парольная фраза",
     "Import": "Импорт",
     "Import V3 keystore": "Импортировать хранилище ключей V3",
     "Import an existing wallet": "Импортировать существующий кошелек",
@@ -2456,7 +2933,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Import signed response": "Импортировать подписанный ответ",
     "Incoming (received)": "Входящее получено",
     "Inspect any address": "Проверьте любой адрес",
-    "It starts with 0x and has 64 hexadecimal characters after ": "Он начинается с 0x и имеет 64 шестнадцатеричных символа после",
+    "It starts with 0x and has 64 hexadecimal characters after ":
+        "Он начинается с 0x и имеет 64 шестнадцатеричных символа после",
     "Keep session-only": "Оставить только сессию",
     "Keystore JSON": "Хранилище ключей JSON",
     "Keystore password": "Пароль хранилища ключей",
@@ -2464,13 +2942,17 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Language": "Язык",
     "Last signed response": "Последний подписанный ответ",
     "Latest block": "Последний блок",
-    "Leave empty if the wallet has no passphrase": "Оставьте пустым, если у кошелька нет парольной фразы",
+    "Leave empty if the wallet has no passphrase":
+        "Оставьте пустым, если у кошелька нет парольной фразы",
     "Level": "Уровень",
-    "License: AGPL-3.0-or-later (see LICENSE in the app package).": "Лицензия: AGPL-3.0-or-later (см. ЛИЦЕНЗИЮ в пакете приложения).",
+    "License: AGPL-3.0-or-later (see LICENSE in the app package).":
+        "Лицензия: AGPL-3.0-or-later (см. ЛИЦЕНЗИЮ в пакете приложения).",
     "Light": "Light",
     "Lite mode": "Лёгкий режим",
-    "Lite mode keeps the same facts and honest states but removes the ": "Режим Lite сохраняет те же факты и честные состояния, но удаляет",
-    "Local receipts (kept encrypted, offline)": "Локальные квитанции (хранятся в зашифрованном виде, не в сети)",
+    "Lite mode keeps the same facts and honest states but removes the ":
+        "Режим Lite сохраняет те же факты и честные состояния, но удаляет",
+    "Local receipts (kept encrypted, offline)":
+        "Локальные квитанции (хранятся в зашифрованном виде, не в сети)",
     "Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.": "Локальный, некастодиальный EVM-кошелек. Версия 1.1.0 включает BNB Smart Chain; планируется больше сетей EVM.",
     "Lock": "Замок.",
     "Lock wallet": "Заблокировать кошелек",
@@ -2480,7 +2962,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Logs": "Журналы",
     "Logs stay on this device, encrypted, and never contain seed ": "Журналы остаются на этом устройстве, зашифрованы и никогда не содержат Seed",
     "Made by jackh0006": "Сделано в jackh0006",
-    "Made by jackh0006 · jackh109867@gmail.com": "Сделано в jackh0006 · jackh109867@gmail.com",
+    "Made by jackh0006 · jackh109867@gmail.com":
+        "Сделано в jackh0006 · jackh109867@gmail.com",
     "Mainnet (56)": "Mainnet (56)",
     "Managed Tor": "Управляемое ТЗ",
     "Managed Tor is started and stopped by this app on Linux. It ": "Управляемый Tor запускается и останавливается этим приложением в Linux. Он",
@@ -2492,7 +2975,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Move vault": "Переместить хранилище",
     "My phone": "Мой телефон",
     "My receive QR": "Мой QR-получатель",
-    "Name (e.g. Company X token page)": "Имя (например, страница токена компании X)",
+    "Name (e.g. Company X token page)":
+        "Имя (например, страница токена компании X)",
     "Names and public addresses only — the phone book holds no secrets. ": "Только имена и общедоступные адреса — в телефонной книге нет секретов.",
     "Native coin only": "Только собственная монета",
     "Navigation labels update immediately. Detailed wallet and security ": "Навигационные метки обновляются немедленно. Подробный кошелек и безопасность",
@@ -2503,15 +2987,18 @@ const Map<String, Map<String, String>> uiTranslations = {
     "New absolute vault file path": "Новый путь к файлу абсолютного хранилища",
     "New label": "Новый лейбл",
     "New private key (generated)": "Новый закрытый ключ (сгенерирован)",
-    "New recovery phrase or private key": "Новая фраза восстановления или закрытый ключ",
+    "New recovery phrase or private key":
+        "Новая фраза восстановления или закрытый ключ",
     "No encrypted vault yet": "Пока нет зашифрованного хранилища",
-    "No key for this address exists on this device, so it cannot ": "На этом устройстве нет ключа для этого адреса, поэтому он не может",
+    "No key for this address exists on this device, so it cannot ":
+        "На этом устройстве нет ключа для этого адреса, поэтому он не может",
     "No log lines yet. Every network action, fee check and transaction ": "Строк журнала пока нет. Каждое сетевое действие, проверка комиссии и транзакция",
     "No normal transactions found.": "Обычные транзакции не найдены.",
     "No phone book entries for this side yet — I will use the ": "Пока нет записей в телефонной книге для этой стороны — я буду использовать",
     "No pulse; static state icons and progress bar": "Отсутствие импульса; значки статического состояния и индикатор выполнения",
     "No request yet this session.": "Запросов на эту сессию пока нет.",
-    "No secrets — prepares & broadcasts for cold device": "Никаких секретов — готовит и транслирует для холодного устройства",
+    "No secrets — prepares & broadcasts for cold device":
+        "Никаких секретов — готовит и транслирует для холодного устройства",
     "No wallet unlocked. Create, import, or unlock from vault below.": "Нет разблокированных кошельков. Создайте, импортируйте или разблокируйте из хранилища ниже.",
     "No words yet — pick word 1.": "Пока нет слов — выберите слово 1.",
     "Node": "Узел",
@@ -2519,8 +3006,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Normal (hot wallet)": "Обычный (горячий кошелек)",
     "Nothing yet. Every time I check the blockchain I will write one ": "Пока ничего. Каждый раз, когда я проверяю блокчейн, я буду писать один",
     "Online (watch-only companion)": "Онлайн (только компаньон для просмотра)",
-    "Only copy a secret when you are restoring it now. ": "Копировать секрет можно только при его восстановлении.",
-    "Only the network fee was spent; the amount was not transferred.": "Израсходована только плата за сеть, сумма не переведена.",
+    "Only copy a secret when you are restoring it now. ":
+        "Копировать секрет можно только при его восстановлении.",
+    "Only the network fee was spent; the amount was not transferred.":
+        "Израсходована только плата за сеть, сумма не переведена.",
     "Open": "Открыть",
     "Open BscScan API keys": "Открыть ключи API BscScan",
     "Open data folder": "Открыть папку данных",
@@ -2544,20 +3033,23 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Password (16+ characters, hidden)": "Пароль (более 16 символов, скрыт)",
     "Password (hidden)": "Пароль (скрыт)",
     "Password (optional)": "Пароль (необязательно)",
-    "Password (will be stored encrypted in vault)": "Пароль (будет храниться в зашифрованном виде в хранилище)",
+    "Password (will be stored encrypted in vault)":
+        "Пароль (будет храниться в зашифрованном виде в хранилище)",
     "Paste clipboard": "Вставить буфер обмена",
     "Paste from clipboard": "Вставить из буфера обмена",
     "Paste lines": "Вставить строки",
     "Paste or type an existing 0x + 64 hex private key. This ": "Вставьте или введите существующий шестигранный закрытый ключ 0x + 64. Это",
     "Paste phrase": "Вставить фразу",
     "Paste proxy URL": "Вставьте URL-адрес прокси-сервера",
-    "Paste proxy URL (optional)": "Вставьте URL-адрес прокси-сервера (необязательно)",
+    "Paste proxy URL (optional)":
+        "Вставьте URL-адрес прокси-сервера (необязательно)",
     "Paste the JSON file contents": "Вставить содержимое файла JSON",
     "Paste the JSON node list": "Вставьте список узлов JSON",
     "Path": "Путь",
     "Payload": "Полезная нагрузка",
     "Pending cold request": "Ожидание холодного запроса",
-    "Point the wallet at a SOCKS port that another Tor instance ": "Направьте кошелек на порт SOCKS другого экземпляра Tor",
+    "Point the wallet at a SOCKS port that another Tor instance ":
+        "Направьте кошелек на порт SOCKS другого экземпляра Tor",
     "Port": "Порт",
     "Privacy": "Приватность",
     "Privacy route test": "Проверка маршрута конфиденциальности",
@@ -2571,11 +3063,14 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Proxy port": "Порт прокси",
     "Proxy settings…": "Proxy settings («Настройки прокси»)",
     "Proxy type": "Тип прокси",
-    "Public address (0x + 40 hex characters)": "Публичный адрес (0x + 40 шестнадцатеричных символов)",
+    "Public address (0x + 40 hex characters)":
+        "Публичный адрес (0x + 40 шестнадцатеричных символов)",
     "Public profiles (labels only)": "Публичные профили (только метки)",
     "QR / file to carry back online": "QR / файл для переноса в режиме онлайн",
-    "QR / file with public addresses only": "QR / файл только с публичными адресами",
-    "Query N nodes and cross-check answers": "Запрос N узлов и перекрестные проверки ответов",
+    "QR / file with public addresses only":
+        "QR / файл только с публичными адресами",
+    "Query N nodes and cross-check answers":
+        "Запрос N узлов и перекрестные проверки ответов",
     "Quorum": "Кворум",
     "Raw call data": "Необработанные данные о вызовах",
     "Raw lines for this stop": "Необработанные линии для этой остановки",
@@ -2584,7 +3079,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Raw signed transaction": "Необработанная подписанная транзакция",
     "Read file": "Прочитать файл",
     "Read payload from file": "Чтение полезной нагрузки из файла",
-    "Read-only: no key is imported or stored": "Только для чтения: ключ не импортируется и не хранится",
+    "Read-only: no key is imported or stored":
+        "Только для чтения: ключ не импортируется и не хранится",
     "Receipt": "Квитанция",
     "Receive": "Получить",
     "Receive QR": "QR для получения",
@@ -2593,7 +3089,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Recovery phrase": "Фраза для восстановления",
     "Recovery phrase (12 / 24 words)": "Фраза восстановления (12 / 24 слова)",
     "Recovery phrase length": "Укажите длину фразы восстановления",
-    "Recovery phrase, private key, keystore, or watch-only": "Фраза восстановления, закрытый ключ, хранилище ключей или только часы",
+    "Recovery phrase, private key, keystore, or watch-only":
+        "Фраза восстановления, закрытый ключ, хранилище ключей или только часы",
     "Refresh": "Обновить",
     "Refresh balances": "Обновить балансы",
     "Refresh logs": "Обновить журналы",
@@ -2605,7 +3102,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Rename vault account": "Переименовать учетную запись хранилища",
     "Rename wallet": "Переименовать кошелек",
     "Replace the active vault?": "Заменить активное хранилище?",
-    "Request to carry to the cold signer": "Просьба отнести холодному подписанту",
+    "Request to carry to the cold signer":
+        "Просьба отнести холодному подписанту",
     "Reset": "Reset (сброс - уст 0)",
     "Reset node list?": "Сбросить список узлов?",
     "Reset to official list": "Сбросить до официального списка",
@@ -2619,7 +3117,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Review offline signing": "Проверка офлайн-подписи",
     "Review transaction": "Проверить транзакцию",
     "Risk controls on GitHub": "Контроль рисков на GitHub",
-    "Rotate through enabled nodes for privacy": "Поворот через разрешенные узлы для обеспечения конфиденциальности",
+    "Rotate through enabled nodes for privacy":
+        "Поворот через разрешенные узлы для обеспечения конфиденциальности",
     "Round-robin / random": "Круговой / случайный",
     "SOCKS host": "SOCKS хост",
     "SOCKS port": "SOCKS-порт",
@@ -2642,7 +3141,8 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Save public profile?": "Сохранить общедоступный профиль?",
     "Save to vault": "Сохранить в Vault",
     "Save upstream and chain": "Сохранить восходящий поток и цепочку",
-    "Search messages, category, tx hash…": "Поиск сообщений, категории, хэша передачи…",
+    "Search messages, category, tx hash…":
+        "Поиск сообщений, категории, хэша передачи…",
     "Search the word, then tap it. Only tap-order builds the phrase — ": "Найдите слово и нажмите на него. Только порядок касания строит фразу —",
     "Search word list": "Список слов для поиска",
     "Secret storage": "Секретное хранение",
@@ -2651,8 +3151,10 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Selection mode": "Режим выделения",
     "Selection mode / use for…": "Режим выбора/ использование для...",
     "Send": "Отправить",
-    "Send native coin or EVM tokens": "Отправить нативные монеты или токены EVM",
-    "Sending is irreversible. Verify the recipient and amount independently.": "Отправка необратима. Подтвердите получателя и сумму самостоятельно.",
+    "Send native coin or EVM tokens":
+        "Отправить нативные монеты или токены EVM",
+    "Sending is irreversible. Verify the recipient and amount independently.":
+        "Отправка необратима. Подтвердите получателя и сумму самостоятельно.",
     "Sensitive actions": "Чувствительные действия",
     "Sensitive export": "Чувствительный экспорт",
     "Set app PIN": "Установить PIN-код приложения",
@@ -2679,11 +3181,13 @@ const Map<String, Map<String, String>> uiTranslations = {
     "System default": "Системное значение по умолчанию",
     "Take it with you": "Забирайте ее с собой.",
     "Tap any stop for its own detail card and raw lines.": "Нажмите на любую остановку, чтобы получить ее собственную карточку с деталями и необработанные линии.",
-    "Tell me your vault password and I will open it — then you ": "Скажите мне свой пароль хранилища, и я открою его — тогда вы",
+    "Tell me your vault password and I will open it — then you ":
+        "Скажите мне свой пароль хранилища, и я открою его — тогда вы",
     "Test": "Тест",
     "Test external Tor": "Проверка внешнего ТЗ",
     "Test history now": "История тестирования",
-    "Test privacy route — who sees what": "Тестовый маршрут конфиденциальности — кто что видит",
+    "Test privacy route — who sees what":
+        "Тестовый маршрут конфиденциальности — кто что видит",
     "Test token": "Проверить ключ (токен)",
     "Testing the real route…": "Тестирование реального маршрута...",
     "Testnet (97)": "Testnet (97)",
@@ -2691,30 +3195,42 @@ const Map<String, Map<String, String>> uiTranslations = {
     "The explorer is a third-party website. Opening it tells that site ": "Проводник является сторонним веб-сайтом. Открытие его говорит о том, что сайт",
     "The key is shown once after you press Generate. The app ": "Клавиша отображается один раз после нажатия кнопки «Сгенерировать». Приложение",
     "The limit can never go below the simulation. A custom fee is ": "Предел никогда не может опуститься ниже моделирования. Пользовательский сбор составляет",
-    "The receipt was fetched from two independent ": "Квитанция была получена от двух независимых",
-    "The selected backup will replace the current vault only after its ": "Выбранная резервная копия заменит текущее хранилище только после",
-    "The text contains your address, the recipient, the amount, and the ": "Текст содержит ваш адрес, получателя, сумму и",
-    "The transaction is rehearsed on the chain first, then reviewed — ": "Транзакция сначала репетируется в цепочке, а затем проверяется —",
+    "The receipt was fetched from two independent ":
+        "Квитанция была получена от двух независимых",
+    "The selected backup will replace the current vault only after its ":
+        "Выбранная резервная копия заменит текущее хранилище только после",
+    "The text contains your address, the recipient, the amount, and the ":
+        "Текст содержит ваш адрес, получателя, сумму и",
+    "The transaction is rehearsed on the chain first, then reviewed — ":
+        "Транзакция сначала репетируется в цепочке, а затем проверяется —",
     "The vault can be moved with the existing vault move flow. ": "Хранилище можно перемещать с помощью существующего потока перемещения хранилища.",
-    "The vault, receipts, and activity log are encrypted at rest. ": "Хранилище, квитанции и журнал операций зашифрованы в состоянии покоя.",
-    "The wallet is unlocked. Compare this address with your other ": "Кошелек разблокирован. Сравните этот адрес с другим",
+    "The vault, receipts, and activity log are encrypted at rest. ":
+        "Хранилище, квитанции и журнал операций зашифрованы в состоянии покоя.",
+    "The wallet is unlocked. Compare this address with your other ":
+        "Кошелек разблокирован. Сравните этот адрес с другим",
     "Theme": "Тема",
     "Theme affects the entire app. AMOLED black saves power on OLED screens.": "Тема влияет на все приложение. AMOLED Black экономит энергию на OLED-экранах.",
     "These are just labels + addresses for quick reference. No secrets stored.": "Это просто ярлыки + адреса для быстрого ознакомления. Секреты не сохранены.",
     "These are the only computers I may ask about balances and blocks. ": "Это единственные компьютеры, которые я могу спросить о балансах и блоках.",
-    "These links are starting points, not blessings: the wallet ": "Эти ссылки являются отправными точками, а не благословениями: кошелек",
+    "These links are starting points, not blessings: the wallet ":
+        "Эти ссылки являются отправными точками, а не благословениями: кошелек",
     "These public bytes are what went to the network. Anyone can verify them; they contain no secret beyond the transaction itself.": "Эти общедоступные байты - это то, что пошло в сеть. Проверить их может любой желающий, кроме самой транзакции они не содержат секрета.",
-    "This device holds the key but no network connection. Prepare ": "Это устройство содержит ключ, но не подключено к сети. Подготовьтесь",
-    "This export can reveal your activity": "Этот экспорт может раскрыть вашу активность",
+    "This device holds the key but no network connection. Prepare ":
+        "Это устройство содержит ключ, но не подключено к сети. Подготовьтесь",
+    "This export can reveal your activity":
+        "Этот экспорт может раскрыть вашу активность",
     "This is a watch-only profile": "Это профиль только для часов",
-    "This is the ONLY way to restore this wallet. Write the ": "Это ЕДИНСТВЕННЫЙ способ восстановить этот кошелек. Напишите",
+    "This is the ONLY way to restore this wallet. Write the ":
+        "Это ЕДИНСТВЕННЫЙ способ восстановить этот кошелек. Напишите",
     "This online companion holds no key. Import the public pairing ": "У этого онлайн-компаньона нет ключа. Импортировать общедоступное сопряжение",
     "This only forgets the entry on this device. It does not stop ": "При этом забывается только запись на этом устройстве. Это не останавливает",
     "This only reads public blockchain data. No secrets are accessed.": "Он считывает только общедоступные данные блокчейна. Никакие секреты не доступны.",
     "This panel is generated from the calls this send actually made — not a fixed claim.": "Эта панель генерируется из фактически сделанных вызовов, которые отправляются, а не фиксированной заявки.",
     "This permanently removes the account from the encrypted vault. The secret cannot be recovered.": "При этом учетная запись будет удалена из зашифрованного хранилища без возможности восстановления. Тайну невозможно восстановить.",
-    "To (full address — verify ALL of it):": "Кому (полный адрес — проверьте ВСЕ):",
-    "Token (will be stored encrypted in vault)": "Токен (будет храниться в зашифрованном виде в хранилище)",
+    "To (full address — verify ALL of it):":
+        "Кому (полный адрес — проверьте ВСЕ):",
+    "Token (will be stored encrypted in vault)":
+        "Токен (будет храниться в зашифрованном виде в хранилище)",
     "Tokens (USDT, USDC, etc.)": "Токены (USDT, USDC и т.д.)",
     "Tor & bridges…": "Tor и мосты…",
     "Tor and bridges": "Тор и мосты",
@@ -2750,19 +3266,23 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Username (empty for none)": "Имя пользователя (пусто, если нет)",
     "Username (optional)": "Имя пользователя (необязательно)",
     "VLESS/Xray command copied.": "Команда VLESS/Xray скопирована.",
-    "VLESS/Xray example: inbound protocol \"socks\", listen ": "Пример VLESS/XRAY: входящий протокол \"Socks\", прослушать",
+    "VLESS/Xray example: inbound protocol \"socks\", listen ":
+        "Пример VLESS/XRAY: входящий протокол \"Socks\", прослушать",
     "VPN / VLESS / proxy before Tor": "VPN / VLESS / прокси до Tor",
     "Vault account label": "Ярлык учетной записи Сейфа",
     "Vault accounts": "Учетные записи Vault",
-    "Vault is locked or has no accounts.": "Хранилище заблокировано или не имеет учетных записей.",
+    "Vault is locked or has no accounts.":
+        "Хранилище заблокировано или не имеет учетных записей.",
     "Vault password": "Пароль хранилища",
     "Vault password (16+ characters)": "Пароль хранилища (более 16 символов)",
     "Vault password (hidden)": "Пароль хранилища (скрыт)",
-    "Vault password to confirm deletion": "Пароль хранилища для подтверждения удаления",
+    "Vault password to confirm deletion":
+        "Пароль хранилища для подтверждения удаления",
     "Verify": "Пройти верификацию",
     "Verify recovery phrase": "Проверить фразу восстановления",
     "Verify strictly, then broadcast": "Строго проверяйте, затем транслируйте",
-    "Verify the fingerprint, then watch only": "Проверьте отпечаток пальца, затем смотрите только",
+    "Verify the fingerprint, then watch only":
+        "Проверьте отпечаток пальца, затем смотрите только",
     "View example raw request (what the node actually receives)": "Посмотреть пример необработанного запроса (что на самом деле получает узел)",
     "View raw requests": "Просмотр необработанных запросов",
     "View receipt": "Посмотреть квитанцию",
@@ -2773,28 +3293,36 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Wallet name": "Имя кошелька",
     "Wallet type": "Тип кошелька",
     "Watch an address": "Смотреть адрес",
-    "Watch-only · this device holds no key for this address": "Только часы · это устройство не имеет ключа для этого адреса",
-    "WebTunnel and meek need their client binaries; Ubuntu does ": "WebTunnel и Meek нуждаются в своих клиентских двоичных файлах; Ubuntu",
+    "Watch-only · this device holds no key for this address":
+        "Только часы · это устройство не имеет ключа для этого адреса",
+    "WebTunnel and meek need their client binaries; Ubuntu does ":
+        "WebTunnel и Meek нуждаются в своих клиентских двоичных файлах; Ubuntu",
     "Welcome": "Привет",
-    "What the chain recorded (event logs)": "Что записывала цепочка (журналы событий)",
+    "What the chain recorded (event logs)":
+        "Что записывала цепочка (журналы событий)",
     "What the contract was told": "Что было сказано в контракте",
     "What the node knows": "Что известно узлу",
     "What the node sees": "Что видит узел",
     "What this door will see": "Что увидит эта дверь",
     "What you paid": "Сколько вы заплатили",
     "Why X Wallet": "Почему именно X Wallet",
-    "Write every word on paper, in this order. This phrase ": "Напишите каждое слово на бумаге, в таком порядке. Эта фраза",
-    "Writes a file in the system temp folder.": "Запись файла в папку System TEMP.",
+    "Write every word on paper, in this order. This phrase ":
+        "Напишите каждое слово на бумаге, в таком порядке. Эта фраза",
+    "Writes a file in the system temp folder.":
+        "Запись файла в папку System TEMP.",
     "X Wallet": "X Wallet",
     "X Wallet 1.1.0": "X Wallet 1.1.0",
     "Yes": "Да",
-    "Your ISP / DPI (internet provider, firewalls)": "Ваш интернет-провайдер/DPI (интернет-провайдер, межсетевые экраны)",
+    "Your ISP / DPI (internet provider, firewalls)":
+        "Ваш интернет-провайдер/DPI (интернет-провайдер, межсетевые экраны)",
     "from your written backup": "из вашей записанной резервной копии",
     "jackh109867@gmail.com": "jackh109867@gmail.com",
     "proxy.example or 127.0.0.1": "прокси.пример или 127.0.0.1",
     "right chain": "правая цепь",
-    "socks5h://user:pass@host:1080 or https://host:8080": "носков5h://пользователь:pass@хост:1080 или https://хост:8080",
-    "socks5h://user:pass@proxy.example:1080": "носков5h://пользователь:pass@proxy.пример:1080",
+    "socks5h://user:pass@host:1080 or https://host:8080":
+        "носков5h://пользователь:pass@хост:1080 или https://хост:8080",
+    "socks5h://user:pass@proxy.example:1080":
+        "носков5h://пользователь:pass@proxy.пример:1080",
     "Русский (Russian)": "English (Английский)",
     "العربية (Arabic)": "العربية (Arabic)",
     "فارسی (Persian)": "فارسی (Persian)",
@@ -2807,4 +3335,5 @@ const Map<String, Map<String, String>> uiTranslations = {
   },
 };
 
-String translateUi(String locale, String text) => uiTranslations[locale]?[text] ?? text;
+String translateUi(String locale, String text) =>
+    uiTranslations[locale]?[text] ?? text;
