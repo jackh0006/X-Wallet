@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 
 import '../app_state.dart';
@@ -286,21 +287,24 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                       controller: _url,
                       autocorrect: false,
                       enableSuggestions: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Paste proxy URL',
-                        hintText: 'socks5h://user:pass@proxy.example:1080',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'Paste proxy URL'),
+                        hintText: tr(
+                          context,
+                          'socks5h://user:pass@proxy.example:1080',
+                        ),
                         border: OutlineInputBorder(),
                       ),
                       onSubmitted: (_) => _parseUrl(),
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Paste from clipboard',
+                    tooltip: tr(context, 'Paste from clipboard'),
                     onPressed: _busy ? null : _pasteUrl,
                     icon: const Icon(Icons.content_paste),
                   ),
                   IconButton(
-                    tooltip: 'Use this URL',
+                    tooltip: tr(context, 'Use this URL'),
                     onPressed: _busy ? null : _parseUrl,
                     icon: const Icon(Icons.arrow_forward),
                   ),
@@ -310,8 +314,8 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
               DropdownButtonFormField<ProxyType>(
                 initialValue: _type,
                 isExpanded: true,
-                decoration: const InputDecoration(
-                  labelText: 'Proxy type',
+                decoration: InputDecoration(
+                  labelText: tr(context, 'Proxy type'),
                   border: OutlineInputBorder(),
                 ),
                 items: const [
@@ -353,9 +357,9 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                       controller: _host,
                       autocorrect: false,
                       enableSuggestions: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Proxy host',
-                        hintText: 'proxy.example or 127.0.0.1',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'Proxy host'),
+                        hintText: tr(context, 'proxy.example or 127.0.0.1'),
                         border: OutlineInputBorder(),
                       ),
                       onChanged: (_) => setState(() {
@@ -370,8 +374,8 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                       controller: _port,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Port',
-                        hintText: '$_defaultPort',
+                        labelText: tr(context, 'Port'),
+                        hintText: tr(context, '$_defaultPort'),
                         border: const OutlineInputBorder(),
                       ),
                       onChanged: (_) => setState(() {
@@ -390,8 +394,8 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                       controller: _user,
                       autocorrect: false,
                       enableSuggestions: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Username (optional)',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'Username (optional)'),
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -404,7 +408,7 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
                       autocorrect: false,
                       enableSuggestions: false,
                       decoration: InputDecoration(
-                        labelText: 'Password (optional)',
+                        labelText: tr(context, 'Password (optional)'),
                         border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                           tooltip: _obscurePassword
@@ -889,8 +893,8 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
               DropdownButtonFormField<ProxyType>(
                 initialValue: _upstreamType,
                 isExpanded: true,
-                decoration: const InputDecoration(
-                  labelText: 'Upstream before Tor',
+                decoration: InputDecoration(
+                  labelText: tr(context, 'Upstream before Tor'),
                   border: OutlineInputBorder(),
                 ),
                 items: ProxyType.values
@@ -922,9 +926,9 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                         controller: _upstreamHost,
                         autocorrect: false,
                         enableSuggestions: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Upstream host',
-                          hintText: '127.0.0.1',
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Upstream host'),
+                          hintText: tr(context, '127.0.0.1'),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -934,9 +938,9 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                       child: TextField(
                         controller: _upstreamPort,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Port',
-                          hintText: '10808',
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Port'),
+                          hintText: tr(context, '10808'),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -951,8 +955,8 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                         controller: _upstreamUser,
                         autocorrect: false,
                         enableSuggestions: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Username (optional)',
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Username (optional)'),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -964,8 +968,8 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                         obscureText: true,
                         autocorrect: false,
                         enableSuggestions: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Password (optional)',
+                        decoration: InputDecoration(
+                          labelText: tr(context, 'Password (optional)'),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -976,8 +980,8 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
               const SizedBox(height: 8),
               DropdownButtonFormField<int>(
                 initialValue: _chainDepth,
-                decoration: const InputDecoration(
-                  labelText: 'Tor chain depth',
+                decoration: InputDecoration(
+                  labelText: tr(context, 'Tor chain depth'),
                   border: OutlineInputBorder(),
                 ),
                 items: const [
@@ -1042,9 +1046,9 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                     child: TextField(
                       controller: _managedPort,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'SOCKS port',
-                        hintText: '9050',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'SOCKS port'),
+                        hintText: tr(context, '9050'),
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -1068,8 +1072,8 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
               DropdownButtonFormField<TorBridgeType>(
                 initialValue: _bridgeType,
                 isExpanded: true,
-                decoration: const InputDecoration(
-                  labelText: 'Bridge type',
+                decoration: InputDecoration(
+                  labelText: tr(context, 'Bridge type'),
                   border: OutlineInputBorder(),
                 ),
                 items: TorBridgeType.values
@@ -1101,7 +1105,7 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                   enableSuggestions: false,
                   style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
                   decoration: InputDecoration(
-                    labelText: 'Bridge lines',
+                    labelText: tr(context, 'Bridge lines'),
                     hintText: _bridgeHint(),
                     border: const OutlineInputBorder(),
                     alignLabelWithHint: true,
@@ -1205,9 +1209,9 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                       controller: _host,
                       autocorrect: false,
                       enableSuggestions: false,
-                      decoration: const InputDecoration(
-                        labelText: 'SOCKS host',
-                        hintText: '127.0.0.1',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'SOCKS host'),
+                        hintText: tr(context, '127.0.0.1'),
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -1217,9 +1221,9 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
                     child: TextField(
                       controller: _externalPort,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Port',
-                        hintText: '9050',
+                      decoration: InputDecoration(
+                        labelText: tr(context, 'Port'),
+                        hintText: tr(context, '9050'),
                         border: OutlineInputBorder(),
                       ),
                     ),

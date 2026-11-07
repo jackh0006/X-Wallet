@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 
 /// A button that only fires after the pointer is held for [duration]. Used for

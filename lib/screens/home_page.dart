@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 import '../app_state.dart';
 import '../rpc_service.dart';
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage>
         ),
         actions: [
           IconButton(
-            tooltip: 'Refresh',
+            tooltip: tr(context, 'Refresh'),
             onPressed: _refresh,
             icon: const Icon(Icons.refresh),
           ),
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               IconButton(
-                tooltip: 'Forget the story',
+                tooltip: tr(context, 'Forget the story'),
                 onPressed: rpc.clearStory,
                 icon: const Icon(Icons.clear_all, size: 20),
               ),
@@ -370,7 +370,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
               IconButton(
-                tooltip: 'Check this node now',
+                tooltip: tr(context, 'Check this node now'),
                 onPressed: connected ? _probeActive : null,
                 icon: const Icon(Icons.speed, size: 19),
               ),
@@ -604,7 +604,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               IconButton(
-                tooltip: 'Copy address',
+                tooltip: tr(context, 'Copy address'),
                 icon: const Icon(Icons.copy, size: 18),
                 onPressed: () => copyText(context, address, 'Address'),
               ),

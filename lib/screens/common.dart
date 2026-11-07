@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -148,8 +149,8 @@ Future<String?> promptText(
           keyboardType: keyboardType,
           maxLines: maxLines ?? 1,
           decoration: InputDecoration(
-            labelText: label,
-            hintText: hintText,
+            labelText: label == null ? null : tr(context, label),
+            hintText: hintText == null ? null : tr(context, hintText),
             errorText: error,
           ),
           onChanged: (_) {

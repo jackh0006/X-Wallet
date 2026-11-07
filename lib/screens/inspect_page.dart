@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 import '../app_state.dart';
 import '../wallet_core.dart';
@@ -81,8 +81,8 @@ class _InspectPageState extends State<InspectPage>
             TextField(
               controller: _address,
               decoration: InputDecoration(
-                labelText: 'Address',
-                hintText: '0x…',
+                labelText: tr(context, 'Address'),
+                hintText: tr(context, '0x…'),
                 border: const OutlineInputBorder(),
                 errorText: _error,
               ),

@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
+
 import 'package:flutter/services.dart'
     show Clipboard, ClipboardData, rootBundle;
 
@@ -677,8 +678,8 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 10),
           TextField(
             controller: _rpcController,
-            decoration: const InputDecoration(
-              labelText: 'https://node.example',
+            decoration: InputDecoration(
+              labelText: tr(context, 'https://node.example'),
               border: OutlineInputBorder(),
             ),
             autocorrect: false,
@@ -1456,8 +1457,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 width: 260,
                 child: TextField(
                   controller: _newTokenAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'Contract address',
+                  decoration: InputDecoration(
+                    labelText: tr(context, 'Contract address'),
                     border: OutlineInputBorder(),
                   ),
                   autocorrect: false,
@@ -1643,12 +1644,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    tooltip: 'Open in browser',
+                    tooltip: tr(context, 'Open in browser'),
                     icon: const Icon(Icons.open_in_new, size: 18),
                     onPressed: () => _openSourceUrl('${source['url'] ?? ''}'),
                   ),
                   IconButton(
-                    tooltip: 'Copy link',
+                    tooltip: tr(context, 'Copy link'),
                     icon: const Icon(Icons.copy, size: 18),
                     onPressed: () =>
                         copyText(context, '${source['url'] ?? ''}', 'Link'),
@@ -2172,7 +2173,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       title: 'Move encrypted vault',
       label: 'New absolute vault file path',
-      hintText: '/home/you/secure/x-wallet-vault.bnb',
+      hintText: tr(context, '/home/you/secure/x-wallet-vault.bnb'),
       validator: (value) => value.trim().isEmpty ? 'Path required' : null,
     );
     if (path == null || !mounted) return;
@@ -2589,7 +2590,10 @@ class _SettingsPageState extends State<SettingsPage> {
         context,
         title: _transportLabelFromEnum(choice),
         label: 'Paste proxy URL (optional)',
-        hintText: 'socks5h://user:pass@host:1080 or https://host:8080',
+        hintText: tr(
+          context,
+          'socks5h://user:pass@host:1080 or https://host:8080',
+        ),
         initialValue: current,
         validator: (v) {
           final text = v.trim();
@@ -2740,7 +2744,10 @@ class _SettingsPageState extends State<SettingsPage> {
       label: 'Base64 SHA-256 of SPKI (one per line)',
       initialValue: current,
       maxLines: 5,
-      hintText: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\nBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=',
+      hintText: tr(
+        context,
+        'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\nBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=',
+      ),
     );
     if (pins == null || !mounted) return;
     final pinList = pins

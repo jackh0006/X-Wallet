@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 import '../backup_quiz.dart';
 
@@ -41,8 +41,8 @@ Future<bool> runBackupQuiz(BuildContext context, String mnemonic) async {
                     autocorrect: false,
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      labelText: 'Word ${position + 1}',
-                      hintText: 'from your written backup',
+                      labelText: tr(context, 'Word ${position + 1}'),
+                      hintText: tr(context, 'from your written backup'),
                     ),
                     onSubmitted: (_) {
                       // Enter anywhere submits; validation stays in one place.

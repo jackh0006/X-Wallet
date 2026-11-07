@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../localized_text.dart';
 
 import 'common.dart';
 
@@ -118,7 +118,7 @@ Future<void> showDonationsDialog(BuildContext context) {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            tooltip: 'Copy ${item.asset} address',
+                            tooltip: tr(context, 'Copy ${item.asset} address'),
                             icon: const Icon(Icons.copy, size: 18),
                             onPressed: () => copyText(
                               dialogContext,
@@ -127,7 +127,10 @@ Future<void> showDonationsDialog(BuildContext context) {
                             ),
                           ),
                           IconButton(
-                            tooltip: 'Show ${item.asset} address as QR',
+                            tooltip: tr(
+                              context,
+                              'Show ${item.asset} address as QR',
+                            ),
                             icon: const Icon(Icons.qr_code, size: 18),
                             onPressed: () =>
                                 showQrDialog(dialogContext, item.address),
