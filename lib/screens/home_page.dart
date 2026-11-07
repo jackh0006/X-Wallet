@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage>
               'Nothing yet. Every time I check the blockchain I will write one '
               'line here telling you what I did, whom I asked, how long it '
               'took, and your keys never left this device.',
-              style: TextStyle(color: Colors.white54, fontSize: 13),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             )
           else
             Container(
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage>
       RpcStoryKind.ok => const Color(0xFF6FCF97),
       RpcStoryKind.fail => Colors.redAccent,
       RpcStoryKind.wait => const Color(0xFFF0B90B),
-      RpcStoryKind.info => Colors.white70,
+      RpcStoryKind.info => Color(0xFF6E6E6E),
     };
     final icon = switch (line.kind) {
       RpcStoryKind.ok => Icons.check_circle_outline,
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage>
                   TextSpan(
                     text: line.clock,
                     style: TextStyle(
-                      color: Colors.white38,
+                      color: Color(0xFF808080),
                       fontSize: 11,
                       height: 1.35,
                     ),
@@ -251,9 +251,9 @@ class _HomePageState extends State<HomePage>
                           ? Icons.sentiment_neutral
                           : Icons.sentiment_dissatisfied)));
     final faceColor = !connected
-        ? Colors.white38
+        ? Color(0xFF808080)
         : (ms == null
-              ? Colors.white54
+              ? Color(0xFF6E6E6E)
               : (ms < 250
                     ? const Color(0xFF69C77A)
                     : (ms < 900
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage>
                                 '${rpc.strictModeOn ? ' · strict, no fallback' : ' · fallbacks allowed'}'
                           : 'RPC not connected · tap Refresh or check the node',
                       style: const TextStyle(
-                        color: Colors.white70,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 12.5,
                       ),
                     ),
@@ -321,7 +321,7 @@ class _HomePageState extends State<HomePage>
                           : (ms / 1200).clamp(0.02, 1.0).toDouble(),
                       strokeWidth: 4,
                       color: faceColor,
-                      backgroundColor: Colors.white12,
+                      backgroundColor: Color(0x33808080),
                     ),
                     Text(
                       ms == null ? '—' : '$ms',
@@ -345,7 +345,10 @@ class _HomePageState extends State<HomePage>
                     ms == null
                         ? 'not measured yet'
                         : '$ms ms · ${_speedWord(ms)}',
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    style: const TextStyle(
+                      color: Color(0xFF6E6E6E),
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -391,7 +394,7 @@ class _HomePageState extends State<HomePage>
                     child: Text(
                       'Privacy route: ${rpc.routeDescription}',
                       style: const TextStyle(
-                        color: Colors.white70,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 12.5,
                       ),
                     ),
@@ -399,7 +402,7 @@ class _HomePageState extends State<HomePage>
                   const Icon(
                     Icons.info_outline,
                     size: 16,
-                    color: Colors.white38,
+                    color: Color(0xFF808080),
                   ),
                 ],
               ),
@@ -564,7 +567,7 @@ class _HomePageState extends State<HomePage>
           const Text(
             'Use the Wallet tab to create or import a wallet, then return here '
             'to see balances and send.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           if (appState.hasVault) ...[
             const SizedBox(height: 14),
@@ -626,7 +629,7 @@ class _HomePageState extends State<HomePage>
             const Divider(height: 28),
             Text(
               'nonce ${_nonce ?? '—'} · block ${_block ?? '—'}',
-              style: const TextStyle(color: Colors.white54, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
           ],
         ],
@@ -705,7 +708,7 @@ class _HomePageState extends State<HomePage>
             'Hot wallet: the signing key exists in memory while unlocked. Back up '
             'your recovery phrase offline and test with small amounts — device '
             'security is part of this wallet\'s security.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
           Text(

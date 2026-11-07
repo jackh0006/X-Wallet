@@ -94,7 +94,7 @@ Future<void> showDonationsDialog(BuildContext context) {
               const Text(
                 'Donations are irreversible. This dialog never appears in a '
                 'transaction confirmation.',
-                style: TextStyle(color: Colors.white54, fontSize: 12.5),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
               ),
               const SizedBox(height: 12),
               Flexible(

@@ -184,7 +184,7 @@ class _SendPageState extends State<SendPage>
                 'the transfer on the online companion, carry its request here, '
                 'review it, and carry the signed response back.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 13),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
               ),
               const SizedBox(height: 14),
               FilledButton.icon(
@@ -227,7 +227,7 @@ class _SendPageState extends State<SendPage>
                 'from the cold device and verify the fingerprint on both '
                 'screens before preparing a transfer.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 13),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
               ),
               const SizedBox(height: 14),
               FilledButton.icon(
@@ -253,7 +253,7 @@ class _SendPageState extends State<SendPage>
           Text(
             'Ready for the signer. ID ${pending.id} · expires '
             '${pending.expiresAt}',
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -310,7 +310,7 @@ class _SendPageState extends State<SendPage>
                 'send, open the wallet that holds the key, or import the key '
                 'or recovery phrase here on purpose.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 13),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
               ),
               const SizedBox(height: 14),
               OutlinedButton.icon(
@@ -359,7 +359,7 @@ class _SendPageState extends State<SendPage>
                   'can send right away. Nothing is copied anywhere; the key '
                   'stays in this phone.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
                 ),
                 const SizedBox(height: 16),
                 FilledButton.icon(
@@ -397,7 +397,7 @@ class _SendPageState extends State<SendPage>
             'The transaction is rehearsed on the chain first, then reviewed — '
             'recipient, raw units, fees measured from live nodes, and exactly '
             'what the node sees. BNB always pays the network fee.',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<TokenInfo>(
@@ -504,7 +504,7 @@ class _SendPageState extends State<SendPage>
             else
               Text(
                 stage.detail,
-                style: const TextStyle(color: Colors.white70, fontSize: 12),
+                style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
               ),
             const SizedBox(height: 10),
             JourneyMap(
@@ -515,7 +515,7 @@ class _SendPageState extends State<SendPage>
             const SizedBox(height: 4),
             const Text(
               'Tap any stop for its own detail card and raw lines.',
-              style: TextStyle(color: Colors.white38, fontSize: 10.5),
+              style: TextStyle(color: Color(0xFF808080), fontSize: 10.5),
             ),
           ],
         ),
@@ -684,13 +684,13 @@ class _SendPageState extends State<SendPage>
             const SizedBox(height: 6),
             Text(
               quote.reason,
-              style: const TextStyle(color: Colors.white70, fontSize: 12),
+              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 4),
             Text(
               'Source: ${quote.sourceLabel} · confidence ${quote.confidence}'
               '${quote.blockSeconds != null ? ' · newest blocks ≈ ${quote.blockSeconds!.toStringAsFixed(1)} s each' : ''}',
-              style: const TextStyle(fontSize: 11, color: Colors.white54),
+              style: const TextStyle(fontSize: 11, color: Color(0xFF6E6E6E)),
             ),
           ],
         ),
@@ -713,7 +713,7 @@ class _SendPageState extends State<SendPage>
                           size: 16,
                           color: preset.recommended
                               ? const Color(0xFFF0B90B)
-                              : Colors.white38,
+                              : Color(0xFF808080),
                         ),
                         const SizedBox(width: 6),
                         Expanded(
@@ -732,7 +732,7 @@ class _SendPageState extends State<SendPage>
                     Text(
                       _feeLine(preset, gasEstimate),
                       style: const TextStyle(
-                        color: Colors.white70,
+                        color: Color(0xFF6E6E6E),
                         fontSize: 12,
                       ),
                     ),
@@ -871,7 +871,10 @@ class _SendPageState extends State<SendPage>
                   Text(
                     'The limit can never go below the simulation. A custom fee is '
                     'your own number — not a live recommendation.',
-                    style: const TextStyle(color: Colors.white70, fontSize: 11),
+                    style: const TextStyle(
+                      color: Color(0xFF6E6E6E),
+                      fontSize: 11,
+                    ),
                   ),
                   if (error != null)
                     Text(
@@ -1113,7 +1116,7 @@ class _SendPageState extends State<SendPage>
               children: [
                 const Text(
                   'To (full address — verify ALL of it):',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                 ),
                 const SizedBox(height: 4),
                 SelectableText(
@@ -1169,7 +1172,10 @@ class _SendPageState extends State<SendPage>
                 ),
                 Text(
                   'Raw units sent: ${amount.toString()} ($assetDecimals decimals)',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  style: const TextStyle(
+                    color: Color(0xFF6E6E6E),
+                    fontSize: 12,
+                  ),
                 ),
                 Text('Nonce: $nonce'),
                 Text(
@@ -1184,7 +1190,7 @@ class _SendPageState extends State<SendPage>
                 if (maxFee != expectedFee)
                   const Text(
                     'Unused EIP-1559 headroom and gas limit are never charged.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                   ),
                 Text('Fee tier: ${selected.label} · ${selected.target}'),
                 if (selected.warning != null)
@@ -1197,16 +1203,22 @@ class _SendPageState extends State<SendPage>
                   ),
                 Text(
                   'Fee source: ${selected.source}',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  style: const TextStyle(
+                    color: Color(0xFF6E6E6E),
+                    fontSize: 12,
+                  ),
                 ),
                 const Text(
                   'Actual paid fee appears on the receipt when the chain answers.',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                 ),
                 Text('Network: BSC ${rpc.network} · chain ${rpc.chainId}'),
                 Text(
                   'Node for this send: $nodeHost',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  style: const TextStyle(
+                    color: Color(0xFF6E6E6E),
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Theme(
@@ -1221,13 +1233,16 @@ class _SendPageState extends State<SendPage>
                     children: [
                       const Text(
                         'This panel is generated from the calls this send actually made — not a fixed claim.',
-                        style: TextStyle(color: Colors.white54, fontSize: 11),
+                        style: TextStyle(
+                          color: Color(0xFF6E6E6E),
+                          fontSize: 11,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         disclosure,
                         style: const TextStyle(
-                          color: Colors.white70,
+                          color: Color(0xFF6E6E6E),
                           fontSize: 11,
                           height: 1.4,
                         ),
@@ -1824,7 +1839,7 @@ class _SendPageState extends State<SendPage>
             const Text(
               'Transactions sent from this device that are not resolved yet. '
               'Nothing here is ever resent on its own.',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
             ),
             const SizedBox(height: 6),
             for (final tx in mine) _pendingRow(tx),
@@ -1852,7 +1867,7 @@ class _SendPageState extends State<SendPage>
           const SizedBox(height: 2),
           Text(
             'sent ${_ageText(tx.sentAt)} ago · nonce ${tx.nonce} · ${tx.tierLabel} · $status',
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
           if (tx.note != null)
             Padding(
@@ -1870,7 +1885,7 @@ class _SendPageState extends State<SendPage>
               padding: const EdgeInsets.only(top: 2),
               child: Text(
                 'Replaced by ${shortAddress(tx.replacedBy!)} — only one of the two same-nonce transactions can confirm.',
-                style: const TextStyle(color: Colors.white70, fontSize: 11),
+                style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 11),
               ),
             ),
           const SizedBox(height: 2),
