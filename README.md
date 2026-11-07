@@ -162,9 +162,9 @@ Actions run. No new tests were invented for this page.
 |---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 48/48 files, 0 failed, 0 timed out | Unit, widget, vault, network, and security tests pass. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 575 s | Unit, widget, vault, network, and security tests pass. |
 | ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 53 files / 322 declarations | Every test file is accounted for; none is silently missing. |
-| ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed | Deliberately broken security checks are caught. |
+| ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 89 s | Deliberately broken security checks are caught. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
 
@@ -197,7 +197,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.2.0-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
-| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` | Two builds produce the identical archive and manifest. |
+| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `dffb5b35…` | Two builds produce the identical archive and manifest. |
 | ✅ PASS | Cross-runner reproducibility | CI workflow run `42315071276` | Separate runners reproduce the same fixed-path archive. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | No current advisory flags for the locked dependencies. |
@@ -205,6 +205,9 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | SBOM | `python3 scripts/sbom.py` — 116 packages | The full dependency inventory is published and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `scripts/test_release_identity.py` — 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |
+| ✅ PASS | Localization | `test/localization_test.dart` | The runtime `Text` layer follows the selected locale. |
+| ✅ PASS | Spending safety | `test/spending_policy_test.dart` — 5/5 | Freeze signing, allowlist, and native per-transaction limit are enforced before signing. |
+| ✅ PASS | Data boundary | `test/data_boundary_test.dart` — 4/4 | No telemetry/AI SDK; no network in key modules; a single HTTP choke point. |
 | ✅ PASS | Hosted CI | `main`: `verify`, `docs-sync`, `integration`, `package-smoke`, `CodeQL` | Every required workflow is green. |
 | ✅ PASS | CodeQL | C/C++, JavaScript/TypeScript, Python, Actions | Static security analysis runs across four languages. |
 | ✅ PASS | Generated-docs sync | `python3 scripts/generate_docs.py --check` | Generated status and README blocks match the committed files. |

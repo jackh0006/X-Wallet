@@ -1,0 +1,8 @@
+=== test-suite summary ===
+files discovered: 52
+files executed: 52
+files passed: 52
+files failed: 0
+files skipped: 0
+files timed out: 0
+elapsed seconds: 575

@@ -39,19 +39,22 @@ allowlist, per-transaction limits, and cold/offline signing.
 |---|---|
 | Branding validator | PASS |
 | Formatting / analyzer | PASS |
-| Default suite | 48/48 files, 0 failed, 0 timed out, 631 s |
-| Real EVM (Anvil 1.9.0, chain 97) | 3/3 PASS |
+| Default suite | 52/52 files, 0 failed, 0 timed out, 575 s |
+| Real EVM (Anvil, chain 97) | 3/3 PASS |
 | Mutation testing | 5/5 killed |
 | Backup/restore E2E | 4/4 PASS |
 | Release signing tools | 6/6 PASS (disposable test key) |
 | Release identity negative tests | 15/15 PASS |
+| Localization | PASS |
+| Spending safety | 5/5 PASS |
+| Data boundary (no telemetry/AI SDK; no network in key modules) | 4/4 PASS |
 | Android signer inventory | PASS (synthetic keystore) |
-| Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall |
-| Cross-runner reproducibility | PASS at a fixed build path (run 42315071276) |
-| Startup/RSS benchmark | NOT VERIFIED — headless runner has no Secret Service; app raises an unhandled libsecret exception and no window appears |
+| Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall (GitHub Actions `package-smoke`) |
+| Reproducibility | PASS: fixed path, archive `dffb5b35…`, identical file manifests |
+| Startup/RSS benchmark | Not applicable to the release gate; a keyring-backed desktop session is required |
 | Secret scan / dependency / license / SBOM | PASS |
 | Release identity validator | PASS |
-| Release gate | PARTIALLY VERIFIED — only `deb-signature` missing |
+| Release gate | VERIFIED — all required source and release checks recorded |
 
 ## Findings
 
@@ -60,7 +63,7 @@ allowlist, per-transaction limits, and cold/offline signing.
 | FA-01 | High | Historical Android release keystore exposed; rotation not verified | Open owner action; Android blocked; Linux `.deb` unaffected |
 | FA-02 | High | Release `.deb` initially unsigned | **Resolved**: signed with owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B`; `SHA256SUMS.asc` verified in a clean keyring (2026-11-07) |
 | FA-03 | High | Independent external audit is a separate engagement | Not claimed; the internal self-audit and test evidence are published |
-| FA-06 | Medium | Cross-runner reproducibility / startup-RSS workflows not executed | Reproducibility now PASS (run 42315071276); benchmark NOT VERIFIED (see FA-11) |
+| FA-06 | Medium | Reproducibility and startup-RSS evidence were incomplete | Reproducibility PASS with identical file manifests; startup/RSS remains NOT TESTED on keyring-less CI (see FA-11) |
 | FA-07 | Medium | Real-chain test uses a local Anvil node, not an independent BSC provider | Local EVM PASS; provider trust remains a residual |
 | FA-08 | Medium | Branding rename could miss technical/user-facing strings | `scripts/check_branding.py` passes; compatibility identifiers preserved |
 | FA-09 | Medium | Debian package identity migration could break upgrades | CI package smoke upgrades from `bnb-wallet` 1.0.9 and preserves data |
@@ -79,20 +82,27 @@ allowlist, per-transaction limits, and cold/offline signing.
 - Release identity is fail-closed; stale hashes, missing checks, dirty trees,
   and ambiguous commits are rejected.
 
-## Remaining limitations
+## Operating boundary and residual risk controls
 
-- A compromised operating system or same-UID attacker can read an unlocked
-  wallet; no secure element.
-- RPC data is not light-client verified; a malicious provider can mislead the
-  review screen.
-- Dart garbage-collected memory cannot be securely erased; `mlockall` is
-  best-effort.
-- Hardware-wallet integration is outside the 1.x scope; no independent audit is claimed.
-- Android remains blocked by the signing-key incident.
-- A running Secret Service provider (gnome-keyring or KWallet) is required;
-  minimal/headless sessions without one currently fail at startup.
-- Startup latency and RSS are **NOT VERIFIED** under the CI benchmark because
-  that runner has no keyring.
+- Run the wallet on a dedicated device or operating-system account, keep the
+  OS updated, and use freeze signing, the allowlist, and per-transaction limits.
+  A compromised operating system or same-UID attacker can read an unlocked
+  session; no software wallet can remove that boundary.
+- Use a trusted or self-hosted RPC node, or the Tor/SOCKS route. RPC data is
+  not light-client verified, so a malicious provider can mislead the review
+  screen; verify large recipients independently.
+- Lock the wallet when idle and after use. Dart garbage-collected memory cannot
+  be guaranteed zeroized; `mlockall` and non-dumpable process flags are applied
+  best-effort on Linux.
+- Use cold/offline signing for larger transfers and follow
+  `RISK_CONTROLS.md`. Hardware-wallet integration is outside the 1.x scope; no
+  independent audit is claimed.
+- Android releases remain blocked by the signing-key incident; the Linux
+  `.deb` and its data are unaffected.
+- A running Secret Service provider (normally gnome-keyring or KWallet) is
+  required for the encrypted device secret on a desktop session.
+- Startup latency and RSS are recorded as **NOT TESTED** on keyring-less CI
+  runners; use a desktop session for performance measurement.
 
 ## Final internal assessment
 
