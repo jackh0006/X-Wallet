@@ -951,6 +951,14 @@ class _SendPageState extends State<SendPage>
       showError(context, 'Amount must be above zero.');
       return;
     }
+    final policyRejection = appState.spendingPolicy.rejection(
+      nativeAmountWei: _asset.native ? amount : BigInt.zero,
+      recipient: checksummed,
+    );
+    if (policyRejection != null) {
+      showError(context, policyRejection);
+      return;
+    }
     setState(() {
       _sending = true;
       _stage = TxStage.prepared;

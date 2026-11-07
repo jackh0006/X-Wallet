@@ -23,8 +23,8 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 
 ## Test inventory
 
-- Test files: **51**
-- Test/testWidgets declarations: **313**
+- Test files: **52**
+- Test/testWidgets declarations: **318**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 

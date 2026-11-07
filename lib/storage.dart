@@ -2020,6 +2020,44 @@ class AppStorage {
   static Future<void> clearProxy() =>
       setGlobalProxy(const GlobalProxyConfig.disabled());
 
+  // ---- spending safety policy (not secrets) ----
+
+  static bool get spendingFrozen => prefs.getBool('spending_frozen') ?? false;
+
+  static Future<void> setSpendingFrozen(bool value) =>
+      prefs.setBool('spending_frozen', value);
+
+  static BigInt get spendingMaxPerTxWei {
+    final raw = prefs.getString('spending_max_per_tx_wei') ?? '0';
+    return BigInt.tryParse(raw) ?? BigInt.zero;
+  }
+
+  static Future<void> setSpendingMaxPerTxWei(BigInt value) =>
+      prefs.setString('spending_max_per_tx_wei', value.toString());
+
+  static List<String> get spendingAllowlist {
+    final raw = prefs.getString('spending_allowlist');
+    if (raw == null || raw.isEmpty) return const [];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! List) return const [];
+      return [
+        for (final value in decoded)
+          if ('$value'.trim().isNotEmpty) '$value'.trim().toLowerCase(),
+      ];
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  static Future<void> setSpendingAllowlist(List<String> values) {
+    final unique = <String>{
+      for (final value in values)
+        if (value.trim().isNotEmpty) value.trim().toLowerCase(),
+    }.toList()..sort();
+    return prefs.setString('spending_allowlist', jsonEncode(unique));
+  }
+
   // ---- managed Tor bridge preferences (not secrets) ----
 
   static TorBridgeType get torBridgeType {
