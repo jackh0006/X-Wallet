@@ -1064,7 +1064,7 @@ class AppState extends ChangeNotifier {
         () {
           final label = '${item['label'] ?? ''}'.trim();
           final storedAddress = '${item['address'] ?? ''}';
-          final key = WalletCore.privateKeyFromHex(
+          final key = WalletCore.privateKeyFromVaultHex(
             '${item['privateKeyHex'] ?? ''}',
           );
           final address = key.address.eip55With0x;
@@ -1130,7 +1130,9 @@ class AppState extends ChangeNotifier {
       list.add({
         'label': normalizedLabel,
         'address': address,
-        'privateKeyHex': bytesToHex(key.privateKey, include0x: true),
+        'privateKeyHex': WalletCore.normalizePrivateKeyHex(
+          bytesToHex(key.privateKey, include0x: true),
+        ),
         'mnemonic': ?mnemonic,
         'savedAt': DateTime.now().toIso8601String(),
       });

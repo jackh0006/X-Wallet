@@ -3,6 +3,19 @@
 All notable changes to this wallet. Dates in 2026; releases identify their
 supported artifacts explicitly.
 
+## 1.3.1+8 — vault unlock and About version fix
+
+- **Vault unlock root cause fixed:** a private key stored with an insignificant
+  leading `00` byte (66 hex characters) decrypted correctly but then failed
+  account parsing, and the UI reported it as a wrong password. Vault keys are
+  now normalized on read and save; the exact failing vault unlocks.
+- **Precise vault errors:** a decryption failure and an invalid account record
+  are no longer both shown as "wrong password".
+- **About panel fixed:** the version is now 1.3.1, read from a single
+  `lib/app_version.dart` source and checked against `pubspec.yaml`.
+- Regression tests cover the leading-zero key, normalization, and the real
+  vault round-trip.
+
 ## 1.3.0+7 — multi-wallet vault, any password, default assets
 
 - **Multiple wallets in one encrypted vault:** add, switch, rename, and remove

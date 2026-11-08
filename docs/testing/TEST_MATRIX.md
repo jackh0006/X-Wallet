@@ -103,7 +103,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
 | `data_boundary_test.dart` | 4 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
 | `password_strength_test.dart` | 5 | (light) | ✅ PASS | Very weak → Very strong scoring; any length is accepted |
-| `vault_multi_wallet_test.dart` | 4 | (test override) | ✅ PASS | Multiple wallets, one vault password, rename, remove, session cache |
+| `vault_multi_wallet_test.dart` | 6 | (test override) | ✅ PASS | Multiple wallets, one vault password, rename, remove, session cache |
 | `default_tokens_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC USDT/USDC contracts and one-time default merge |
 | `cold_private_key_test.dart` | 3 | (light) | ✅ PASS | Private-key cold signing, wrong-key refusal, replay safety |
 | `legacy_migration_test.dart` | 2 | (light) | ✅ PASS | Legacy app-directory copy, no overwrite, 0600 device secret |

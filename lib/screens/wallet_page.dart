@@ -7,6 +7,8 @@ import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
 import '../models.dart';
+import '../storage.dart' show DeviceKeyException;
+import '../vault.dart';
 import '../token_logos.dart';
 import '../wallet_core.dart';
 import '../widgets/seed_picker.dart';
@@ -904,14 +906,8 @@ class _WalletPageState extends State<WalletPage>
     try {
       await appState.unlockVaultAccounts(password);
       if (mounted) setState(() {});
-    } catch (_) {
-      if (mounted) {
-        showError(
-          context,
-          'Wrong vault password, or this device key cannot open the vault. '
-          'Use the password set when the first wallet was saved.',
-        );
-      }
+    } catch (error) {
+      if (mounted) showError(context, _vaultOpenError(error));
     }
   }
 
@@ -971,13 +967,8 @@ class _WalletPageState extends State<WalletPage>
         showInfo(context, 'Wallet removed from the vault.');
         setState(() {});
       }
-    } catch (_) {
-      if (mounted) {
-        showError(
-          context,
-          'Wrong vault password, or this device key cannot open the vault.',
-        );
-      }
+    } catch (error) {
+      if (mounted) showError(context, _vaultOpenError(error));
     }
   }
 
@@ -1002,13 +993,8 @@ class _WalletPageState extends State<WalletPage>
         showInfo(context, 'Wallet renamed.');
         setState(() {});
       }
-    } catch (_) {
-      if (mounted) {
-        showError(
-          context,
-          'Wrong vault password, or this device key cannot open the vault.',
-        );
-      }
+    } catch (error) {
+      if (mounted) showError(context, _vaultOpenError(error));
     }
   }
 
@@ -1478,6 +1464,23 @@ Future<String?> _requestVaultPasswordForSave(BuildContext context) async {
     }
     return null;
   }
+}
+
+/// Turns a vault failure into a precise message instead of blaming the
+/// password for every error.
+String _vaultOpenError(Object error) {
+  if (error is VaultException) {
+    return 'Wrong vault password, or this device key cannot open the vault.';
+  }
+  if (error is DeviceKeyException) {
+    return 'This device key is unavailable. Use the same operating-system '
+        'account that created the vault.';
+  }
+  return error
+      .toString()
+      .replaceFirst('FormatException: ', '')
+      .replaceFirst('ArgumentError: ', '')
+      .replaceFirst('Exception: ', '');
 }
 
 Future<void> _showAddWalletDialog(BuildContext context) async {
@@ -2456,14 +2459,8 @@ Future<void> showUnlockVaultDialog(
   List<VaultAccount> accounts;
   try {
     accounts = await appState.unlockVaultAccounts(password);
-  } catch (_) {
-    if (context.mounted) {
-      showError(
-        context,
-        'Wrong vault password, or this device key cannot open the vault. '
-        'The vault uses the password set when its first wallet was saved.',
-      );
-    }
+  } catch (error) {
+    if (context.mounted) showError(context, _vaultOpenError(error));
     return;
   }
   if (accounts.isEmpty) {

@@ -134,4 +134,41 @@ void main() {
       throwsA(isA<VaultException>()),
     );
   });
+
+  test('a vault key with an insignificant leading 00 byte unlocks', () async {
+    final key = WalletCore.privateKeyFromHex(_keyA);
+    final body = WalletCore.privateKeyHex(key).substring(2);
+    final legacyHex = '0x00$body';
+    final record = {
+      'label': 'Legacy key',
+      'address': key.address.eip55With0x,
+      'privateKeyHex': legacyHex,
+      'savedAt': '2026-11-08T00:00:00.000000',
+    };
+    final device = await AppStorage.getOrGenerateDeviceSecret();
+    final blob = await AppState.vaultEncryptOverride!(
+      'x',
+      jsonEncode([record]),
+      device,
+    );
+    await AppStorage.writeVaultAtomic(blob);
+
+    final accounts = await appState.loadVaultAccounts('x');
+    expect(accounts, hasLength(1));
+    expect(accounts.single.label, 'Legacy key');
+    expect(accounts.single.address, key.address.eip55With0x);
+  });
+
+  test('private-key normalization strips only insignificant zero bytes', () {
+    final key = WalletCore.privateKeyFromHex(_keyA);
+    final body = WalletCore.privateKeyHex(key).substring(2);
+    expect(
+      WalletCore.normalizePrivateKeyHex('0x00$body'),
+      WalletCore.privateKeyHex(key),
+    );
+    expect(
+      WalletCore.normalizePrivateKeyHex(body),
+      WalletCore.privateKeyHex(key),
+    );
+  });
 }

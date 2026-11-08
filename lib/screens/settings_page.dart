@@ -7,6 +7,7 @@ import 'package:flutter/services.dart'
     show Clipboard, ClipboardData, rootBundle;
 
 import '../app_state.dart';
+import '../app_version.dart';
 import '../models.dart';
 import '../net/privacy_client.dart';
 import '../rpc_service.dart';
@@ -2554,13 +2555,19 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SectionTitle('About'),
           const SizedBox(height: 8),
-          const Text(
-            'X Wallet 1.1.0',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            'X Wallet $appVersion',
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Local, non-custodial EVM wallet. Version 1.1.0 enables BNB Smart Chain; more EVM networks are planned.',
+          Text(
+            'Local, non-custodial EVM wallet. Version $appVersion enables '
+            'BNB Smart Chain; more EVM networks are planned.',
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Build $appVersionFull',
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
           const SizedBox(height: 8),
           const Text(

@@ -105,6 +105,38 @@ class WalletCore {
     return EthPrivateKey.fromHex(cleaned);
   }
 
+  /// Normalizes a private key hex string stored in a vault record.
+  ///
+  /// Older vaults and some import paths can store a key with a leading `00`
+  /// byte (66 hex characters) or with leading zero bytes stripped. A valid
+  /// EVM private key is exactly 32 bytes, so leading zero bytes are
+  /// insignificant. This accepts those representations without weakening
+  /// user-facing import validation in [privateKeyFromHex].
+  static String normalizePrivateKeyHex(String input) {
+    var body = input.trim();
+    if (body.startsWith('0x') || body.startsWith('0X')) {
+      body = body.substring(2);
+    }
+    body = body.toLowerCase();
+    if (body.isEmpty || !RegExp(r'^[0-9a-fA-F]+$').hasMatch(body)) {
+      throw ArgumentError('Private key contains invalid characters.');
+    }
+    body = body.replaceFirst(RegExp(r'^0+'), '');
+    if (body.isEmpty) {
+      throw ArgumentError('Private key cannot be zero.');
+    }
+    if (body.length > 64) {
+      throw ArgumentError('Private key is longer than 32 bytes.');
+    }
+    body = body.padLeft(64, '0');
+    return '0x$body';
+  }
+
+  /// Parses a private key from a vault record, accepting insignificant
+  /// leading zero bytes. Use [privateKeyFromHex] for direct user input.
+  static EthPrivateKey privateKeyFromVaultHex(String input) =>
+      privateKeyFromHex(normalizePrivateKeyHex(input));
+
   /// Creates a private key from WIF (Wallet Import Format) string.
   static EthPrivateKey privateKeyFromWIF(String wif) {
     final cleaned = wif.trim();

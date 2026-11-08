@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.3.0+7`
+- Version: `1.3.1+8`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -24,7 +24,7 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 ## Test inventory
 
 - Test files: **59**
-- Test/testWidgets declarations: **342**
+- Test/testWidgets declarations: **344**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 

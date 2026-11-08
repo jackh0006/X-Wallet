@@ -378,11 +378,11 @@
       "tests": 9
     },
     {
-      "lines": 137,
+      "lines": 174,
       "path": "test/vault_multi_wallet_test.dart",
-      "sha256": "01de0a8296f9cebf3f6e47889a358f755073b264d93c635026399e09629543c1",
+      "sha256": "99d591afa124222d5c96e2f0ca35bd806382dfc415047c9f1c29f0bad434d020",
       "tags": [],
-      "tests": 4
+      "tests": 6
     },
     {
       "lines": 63,
@@ -435,5 +435,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 342
+  "testCount": 344
 }
