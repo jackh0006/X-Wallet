@@ -13,6 +13,6 @@
   "evidence": "docs/evidence/2026-11-08/reproducibility.log",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "7e153548c150ba4df7a6bb3945437a3bf58e388a",
+  "sourceCommit": "725c34325d831abdab20b8745c58fabca965d996",
   "status": "PASS_FIXED_PATH"
 }

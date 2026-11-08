@@ -1,15 +1,15 @@
 {
-  "durationSeconds": 144,
+  "durationSeconds": 121,
   "limitations": [
     "Xvfb smoke only; no full interactive UI walkthrough",
     "No Debian/Fedora install test",
     "No code-signature verification of the package"
   ],
-  "runId": 42426860211,
+  "runId": 42428404821,
   "runner": "GitHub Actions ubuntu-24.04",
   "schemaVersion": 1,
   "script": "scripts/package-smoke.sh",
-  "sourceCommit": "b30a02f1cbf9fad4c22190ad336812bf9f69f2cb",
+  "sourceCommit": "725c34325d831abdab20b8745c58fabca965d996",
   "status": "PASS",
   "steps": {
     "buildDeb": "PASS",
