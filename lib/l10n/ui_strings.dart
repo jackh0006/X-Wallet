@@ -271,7 +271,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Lite mode keeps the same facts and honest states but removes the ": "El modo Lite mantiene los mismos hechos y estados honestos pero elimina la",
     "Local receipts (kept encrypted, offline)":
         "Recibos locales (mantenidos encriptados, sin conexión)",
-    "Local, non-custodial EVM wallet. Version 1.3.0 enables BNB Smart Chain; more EVM networks are planned.":
+    "Local, non-custodial EVM wallet. Version 1.3.1 enables BNB Smart Chain; more EVM networks are planned.":
         "Monedero EVM local sin custodia. ",
     "Lock": "Cerrar",
     "Lock wallet": "billetera con candado",
@@ -648,7 +648,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Writes a file in the system temp folder.":
         "Escribe un archivo en la carpeta temporal del sistema.",
     "X Wallet": "Cartera X",
-    "X Wallet 1.3.0": "X Monedero 1.3.0",
+    "X Wallet 1.3.1": "X Monedero 1.3.1",
     "Yes": "Sí",
     "Your ISP / DPI (internet provider, firewalls)":
         "Su ISP / DPI (proveedor de Internet, firewalls)",
@@ -944,7 +944,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Lite mode keeps the same facts and honest states but removes the ": "حالت Lite همان حقایق و حالات صادقانه را حفظ می کند اما آن را حذف می کند",
     "Local receipts (kept encrypted, offline)":
         "رسیدهای محلی (به صورت رمزگذاری شده، آفلاین نگهداری می شود)",
-    "Local, non-custodial EVM wallet. Version 1.3.0 enables BNB Smart Chain; more EVM networks are planned.":
+    "Local, non-custodial EVM wallet. Version 1.3.1 enables BNB Smart Chain; more EVM networks are planned.":
         "کیف پول EVM محلی و غیر حافظ. ",
     "Lock": "قفل کنید",
     "Lock wallet": "قفل کیف پول",
@@ -1322,7 +1322,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Writes a file in the system temp folder.":
         "فایلی را در پوشه temp system می نویسد.",
     "X Wallet": "کیف پول X",
-    "X Wallet 1.3.0": "کیف پول X 1.3.0",
+    "X Wallet 1.3.1": "کیف پول X 1.3.1",
     "Yes": "بله",
     "Your ISP / DPI (internet provider, firewalls)":
         "ISP / DPI شما (ارائه دهنده اینترنت، فایروال)",
@@ -1622,7 +1622,7 @@ const Map<String, Map<String, String>> uiTranslations = {
         "يحتفظ الوضع البسيط بنفس الحقائق والحالات الصادقة ولكنه يزيل",
     "Local receipts (kept encrypted, offline)":
         "الإيصالات المحلية (يتم الاحتفاظ بها مشفرة وغير متصلة بالإنترنت)",
-    "Local, non-custodial EVM wallet. Version 1.3.0 enables BNB Smart Chain; more EVM networks are planned.":
+    "Local, non-custodial EVM wallet. Version 1.3.1 enables BNB Smart Chain; more EVM networks are planned.":
         "محفظة EVM محلية وغير حاضنة. ",
     "Lock": "قفل",
     "Lock wallet": "قفل المحفظة",
@@ -2002,7 +2002,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Writes a file in the system temp folder.":
         "يكتب ملفًا في مجلد النظام المؤقت.",
     "X Wallet": "محفظة X",
-    "X Wallet 1.3.0": "محفظة إكس 1.3.0",
+    "X Wallet 1.3.1": "محفظة إكس 1.3.1",
     "Yes": "نعم",
     "Your ISP / DPI (internet provider, firewalls)":
         "ISP / DPI (مزود الإنترنت، جدران الحماية)",
@@ -2291,7 +2291,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Lite mode keeps the same facts and honest states but removes the ":
         "精简模式保留相同的事实和诚实状态，但删除了",
     "Local receipts (kept encrypted, offline)": "本地收据（加密保存，离线）",
-    "Local, non-custodial EVM wallet. Version 1.3.0 enables BNB Smart Chain; more EVM networks are planned.":
+    "Local, non-custodial EVM wallet. Version 1.3.1 enables BNB Smart Chain; more EVM networks are planned.":
         "本地非托管 EVM 钱包。 ",
     "Lock": "锁",
     "Lock wallet": "锁钱包",
@@ -2660,7 +2660,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Write every word on paper, in this order. This phrase ": "按此顺序将每个单词写在纸上。",
     "Writes a file in the system temp folder.": "在系统临时文件夹中写入文件。",
     "X Wallet": "X钱包",
-    "X Wallet 1.3.0": "X钱包1.3.0",
+    "X Wallet 1.3.1": "X钱包1.3.1",
     "Yes": "是的",
     "Your ISP / DPI (internet provider, firewalls)": "您的 ISP / DPI（互联网提供商、防火墙）",
     "from your written backup": "从您的书面备份中",
@@ -2953,7 +2953,7 @@ const Map<String, Map<String, String>> uiTranslations = {
         "Режим Lite сохраняет те же факты и честные состояния, но удаляет",
     "Local receipts (kept encrypted, offline)":
         "Локальные квитанции (хранятся в зашифрованном виде, не в сети)",
-    "Local, non-custodial EVM wallet. Version 1.3.0 enables BNB Smart Chain; more EVM networks are planned.": "Локальный, некастодиальный EVM-кошелек. Версия 1.3.0 включает BNB Smart Chain; планируется больше сетей EVM.",
+    "Local, non-custodial EVM wallet. Version 1.3.1 enables BNB Smart Chain; more EVM networks are planned.": "Локальный, некастодиальный EVM-кошелек. Версия 1.3.1 включает BNB Smart Chain; планируется больше сетей EVM.",
     "Lock": "Замок.",
     "Lock wallet": "Заблокировать кошелек",
     "Locks the wallet when it has been idle. The lock also happens immediately ": "Блокирует кошелек, когда он простаивает. Блокировка также происходит немедленно",
@@ -3311,7 +3311,7 @@ const Map<String, Map<String, String>> uiTranslations = {
     "Writes a file in the system temp folder.":
         "Запись файла в папку System TEMP.",
     "X Wallet": "X Wallet",
-    "X Wallet 1.3.0": "X Wallet 1.3.0",
+    "X Wallet 1.3.1": "X Wallet 1.3.1",
     "Yes": "Да",
     "Your ISP / DPI (internet provider, firewalls)":
         "Ваш интернет-провайдер/DPI (интернет-провайдер, межсетевые экраны)",
