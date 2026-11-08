@@ -33,7 +33,7 @@ These are the recorded 1.3.0 results. Reuse them only for unchanged areas.
 | Formatting | PASS — 109 files, 0 changed | 2 s |
 | Static analysis | PASS — no issues | 13 s |
 | Default suite | PASS — 58/58 files | about 10–12 min |
-| Test inventory | 59 files / 342 declarations | < 1 s |
+| Test inventory | 59 files / 344 declarations | < 1 s |
 | Mutation testing | 5/5 killed | 89–97 s |
 | Anvil real-EVM integration | 3/3 | 11–28 s |
 | Independent cold oracle | PASS — 8 substitutions rejected | 5–6 s |

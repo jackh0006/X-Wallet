@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.3.0+7`
+- Version: `1.3.1+8`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 2441d9b89371b182a7a5f22e4def2dfbef892e9d35ef8b4b8ecaf9d86dcb1f45 |
+| SBOM SHA-256 | 93eaabf6b05811782d60625d8fcf9251330a5208ef727b4e048979968098a222 |
 
 ## Test inventory
 
 - Test files: **59**
-- Test/testWidgets declarations: **342**
+- Test/testWidgets declarations: **344**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,34 +34,28 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| backup-e2e | 0 | 10.82 | yes | 698ade7e217b727c |
-| cold-private-key | 0 | 8.358 | yes | 2610eb3d12fa6254 |
-| cold-signature | 0 | 5.123 | yes | d1a7cb52ed24b0ce |
-| data-boundary | 0 | 7.649 | yes | 0b6069e2112161a2 |
-| deb-build | 0 | 27.491 | yes | 53068dbd6dfd40b8 |
-| deb-signature | 0 | 0.152 | yes | f263eb3db30ffa1d |
-| default-tokens | 0 | 7.496 | yes | 666a60ff94d663aa |
-| dependency-audit | 0 | 5.212 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 577.79 | yes | 7660785d9edbac50 |
-| identity-negative-tests | 0 | 0.642 | yes | d3d56cf2be6494eb |
-| install-smoke | 0 | 121 | yes | — |
-| integration | 0 | 9.746 | yes | 923fc43acc8ddb66 |
-| legacy-migration | 0 | 7.986 | yes | 38f82daa1e285b28 |
-| license-inventory | 0 | 0.354 | yes | ab9b22cbedaa80d3 |
-| linux-build | 0 | 111.273 | yes | ceb4fad44ba25641 |
-| localization | 0 | 10.181 | yes | 4705d6d50211ad12 |
-| password-strength | 0 | 7.429 | yes | f6233533ff2d4c2a |
-| public-defaults | 0 | 7.133 | yes | 9b881ac33596ed3a |
-| release-evidence | 0 | 0.051 | yes | 12ec0097c3fb6d36 |
-| release-signing-tests | 0 | 1.45 | yes | 403e79feabd98396 |
-| reproducibility | 0 | 246.788 | yes | 114dca81836de650 |
-| sbom | 0 | 0.115 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 2.775 | yes | 7ff728a5877b4846 |
-| security-mutation | 0 | 69.478 | yes | d04b5408453d3d8d |
-| spending-policy | 0 | 8.666 | yes | 41b11ae9362ba0ec |
-| static-analysis | 0 | 4.491 | yes | 06df47b141afc20b |
-| test-inventory | 0 | 0.091 | yes | e36a43f2200c3c31 |
-| vault-multi-wallet | 0 | 11.343 | yes | 6962b10be1fd0ab8 |
+| backup-e2e | 0 | 11.023 | yes | c60e82b5403835e1 |
+| cold-signature | 0 | 5.182 | yes | d1a7cb52ed24b0ce |
+| data-boundary | 0 | 7.745 | yes | 0b6069e2112161a2 |
+| deb-build | 0 | 28.046 | yes | f4b0b5a50a866124 |
+| deb-signature | 0 | 0.108 | yes | 023d35ad20fe3864 |
+| dependency-audit | 0 | 4.34 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 584.618 | yes | be1f7b784317a40e |
+| identity-negative-tests | 0 | 0.547 | yes | c13bc4062bff62d1 |
+| install-smoke | 0 | 171 | yes | — |
+| integration | 0 | 13.515 | yes | 923fc43acc8ddb66 |
+| license-inventory | 0 | 0.334 | yes | ab9b22cbedaa80d3 |
+| linux-build | 0 | 113.526 | yes | ceb4fad44ba25641 |
+| release-evidence | 0 | 0.048 | yes | 75c22a5e82dc5a26 |
+| release-signing-tests | 0 | 1.176 | yes | 48053f9508e2c324 |
+| reproducibility | 0 | 244.518 | yes | 22a73dc3c3ba05a0 |
+| sbom | 0 | 0.101 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 3.007 | yes | 7ff728a5877b4846 |
+| security-mutation | 0 | 73.021 | yes | d04b5408453d3d8d |
+| static-analysis | 0 | 13.198 | yes | c12cfac47c995520 |
+| test-inventory | 0 | 0.095 | yes | 616a5e5f2a49ed5b |
+| vault-multi-wallet | 0 | 8.776 | yes | 3e963d1d76a1ff77 |
+| wallet-vault-normalization | 0 | 10.732 | yes | ad32aea9dfc0568e |
 
 ## Artifacts
 
