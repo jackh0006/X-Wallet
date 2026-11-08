@@ -7,7 +7,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 - Version: `1.3.0+7`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **INCOMPLETE**
+- Status: **RELEASE APPROVED**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -32,7 +32,36 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 ## Recorded checks for this commit
 
-No committed evidence bundle names this commit. **NOT TESTED / INCOMPLETE.**
+| Check | Exit | Duration (s) | Required | Log SHA-256 |
+|---|---|---|---|---|
+| backup-e2e | 0 | 10.82 | yes | 698ade7e217b727c |
+| cold-private-key | 0 | 8.358 | yes | 2610eb3d12fa6254 |
+| cold-signature | 0 | 5.123 | yes | d1a7cb52ed24b0ce |
+| data-boundary | 0 | 7.649 | yes | 0b6069e2112161a2 |
+| deb-build | 0 | 28.363 | yes | f41b673e1897f758 |
+| deb-signature | 0 | 0.172 | yes | 1255eec026cf1f1d |
+| default-tokens | 0 | 7.496 | yes | 666a60ff94d663aa |
+| dependency-audit | 0 | 5.212 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 577.79 | yes | 7660785d9edbac50 |
+| identity-negative-tests | 0 | 0.358 | yes | 221dba3a6206541e |
+| install-smoke | 0 | 144 | yes | — |
+| integration | 0 | 9.746 | yes | 923fc43acc8ddb66 |
+| legacy-migration | 0 | 7.986 | yes | 38f82daa1e285b28 |
+| license-inventory | 0 | 0.354 | yes | ab9b22cbedaa80d3 |
+| linux-build | 0 | 111.273 | yes | ceb4fad44ba25641 |
+| localization | 0 | 10.181 | yes | 4705d6d50211ad12 |
+| password-strength | 0 | 7.429 | yes | f6233533ff2d4c2a |
+| public-defaults | 0 | 7.133 | yes | 9b881ac33596ed3a |
+| release-evidence | 0 | 0.051 | yes | 12ec0097c3fb6d36 |
+| release-signing-tests | 0 | 1.45 | yes | 403e79feabd98396 |
+| reproducibility | 0 | 246.573 | yes | 17b7fdce5e5873ef |
+| sbom | 0 | 0.115 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 2.775 | yes | 7ff728a5877b4846 |
+| security-mutation | 0 | 69.478 | yes | d04b5408453d3d8d |
+| spending-policy | 0 | 8.666 | yes | 41b11ae9362ba0ec |
+| static-analysis | 0 | 4.491 | yes | 06df47b141afc20b |
+| test-inventory | 0 | 0.091 | yes | e36a43f2200c3c31 |
+| vault-multi-wallet | 0 | 11.343 | yes | 6962b10be1fd0ab8 |
 
 ## Artifacts
 
@@ -85,7 +114,3 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 - Artifacts: `release/artifacts.json`
 - Test inventory: `docs/testing/test-inventory.json`
 - SBOM: `docs/SBOM.json`
-
-## Open gate problems
-
-- no committed evidence bundle for this source commit
