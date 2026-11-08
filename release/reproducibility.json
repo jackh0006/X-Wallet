@@ -1,5 +1,5 @@
 {
-  "archiveSha256": "3107e9c44e5271a3dc0a00219b3c8948899e04a1966770e68f6376c0b518fa91",
+  "archiveSha256": "35bbdf430f9f8d9bcc730bc39c3bf1cdf1a0d86ecbab5e56968d6467668f25fe",
   "buildPath": "/tmp/bnb-repro-build",
   "constraint": "Flutter embeds the absolute build path in libapp.so and plugin .so files. Two different absolute paths are NOT guaranteed to match; this result is not an independent-machine proof.",
   "environment": {
@@ -13,6 +13,6 @@
   "evidence": "docs/evidence/2026-11-08/reproducibility.log",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "725c34325d831abdab20b8745c58fabca965d996",
+  "sourceCommit": "46a7e95b90c779d3b3b0b12e9b74427244aa9449",
   "status": "PASS_FIXED_PATH"
 }
