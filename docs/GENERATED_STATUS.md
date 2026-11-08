@@ -38,13 +38,13 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 | cold-private-key | 0 | 8.358 | yes | 2610eb3d12fa6254 |
 | cold-signature | 0 | 5.123 | yes | d1a7cb52ed24b0ce |
 | data-boundary | 0 | 7.649 | yes | 0b6069e2112161a2 |
-| deb-build | 0 | 28.363 | yes | f41b673e1897f758 |
-| deb-signature | 0 | 0.172 | yes | 1255eec026cf1f1d |
+| deb-build | 0 | 27.491 | yes | 53068dbd6dfd40b8 |
+| deb-signature | 0 | 0.152 | yes | f263eb3db30ffa1d |
 | default-tokens | 0 | 7.496 | yes | 666a60ff94d663aa |
 | dependency-audit | 0 | 5.212 | yes | 531db7f60a49620c |
 | full-test-suite | 0 | 577.79 | yes | 7660785d9edbac50 |
-| identity-negative-tests | 0 | 0.358 | yes | 221dba3a6206541e |
-| install-smoke | 0 | 144 | yes | — |
+| identity-negative-tests | 0 | 0.642 | yes | d3d56cf2be6494eb |
+| install-smoke | 0 | 121 | yes | — |
 | integration | 0 | 9.746 | yes | 923fc43acc8ddb66 |
 | legacy-migration | 0 | 7.986 | yes | 38f82daa1e285b28 |
 | license-inventory | 0 | 0.354 | yes | ab9b22cbedaa80d3 |
@@ -54,7 +54,7 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 | public-defaults | 0 | 7.133 | yes | 9b881ac33596ed3a |
 | release-evidence | 0 | 0.051 | yes | 12ec0097c3fb6d36 |
 | release-signing-tests | 0 | 1.45 | yes | 403e79feabd98396 |
-| reproducibility | 0 | 246.573 | yes | 17b7fdce5e5873ef |
+| reproducibility | 0 | 246.788 | yes | 114dca81836de650 |
 | sbom | 0 | 0.115 | yes | 2eae3b70d7706078 |
 | secret-scan | 0 | 2.775 | yes | 7ff728a5877b4846 |
 | security-mutation | 0 | 69.478 | yes | d04b5408453d3d8d |
