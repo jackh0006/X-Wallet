@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:web3dart/web3dart.dart';
 
 import 'cold_wallet.dart';
 import 'cold_wallet_protocol.dart';
@@ -182,22 +183,6 @@ class ColdWalletService {
     String passphrase = '',
     String path = WalletCore.defaultPath,
   }) async {
-    ColdWalletProtocol.validateRequest(request);
-    final id = request.id;
-    if (id == null || id.isEmpty) {
-      throw const ColdProtocolException('Request has no unique ID');
-    }
-    final expectedHash = ColdWalletProtocol.requestHash(request);
-    final existing = await signatureForRequest(id);
-    if (existing != null) {
-      if (existing.requestHash?.toLowerCase() == expectedHash.toLowerCase()) {
-        return existing;
-      }
-      throw const ColdProtocolException(
-        'This request ID was already signed with different bytes',
-      );
-    }
-
     final addresses = WalletCore.deriveAddressList(
       phrase: phrase,
       passphrase: passphrase,
@@ -220,12 +205,52 @@ class ColdWalletService {
     final signingPath = path == WalletCore.defaultPath
         ? "m/44'/60'/0'/0/$index"
         : path;
-
-    final signature = WalletCore.signTransaction(
+    final key = WalletCore.derivePrivateKey(
       phrase: phrase,
       passphrase: passphrase,
-      request: request,
       path: signingPath,
+    );
+    return _signWithKey(request: request, key: key);
+  }
+
+  /// Signs a cold request with a raw private key (no recovery phrase).
+  ///
+  /// The replay checks, request validation, address binding, immediate
+  /// signature verification, and signature storage are identical to the
+  /// phrase path.
+  Future<ColdTxSignature> signRequestWithKey({
+    required ColdTxRequest request,
+    required EthPrivateKey key,
+  }) => _signWithKey(request: request, key: key);
+
+  Future<ColdTxSignature> _signWithKey({
+    required ColdTxRequest request,
+    required EthPrivateKey key,
+  }) async {
+    ColdWalletProtocol.validateRequest(request);
+    final id = request.id;
+    if (id == null || id.isEmpty) {
+      throw const ColdProtocolException('Request has no unique ID');
+    }
+    final expectedHash = ColdWalletProtocol.requestHash(request);
+    final existing = await signatureForRequest(id);
+    if (existing != null) {
+      if (existing.requestHash?.toLowerCase() == expectedHash.toLowerCase()) {
+        return existing;
+      }
+      throw const ColdProtocolException(
+        'This request ID was already signed with different bytes',
+      );
+    }
+    if (key.address.eip55With0x.toLowerCase() != request.from.toLowerCase()) {
+      throw const ColdProtocolException(
+        'The unlocked private key does not match the request "from" address',
+      );
+    }
+
+    final signature = WalletCore.signTransactionWithKey(
+      privateKey: key,
+      request: request,
     );
     final checked = WalletCore.verifyColdSignatureDetailed(
       request: request,

@@ -27,17 +27,21 @@ class BnbNetworks {
   };
 
   static const Map<String, String> apis = {
-    'mainnet': 'https://api.bscscan.com/api',
-    'testnet': 'https://api-testnet.bscscan.com/api',
+    'mainnet': 'https://api.bscscan.com/v2/api',
+    'testnet': 'https://api.bscscan.com/v2/api',
   };
 
-  /// Official public doors, default first. The phone-book reset labels and
-  /// the app_state tests pin these lengths (4 mainnet / 2 testnet).
+  /// Verified free public doors, default first. Every URL below answered
+  /// `eth_chainId` with the correct chain ID when this list was updated.
+  /// No API key is required.
   static const List<String> mainnetFallbacks = [
     'https://bsc-dataseed.bnbchain.org',
     'https://bsc-dataseed-public.bnbchain.org',
     'https://bsc-dataseed.nariox.org',
     'https://bsc-rpc.publicnode.com',
+    'https://1rpc.io/bnb',
+    'https://bsc-mainnet.public.blastapi.io',
+    'https://rpc.48.club',
   ];
 
   static const List<String> testnetFallbacks = [
@@ -1531,6 +1535,7 @@ class RpcService extends ChangeNotifier {
     }
     final uri = Uri.parse(BnbNetworks.apis[_network]!).replace(
       queryParameters: {
+        'chainid': '${BnbNetworks.chainIds[_network]}',
         'module': 'account',
         'action': 'txlist',
         'address': address,

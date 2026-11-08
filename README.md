@@ -10,11 +10,11 @@
   [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
   [![Platform](https://img.shields.io/badge/platform-Linux%20amd64-lightgrey)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/jackh0006/X-Wallet?label=OpenSSF%20Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/jackh0006/X-Wallet)
-  [![Tests](https://img.shields.io/badge/tests-53%20files%20%7C%20322%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
+  [![Tests](https://img.shields.io/badge/tests-59%20files%20%7C%20342%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.2.0+6** · 53 test files · 322 test declarations
+> **X Wallet 1.3.0+7** · 59 test files · 342 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
@@ -44,7 +44,16 @@ or a phone-only app.
 - **Native Linux package.** A real `.deb` with a desktop launcher, upgrade
   path, and user-data preservation.
 - **Cold signing built in.** Create an offline signer and an online companion
-  from the same open-source application.
+  from the same open-source application; private-key-only wallets can pair and
+  sign too.
+- **Multiple wallets in one vault.** Add, switch, rename, and remove wallets
+  with one vault password.
+- **Any vault password, honestly scored.** Short and long passphrases are
+  accepted; a live strength meter shows Very weak through Very strong.
+- **USDT and USDC by default.** BNB, USDT, and USDC appear in every BSC wallet
+  with contracts read from the chain.
+- **Verified public RPC doors.** Default nodes include BNB Chain, PublicNode,
+  1RPC, Blast, and 48.club public endpoints.
 - **Privacy is a setting, not an afterthought.** Tor, SOCKS5, HTTPS proxies,
   custom RPC nodes, TLS pinning, and fail-closed routing.
 - **Review before you sign.** Full recipient, chain, nonce, fee, maximum-cost,
@@ -53,13 +62,13 @@ or a phone-only app.
   at rest with Argon2id and XChaCha20-Poly1305.
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
-- **Evidence, not slogans.** 53 test files, 322 test declarations, mutation
+- **Evidence, not slogans.** 59 test files, 342 test declarations, mutation
   testing, CodeQL, SBOM, a reproducible build, and an independent ethers.js
   cross-check.
 
 ## Supported networks
 
-Version **1.2.0** enables **BNB Smart Chain** mainnet (56) and testnet (97).
+Version **1.3.0** enables **BNB Smart Chain** mainnet (56) and testnet (97).
 The codebase uses EVM address, transaction, and signing primitives. Additional
 EVM networks are planned; support begins only when a release documents it.
 
@@ -72,14 +81,14 @@ Get the latest release from:
 ```bash
 # 1. Download the package and checksums from the release page.
 # 2. Verify the download.
-sha256sum x-wallet-1.2.0-amd64.deb
+sha256sum x-wallet-1.3.0-amd64.deb
 sha256sum -c SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
 # 3. Install.
-sudo apt install ./x-wallet-1.2.0-amd64.deb
+sudo apt install ./x-wallet-1.3.0-amd64.deb
 ```
 
 The Debian package is `x-wallet`. It replaces `bnb-wallet`, preserves the
@@ -163,7 +172,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
 | ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 674 s | Unit, widget, vault, network, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 53 files / 322 declarations | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 59 files / 342 declarations | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 97 s | Deliberately broken security checks are caught. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
@@ -194,7 +203,7 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.2.0-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.3.0-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
 | ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `dffb5b35…` | Two builds produce the identical archive and manifest. |
@@ -234,7 +243,7 @@ local key custody, and a built-in cold-signing workflow.
 | **No account, no KYC, no ads** | No sign-up, no subscription, no paywall, and no analytics SDK in the locked dependency inventory. |
 | **Open source and reproducible** | AGPL-3.0-or-later, SBOM, checksums, and a fixed-path reproducible build. |
 | **Data-preserving package migration** | Upgrading from the previous package keeps existing wallet data and compatibility aliases. |
-| **322 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
+| **342 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
 
 ### Compared by wallet style
 
@@ -293,6 +302,7 @@ control the security boundary.
 | [High-value custody](docs/HIGH_VALUE_CUSTODY.md) | Custody tiers and operating guidance |
 | [Release evidence](docs/RELEASE_EVIDENCE.md) | How releases are built and verified |
 | [Update playbook](docs/UPDATE_PLAYBOOK.md) | Change-scoped verification and the fast release path |
+| [Verified defaults](docs/DEFAULTS.md) | Default tokens, public RPC doors, and the checks behind them |
 
 ## Contributing and security
 

@@ -9,7 +9,7 @@ runs. This file is a human-readable index, not a second source of truth.
 
 | Item | Value |
 |---|---|
-| Version | `1.2.0+6` |
+| Version | `1.3.0+7` |
 | Branch | `main` (use `git rev-parse HEAD` for the exact checkout) |
 | Tested source commit | `20cdcf4374b17e14775961f853afbc0f6264c515` |
 | Release source commit | recorded in `release/evidence.json` (`sourceCommit`) |
@@ -17,7 +17,7 @@ runs. This file is a human-readable index, not a second source of truth.
 | Pull requests | merged through the 1.2.0 release PR |
 | Hosted CI | All required `main` workflows pass |
 | Release status | **RELEASE APPROVED / signed** |
-| Final package | `x-wallet-1.2.0-amd64.deb`, SHA-256 `f4ce67143367152e9ea243abf0e92a004567d2b67548487cb636975fc029f2cc` |
+| Final package | `x-wallet-1.3.0-amd64.deb`, SHA-256 `0721a104d69b6292d00cc8e075872e863a86c4855154eb8d155213f65c5345b5` |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 
 ## Verified
@@ -25,16 +25,16 @@ runs. This file is a human-readable index, not a second source of truth.
 - Native Argon2id (`lib/kdf.dart`) with fixed 64 MiB / t=3 / p=4; measured
   **344 ms** vs ~110 s for the debug pure-Dart fallback.
 - Exact ERC-20 transfer calldata in `SendIntent`; trailing bytes rejected.
-- 53 test files / 322 declarations; default suite 52/52 pass in 575 s;
+- 59 test files / 342 declarations; default suite 58/58 pass in 578 s;
   3 real-Anvil tests; mutation score 5/5; backup E2E 4/4; localization,
-  spending-safety, and data-boundary tests pass.
+  spending-safety, data-boundary, multi-wallet, password-strength, default-token, legacy-migration, public-default, and private-key cold tests pass.
 - Independent ethers.js cold-signature verification; 8 substitutions rejected.
 - Linux `flutter build linux --release` pass; signed `.deb` package built.
 - Secret scan, dependency advisory audit, license inventory, SBOM, test
   inventory, generated-doc drift, dependency review, CodeQL, and Scorecard pass.
 - Reproducibility: two clean builds at fixed path `/tmp/bnb-repro-build` with
   `SOURCE_DATE_EPOCH=0` and `gzip -n` produced archive
-  `dffb5b355eeb4fb95fc26da409f357d3903f252171c40bfa2670bb3008108496` with
+  `3107e9c44e5271a3dc0a00219b3c8948899e04a1966770e68f6376c0b518fa91` with
   identical file manifests. Different absolute paths are not guaranteed to
   match because Flutter embeds the path in `libapp.so` and plugin libraries.
 - Clean install/launch/upgrade/uninstall smoke: GitHub `ubuntu-24.04`
@@ -54,6 +54,10 @@ runs. This file is a human-readable index, not a second source of truth.
 | Windows / macOS / ARM64 | **NOT TESTED** | No builds for these platforms |
 | Startup / RSS performance | **NOT TESTED** | Needs a keyring-backed display session |
 | Large-value controls | **IMPLEMENTED** | Split balances, freeze signing, allowlist, per-transaction limit, cold/offline signing |
+| Multi-wallet vault | **IMPLEMENTED** | Add, switch, rename, remove; one vault password |
+| Any vault password | **IMPLEMENTED** | No minimum length; live strength score; confirmation |
+| Default BSC assets | **IMPLEMENTED** | BNB, USDT, USDC |
+| Public RPC defaults | **IMPLEMENTED** | BNB Chain, PublicNode, 1RPC, Blast, 48.club |
 | Hardware wallets | **OUT OF SCOPE** | No hardware support claimed; cold/offline signing is the isolation path |
 
 ## Next actions

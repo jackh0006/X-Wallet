@@ -28,6 +28,7 @@ FILES = [
     "docs/releases/1.0.10.md",
     "docs/releases/1.1.0.md",
     "docs/releases/1.2.0.md",
+    "docs/releases/1.3.0.md",
 ]
 
 

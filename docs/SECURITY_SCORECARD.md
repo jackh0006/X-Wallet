@@ -1,8 +1,8 @@
 # Security Scorecard
 
 **Date:** 2026-11-07
-**Release:** X Wallet `1.2.0+6`
-**Tested source commit:** `72367f8882ac79660779a8c55658fbf9761a2a83`
+**Release:** X Wallet `1.3.0+7`
+**Tested source commit:** `7e153548c150ba4df7a6bb3945437a3bf58e388a`
 **Status:** provisional, internal self-assessment. **This is not an independent
 audit.** A score never overrides a release blocker.
 
@@ -22,9 +22,9 @@ audit.** A score never overrides a release blocker.
 
 | Category | Weight | Score | Evidence |
 |---|---:|---:|---|
-| Cryptography and key protection | 20 | 17 | Native Argon2id 64 MiB/t=3/p=4 with pure-Dart cross-check; double-wrapped XChaCha20-Poly1305 vault; device-bound layer; tamper, wrong-password, wrong-device, truncation, and v1-migration tests; key modules have no network path (`data_boundary_test`) |
-| Transaction and blockchain security | 15 | 14 | Exact ERC-20 calldata; chain-ID validation; EIP-1559 codec; fee/nonce/zero-address checks; freeze signing, recipient allowlist, and per-transaction limit; hold-to-confirm; independent ethers.js cold-signature oracle; real Anvil native and ERC-20 tests |
-| Testing, fuzzing and reliability | 15 | 15 | 53 files / 322 declarations; 52/52 default suite pass; deterministic fuzz/property tests; mock-RPC adversarial tests; real Anvil integration; mutation score 5/5; backup E2E; localization and data-boundary tests; hosted CI green |
+| Cryptography and key protection | 20 | 17 | Native Argon2id 64 MiB/t=3/p=4 with pure-Dart cross-check; double-wrapped XChaCha20-Poly1305 vault; device-bound layer; tamper, wrong-password, wrong-device, truncation, and v1-migration tests; legacy pre-1.2 data-directory migration; any-length password with confirmation and strength score; key modules have no network path (`data_boundary_test`) |
+| Transaction and blockchain security | 15 | 14 | Exact ERC-20 calldata; chain-ID validation; EIP-1559 codec; fee/nonce/zero-address checks; freeze signing, recipient allowlist, and per-transaction limit; hold-to-confirm; multi-wallet vault with one password; private-key cold signing with replay protection; independent ethers.js cold-signature oracle; real Anvil native and ERC-20 tests |
+| Testing, fuzzing and reliability | 15 | 15 | 59 files / 342 declarations; 58/58 default suite pass; deterministic fuzz/property tests; mock-RPC adversarial tests; real Anvil integration; mutation score 5/5; backup E2E; localization, data-boundary, multi-wallet, password-strength, default-token, migration, public-default, and private-key cold tests; hosted CI green |
 | Supply chain and CI/CD | 10 | 10 | Pinned action SHAs; CodeQL; OpenSSF Scorecard; secret scan; dependency advisory audit; license inventory; CycloneDX SBOM; least-privilege workflows; signed checksums; published public key |
 | Reproducible builds and release integrity | 10 | 9 | Fixed-path reproducible archive and identical file manifests; deterministic gzip; SBOM; release identity validator; signed `SHA256SUMS` verified in a clean keyring; public fingerprint |
 | Backup, recovery and operational safety | 10 | 9 | Atomic writes; rollback injection; encrypted backup create/wipe/restore E2E; wrong-password, tamper, and truncation rejection; v1 migration; documented recovery drill |

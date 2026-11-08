@@ -1,6 +1,6 @@
 # X Wallet — Final Internal Self-Audit
 
-**Scope:** X Wallet `1.2.0+6`, release tree at the `v1.2.0` tag.
+**Scope:** X Wallet `1.3.0+7`, release tree at the `v1.3.0` tag.
 **Date:** 2026-11-07
 **Audit type:** internal self-audit performed by the project's AI-assisted
 engineering process. **This is not an independent external audit.**
@@ -47,6 +47,12 @@ allowlist, per-transaction limits, and cold/offline signing.
 | Release identity negative tests | 15/15 PASS |
 | Localization | PASS |
 | Spending safety | 5/5 PASS |
+| Multi-wallet vault | 4/4 PASS |
+| Password strength | 5/5 PASS |
+| Default BSC tokens | 3/3 PASS |
+| Private-key cold signing | 3/3 PASS |
+| Legacy data migration | 2/2 PASS |
+| Public RPC defaults | 3/3 PASS |
 | Data boundary (no telemetry/AI SDK; no network in key modules) | 4/4 PASS |
 | Android signer inventory | PASS (synthetic keystore) |
 | Package smoke | PASS: install, upgrade from `bnb-wallet` 1.0.9, launch, uninstall, reinstall (GitHub Actions `package-smoke`) |

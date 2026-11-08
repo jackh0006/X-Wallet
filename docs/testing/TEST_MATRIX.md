@@ -102,6 +102,12 @@ These tests are excluded from the default 47-file suite and run in the
 | `localization_test.dart` | 1 | (light) | ✅ PASS | Text follows the selected locale |
 | `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
 | `data_boundary_test.dart` | 4 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
+| `password_strength_test.dart` | 5 | (light) | ✅ PASS | Very weak → Very strong scoring; any length is accepted |
+| `vault_multi_wallet_test.dart` | 4 | (test override) | ✅ PASS | Multiple wallets, one vault password, rename, remove, session cache |
+| `default_tokens_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC USDT/USDC contracts and one-time default merge |
+| `cold_private_key_test.dart` | 3 | (light) | ✅ PASS | Private-key cold signing, wrong-key refusal, replay safety |
+| `legacy_migration_test.dart` | 2 | (light) | ✅ PASS | Legacy app-directory copy, no overwrite, 0600 device secret |
+| `public_defaults_test.dart` | 3 | (light) | ✅ PASS | HTTPS public RPC defaults, independent operators, defaults present |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |

@@ -24,21 +24,27 @@ A previous result is valid only when:
 If any of those is false, run the affected checks again. If you are unsure, run
 the affected area, not the entire suite.
 
-## Baseline: 1.2.0
+## Baseline: 1.3.0
 
-These are the recorded 1.2.0 results. Reuse them only for unchanged areas.
+These are the recorded 1.3.0 results. Reuse them only for unchanged areas.
 
 | Check | Baseline | Measured time |
 |---|---|---|
 | Formatting | PASS — 109 files, 0 changed | 2 s |
 | Static analysis | PASS — no issues | 13 s |
-| Default suite | PASS — 52/52 files | 575–674 s |
-| Test inventory | 53 files / 322 declarations | < 1 s |
+| Default suite | PASS — 58/58 files | about 10–12 min |
+| Test inventory | 59 files / 342 declarations | < 1 s |
 | Mutation testing | 5/5 killed | 89–97 s |
 | Anvil real-EVM integration | 3/3 | 11–28 s |
 | Independent cold oracle | PASS — 8 substitutions rejected | 5–6 s |
 | Backup/restore E2E | 4/4 | 13 s |
 | Localization | PASS | 11–13 s |
+| Password strength | 5/5 | < 1 s |
+| Multi-wallet vault | 4/4 | < 1 s |
+| Default tokens | 3/3 | < 1 s |
+| Private-key cold signing | 3/3 | < 1 s |
+| Legacy data migration | 2/2 | < 1 s |
+| Public RPC defaults | 3/3 | < 1 s |
 | Spending safety | 5/5 | 10–35 s |
 | Data boundary | 4/4 | 9 s |
 | Release signing tools | PASS | 2 s |
@@ -48,7 +54,7 @@ These are the recorded 1.2.0 results. Reuse them only for unchanged areas.
 | Package smoke (CI) | PASS | 150–170 s |
 | Dashboard/CI | PASS | 4–8 min |
 
-The heavy 1.2.0 path takes about **40–50 minutes**, not two hours. The extra
+The heavy 1.3.0 path takes about **40–50 minutes**, not two hours. The extra
 time came from repeated full-suite runs and retries. Do not repeat those.
 
 ## Change-scoped matrix
@@ -60,6 +66,11 @@ Find every changed path, take the union of the required checks, then run them.
 | `lib/kdf.dart`, `lib/vault.dart`, `lib/workers.dart` | `kdf_production_test`, `vault_test`, `vault_header_validation_test`, `vault_import_rollback_kdf_test`, `backup_restore_e2e_test`, `workers_test`, `cold-signature` oracle | KDF parameters, wrong password/device, tamper, truncation, migration |
 | `lib/wallet_core.dart`, `lib/send_intent.dart`, `lib/cold_tx_codec.dart` | `wallet_core_test`, `send_intent_test`, `cold_tx_codec_test`, `cold_wallet_protocol_test`, `cold_wallet_service_test`, `cold_wallet_test`, `hold_to_confirm_test`, `cold-signature` oracle, Anvil integration | Chain ID, recipient, value, fee, nonce, calldata, replay, substitution |
 | `lib/storage.dart`, `lib/posix_fs.dart`, `lib/encrypted_log_store.dart`, `lib/receipt_store.dart` | `filesystem_security_test`, `rollback_injection_test`, `log_canary_test`, `drawer_secret_test`, `receipt_store_test`, `backup_restore_e2e_test` | Permissions, atomic rename, no-follow, lock identity, no secret in logs |
+| `lib/password_strength.dart`, `lib/screens/vault_password_dialog.dart` | `password_strength_test`, `vault_multi_wallet_test`, `navigation_flow_test` | Any length, no trimming, confirmation, strength label |
+| `lib/app_state.dart` vault session + `wallet_page.dart` manager | `vault_multi_wallet_test`, `vault_rename_test`, `navigation_flow_test`, `settings_state_test` | One password, add/switch/rename/remove, cache cleared on lock |
+| `lib/default_tokens.dart`, default token merge | `default_tokens_test`, `send_intent_test` | USDT/USDC canonical contract and no duplicates |
+| `lib/storage.dart` legacy directory migration | `legacy_migration_test`, `filesystem_security_test`, `vault_test` | Copy vault + device secret + prefs, never overwrite current vault |
+| Cold pairing/signing for key-only wallets | `cold_private_key_test`, `cold_wallet_service_test`, `cold_wallet_protocol_test` | Pairing, key binding, replay safety, response verification |
 | `lib/spending_policy.dart`, send/settings UI | `spending_policy_test`, `send_intent_test`, `tx_lifecycle_test`, `settings_state_test`, `navigation_flow_test`, `widget_test` | Freeze, allowlist, per-transaction limit before signing |
 | `lib/net/privacy_client.dart`, `lib/rpc_service.dart`, `lib/tor_manager.dart` | `rpc_adversarial_test`, `tls_pinning_test`, `privacy_config_test`, `privacy_dialogs_test`, `ua_scrub_test`, `nodes_test`, `node_manager_test` | Wrong chain, TLS validation before pin, fail-closed route, no fallback |
 | `lib/fee_engine.dart`, `lib/tx_lifecycle.dart` | `fee_engine_test`, `fee_parity_test`, `send_intent_test`, `tx_lifecycle_test` | EIP-1559/legacy math, sanity clamps, max cost |
