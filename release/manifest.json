@@ -22,7 +22,7 @@
     "name": "X Wallet",
     "repository": "https://github.com/jackh0006/X-Wallet"
   },
-  "releaseEvidence": "docs/releases/1.4.0.md",
+  "releaseEvidence": "docs/releases/1.4.1.md",
   "sbom": {
     "path": "docs/SBOM.json",
     "sha256": "66d6f0c37f5d8e516309167cc42b4f35f59c9dd56310780da56d9949f9001eaf"
@@ -39,5 +39,5 @@
     "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
     "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
   },
-  "version": "1.4.0+9"
+  "version": "1.4.1+10"
 }

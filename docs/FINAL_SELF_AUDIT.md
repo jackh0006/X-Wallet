@@ -1,6 +1,6 @@
 # X Wallet — Final Internal Self-Audit
 
-**Scope:** X Wallet `1.4.0+9`, release tree at the `v1.4.0` tag.
+**Scope:** X Wallet `1.4.1+10`, release tree at the `v1.4.1` tag.
 **Date:** 2026-11-07
 **Audit type:** internal self-audit performed by the project's AI-assisted
 engineering process. **This is not an independent external audit.**
