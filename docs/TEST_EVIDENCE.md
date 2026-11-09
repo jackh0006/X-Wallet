@@ -9,9 +9,9 @@ reading the source or testing the wallet yourself.
 
 | Item | Value |
 |---|---|
-| Release | **X Wallet 1.4.0** (`1.4.0+9`) |
-| Tag | `v1.4.0` |
-| Package | `x-wallet-1.4.0-amd64.deb` |
+| Release | **X Wallet 1.4.1** (`1.4.1+10`) |
+| Tag | `v1.4.1` |
+| Package | `x-wallet-1.4.1-amd64.deb` |
 | SHA-256 | `cd4e2fef17c907a88fa5e1dde96efc5f30bcc9ee7775157b7295a71097c8b0ec` |
 | SBOM | `docs/SBOM.json` — 116 packages |
 | Signature | `SHA256SUMS.asc` — EdDSA |
@@ -26,7 +26,7 @@ reading the source or testing the wallet yourself.
 |---|---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | PASS in 1.5 s | The source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | PASS, no issues | The wallet code has no analyzer findings. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 59/59 non-integration files, 0 failed, 0 timed out, 688 s | Unit, widget, vault, network, transaction, and security tests pass. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 59/59 non-integration files, 0 failed, 0 timed out, 696 s | Unit, widget, vault, network, transaction, and security tests pass. |
 | ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 60 files / 347 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` | PASS: 5/5 mutations killed, 69 s | Deliberately broken security checks are caught by the tests. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | PASS | User-facing product identity is consistent. |

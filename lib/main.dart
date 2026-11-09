@@ -129,7 +129,6 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
 
   ThemeData _lightTheme() {
     const gold = Color(0xFFF0B90B);
-    const goldLight = Color(0xFFFCD535);
     const bg = Color(0xFFF5F5F5);
     const surface = Color(0xFFFFFFFF);
     final scheme =
@@ -137,10 +136,14 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
           seedColor: gold,
           brightness: Brightness.light,
         ).copyWith(
-          primary: gold,
-          secondary: goldLight,
+          // A dark amber keeps text, icons, and outlines readable on white.
+          // The filled button deliberately keeps the bright gold background
+          // below, with black text.
+          primary: const Color(0xFF7A5C00),
+          secondary: const Color(0xFF8A6D00),
           surface: surface,
           onSurface: Colors.black87,
+          onSurfaceVariant: const Color(0xFF4F555C),
         );
     return _baseTheme(scheme, Brightness.light, bg, surface);
   }
@@ -193,6 +196,8 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
+      visualDensity: VisualDensity.standard,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
       scaffoldBackgroundColor: bg,
       appBarTheme: AppBarTheme(
         backgroundColor: isAmoled ? Colors.transparent : bg,
@@ -266,7 +271,7 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: scheme.primary,
+          backgroundColor: const Color(0xFFF0B90B),
           // Binance yellow is too light for white text (about 1.8:1).  Black
           // remains comfortably readable in every supported theme.
           foregroundColor: Colors.black,
@@ -297,12 +302,40 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       ),
       textTheme: TextTheme(
         bodyLarge: TextStyle(
+          fontSize: 16,
+          height: 1.35,
           color: brightness == Brightness.light ? Colors.black87 : Colors.white,
         ),
         bodyMedium: TextStyle(
+          fontSize: 15,
+          height: 1.4,
           color: brightness == Brightness.light
-              ? Colors.black54
-              : Colors.white70,
+              ? const Color(0xFF4F555C)
+              : const Color(0xFFD6DCE2),
+        ),
+        bodySmall: TextStyle(
+          fontSize: 13,
+          height: 1.35,
+          color: brightness == Brightness.light
+              ? const Color(0xFF5B6168)
+              : const Color(0xFFC2C9D0),
+        ),
+        labelLarge: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+        ),
+        titleMedium: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+          color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+        ),
+        titleSmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: brightness == Brightness.light
+              ? const Color(0xFF3C4248)
+              : const Color(0xFFE3E8ED),
         ),
       ),
     );

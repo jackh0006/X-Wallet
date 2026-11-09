@@ -78,6 +78,12 @@ def is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
 SQUASH_ALLOWED_PATHS = {
     "README.md",
     "AGENTS.md",
+    "SECURITY_AUDIT.md",
+    "TEST_EVIDENCE.md",
+    "THREAT_MODEL.md",
+    "REMEDIATION.md",
+    "RELEASE_SECURITY.md",
+    "SECURITY_LIMITATIONS.md",
     "IMPLEMENTATION_STATUS.md",
     ".github/workflows/verify.yml",
     ".github/workflows/android-build.yml",

@@ -81,7 +81,7 @@ bash scripts/package-smoke.sh    # requires a built .deb and Ubuntu
 For a released artifact:
 
 ```bash
-sha256sum x-wallet-1.4.0-amd64.deb
+sha256sum x-wallet-1.4.1-amd64.deb
 sha256sum --check SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B

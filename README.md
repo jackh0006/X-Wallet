@@ -14,7 +14,7 @@
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.4.0+9** · 60 test files · 347 test declarations
+> **X Wallet 1.4.1+10** · 60 test files · 347 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
@@ -68,7 +68,7 @@ or a phone-only app.
 
 ## Supported networks
 
-Version **1.4.0** enables **BNB Smart Chain** mainnet (56) and testnet (97).
+Version **1.4.1** enables **BNB Smart Chain** mainnet (56) and testnet (97).
 The codebase uses EVM address, transaction, and signing primitives. Additional
 EVM networks are planned; support begins only when a release documents it.
 
@@ -81,14 +81,14 @@ Get the latest release from:
 ```bash
 # 1. Download the package and checksums from the release page.
 # 2. Verify the download.
-sha256sum x-wallet-1.4.0-amd64.deb
+sha256sum x-wallet-1.4.1-amd64.deb
 sha256sum -c SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
 # 3. Install.
-sudo apt install ./x-wallet-1.4.0-amd64.deb
+sudo apt install ./x-wallet-1.4.1-amd64.deb
 ```
 
 The Debian package is `x-wallet`. It replaces `bnb-wallet`, preserves the
@@ -103,8 +103,8 @@ independent channel before trusting it.
 
 Download the APK that matches the phone:
 
-- `x-wallet-1.4.0-android-arm64.apk` — almost every modern Android phone.
-- `x-wallet-1.4.0-android-universal.apk` — if you are not sure about the CPU.
+- `x-wallet-1.4.1-android-arm64.apk` — almost every modern Android phone.
+- `x-wallet-1.4.1-android-universal.apk` — if you are not sure about the CPU.
 
 The Android app uses the same logo, label, vault, tokens, spending controls,
 languages, and cold-signing protocol as Linux. Install it with the Android file
@@ -218,7 +218,7 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.4.0-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.4.1-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
 | ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `dffb5b35…` | Two builds produce the identical archive and manifest. |
