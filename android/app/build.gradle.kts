@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.jackh0006.bnb_wallet_gui"
+    namespace = "com.jackh0006.xwallet"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -15,19 +15,23 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.jackh0006.bnbwallet"
+        applicationId = "com.jackh0006.xwallet"
         // Android 8.0 (API 26) supports devices such as the Huawei Y9 2019
         // while retaining modern platform encryption and TLS capabilities.
         minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        // Arm64-only release: replace the Flutter plugin's default ABI set
-        // (armeabi-v7a + arm64-v8a + x86_64) with arm64-v8a only, so plugin
-        // native libraries from other ABIs are excluded from the APK.
-        ndk {
-            abiFilters.clear()
-            abiFilters.add("arm64-v8a")
+        // ABIs are selected by the build command: the release script builds
+        // one arm64-v8a APK and one universal APK. When
+        // ORG_GRADLE_PROJECT_xwalletAbi is set, restrict every native library
+        // (including plugin libraries) to that ABI.
+        val requestedAbi = project.findProperty("xwalletAbi") as String?
+        if (requestedAbi != null && requestedAbi.isNotBlank()) {
+            ndk {
+                abiFilters.clear()
+                abiFilters.add(requestedAbi)
+            }
         }
     }
 

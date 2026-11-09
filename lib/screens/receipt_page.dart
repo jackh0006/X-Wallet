@@ -691,6 +691,10 @@ class ReceiptPage extends StatelessWidget {
         _receiptJson(),
       );
       if (!context.mounted) return;
+      if (path == null) {
+        showInfo(context, 'Save cancelled.');
+        return;
+      }
       showInfo(context, 'Receipt saved to $path');
     } catch (error) {
       if (!context.mounted) return;
@@ -710,6 +714,10 @@ class ReceiptPage extends StatelessWidget {
         bytes,
       );
       if (!context.mounted) return;
+      if (path == null) {
+        showInfo(context, 'Save cancelled.');
+        return;
+      }
       showInfo(context, 'Receipt image saved to $path');
     } catch (error) {
       if (!context.mounted) return;

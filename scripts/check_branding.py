@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # The old display name and repository slug must not appear anywhere. Technical
 # compatibility identifiers such as `bnb-wallet`, `bnb_wallet_gui` and
-# `com.jackh0006.bnbwallet` are asserted separately and are intentionally kept.
+# `com.jackh0006.xwallet` are asserted separately and are intentionally kept.
 FORBIDDEN = ("BNB Wallet", "BNB-Wallet-GUI")
 
 SKIP_DIRS = {".git", "build", ".dart_tool", "node_modules", ".gradle", "dist", "ephemeral"}
@@ -43,8 +43,8 @@ REQUIRED = [
 
 TECHNICAL_COMPAT = [
     ("pubspec.yaml", "name: bnb_wallet_gui"),
-    ("android/app/build.gradle.kts", 'applicationId = "com.jackh0006.bnbwallet"'),
-    ("android/app/build.gradle.kts", 'namespace = "com.jackh0006.bnb_wallet_gui"'),
+    ("android/app/build.gradle.kts", 'applicationId = "com.jackh0006.xwallet"'),
+    ("android/app/build.gradle.kts", 'namespace = "com.jackh0006.xwallet"'),
     ("lib/vault.dart", "BNBVL004"),
     ("lib/vault.dart", "BNBVL003"),
     ("lib/storage.dart", "bnb-wallet-vault.bnb"),
@@ -103,10 +103,10 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.3.1+8":
-        errors.append(f"pubspec version is not 1.3.1+8: {version.group(1) if version else 'missing'}")
+    if not version or version.group(1) != "1.4.0+9":
+        errors.append(f"pubspec version is not 1.4.0+9: {version.group(1) if version else 'missing'}")
     if not (ROOT / "docs" / "releases" / "1.3.0.md").is_file():
-        errors.append("missing docs/releases/1.3.1.md")
+        errors.append("missing docs/releases/1.4.0.md")
 
     app_version_file = ROOT / "lib" / "app_version.dart"
     if not app_version_file.is_file():

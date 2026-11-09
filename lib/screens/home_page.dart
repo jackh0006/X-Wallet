@@ -5,6 +5,7 @@ import '../localized_text.dart';
 import '../app_state.dart';
 import '../rpc_service.dart';
 import '../rpc_story.dart';
+import '../token_registry.dart';
 import 'common.dart';
 import 'wallet_page.dart';
 
@@ -569,18 +570,26 @@ class _HomePageState extends State<HomePage>
             'to see balances and send.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
-          if (appState.hasVault) ...[
-            const SizedBox(height: 14),
-            FilledButton.icon(
-              // Unlocking from Home lands on the Wallet tab, so the wallet
-              // (address + balances) is visibly on screen — never just a
-              // message that something happened somewhere else.
-              onPressed: () =>
-                  showUnlockVaultDialog(context, jumpToWalletTab: true),
-              icon: const Icon(Icons.lock_open),
-              label: const Text('Open my vault'),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: appState.hasVault
+                  ? () => showUnlockVaultDialog(context, jumpToWalletTab: true)
+                  : () => appState.focusTab(1),
+              icon: Icon(appState.hasVault ? Icons.lock_open : Icons.add),
+              label: Text(
+                appState.hasVault ? 'Open my saved wallet' : 'Create a wallet',
+              ),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ],
+          ),
         ],
       ),
     );
@@ -619,10 +628,12 @@ class _HomePageState extends State<HomePage>
           else if (_error != null)
             Text(_error!, style: const TextStyle(color: Colors.redAccent))
           else if (_balances != null) ...[
-            _balanceRow('BNB', _balances!['BNB'] ?? BigInt.zero, 18),
-            for (final token in appState.rpc.tokens.where((t) => !t.native))
+            _balanceRow('BNB · BSC', _balances!['BNB'] ?? BigInt.zero, 18),
+            for (final token in appState.tokensForNetwork.where(
+              (t) => !t.native,
+            ))
               _balanceRow(
-                token.symbol,
+                TokenRegistry.label(token),
                 _balances![token.symbol] ?? BigInt.zero,
                 token.decimals,
               ),
@@ -644,7 +655,7 @@ class _HomePageState extends State<HomePage>
       child: Row(
         children: [
           SizedBox(
-            width: 64,
+            width: 112,
             child: Text(
               symbol,
               style: const TextStyle(fontWeight: FontWeight.bold),

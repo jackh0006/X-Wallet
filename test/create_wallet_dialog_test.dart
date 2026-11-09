@@ -27,12 +27,12 @@ void main() {
     (tester) async {
       await bootstrap(tester);
 
-      await tester.tap(find.text('Create wallet'));
+      await tester.tap(find.text('Create a new wallet'));
       await tester.pumpAndSettle();
 
       expect(find.text('12 words'), findsOneWidget);
       expect(find.text('24 words'), findsOneWidget);
-      expect(find.text('Standard EVM'), findsOneWidget);
+      expect(find.text('MetaMask / Trust / BIP-44'), findsOneWidget);
       expect(
         find.textContaining('MetaMask, Trust Wallet, SafePal'),
         findsOneWidget,
@@ -42,7 +42,7 @@ void main() {
       // Account indexes are generated instead of repeating six path rows.
       await tester.enterText(find.byType(TextField).first, '9');
       await tester.pumpAndSettle();
-      expect(find.text("m/44'/60'/9'/0/0"), findsOneWidget);
+      expect(find.text("m/44'/60'/0'/0/9"), findsOneWidget);
 
       // 12-word creation shows a numbered 12-word grid, not three words.
       await tester.tap(find.text('12 words'));
@@ -56,7 +56,10 @@ void main() {
           .where((text) => RegExp(r'^\d+\.$').hasMatch(text.data ?? ''))
           .length;
       expect(numbered, 12);
-      expect(find.text("Standard EVM · m/44'/60'/9'/0/0"), findsOneWidget);
+      expect(
+        find.text("MetaMask / Trust / BIP-44 · m/44'/60'/0'/0/9"),
+        findsOneWidget,
+      );
 
       await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
@@ -66,7 +69,7 @@ void main() {
   testWidgets('new private key shows a one-time backup dialog', (tester) async {
     await bootstrap(tester);
 
-    await tester.tap(find.text('Create wallet'));
+    await tester.tap(find.text('Create a new wallet'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Recovery phrase (12 / 24 words)'));
     await tester.pumpAndSettle();
@@ -90,7 +93,7 @@ void main() {
   ) async {
     await bootstrap(tester);
 
-    await tester.tap(find.text('Create wallet'));
+    await tester.tap(find.text('Create a new wallet'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Recovery phrase (12 / 24 words)'));
     await tester.pumpAndSettle();

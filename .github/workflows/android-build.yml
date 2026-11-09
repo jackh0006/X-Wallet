@@ -1,0 +1,67 @@
+name: android-build
+
+on:
+  push:
+    branches: [main, 'release/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-apks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b36c23c0d998641eff861008f374ee103c25ac73 # v4.4.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: '3.47.6'
+          cache: true
+      - run: flutter pub get
+      - name: Build arm64 release APK
+        run: flutter build apk --release --target-platform android-arm64 --no-pub
+      - name: Save arm64 APK and check ABI
+        run: |
+          set -euo pipefail
+          cp build/app/outputs/flutter-apk/app-release.apk x-wallet-android-arm64.apk
+          unzip -l x-wallet-android-arm64.apk > arm64-files.txt
+          grep -q 'lib/arm64-v8a/libapp.so' arm64-files.txt
+          ! grep -q 'lib/x86_64/libapp.so' arm64-files.txt
+      - name: Build universal release APK
+        run: flutter build apk --release --no-pub
+      - name: Save universal APK and check ABIs
+        run: |
+          set -euo pipefail
+          cp build/app/outputs/flutter-apk/app-release.apk x-wallet-android-universal.apk
+          unzip -l x-wallet-android-universal.apk > universal-files.txt
+          grep -q 'lib/arm64-v8a/libapp.so' universal-files.txt
+          grep -q 'lib/armeabi-v7a/libapp.so' universal-files.txt
+          grep -q 'lib/x86_64/libapp.so' universal-files.txt
+      - name: Verify the manifest label and identity
+        run: |
+          set -euo pipefail
+          grep -q 'android:label="X Wallet"' android/app/src/main/AndroidManifest.xml
+          grep -q 'applicationId = "com.jackh0006.xwallet"' android/app/build.gradle.kts
+          grep -q 'com.jackh0006.xwallet' android/app/src/main/kotlin/com/jackh0006/xwallet/MainActivity.kt
+      - name: Upload APKs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: x-wallet-android-apks
+          path: |
+            x-wallet-android-arm64.apk
+            x-wallet-android-universal.apk
+          if-no-files-found: error
+          retention-days: 30

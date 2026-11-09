@@ -3,17 +3,21 @@ import 'dart:io';
 
 import '../localized_text.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:flutter/services.dart'
     show Clipboard, ClipboardData, rootBundle;
 
 import '../app_state.dart';
 import '../app_version.dart';
 import '../models.dart';
+import '../platform_files.dart';
 import '../net/privacy_client.dart';
 import '../rpc_service.dart';
 import '../security.dart';
 import '../storage.dart';
 import '../token_logos.dart';
+import '../token_registry.dart';
 import '../wallet_core.dart';
 import 'backup_quiz_dialog.dart';
 import 'cold_wallet_dialogs.dart';
@@ -34,6 +38,14 @@ class _SettingsPageState extends State<SettingsPage> {
   final _newTokenAddress = TextEditingController();
   final _maxPerTxController = TextEditingController();
   final _allowlistController = TextEditingController();
+  final _networkKey = GlobalKey();
+  final _nodesKey = GlobalKey();
+  final _tokensKey = GlobalKey();
+  final _spendingKey = GlobalKey();
+  final _securityKey = GlobalKey();
+  final _appearanceKey = GlobalKey();
+  final _privacyKey = GlobalKey();
+  final _aboutKey = GlobalKey();
 
   /// §10e trusted signing-list sources, loaded from assets/token_sources.json.
   List<Map<String, dynamic>> _tokenSources = const [];
@@ -85,45 +97,96 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Network & assets')),
+      appBar: AppBar(title: const Text('Settings')),
       body: SafeArea(
-        child: ListView(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
-          children: [
-            _networkSection(),
-            const SizedBox(height: 18),
-            _rpcSection(),
-            const SizedBox(height: 18),
-            _nodesSection(),
-            const SizedBox(height: 18),
-            _tokensSection(),
-            const SizedBox(height: 18),
-            _historyKeySection(),
-            const SizedBox(height: 18),
-            _storageSection(),
-            const SizedBox(height: 18),
-            _spendingSafetySection(),
-            const SizedBox(height: 18),
-            _securitySection(),
-            const SizedBox(height: 18),
-            _walletModeSection(),
-            const SizedBox(height: 18),
-            _selectionModeSection(),
-            const SizedBox(height: 18),
-            _appearanceSection(),
-            const SizedBox(height: 18),
-            _privacySection(),
-            const SizedBox(height: 18),
-            _networkPrivacySection(),
-            const SizedBox(height: 18),
-            _autoLockSection(),
-            const SizedBox(height: 18),
-            _eraseSection(),
-            const SizedBox(height: 18),
-            _aboutSection(),
-          ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _quickJumpCard(),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _networkKey, child: _networkSection()),
+              const SizedBox(height: 18),
+              _rpcSection(),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _nodesKey, child: _nodesSection()),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _tokensKey, child: _tokensSection()),
+              const SizedBox(height: 18),
+              _historyKeySection(),
+              const SizedBox(height: 18),
+              _storageSection(),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _spendingKey, child: _spendingSafetySection()),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _securityKey, child: _securitySection()),
+              const SizedBox(height: 18),
+              _walletModeSection(),
+              const SizedBox(height: 18),
+              _selectionModeSection(),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _appearanceKey, child: _appearanceSection()),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _privacyKey, child: _privacySection()),
+              const SizedBox(height: 18),
+              _networkPrivacySection(),
+              const SizedBox(height: 18),
+              _autoLockSection(),
+              const SizedBox(height: 18),
+              _eraseSection(),
+              const SizedBox(height: 18),
+              KeyedSubtree(key: _aboutKey, child: _aboutSection()),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _quickJumpCard() {
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('Quick settings'),
+          const SizedBox(height: 6),
+          const Text(
+            'Tap a group to jump to it.',
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _jumpChip('Network', _networkKey),
+              _jumpChip('Nodes', _nodesKey),
+              _jumpChip('Tokens', _tokensKey),
+              _jumpChip('Spending safety', _spendingKey),
+              _jumpChip('Security', _securityKey),
+              _jumpChip('Appearance', _appearanceKey),
+              _jumpChip('Privacy', _privacyKey),
+              _jumpChip('About', _aboutKey),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _jumpChip(String label, GlobalKey key) {
+    return ActionChip(
+      label: Text(label),
+      onPressed: () {
+        final target = key.currentContext;
+        if (target == null) return;
+        Scrollable.ensureVisible(
+          target,
+          duration: const Duration(milliseconds: 250),
+          alignment: 0.05,
+        );
+      },
     );
   }
 
@@ -147,6 +210,47 @@ class _SettingsPageState extends State<SettingsPage> {
             'requests fail instead of revealing your IP address.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
+          if (Platform.isAndroid) ...[
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0x22F0B90B),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Tor on Android uses Orbot',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Install Orbot, turn on its VPN/proxy, keep SOCKS on '
+                    '127.0.0.1:9050, then choose External SOCKS in Tor '
+                    'settings. X Wallet never starts a hidden Tor process on '
+                    'Android and never falls back to a direct connection.',
+                    style: TextStyle(fontSize: 12.5),
+                  ),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final opened = await launchUrl(
+                        Uri.parse('https://orbot.app/'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                      if (!opened && mounted) {
+                        showError(context, 'Could not open the Orbot page.');
+                      }
+                    },
+                    icon: const Icon(Icons.open_in_new, size: 17),
+                    label: const Text('Open Orbot guide'),
+                  ),
+                ],
+              ),
+            ),
+          ],
           const SizedBox(height: 10),
           ListTile(
             contentPadding: EdgeInsets.zero,
@@ -1509,7 +1613,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: TokenLogo(token: token),
-              title: Text('${token.symbol} · ${token.decimals} decimals'),
+              title: Text(
+                '${TokenRegistry.label(token)} · ${token.decimals} decimals',
+              ),
               subtitle: Text(shortAddress(token.address)),
               trailing: IconButton(
                 icon: const Icon(Icons.delete_outline, size: 18),
@@ -1541,15 +1647,22 @@ class _SettingsPageState extends State<SettingsPage> {
               decimals: 18,
               native: true,
             ),
-            ...appState.rpc.tokens,
+            ...appState.tokensForNetwork,
           ])
             SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               dense: true,
-              title: Text('${token.symbol} · ${token.name}'),
+              title: Text(
+                '${TokenRegistry.of(token).symbol} · ${TokenRegistry.of(token).name}',
+              ),
               subtitle: token.native
                   ? const Text('Always shown')
-                  : Text(shortAddress(token.address)),
+                  : (TokenRegistry.of(token).warning != null
+                        ? Text(
+                            TokenRegistry.of(token).warning!,
+                            style: const TextStyle(color: Colors.orangeAccent),
+                          )
+                        : Text(shortAddress(token.address))),
               secondary: TokenLogo(token: token, size: 24),
               value: !appState.isTokenHidden(token),
               onChanged: token.native
@@ -2128,6 +2241,29 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _exportBackup() async {
+    if (PlatformFiles.isAndroid) {
+      final password = await promptText(
+        context,
+        title: 'Export encrypted backup',
+        label: 'Vault password',
+        obscure: true,
+        validator: (value) => value.isEmpty ? 'Password required' : null,
+      );
+      if (password == null || !mounted) return;
+      try {
+        final blob = await appState.exportVaultBlob(password);
+        final saved = await PlatformFiles.saveText('x-wallet-backup.bnb', blob);
+        if (mounted) {
+          showInfo(
+            context,
+            saved ? 'Encrypted backup saved.' : 'Save cancelled.',
+          );
+        }
+      } catch (error) {
+        if (mounted) showError(context, 'Backup failed: $error');
+      }
+      return;
+    }
     final path = await _pickBackupPath(save: true);
     if (path == null || !mounted) return;
     final password = await promptText(
@@ -2147,7 +2283,19 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _restoreBackup() async {
-    final path = await _pickBackupPath(save: false);
+    String? path;
+    File? temporary;
+    if (PlatformFiles.isAndroid) {
+      final bytes = await PlatformFiles.openBytes();
+      if (bytes == null || !mounted) return;
+      temporary = File(
+        '${Directory.systemTemp.path}/x-wallet-restore-${DateTime.now().microsecondsSinceEpoch}.bnb',
+      );
+      await temporary.writeAsBytes(bytes, flush: true);
+      path = temporary.path;
+    } else {
+      path = await _pickBackupPath(save: false);
+    }
     if (path == null || !mounted) return;
     final password = await promptText(
       context,
@@ -2173,9 +2321,20 @@ class _SettingsPageState extends State<SettingsPage> {
         password: password,
         confirmReplace: true,
       );
-      if (mounted) showInfo(context, 'Backup restored from $path.');
+      if (mounted) {
+        showInfo(
+          context,
+          PlatformFiles.isAndroid
+              ? 'Backup restored.'
+              : 'Backup restored from $path.',
+        );
+      }
     } catch (error) {
       if (mounted) showError(context, 'Restore failed: $error');
+    } finally {
+      if (temporary != null && await temporary.exists()) {
+        await temporary.delete();
+      }
     }
   }
 
@@ -2978,7 +3137,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionTitle('Wallet mode (§10f)'),
+            SectionTitle('Wallet mode'),
             const SizedBox(height: 4),
             const Text(
               'Hot wallet holds the seed and can sign. Cold (offline signer) holds '

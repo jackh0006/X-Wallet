@@ -220,7 +220,7 @@ void main() {
     );
     await tester.pumpWidget(const MaterialApp(home: HomePage()));
     await tester.pumpAndSettle();
-    final open = find.text('Open my vault');
+    final open = find.text('Open my saved wallet');
     expect(open, findsOneWidget);
     await tester.ensureVisible(open);
     await tester.tap(open);

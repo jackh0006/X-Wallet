@@ -18,6 +18,7 @@ import '../models.dart';
 import '../rpc_service.dart';
 import '../send_intent.dart';
 import '../token_logos.dart';
+import '../token_registry.dart';
 import '../tx_lifecycle.dart';
 import '../wallet_core.dart';
 import '../widgets/hold_to_confirm.dart';
@@ -134,11 +135,18 @@ class _SendPageState extends State<SendPage>
 
   List<TokenInfo> get _assets => [
     _nativeAsset,
-    ...appState.rpc.tokens.where((t) => !appState.isTokenHidden(t)),
+    ...appState.tokensForNetwork.where((t) => !appState.isTokenHidden(t)),
   ];
+
+  String get _assetDisplaySymbol => TokenRegistry.of(_asset).symbol;
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (!_assets.any(
+      (t) => t.network == _asset.network && t.address == _asset.address,
+    )) {
+      _asset = _nativeAsset;
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Send')),
       body: SafeArea(
@@ -401,7 +409,33 @@ class _SendPageState extends State<SendPage>
             'what the node sees. BNB always pays the network fee.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Text('From', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  shortAddress(appState.address!),
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    color: Color(0xFF6E6E6E),
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: tr(context, 'Copy address'),
+                onPressed: () =>
+                    copyText(context, appState.address!, 'Address'),
+                icon: const Icon(Icons.copy, size: 18),
+              ),
+              TextButton(
+                onPressed: () => appState.focusTab(1),
+                child: const Text('Change'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
           DropdownButtonFormField<TokenInfo>(
             initialValue: _asset,
             decoration: InputDecoration(
@@ -419,8 +453,8 @@ class _SendPageState extends State<SendPage>
                       const SizedBox(width: 8),
                       Text(
                         token.native
-                            ? 'BNB (native gas token)'
-                            : '${token.symbol} — ${shortAddress(token.address)}',
+                            ? 'BNB · BSC (native gas token)'
+                            : '${TokenRegistry.label(token)} — ${shortAddress(token.address)}',
                       ),
                     ],
                   ),
@@ -445,7 +479,10 @@ class _SendPageState extends State<SendPage>
           TextField(
             controller: _amount,
             decoration: InputDecoration(
-              labelText: tr(context, 'Amount (${_asset.symbol})'),
+              labelText: tr(
+                context,
+                'Amount (${TokenRegistry.of(_asset).symbol})',
+              ),
               hintText: tr(context, '0.02'),
               border: const OutlineInputBorder(),
             ),
@@ -980,7 +1017,7 @@ class _SendPageState extends State<SendPage>
             meta.symbol.toUpperCase() != _asset.symbol.toUpperCase()) {
           throw StateError(
             'The token contract now reports ${meta.symbol} with ${meta.decimals} '
-            'decimals, while this wallet has ${_asset.symbol} with '
+            'decimals, while this wallet has $_assetDisplaySymbol with '
             '${_asset.decimals}. Refusing to send — remove and re-add the '
             'token in Wallet to refresh it.',
           );
@@ -1003,10 +1040,10 @@ class _SendPageState extends State<SendPage>
       } else {
         final balance = await rpc.getTokenBalance(_asset.address, from);
         _nodeSees.add(
-          'eth_call balanceOf (token contract) — is your ${_asset.symbol} enough?',
+          'eth_call balanceOf (token contract) — is your $_assetDisplaySymbol enough?',
         );
         if (balance < amount) {
-          throw StateError('Insufficient ${_asset.symbol} balance.');
+          throw StateError('Insufficient $_assetDisplaySymbol balance.');
         }
       }
       final data = _asset.native
@@ -1163,7 +1200,7 @@ class _SendPageState extends State<SendPage>
                   ),
                 if (tokenContract)
                   Text(
-                    '⚠ The recipient IS the ${_asset.symbol} contract itself. Tokens sent to a contract usually cannot be recovered.',
+                    '⚠ The recipient IS the $_assetDisplaySymbol contract itself. Tokens sent to a contract usually cannot be recovered.',
                     style: const TextStyle(
                       color: Colors.orangeAccent,
                       fontWeight: FontWeight.bold,
@@ -1185,7 +1222,7 @@ class _SendPageState extends State<SendPage>
                   style: const TextStyle(fontSize: 12),
                 ),
                 Text(
-                  'Amount: ${WalletCore.formatUnits(amount, assetDecimals)} ${_asset.symbol}',
+                  'Amount: ${WalletCore.formatUnits(amount, assetDecimals)} $_assetDisplaySymbol',
                 ),
                 Text(
                   'Raw units sent: ${amount.toString()} ($assetDecimals decimals)',
@@ -1632,7 +1669,7 @@ class _SendPageState extends State<SendPage>
           note =
               'The token deducted a fee: the recipient received '
               '${WalletCore.formatUnits(received, assetDecimals)} of '
-              '${WalletCore.formatUnits(amount, assetDecimals)} ${_asset.symbol}.';
+              '${WalletCore.formatUnits(amount, assetDecimals)} $_assetDisplaySymbol.';
         }
       }
       String? balanceAfterWei;
@@ -1726,7 +1763,7 @@ class _SendPageState extends State<SendPage>
           : 'https://bscscan.com/tx/$hash';
       final summary = StringBuffer()
         ..writeln(
-          '${WalletCore.formatUnits(amount, assetDecimals)} ${_asset.symbol} → ${shortAddress(checksummed)}',
+          '${WalletCore.formatUnits(amount, assetDecimals)} ${TokenRegistry.of(_asset).symbol} → ${shortAddress(checksummed)}',
         )
         ..writeln(
           'Block $blockNumber · ${confirmations > 0 ? '$confirmations confirmations' : 'confirmations being counted'}',

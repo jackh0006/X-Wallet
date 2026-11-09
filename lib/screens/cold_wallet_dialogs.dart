@@ -10,6 +10,8 @@ import '../cold_wallet.dart';
 import '../cold_wallet_protocol.dart';
 import '../cold_wallet_service.dart';
 import '../models.dart';
+import '../platform_files.dart';
+import '../token_registry.dart';
 import '../wallet_core.dart';
 import '../widgets/hold_to_confirm.dart';
 import 'common.dart';
@@ -79,7 +81,11 @@ Future<void> showColdPayloadDialog(
           onPressed: () async {
             final path = await exportToFile(fileName, payload);
             if (!dialogContext.mounted) return;
-            showInfo(dialogContext, 'Saved: $path');
+            if (path == null) {
+              showInfo(dialogContext, 'Save cancelled.');
+              return;
+            }
+            showInfo(dialogContext, 'Saved to $path');
           },
           icon: const Icon(Icons.save_alt, size: 17),
           label: const Text('Save file'),
@@ -163,6 +169,13 @@ Future<String?> showColdImportDialog(
                     ),
                     TextButton.icon(
                       onPressed: () async {
+                        if (PlatformFiles.isAndroid) {
+                          final text = await PlatformFiles.openText();
+                          if (text == null) return;
+                          controller.text = text.trim();
+                          setState(() => error = null);
+                          return;
+                        }
                         final path = await promptText(
                           dialogContext,
                           title: 'Read payload from file',
@@ -178,7 +191,9 @@ Future<String?> showColdImportDialog(
                         }
                       },
                       icon: const Icon(Icons.folder_open, size: 16),
-                      label: const Text('Read file'),
+                      label: Text(
+                        PlatformFiles.isAndroid ? 'Choose file' : 'Read file',
+                      ),
                     ),
                   ],
                 ),
@@ -302,11 +317,11 @@ Future<void> coldImportPairing(BuildContext context) async {
 // -------------------------------------------------------------- requests ---
 
 Map<String, ColdTxAssetInfo> _knownTokens() => {
-  for (final token in appState.rpc.tokens)
+  for (final token in appState.tokensForNetwork)
     if (!token.native && token.address.isNotEmpty)
       token.address.toLowerCase(): ColdTxAssetInfo(
         isNative: false,
-        symbol: token.symbol,
+        symbol: TokenRegistry.of(token).symbol,
         name: token.name,
         contractAddress: token.address,
         decimals: token.decimals,

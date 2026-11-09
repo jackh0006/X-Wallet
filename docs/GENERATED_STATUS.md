@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.3.1+8`
+- Version: `1.4.0+9`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -23,8 +23,8 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 
 ## Test inventory
 
-- Test files: **59**
-- Test/testWidgets declarations: **344**
+- Test files: **60**
+- Test/testWidgets declarations: **347**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -65,7 +65,7 @@ No release artifact is recorded for this commit. **NOT TESTED.**
 
 - Incident status: `OPEN — ROTATION NOT VERIFIED`
 - Rotation verified: **NO**
-- Denylisted certificates: 0
+- Denylisted certificates: 1
 
 An Android artifact is never releasable while rotation is unverified or the denylist is empty. See [the incident record](security/INCIDENT_2026-11-KEYSTORE.md).
 

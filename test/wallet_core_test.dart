@@ -32,17 +32,35 @@ void main() {
       );
     });
 
-    test('popular paths are listed once and account indexes are generated', () {
-      expect(WalletCore.standardPaths['Standard EVM'], WalletCore.defaultPath);
-      expect(WalletCore.standardPaths['Ledger Legacy (MEW)'], "m/44'/60'/0'/0");
-      expect(WalletCore.standardPathForAccount(1), "m/44'/60'/1'/0/0");
-      expect(WalletCore.standardPathForAccount(9), "m/44'/60'/9'/0/0");
-      expect(WalletCore.standardPaths, hasLength(3));
+    test('all standard EVM paths are listed and indexes are generated', () {
+      expect(
+        WalletCore.standardPaths['MetaMask / Trust / BIP-44'],
+        "m/44'/60'/0'/0/{index}",
+      );
+      expect(
+        WalletCore.standardPaths['Ledger Legacy / MEW'],
+        "m/44'/60'/0'/{index}",
+      );
+      expect(
+        WalletCore.standardPaths['Ledger Live (account index)'],
+        "m/44'/60'/{index}'/0/0",
+      );
+      expect(WalletCore.standardPathForAccount(1), "m/44'/60'/0'/0/1");
+      expect(WalletCore.standardPathForAccount(9), "m/44'/60'/0'/0/9");
+      expect(
+        WalletCore.pathForLabel('MetaMask / Trust / BIP-44', 3),
+        "m/44'/60'/0'/0/3",
+      );
+      expect(
+        WalletCore.pathForLabel('Ledger Live (account index)', 2),
+        "m/44'/60'/2'/0/0",
+      );
+      expect(WalletCore.standardPaths, hasLength(7));
       for (final entry in WalletCore.standardPaths.entries) {
         if (entry.key == 'Custom') {
           expect(entry.value, isEmpty);
         } else {
-          expect(entry.value, startsWith("m/44'/60'"));
+          expect(entry.value, startsWith('m/'));
         }
       }
     });
@@ -56,7 +74,7 @@ void main() {
       );
       final account1 = WalletCore.derivePrivateKey(
         phrase: phrase,
-        path: "m/44'/60'/1'/0/0",
+        path: "m/44'/60'/0'/0/1",
       );
       expect(account1.address, isNot(account0.address));
     });

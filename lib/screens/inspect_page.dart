@@ -3,6 +3,7 @@ import '../localized_text.dart';
 import '../app_state.dart';
 import '../wallet_core.dart';
 import 'common.dart';
+import '../token_registry.dart';
 
 class InspectPage extends StatefulWidget {
   const InspectPage({super.key});
@@ -139,12 +140,12 @@ class _InspectPageState extends State<InspectPage>
                     ],
                   ),
                   const SizedBox(height: 10),
-                  _row('BNB', _balances!['BNB'] ?? BigInt.zero, 18),
-                  for (final token in appState.rpc.tokens.where(
+                  _row('BNB · BSC', _balances!['BNB'] ?? BigInt.zero, 18),
+                  for (final token in appState.tokensForNetwork.where(
                     (t) => !t.native,
                   ))
                     _row(
-                      token.symbol,
+                      TokenRegistry.label(token),
                       _balances![token.symbol] ?? BigInt.zero,
                       token.decimals,
                     ),
@@ -208,7 +209,7 @@ class _InspectPageState extends State<InspectPage>
                 'Online (watch-only companion)',
               ][appState.walletModeIndex],
             ),
-            _info('Tracked tokens', '${appState.rpc.tokens.length}'),
+            _info('Tracked tokens', '${appState.tokensForNetwork.length}'),
             if (_nonce != null) _info('Nonce', '$_nonce'),
             if (_block != null) _info('Latest block', '$_block'),
             const SizedBox(height: 18),

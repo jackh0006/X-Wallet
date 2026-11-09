@@ -25,16 +25,49 @@ class WalletCore {
   /// (MetaMask, Trust Wallet, SafePal, Ledger Live, Trezor) use the same first
   /// account path; the dialog explains that instead of repeating the path
   /// under every brand name. Account indexes are generated separately.
+  /// Standard EVM derivation paths. `{index}` is the wallet/address index.
+  ///
+  /// MetaMask, Trust Wallet, SafePal, Ledger Live and Trezor all use the
+  /// first BIP-44 path for their first account. The Ledger Live form changes
+  /// the account level, while the legacy MEW form appends the index directly.
   static const Map<String, String> standardPaths = {
-    'Standard EVM': "m/44'/60'/0'/0/0",
-    'Ledger Legacy (MEW)': "m/44'/60'/0'/0",
+    'MetaMask / Trust / BIP-44': "m/44'/60'/0'/0/{index}",
+    'Ledger Live (account index)': "m/44'/60'/{index}'/0/0",
+    'Ledger Legacy / MEW': "m/44'/60'/0'/{index}",
+    'BIP-49 (rare EVM)': "m/49'/60'/0'/0/{index}",
+    'BIP-84 (rare EVM)': "m/84'/60'/0'/0/{index}",
+    'BIP-86 (rare EVM)': "m/86'/60'/0'/0/{index}",
     'Custom': '',
   };
 
-  /// Builds the standard BIP-44 path for an account index (0 = first account).
+  static const Map<String, String> standardPathDescriptions = {
+    'MetaMask / Trust / BIP-44':
+        'The normal first-account path used by MetaMask, Trust Wallet, '
+        'SafePal, Ledger Live and Trezor.',
+    'Ledger Live (account index)':
+        'Ledger Live account-level path. The index is the account number.',
+    'Ledger Legacy / MEW': 'Older MyEtherWallet and Ledger setups. The index is appended directly.',
+    'BIP-49 (rare EVM)':
+        'Rare EVM compatibility path. Most wallets do not use it.',
+    'BIP-84 (rare EVM)':
+        'Rare EVM compatibility path. Most wallets do not use it.',
+    'BIP-86 (rare EVM)':
+        'Rare EVM compatibility path. Most wallets do not use it.',
+    'Custom': 'Enter any BIP-32 path manually.',
+  };
+
+  /// Builds a path from a standard label and index.
+  static String pathForLabel(String label, int index) {
+    if (index < 0) throw ArgumentError('Account index cannot be negative.');
+    final template = standardPaths[label];
+    if (template == null) throw ArgumentError('Unknown derivation path.');
+    return template.replaceAll('{index}', '$index');
+  }
+
+  /// Builds the standard BIP-44 path for an address index (0 = first address).
   static String standardPathForAccount(int index) {
     if (index < 0) throw ArgumentError('Account index cannot be negative.');
-    return "m/44'/60'/$index'/0/0";
+    return "m/44'/60'/0'/0/$index";
   }
 
   /// Generates a BIP-39 mnemonic using a secure random source.

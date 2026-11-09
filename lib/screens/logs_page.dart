@@ -681,6 +681,10 @@ class _LogsPageState extends State<LogsPage> {
         text,
       );
       if (!mounted) return;
+      if (path == null) {
+        showInfo(context, 'Save cancelled.');
+        return;
+      }
       showInfo(context, 'Saved to $path');
     } catch (error) {
       if (!mounted) return;

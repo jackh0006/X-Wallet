@@ -14,3 +14,6 @@
 # Do not add private material, keystore bytes, aliases, or passwords here.
 #
 # OWNER-ACTION: add the historical certificate SHA-256 fingerprint(s).
+
+# Historical compromised release signer (exposed in bc94477).
+10c13aa91cc14288df995095c6b620ff60f3c10e77fd6615635b150463e25b85
