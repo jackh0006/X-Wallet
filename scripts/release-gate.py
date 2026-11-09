@@ -110,6 +110,12 @@ EVIDENCE_ONLY_PATHS = {
 # commit without invalidating the wallet checks.
 RELEASE_TOOLING_PATHS = {
     "AGENTS.md",
+    "SECURITY_AUDIT.md",
+    "TEST_EVIDENCE.md",
+    "THREAT_MODEL.md",
+    "REMEDIATION.md",
+    "RELEASE_SECURITY.md",
+    "SECURITY_LIMITATIONS.md",
     "IMPLEMENTATION_STATUS.md",
     ".github/workflows/verify.yml",
     ".github/workflows/android-build.yml",
