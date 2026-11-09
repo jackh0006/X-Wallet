@@ -314,6 +314,7 @@ control the security boundary.
 | [Rename compatibility](docs/RENAME_COMPATIBILITY.md) | Preserved identifiers and package migration |
 | [Risk controls](docs/RISK_CONTROLS.md) | Spending controls and safe operation for larger balances |
 | [Data control and AI boundary](docs/DATA_CONTROL.md) | What stays local and what leaves the device |
+| [Builder and AI no-access guarantee](docs/NO_RUNTIME_ACCESS.md) | Signed proof that no builder or AI runtime channel exists |
 | [High-value custody](docs/HIGH_VALUE_CUSTODY.md) | Custody tiers and operating guidance |
 | [Release evidence](docs/RELEASE_EVIDENCE.md) | How releases are built and verified |
 | [Update playbook](docs/UPDATE_PLAYBOOK.md) | Change-scoped verification and the fast release path |
