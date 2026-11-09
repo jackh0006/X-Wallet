@@ -1,5 +1,5 @@
 {
-  "fileCount": 59,
+  "fileCount": 60,
   "files": [
     {
       "lines": 101,
@@ -67,9 +67,9 @@
       "tests": 8
     },
     {
-      "lines": 113,
+      "lines": 116,
       "path": "test/create_wallet_dialog_test.dart",
-      "sha256": "c23984165aed5768b70b077aacc1dbd301cab25bfac51b3ff72070bfaea5d86b",
+      "sha256": "e759c79c3b0f570f86557cdec9864e6287c627d5a58cf38b8886b7c7be162c8d",
       "tags": [],
       "tests": 3
     },
@@ -222,7 +222,7 @@
     {
       "lines": 309,
       "path": "test/navigation_flow_test.dart",
-      "sha256": "d167ce8b860ab11f3fa991af2683ade93a8305e2775d0af4df1c2bbae3e1c43c",
+      "sha256": "e793059c24798fa4ccb2a99815fe5f2cfd4949bf2f5adb7c5c6451fea98c2157",
       "tags": [],
       "tests": 3
     },
@@ -334,6 +334,13 @@
       "tests": 7
     },
     {
+      "lines": 50,
+      "path": "test/token_registry_test.dart",
+      "sha256": "8c6c9e134087405f2d09fb5c8a4072f83c1b9f0534e0d5207016c2e48a35ecec",
+      "tags": [],
+      "tests": 3
+    },
+    {
       "lines": 93,
       "path": "test/token_sources_test.dart",
       "sha256": "0a362fec85ec5603ea15faa7e3da88a173c815cda8ecdff41714c9f0f7a43bd4",
@@ -403,9 +410,9 @@
       "tests": 9
     },
     {
-      "lines": 175,
+      "lines": 193,
       "path": "test/wallet_core_test.dart",
-      "sha256": "c2b598f3c7c16f73f19b0a54d619b898c4f134fddaac5686cf174e96807e8a6b",
+      "sha256": "15ecc3a49c09229749aaa24562afddc9b2fd0d9eb33371e5da1c5681f6e36500",
       "tags": [],
       "tests": 12
     },
@@ -435,5 +442,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 344
+  "testCount": 347
 }

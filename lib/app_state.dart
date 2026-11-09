@@ -153,6 +153,12 @@ class AppState extends ChangeNotifier {
   List<WalletProfile> get profiles => List.unmodifiable(_profiles);
   List<RpcNode> get nodes => List.unmodifiable(_nodes);
   List<TokenInfo> get customTokens => List.unmodifiable(_customTokens);
+
+  /// Tokens that belong to the network the RPC is currently on.
+  List<TokenInfo> get tokensForNetwork => [
+    for (final token in _customTokens)
+      if (token.network == rpc.network) token,
+  ];
   Set<String> get hiddenTokens => Set.unmodifiable(_hiddenTokens);
   String _tokenKey(TokenInfo token) =>
       '${token.network}:${token.address.toLowerCase()}';
@@ -291,8 +297,14 @@ class AppState extends ChangeNotifier {
   // The password is never written to disk and never logged.
   String? _vaultSessionPassword;
   List<VaultAccount>? _vaultAccountsCache;
+  Set<String> _vaultKnownAddresses = {};
 
   bool get vaultUnlocked => _vaultAccountsCache != null;
+
+  /// True when [address] is known to be saved in the vault, even if the
+  /// vault list is currently locked for this session.
+  bool isSavedInVault(String address) =>
+      _vaultKnownAddresses.contains(address.toLowerCase());
   List<VaultAccount>? get vaultAccountsCache => _vaultAccountsCache == null
       ? null
       : List.unmodifiable(_vaultAccountsCache!);
@@ -449,6 +461,7 @@ class AppState extends ChangeNotifier {
     _unlocked = false;
     _vaultSessionPassword = null;
     _vaultAccountsCache = null;
+    _vaultKnownAddresses = {};
     notifyListeners();
   }
 
@@ -462,6 +475,7 @@ class AppState extends ChangeNotifier {
     _unlocked = false;
     _vaultSessionPassword = null;
     _vaultAccountsCache = null;
+    _vaultKnownAddresses = {};
     notifyListeners();
   }
 
@@ -1052,6 +1066,9 @@ class AppState extends ChangeNotifier {
     final accounts = await loadVaultAccounts(password);
     _vaultSessionPassword = password;
     _vaultAccountsCache = accounts;
+    _vaultKnownAddresses = {
+      for (final account in accounts) account.address.toLowerCase(),
+    };
     notifyListeners();
     return accounts;
   }
@@ -1113,6 +1130,7 @@ class AppState extends ChangeNotifier {
     String? mnemonic,
   }) async {
     await withVaultOperationLock(() async {
+      final originalBlob = await AppStorage.readVault();
       final existing = await _readVaultJson(password);
       final list = existing == null
           ? <Map<String, dynamic>>[]
@@ -1142,11 +1160,36 @@ class AppState extends ChangeNotifier {
         await AppStorage.getOrGenerateDeviceSecret(),
       );
       await AppStorage.writeVaultAtomic(blob);
+      // Never report "saved" until the written envelope decrypts and contains
+      // the account we just added. This catches a device-key or encoding
+      // mismatch at save time instead of at the next unlock.
+      try {
+        final verify = await _readVaultJson(password);
+        final present = verify?.any(
+          (item) => '${item['address']}'.toLowerCase() == address.toLowerCase(),
+        );
+        if (present != true) {
+          throw StateError('Vault save could not be verified.');
+        }
+      } catch (error) {
+        try {
+          if (originalBlob != null) {
+            await AppStorage.writeVaultAtomic(originalBlob);
+          } else {
+            await AppStorage.deleteVault();
+          }
+        } catch (_) {
+          // Keep the original verification error; the caller must not report
+          // success either way.
+        }
+        rethrow;
+      }
       _vaultExists = true;
       _vaultSessionPassword = password;
       _vaultAccountsCache = _accountsFromJson(
         List<Map<String, dynamic>>.from(list),
       );
+      _vaultKnownAddresses = {..._vaultKnownAddresses, address.toLowerCase()};
       notifyListeners();
     });
   }
@@ -1168,6 +1211,7 @@ class AppState extends ChangeNotifier {
       _vaultAccountsCache = _accountsFromJson(
         List<Map<String, dynamic>>.from(list),
       );
+      _vaultKnownAddresses.remove(address.toLowerCase());
       notifyListeners();
     });
   }
@@ -1608,6 +1652,28 @@ class AppState extends ChangeNotifier {
   /// - Never logs passwords, vault contents, seeds, or private keys
   /// - Prevents concurrent vault operations
   /// - Rejects symlink destinations
+  /// Returns the validated encrypted vault blob for an Android SAF export.
+  ///
+  /// The password is verified and the envelope format is checked before the
+  /// blob leaves the app. Nothing is written here.
+  Future<String> exportVaultBlob(String password) async {
+    if (!hasVault) throw StateError('No vault exists to export.');
+    if (password.isEmpty) throw ArgumentError('Password cannot be empty.');
+    return withVaultOperationLock(() async {
+      final json = await _readVaultJson(password);
+      if (json == null) {
+        throw StateError('Wrong vault password. Export aborted.');
+      }
+      final blob = await AppStorage.readVault();
+      if (blob == null) throw StateError('Vault file not found.');
+      _validateVaultMagic(blob);
+      if (blob.length > 5 * 1024 * 1024) {
+        throw StateError('Vault is too large. Export aborted.');
+      }
+      return blob;
+    });
+  }
+
   Future<void> exportVault(String password, String exportPath) async {
     if (!hasVault) throw StateError('No vault exists to export.');
     if (password.isEmpty) throw ArgumentError('Password cannot be empty.');
@@ -1981,6 +2047,7 @@ class AppState extends ChangeNotifier {
       _bscscanKey = null;
       _vaultSessionPassword = null;
       _vaultAccountsCache = null;
+      _vaultKnownAddresses = {};
       _pending = [];
       _unlocked = false;
       _vaultExists = false;

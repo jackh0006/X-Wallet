@@ -108,6 +108,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `cold_private_key_test.dart` | 3 | (light) | ✅ PASS | Private-key cold signing, wrong-key refusal, replay safety |
 | `legacy_migration_test.dart` | 2 | (light) | ✅ PASS | Legacy app-directory copy, no overwrite, 0600 device secret |
 | `public_defaults_test.dart` | 3 | (light) | ✅ PASS | HTTPS public RPC defaults, independent operators, defaults present |
+| `token_registry_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC names, BNB · BSC, lookalike unverified warning |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
 | `journey_map_test.dart` | 3 | (light) | ✅ PASS | 5-stop map, states, detail |

@@ -9,9 +9,9 @@ reading the source or testing the wallet yourself.
 
 | Item | Value |
 |---|---|
-| Release | **X Wallet 1.3.1** (`1.3.1+8`) |
-| Tag | `v1.3.1` |
-| Package | `x-wallet-1.3.1-amd64.deb` |
+| Release | **X Wallet 1.4.0** (`1.4.0+9`) |
+| Tag | `v1.4.0` |
+| Package | `x-wallet-1.4.0-amd64.deb` |
 | SHA-256 | `cd4e2fef17c907a88fa5e1dde96efc5f30bcc9ee7775157b7295a71097c8b0ec` |
 | SBOM | `docs/SBOM.json` — 116 packages |
 | Signature | `SHA256SUMS.asc` — EdDSA |
@@ -26,8 +26,8 @@ reading the source or testing the wallet yourself.
 |---|---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | PASS in 1.5 s | The source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | PASS, no issues | The wallet code has no analyzer findings. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 58/58 non-integration files, 0 failed, 0 timed out, 578 s | Unit, widget, vault, network, transaction, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 59 files / 344 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 59/59 non-integration files, 0 failed, 0 timed out, 688 s | Unit, widget, vault, network, transaction, and security tests pass. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 60 files / 347 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` | PASS: 5/5 mutations killed, 69 s | Deliberately broken security checks are caught by the tests. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | PASS | User-facing product identity is consistent. |
 | ✅ PASS | Localization | `flutter test test/localization_test.dart` | PASS | The runtime `Text` layer follows the selected locale. |
@@ -45,7 +45,7 @@ reading the source or testing the wallet yourself.
 
 | Mark | Check | Command / evidence | Result | What it proves |
 |---|---|---|---|---|
-| ✅ PASS | Production KDF | `flutter test test/kdf_production_test.dart` | PASS: native Argon2id 344 ms; pure-Dart cross-check; one real 64 MiB round-trip | The production key derivation path works with the fixed 64 MiB / t=3 / p=4 parameters. |
+| ✅ PASS | Production KDF | `flutter test test/kdf_production_test.dart` | PASS: native Argon2id 347 ms; pure-Dart cross-check; one real 64 MiB round-trip | The production key derivation path works with the fixed 64 MiB / t=3 / p=4 parameters. |
 | ✅ PASS | Independent cold signature | `(cd verification && npm ci && node verify.cjs)` | PASS: 8 substitutions rejected, ~7 s | A separate ethers.js implementation rebuilds and verifies signed transactions; tampered variants fail. |
 | ✅ PASS | Cold wallet protocol | `flutter test test/cold_wallet_protocol_test.dart` | PASS: 15 tests | Pairing, request, signature, checksum, expiry, and substitution rules are enforced. |
 | ✅ PASS | Cold wallet service | `flutter test test/cold_wallet_service_test.dart` | PASS: 15 tests | Persistence, replay protection, signing, verification, broadcast, and burn-list handling work. |
@@ -54,6 +54,18 @@ reading the source or testing the wallet yourself.
 | ✅ PASS | Vault encryption | `flutter test test/vault_test.dart` | PASS: 9 tests | Vault v2 round-trip, wrong password/device, fresh nonce, downgraded parameters, and v1 migration are covered. |
 | ✅ PASS | Release signing tools | `bash scripts/test_release_signing.sh` | PASS: 6 cases, 1.6 s | Valid signatures pass; wrong key, tampered package/sums, missing signature, and unknown key are rejected. |
 | ✅ PASS | Android signer inventory | `bash scripts/test_android_inventory.sh` | PASS | Signer fingerprints are read correctly and passwords do not leak into output. |
+
+## Android build and signing
+
+| Mark | Check | Command / evidence | Result | What it proves |
+|---|---|---|---|---|
+| ✅ PASS | Android arm64 build | `flutter build apk --release --target-platform android-arm64` | 27.4 MB; only `arm64-v8a` | A real arm64 APK is produced. |
+| ✅ PASS | Android universal build | `flutter build apk --release` | 67 MB; arm64, armv7, x86_64 | One APK works on every supported CPU. |
+| ✅ PASS | Android label | `aapt dump badging` | `application-label:'X Wallet'` | The Android name is X Wallet. |
+| ✅ PASS | Android application ID | `aapt dump badging` | `com.jackh0006.xwallet`, version 1.4.0 (9) | The package matches the Linux identity. |
+| ✅ PASS | APK signatures | `apksigner verify --print-certs` | signer `db12869c…48d3` | Both APKs are signed by the approved new key. |
+| ✅ PASS | Historical signer denylisted | `verify-android-signer.sh --require-deny` | PASS | The compromised old certificate cannot be accepted. |
+| ⚠ NOT TESTED | Android runtime | No KVM/ARM device in this environment | Emulator did not boot | Build/signature is verified; runtime must be checked on a real device. |
 
 ## Chain, transactions, and privacy
 

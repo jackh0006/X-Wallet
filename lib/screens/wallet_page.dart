@@ -3,6 +3,7 @@ import 'dart:async';
 import '../localized_text.dart';
 
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
@@ -10,6 +11,7 @@ import '../models.dart';
 import '../storage.dart' show DeviceKeyException;
 import '../vault.dart';
 import '../token_logos.dart';
+import '../token_registry.dart';
 import '../wallet_core.dart';
 import '../widgets/seed_picker.dart';
 import 'backup_quiz_dialog.dart';
@@ -48,61 +50,54 @@ class _VaultAccountTile extends StatelessWidget {
         side: BorderSide(
           color: isCurrent
               ? Colors.greenAccent.withValues(alpha: 0.5)
-              : Color(0x33808080),
+              : const Color(0x33808080),
         ),
       ),
       child: ListTile(
+        onTap: isCurrent ? null : onUnlock,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         leading: Icon(
-          isCurrent ? Icons.check_circle : Icons.lock_outline,
-          color: isCurrent ? Colors.greenAccent : Color(0xFF808080),
+          isCurrent ? Icons.check_circle : Icons.account_balance_wallet,
+          color: isCurrent ? Colors.greenAccent : const Color(0xFF9A9A9A),
         ),
         title: Text(
           account.label,
           style: TextStyle(
-            fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isCurrent ? FontWeight.bold : FontWeight.w600,
           ),
         ),
         subtitle: Text(
-          '${shortAddress(account.address)}  •  ${account.savedAt != null ? 'saved ${_formatDate(account.savedAt!)}' : ''}',
-          style: const TextStyle(fontSize: 11, fontFamily: 'monospace'),
+          shortAddress(account.address),
+          style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (!isCurrent)
-              IconButton(
-                icon: const Icon(Icons.lock_open, size: 18),
-                tooltip: tr(context, 'Unlock this account'),
-                onPressed: onUnlock,
-              ),
-            IconButton(
-              icon: const Icon(Icons.edit, size: 18),
-              tooltip: tr(context, 'Rename'),
-              onPressed: onRename,
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.delete_outline,
-                size: 18,
-                color: Colors.redAccent,
-              ),
-              tooltip: tr(context, 'Delete from vault'),
-              onPressed: onDelete,
+            if (isCurrent)
+              const Text(
+                'In use',
+                style: TextStyle(
+                  color: Colors.greenAccent,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            else
+              FilledButton(onPressed: onUnlock, child: const Text('Use')),
+            PopupMenuButton<String>(
+              tooltip: 'More',
+              onSelected: (value) {
+                if (value == 'rename') onRename();
+                if (value == 'remove') onDelete();
+              },
+              itemBuilder: (_) => const [
+                PopupMenuItem(value: 'rename', child: Text('Rename')),
+                PopupMenuItem(value: 'remove', child: Text('Remove')),
+              ],
             ),
           ],
         ),
       ),
     );
-  }
-
-  String _formatDate(String iso) {
-    try {
-      final dt = DateTime.parse(iso);
-      return '${dt.day}/${dt.month}/${dt.year}';
-    } catch (_) {
-      return iso;
-    }
   }
 }
 
@@ -367,8 +362,6 @@ class _WalletPageState extends State<WalletPage>
               const SizedBox(height: 14),
               _historyCard(),
             ],
-            const SizedBox(height: 14),
-            _dangerCard(),
           ],
         ),
       ),
@@ -382,40 +375,58 @@ class _WalletPageState extends State<WalletPage>
         children: [
           const Text(
             'Wallet',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           const Text(
-            'Create a new BIP-39 wallet or import an existing private key, recovery phrase, '
-            'Ethereum V3 keystore file, or encrypted local vault.',
+            'Create a wallet, import one, or open a wallet you already saved.',
+            style: TextStyle(fontSize: 14),
           ),
           const SizedBox(height: 16),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              FilledButton.icon(
-                onPressed: () => _showAddWalletDialog(context),
-                icon: const Icon(Icons.person_add_alt_1),
-                label: const Text('Add wallet'),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () => showCreateWalletDialog(context),
+              icon: const Icon(Icons.add),
+              label: const Text('Create a new wallet'),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              FilledButton.icon(
-                onPressed: () => showCreateWalletDialog(context),
-                icon: const Icon(Icons.add),
-                label: const Text('Create wallet'),
-              ),
-              OutlinedButton.icon(
-                onPressed: () => showImportWalletDialog(context),
-                icon: const Icon(Icons.file_download),
-                label: const Text('Import'),
-              ),
-              OutlinedButton.icon(
-                onPressed: () => showUnlockVaultDialog(context),
-                icon: const Icon(Icons.lock_open),
-                label: const Text('Unlock vault'),
-              ),
-            ],
+            ),
           ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => showImportWalletDialog(context),
+              icon: const Icon(Icons.file_download),
+              label: const Text('Import a wallet'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(fontSize: 15),
+              ),
+            ),
+          ),
+          if (appState.hasVault) ...[
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () =>
+                    showUnlockVaultDialog(context, jumpToWalletTab: true),
+                icon: const Icon(Icons.lock_open),
+                label: const Text('Open a saved wallet'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  textStyle: const TextStyle(fontSize: 15),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -423,6 +434,8 @@ class _WalletPageState extends State<WalletPage>
 
   Widget _unlockedCard() {
     final address = appState.address!;
+    final label = _currentWalletLabel(appState.profiles, address);
+    final saved = _currentWalletSaved(address);
     return InfoCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,12 +443,24 @@ class _WalletPageState extends State<WalletPage>
           Row(
             children: [
               Expanded(
-                child: Text(
-                  shortAddress(address),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      shortAddress(address),
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        color: Color(0xFF6E6E6E),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               IconButton(
@@ -450,8 +475,8 @@ class _WalletPageState extends State<WalletPage>
               ),
             ],
           ),
-          const SizedBox(height: 6),
           if (appState.watchOnly) ...[
+            const SizedBox(height: 6),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
@@ -459,24 +484,115 @@ class _WalletPageState extends State<WalletPage>
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Watch-only · this device holds no key for this address',
+                'Watch-only · no key on this device',
                 style: TextStyle(color: Color(0xFFF0B90B), fontSize: 12),
               ),
             ),
-            const SizedBox(height: 6),
           ],
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'Balances',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+          const SizedBox(height: 12),
+          if (saved)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0x224CAF50),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.check_circle, color: Colors.greenAccent, size: 18),
+                  SizedBox(width: 6),
+                  Text(
+                    'Saved in vault',
+                    style: TextStyle(
+                      color: Colors.greenAccent,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (!appState.watchOnly) ...[
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: saved ? null : () => _saveVault(context),
+                icon: Icon(saved ? Icons.check : Icons.save_outlined),
+                label: Text(saved ? 'Saved in vault' : 'Save to vault'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => appState.focusTab(2),
+                    icon: const Icon(Icons.send, size: 18),
+                    label: const Text('Send'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => showQrDialog(context, address),
+                    icon: const Icon(Icons.qr_code_2, size: 18),
+                    label: const Text('Receive'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      appState.lock();
+                      if (mounted) setState(() {});
+                    },
+                    icon: const Icon(Icons.lock_outline, size: 18),
+                    label: const Text('Lock'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Text(
+                'Balances',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
               IconButton(
                 tooltip: tr(context, 'Refresh balances'),
                 icon: const Icon(Icons.refresh, size: 18),
                 onPressed: _loadBalancesSummary,
+              ),
+              PopupMenuButton<String>(
+                tooltip: 'More',
+                onSelected: (value) {
+                  if (!mounted) return;
+                  if (value == 'secrets') _revealSecrets(context);
+                  if (value == 'rename') _renameCurrentWallet(context);
+                  if (value == 'profile') _saveProfile(context);
+                },
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: 'secrets',
+                    child: Text('Show recovery phrase / key'),
+                  ),
+                  PopupMenuItem(value: 'rename', child: Text('Rename wallet')),
+                  PopupMenuItem(
+                    value: 'profile',
+                    child: Text('Save public profile'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -494,7 +610,7 @@ class _WalletPageState extends State<WalletPage>
                 decimals: 18,
                 native: true,
               ),
-              ...appState.rpc.tokens,
+              ...appState.tokensForNetwork,
             ])
               if (_balances!.containsKey(token.symbol) &&
                   !appState.isTokenHidden(token))
@@ -507,15 +623,18 @@ class _WalletPageState extends State<WalletPage>
                       Expanded(
                         child: Text(
                           _balances![token.symbol]! < BigInt.zero
-                              ? '${token.symbol}: unavailable right now'
-                              : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${token.symbol}',
+                              ? '${TokenRegistry.of(token).symbol}: unavailable right now'
+                              : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.label(token)}',
                           style: const TextStyle(fontSize: 14),
                         ),
                       ),
                       if (!token.native)
                         IconButton(
                           visualDensity: VisualDensity.compact,
-                          tooltip: tr(context, 'Hide ${token.symbol}'),
+                          tooltip: tr(
+                            context,
+                            'Hide ${TokenRegistry.of(token).symbol}',
+                          ),
                           icon: const Icon(
                             Icons.visibility_off_outlined,
                             size: 16,
@@ -533,53 +652,18 @@ class _WalletPageState extends State<WalletPage>
                     ],
                   ),
                 ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              if (!appState.watchOnly) ...[
-                OutlinedButton.icon(
-                  onPressed: () => _revealSecrets(context),
-                  icon: const Icon(Icons.visibility),
-                  label: const Text('Reveal secrets'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () => _saveVault(context),
-                  icon: const Icon(Icons.save_outlined),
-                  label: const Text('Save to vault'),
-                ),
-              ],
-              OutlinedButton.icon(
-                onPressed: () => _saveProfile(context),
-                icon: const Icon(Icons.bookmark_add_outlined),
-                label: const Text('Save profile'),
-              ),
-              if (appState.watchOnly)
-                OutlinedButton.icon(
-                  onPressed: () async {
-                    await appState.closeWatchOnly();
-                    if (!mounted) return;
-                    showInfo(context, 'Watch-only profile closed.');
-                  },
-                  icon: const Icon(Icons.visibility_off_outlined),
-                  label: const Text('Close watch profile'),
-                ),
-            ],
-          ),
         ],
       ),
     );
   }
 
+  bool _currentWalletSaved(String address) => appState.isSavedInVault(address);
+
   /// Comprehensive wallet management: current wallet, vault accounts, profiles.
   /// Each wallet entry manages its own secrets independently.
 
   Widget _walletsCard() {
-    final profiles = appState.profiles;
-    final currentAddress = appState.address;
-    final currentSource = appState.mnemonic != null ? 'phrase' : 'key';
-
+    if (!appState.hasVault) return const SizedBox.shrink();
     return InfoCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -588,298 +672,62 @@ class _WalletPageState extends State<WalletPage>
             children: [
               const Expanded(
                 child: Text(
-                  'Wallet manager',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  'Saved wallets',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              OutlinedButton.icon(
-                icon: const Icon(Icons.person_add_alt_1, size: 18),
-                label: const Text('Add wallet'),
-                onPressed: () async {
-                  if (appState.hasVault && !appState.vaultUnlocked) {
-                    await _unlockVaultForManagement();
-                    if (!mounted || !appState.vaultUnlocked) return;
-                  }
-                  if (mounted) await _showAddWalletDialog(context);
-                },
-              ),
-              if (currentAddress != null) const SizedBox(width: 8),
-              if (currentAddress != null)
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.lock_outline, size: 18),
-                  label: const Text('Lock'),
+              if (appState.vaultUnlocked)
+                TextButton.icon(
                   onPressed: () async {
-                    appState.lockVaultSession();
-                    appState.lock();
-                    if (mounted) setState(() {});
+                    if (mounted) await _showAddWalletDialog(context);
                   },
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text('Add'),
                 ),
             ],
           ),
-          const SizedBox(height: 6),
-          const Text(
-            'Every wallet keeps its own secret in the encrypted vault. '
-            'Unlock once to switch, rename, or remove accounts.',
-            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
-          ),
-          const SizedBox(height: 10),
-          if (currentAddress != null)
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0x224CAF50),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Colors.greenAccent.withValues(alpha: 0.5),
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.account_balance_wallet,
-                    color: Colors.greenAccent,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Active: ${_currentWalletLabel(profiles, currentAddress)}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          '$currentAddress  •  source: $currentSource',
-                          style: const TextStyle(
-                            color: Color(0xFF6E6E6E),
-                            fontSize: 12,
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.key, size: 18),
-                    label: const Text('Show secrets'),
-                    onPressed: () => _revealSecrets(context),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit_outlined, size: 18),
-                    tooltip: tr(context, 'Rename wallet'),
-                    onPressed: () => _renameCurrentWallet(context),
-                  ),
-                  const SizedBox(width: 8),
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.save, size: 18),
-                    label: const Text('Storage'),
-                    onPressed: () => _chooseSecretStorage(context),
-                  ),
-                ],
-              ),
-            )
-          else
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0x22FF6B6B),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Colors.redAccent.withValues(alpha: 0.5),
-                ),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.lock_open, color: Colors.redAccent),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'No wallet unlocked. Create, import, or unlock a vault '
-                      'account below.',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          const SizedBox(height: 12),
           _vaultAccountsSection(),
-          if (profiles.isNotEmpty) ...[
-            const Divider(),
-            const SizedBox(height: 8),
-            const Text(
-              'Public profiles (labels only)',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Just labels and addresses for quick reference. No secrets stored.',
-              style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-            ),
-            const SizedBox(height: 8),
-            for (var i = 0; i < profiles.length; i++)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(
-                  Icons.bookmark_outline,
-                  color: Color(0xFF808080),
-                ),
-                title: Text(profiles[i].label),
-                subtitle: Text(shortAddress(profiles[i].address)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, size: 18),
-                      onPressed: () async {
-                        final label = await promptText(
-                          context,
-                          title: 'Rename profile',
-                          initialValue: profiles[i].label,
-                          label: 'Label',
-                        );
-                        if (label != null && label.isNotEmpty) {
-                          await appState.renameProfile(i, label);
-                          if (mounted) setState(() {});
-                        }
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline, size: 18),
-                      onPressed: () => appState.deleteProfile(i),
-                    ),
-                  ],
-                ),
-              ),
-          ],
         ],
       ),
     );
   }
 
   Widget _vaultAccountsSection() {
-    const titleStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 14);
-    if (!appState.hasVault) {
-      return Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0x11FFFFFF),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0x33808080)),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.lock_outline, color: Color(0xFF808080)),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'No encrypted vault yet',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'Save the unlocked wallet to create a vault. The same '
-                    'vault password protects every wallet you add.',
-                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.add, size: 18),
-              label: const Text('Create vault'),
-              onPressed: () => _createVault(context),
-            ),
-          ],
-        ),
-      );
-    }
-
     final accounts = appState.vaultAccountsCache;
     if (accounts == null) {
-      return Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0x11FFFFFF),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0x33808080)),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.lock_outline, color: Color(0xFF808080)),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Encrypted vault is locked',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'Unlock once to list, switch, rename, or remove wallets.',
-                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            FilledButton.icon(
-              icon: const Icon(Icons.lock_open, size: 18),
-              label: const Text('Unlock vault'),
-              onPressed: _unlockVaultForManagement,
-            ),
-          ],
+      return SizedBox(
+        width: double.infinity,
+        child: FilledButton.icon(
+          onPressed: _unlockVaultForManagement,
+          icon: const Icon(Icons.lock_open),
+          label: const Text('Unlock saved wallets'),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 13),
+            textStyle: const TextStyle(fontSize: 15),
+          ),
         ),
       );
     }
-
+    if (accounts.isEmpty) {
+      return const Text(
+        'No saved wallets yet. Use Add, then Save to vault.',
+        style: TextStyle(color: Color(0xFF6E6E6E)),
+      );
+    }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            const Expanded(
-              child: Text('Encrypted vault accounts', style: titleStyle),
-            ),
-            TextButton.icon(
-              onPressed: () async {
-                if (mounted) await _showAddWalletDialog(context);
-              },
-              icon: const Icon(Icons.add, size: 18),
-              label: const Text('Add wallet'),
-            ),
-          ],
-        ),
-        const Text(
-          'The same vault password protects every account. Unlock a row to '
-          'make it active; rename or remove it without leaving this screen.',
-          style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-        ),
-        const SizedBox(height: 8),
-        if (accounts.isEmpty)
-          const Text(
-            'Vault has no accounts yet. Use Add wallet to save one.',
-            style: TextStyle(color: Color(0xFF6E6E6E)),
-          )
-        else
-          for (var i = 0; i < accounts.length; i++)
-            _VaultAccountTile(
-              index: i,
-              account: accounts[i],
-              isCurrent:
-                  appState.address != null &&
-                  appState.address!.toLowerCase() ==
-                      accounts[i].address.toLowerCase(),
-              onUnlock: () => _switchVaultAccount(i),
-              onDelete: () => _deleteVaultAccount(i, accounts[i]),
-              onRename: () => _renameVaultAccount(i, accounts[i]),
-            ),
-        const SizedBox(height: 6),
+        for (var i = 0; i < accounts.length; i++)
+          _VaultAccountTile(
+            index: i,
+            account: accounts[i],
+            isCurrent:
+                appState.address != null &&
+                appState.address!.toLowerCase() ==
+                    accounts[i].address.toLowerCase(),
+            onUnlock: () => _switchVaultAccount(i),
+            onDelete: () => _deleteVaultAccount(i, accounts[i]),
+            onRename: () => _renameVaultAccount(i, accounts[i]),
+          ),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton.icon(
@@ -888,7 +736,7 @@ class _WalletPageState extends State<WalletPage>
               if (mounted) setState(() {});
             },
             icon: const Icon(Icons.lock_outline, size: 16),
-            label: const Text('Lock vault list'),
+            label: const Text('Lock list'),
           ),
         ),
       ],
@@ -996,17 +844,6 @@ class _WalletPageState extends State<WalletPage>
     } catch (error) {
       if (mounted) showError(context, _vaultOpenError(error));
     }
-  }
-
-  Future<void> _createVault(BuildContext context) async {
-    if (!appState.unlocked || appState.privateKey == null) {
-      showError(
-        context,
-        'Unlock or create a wallet first, then save it to create the vault.',
-      );
-      return;
-    }
-    await _saveVault(context);
   }
 
   Widget _historyCard() {
@@ -1166,92 +1003,129 @@ class _WalletPageState extends State<WalletPage>
     );
   }
 
-  Widget _dangerCard() {
-    return InfoCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Sensitive actions',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Revealing a private key or recovery phrase gives anyone who sees the screen full control. '
-            'Never share them, never type them into a website.',
-            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              OutlinedButton.icon(
-                onPressed: () => appState.lock(),
-                icon: const Icon(Icons.lock_outline),
-                label: const Text('Lock wallet'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _revealSecrets(BuildContext context) async {
     final confirmed = await confirmDialog(
       context,
       title: 'Reveal secrets?',
-      message: 'Anyone who can see this screen can steal all funds. Only reveal secrets on a trusted, private device.',
+      message:
+          'Anyone who can see this screen can steal all funds. Only reveal '
+          'secrets on a trusted, private device.',
       confirmLabel: 'Reveal',
     );
     if (!confirmed || !context.mounted) return;
     final key = appState.privateKey!;
     final privateKey = WalletCore.privateKeyHex(key);
+    final rawKey = privateKey.substring(2);
     final mnemonic = appState.mnemonic;
+    final address = appState.address!;
     if (!context.mounted) return;
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Sensitive export'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Only copy a secret when you are restoring it now. '
-                'The clipboard may be visible to other applications.',
-              ),
-              const SizedBox(height: 14),
-              const Text(
-                'Private key',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SelectableText(
-                privateKey,
-                style: const TextStyle(fontFamily: 'monospace'),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Recovery phrase',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SelectableText(mnemonic ?? 'Not available for this import.'),
-            ],
+        title: const Text('Show private key'),
+        content: SizedBox(
+          width: 540,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Only copy a secret when you are restoring it now. The '
+                  'clipboard is cleared after 15 seconds, but other apps may '
+                  'read it first.',
+                ),
+                const SizedBox(height: 14),
+                const Text(
+                  'Address',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SelectableText(
+                  address,
+                  style: const TextStyle(fontFamily: 'monospace'),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Private key (0x, 66 characters)',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SelectableText(
+                  privateKey,
+                  style: const TextStyle(fontFamily: 'monospace'),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Private key (raw, 64 characters)',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SelectableText(
+                  rawKey,
+                  style: const TextStyle(fontFamily: 'monospace'),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Recovery phrase',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SelectableText(mnemonic ?? 'Not available for this import.'),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: OutlinedButton.icon(
+                    onPressed: () => showDialog<void>(
+                      context: dialogContext,
+                      builder: (qrContext) => AlertDialog(
+                        title: const Text('Private key QR'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.all(10),
+                              child: QrImageView(
+                                data: privateKey,
+                                size: 260,
+                                backgroundColor: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Anyone who scans this can take the funds.',
+                              style: TextStyle(color: Colors.redAccent),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(qrContext),
+                            child: const Text('Close'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    icon: const Icon(Icons.qr_code_2),
+                    label: const Text('Show private-key QR'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () =>
                 _copySecret(dialogContext, privateKey, 'Private key'),
-            child: const Text('Copy private key'),
+            child: const Text('Copy 0x key'),
+          ),
+          TextButton(
+            onPressed: () => _copySecret(dialogContext, rawKey, 'Raw key'),
+            child: const Text('Copy raw key'),
           ),
           if (mnemonic != null)
             TextButton(
               onPressed: () =>
                   _copySecret(dialogContext, mnemonic, 'Recovery phrase'),
-              child: const Text('Copy recovery phrase'),
+              child: const Text('Copy phrase'),
             ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
@@ -1341,17 +1215,15 @@ class _WalletPageState extends State<WalletPage>
       );
       return;
     }
-    final label = await promptText(
-      context,
-      title: 'Wallet name in vault',
-      label: 'Name',
-      initialValue: 'Wallet ${appState.profiles.length + 1}',
-    );
-    if (label == null || label.trim().isEmpty || !context.mounted) return;
+    final address = appState.address!;
+    final profileLabel = _currentWalletLabel(appState.profiles, address);
+    final label = profileLabel == 'Unnamed wallet'
+        ? 'My wallet ${appState.profiles.length + 1}'
+        : profileLabel;
     try {
       if (appState.vaultUnlocked) {
         await appState.saveVaultAccountWithSession(
-          label: label.trim(),
+          label: label,
           key: appState.privateKey!,
           mnemonic: appState.mnemonic,
         );
@@ -1360,50 +1232,22 @@ class _WalletPageState extends State<WalletPage>
         if (password == null || !context.mounted) return;
         await appState.saveVaultAccount(
           password,
-          label: label.trim(),
+          label: label,
           key: appState.privateKey!,
           mnemonic: appState.mnemonic,
         );
       }
       if (context.mounted) {
-        showInfo(context, 'Wallet saved to the encrypted vault.');
+        showInfo(
+          context,
+          'Saved. Lock the wallet, then unlock the vault with the same password.',
+        );
         setState(() {});
       }
     } catch (error) {
-      if (context.mounted) showError(context, error);
-    }
-  }
-
-  Future<void> _chooseSecretStorage(BuildContext context) async {
-    final choice = await showDialog<String>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Secret storage'),
-        content: const Text(
-          'Encrypted vault is the only persistent secret storage offered. '
-          'It uses your password plus this device’s protected key. Plaintext '
-          'private keys on disk are unsafe and are intentionally not supported.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, 'session'),
-            child: const Text('Keep session-only'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, 'vault'),
-            child: const Text('Save encrypted vault'),
-          ),
-        ],
-      ),
-    );
-    if (!context.mounted || choice == null) return;
-    if (choice == 'vault') {
-      await _saveVault(context);
-    } else {
-      showInfo(
-        context,
-        'Secret remains in memory only and is cleared when locked.',
-      );
+      if (context.mounted) {
+        showError(context, 'Could not save: ${_vaultOpenError(error)}');
+      }
     }
   }
 
@@ -1535,6 +1379,139 @@ Future<void> _showAddWalletDialog(BuildContext context) async {
   }
 }
 
+/// Choose one of the standard EVM derivation paths for an imported phrase.
+Future<String?> showDerivationPathPicker(BuildContext context) async {
+  var label = WalletCore.standardPaths.keys.first;
+  final indexController = TextEditingController(text: '0');
+  final customController = TextEditingController();
+  String? error;
+  try {
+    return await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setState) {
+          final index = int.tryParse(indexController.text.trim());
+          final path = label == 'Custom'
+              ? customController.text.trim()
+              : (index != null && index >= 0
+                    ? WalletCore.pathForLabel(label, index)
+                    : '');
+          return AlertDialog(
+            title: const Text('Derivation path'),
+            content: SizedBox(
+              width: 460,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InputDecorator(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: label,
+                          items: [
+                            for (final entry in WalletCore.standardPaths.keys)
+                              DropdownMenuItem(
+                                value: entry,
+                                child: Text(
+                                  entry,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                          ],
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() {
+                              label = value;
+                              error = null;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      WalletCore.standardPathDescriptions[label] ?? '',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF8A8A8A),
+                      ),
+                    ),
+                    if (label != 'Custom') ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: indexController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Wallet / address index',
+                          helperText: '0 = first, 1 = second, and so on',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (_) => setState(() => error = null),
+                      ),
+                    ] else ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: customController,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        decoration: const InputDecoration(
+                          labelText: 'Custom BIP-32 path',
+                          hintText: "m/44'/60'/0'/0/0",
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (_) => setState(() => error = null),
+                      ),
+                    ],
+                    const SizedBox(height: 10),
+                    SelectableText(
+                      path.isEmpty ? 'Enter a valid path.' : path,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                      ),
+                    ),
+                    if (error != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        error!,
+                        style: const TextStyle(color: Colors.redAccent),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('Cancel'),
+              ),
+              FilledButton(
+                onPressed: () {
+                  if (!RegExp(r"^m(/\d+'?)+$").hasMatch(path)) {
+                    setState(() => error = 'Enter a valid BIP-32 path.');
+                    return;
+                  }
+                  Navigator.pop(dialogContext, path);
+                },
+                child: const Text('Use this path'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  } finally {
+    indexController.dispose();
+    customController.dispose();
+  }
+}
+
 Future<void> showCreateWalletDialog(BuildContext context) async {
   var kind = _CreateKind.phrase;
   var wordCount = 24;
@@ -1554,13 +1531,11 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
     builder: (dialogContext) => StatefulBuilder(
       builder: (dialogContext, setState) {
         final accountIndex = int.tryParse(accountIndexController.text.trim());
-        final resolvedPath = pathLabel == 'Standard EVM'
-            ? (accountIndex != null && accountIndex >= 0
-                  ? WalletCore.standardPathForAccount(accountIndex)
-                  : '')
-            : pathLabel == 'Custom'
+        final resolvedPath = pathLabel == 'Custom'
             ? customPathController.text.trim()
-            : WalletCore.standardPaths[pathLabel]!;
+            : (accountIndex != null && accountIndex >= 0
+                  ? WalletCore.pathForLabel(pathLabel, accountIndex)
+                  : '');
         return AlertDialog(
           title: const Text('Create wallet'),
           content: SingleChildScrollView(
@@ -1667,15 +1642,8 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      pathLabel == 'Standard EVM'
-                          ? "m/44'/60'/0'/0/0 — the same first-account path "
-                                'used by MetaMask, Trust Wallet, SafePal, Ledger '
-                                'Live and Trezor. Change the account index for '
-                                'additional accounts.'
-                          : pathLabel == 'Ledger Legacy (MEW)'
-                          ? "m/44'/60'/0'/0 — older MEW and Ledger setups."
-                          : 'Enter any BIP-32 path, for example '
-                                "m/44'/60'/0'/0/0.",
+                      WalletCore.standardPathDescriptions[pathLabel] ??
+                          'Enter any BIP-32 path.',
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(dialogContext)
@@ -1683,14 +1651,14 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                             .onSurfaceVariant,
                       ),
                     ),
-                    if (pathLabel == 'Standard EVM') ...[
+                    if (pathLabel != 'Custom') ...[
                       const SizedBox(height: 12),
                       TextField(
                         controller: accountIndexController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: tr(context, 'Account index'),
-                          helperText: '0 = first account, 1 = second account',
+                          labelText: tr(context, 'Wallet / address index'),
+                          helperText: '0 = first, 1 = second, and so on',
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (_) =>
@@ -1875,13 +1843,11 @@ Future<void> showCreateWalletDialog(BuildContext context) async {
                   final index = int.tryParse(
                     accountIndexController.text.trim(),
                   );
-                  final path = pathLabel == 'Standard EVM'
-                      ? (index != null && index >= 0
-                            ? WalletCore.standardPathForAccount(index)
-                            : '')
-                      : pathLabel == 'Custom'
+                  final path = pathLabel == 'Custom'
                       ? customPathController.text.trim()
-                      : WalletCore.standardPaths[pathLabel]!;
+                      : (index != null && index >= 0
+                            ? WalletCore.pathForLabel(pathLabel, index)
+                            : '');
                   if (!RegExp(r"^m(/\d+'?)+$").hasMatch(path)) {
                     setState(
                       () => validationError =
@@ -2363,10 +2329,8 @@ Future<void> _importPrivateKey(BuildContext context) async {
     await appState.unlock(key);
     appState.focusTab(1); // the wallet must visibly appear, not just a message
     if (context.mounted) showInfo(context, 'Wallet imported and unlocked.');
-    // A raw private key is already the complete backup. Do not add an
-    // encrypted secret store without an explicit choice in Wallet manager.
     if (!context.mounted) return;
-    await _offerProfileOnly(context);
+    await showOfferProfileAndVault(context);
   } catch (error) {
     if (context.mounted) showError(context, error);
   }
@@ -2381,12 +2345,7 @@ Future<void> _importPhrase(BuildContext context) async {
   if (!context.mounted) return;
   phrase ??= await showSeedPicker(context, wordCount: 12);
   if (phrase == null || !context.mounted) return;
-  final path = await promptText(
-    context,
-    title: 'Derivation path',
-    label: 'Path',
-    initialValue: WalletCore.defaultPath,
-  );
+  final path = await showDerivationPathPicker(context);
   if (path == null || !context.mounted) return;
   final passphrase = await promptText(
     context,

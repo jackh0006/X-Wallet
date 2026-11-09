@@ -3,6 +3,25 @@
 All notable changes to this wallet. Dates in 2026; releases identify their
 supported artifacts explicitly.
 
+## 1.4.0+9 — Android release, same wallet everywhere
+
+- **Android arm64 and universal APKs** with the same logo, label, colors,
+  languages, vault, tokens, spending controls, and cold-signing protocol as
+  Linux.
+- **Android identity aligned:** `com.jackh0006.xwallet`, X Wallet label,
+  regenerated launcher icons, biometric `FlutterFragmentActivity`, and
+  `USE_BIOMETRIC`.
+- **Android-specific correctness:** Android Keystore device secret, app-sandbox
+  storage, Storage Access Framework file picker for backups and cold payloads,
+  screenshot blocking, no broad storage permission.
+- **Tor on Android via Orbot:** external SOCKS on 127.0.0.1:9050, fail closed,
+  with a plain-language guide.
+- **Linux application name fixed to X Wallet.**
+- **New Android release signer** generated outside the repository; the
+  historical compromised signer is denylisted.
+- **Token display improvements:** canonical BSC names and symbols, BNB · BSC,
+  and an unverified warning for lookalike contracts.
+
 ## 1.3.1+8 — vault unlock and About version fix
 
 - **Vault unlock root cause fixed:** a private key stored with an insignificant

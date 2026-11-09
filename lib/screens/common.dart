@@ -10,6 +10,7 @@ import '../app_state.dart';
 import '../models.dart';
 import '../rpc_service.dart';
 import '../wallet_core.dart';
+import '../platform_files.dart';
 
 /// Small shared UI helpers for every screen.
 class SectionTitle extends StatelessWidget {
@@ -236,7 +237,7 @@ Future<Map<String, BigInt>> loadBalances(String address) async {
       decimals: 18,
       native: true,
     ),
-    ...rpc.tokens,
+    ...appState.tokensForNetwork,
   ];
   final out = <String, BigInt>{};
   for (final token in tokens) {
@@ -258,7 +259,11 @@ String explorerUrl(String network, String path) =>
 
 /// Writes a secret to a file for the user to export. Used only for explicit
 /// backup actions; the file is never uploaded.
-Future<String> exportToFile(String fileName, String content) async {
+Future<String?> exportToFile(String fileName, String content) async {
+  if (PlatformFiles.isAndroid) {
+    final saved = await PlatformFiles.saveText(fileName, content);
+    return saved ? 'the location you chose' : null;
+  }
   final dir = Directory.systemTemp;
   final file = File('${dir.path}/$fileName');
   await file.writeAsString(content, flush: true);
@@ -266,7 +271,14 @@ Future<String> exportToFile(String fileName, String content) async {
 }
 
 /// Binary sibling of [exportToFile] for receipt images.
-Future<String> exportBytesToFile(String fileName, List<int> bytes) async {
+Future<String?> exportBytesToFile(String fileName, List<int> bytes) async {
+  if (PlatformFiles.isAndroid) {
+    final saved = await PlatformFiles.saveBytes(
+      fileName,
+      Uint8List.fromList(bytes),
+    );
+    return saved ? 'the location you chose' : null;
+  }
   final dir = Directory.systemTemp;
   final file = File('${dir.path}/$fileName');
   await file.writeAsBytes(bytes, flush: true);

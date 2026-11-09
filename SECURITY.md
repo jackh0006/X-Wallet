@@ -34,7 +34,7 @@ engineering work, not an audit opinion.
 
 | Version | Status |
 |---|---|
-| `1.3.1` | Current stable release; signed with owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| `1.4.0` | Current stable release; signed with owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 | `1.2.0` | Previous stable release; superseded by 1.3.0 |
 | `1.0.10` and earlier | Historical; use their release notes and do not treat old results as evidence for a new build |
 | Any Android APK | **Blocked** until the historical signing key is rotated and denylisted |
