@@ -80,6 +80,8 @@ RELEASE_TOOLING_PATHS = {
     "AGENTS.md",
     "IMPLEMENTATION_STATUS.md",
     ".github/workflows/verify.yml",
+    ".github/workflows/android-build.yml",
+    "android/gradle.properties",
     ".github/workflows/benchmark.yml",
     "scripts/check_branding.py",
     "scripts/check_free_product.py",

@@ -19,7 +19,7 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 93eaabf6b05811782d60625d8fcf9251330a5208ef727b4e048979968098a222 |
+| SBOM SHA-256 | 66d6f0c37f5d8e516309167cc42b4f35f59c9dd56310780da56d9949f9001eaf |
 
 ## Test inventory
 
@@ -34,28 +34,32 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| backup-e2e | 0 | 11.023 | yes | c60e82b5403835e1 |
-| cold-signature | 0 | 5.182 | yes | d1a7cb52ed24b0ce |
-| data-boundary | 0 | 7.745 | yes | 0b6069e2112161a2 |
-| deb-build | 0 | 28.046 | yes | f4b0b5a50a866124 |
-| deb-signature | 0 | 0.108 | yes | 023d35ad20fe3864 |
-| dependency-audit | 0 | 4.34 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 584.618 | yes | be1f7b784317a40e |
-| identity-negative-tests | 0 | 0.547 | yes | c13bc4062bff62d1 |
-| install-smoke | 0 | 171 | yes | — |
-| integration | 0 | 13.515 | yes | 923fc43acc8ddb66 |
-| license-inventory | 0 | 0.334 | yes | ab9b22cbedaa80d3 |
-| linux-build | 0 | 113.526 | yes | ceb4fad44ba25641 |
-| release-evidence | 0 | 0.048 | yes | 75c22a5e82dc5a26 |
-| release-signing-tests | 0 | 1.176 | yes | 48053f9508e2c324 |
-| reproducibility | 0 | 244.518 | yes | 22a73dc3c3ba05a0 |
-| sbom | 0 | 0.101 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 3.007 | yes | 7ff728a5877b4846 |
-| security-mutation | 0 | 73.021 | yes | d04b5408453d3d8d |
-| static-analysis | 0 | 13.198 | yes | c12cfac47c995520 |
-| test-inventory | 0 | 0.095 | yes | 616a5e5f2a49ed5b |
-| vault-multi-wallet | 0 | 8.776 | yes | 3e963d1d76a1ff77 |
-| wallet-vault-normalization | 0 | 10.732 | yes | ad32aea9dfc0568e |
+| android-arm64-build | 0 | 306 | yes | — |
+| android-signer | 0 | 2 | yes | — |
+| android-universal-build | 0 | 936 | yes | — |
+| backup-e2e | 0 | 11.983 | yes | 6629cc627168d087 |
+| cold-signature | 0 | 7.44 | yes | 6106b0f1548c63eb |
+| create-wallet-paths | 0 | 26.367 | yes | 823959ac859520ee |
+| data-boundary | 0 | 12.518 | yes | 0b6069e2112161a2 |
+| deb-build | 0 | 16.955 | yes | 53a03ebd97c80efb |
+| deb-signature | 0 | 0.489 | yes | f6b5b764c760f74a |
+| dependency-audit | 0 | 7.841 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 688.071 | yes | 24d90f0ab8c98f92 |
+| identity-negative-tests | 0 | 0.365 | yes | e967f20a8351b609 |
+| install-smoke | 0 | 432 | yes | — |
+| integration | 0 | 13.717 | yes | d581506f5377a5df |
+| license-inventory | 0 | 0.081 | yes | ab9b22cbedaa80d3 |
+| linux-build | 0 | 13.835 | yes | ee7e1d90cc6af35a |
+| release-evidence | 0 | 0.047 | yes | 6c8623588e622d0e |
+| release-signing-tests | 0 | 1.497 | yes | fbae728cb60a89d4 |
+| reproducibility | 0 | 251.196 | yes | 911e19d25fb8a131 |
+| sbom | 0 | 0.16 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 3.424 | yes | 7ff728a5877b4846 |
+| security-mutation | 0 | 75.094 | yes | d04b5408453d3d8d |
+| static-analysis | 0 | 6.031 | yes | 95fa21ef211b03ef |
+| test-inventory | 0 | 0.097 | yes | 67786091b8099080 |
+| token-registry | 0 | 9.328 | yes | d9a904f4c9524f83 |
+| vault-multi-wallet | 0 | 10.986 | yes | 3e963d1d76a1ff77 |
 
 ## Artifacts
 
