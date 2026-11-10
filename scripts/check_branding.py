@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 # `com.jackh0006.xwallet` are asserted separately and are intentionally kept.
 FORBIDDEN = ("BNB Wallet", "BNB-Wallet-GUI")
 
-SKIP_DIRS = {".git", "build", ".dart_tool", "node_modules", ".gradle", "dist", "ephemeral"}
+SKIP_DIRS = {".git", "build", ".dart_tool", "node_modules", ".gradle", ".cxx", "dist", "ephemeral"}
 SKIP_SUFFIXES = {
     ".png", ".jpg", ".jpeg", ".ico", ".bin", ".so", ".deb", ".lock",
     ".pyc", ".dill", ".snapshot", ".zip", ".gz",
@@ -26,11 +26,6 @@ SKIP_SUFFIXES = {
 REQUIRED = [
     ("pubspec.yaml", "description: \"X Wallet"),
     ("lib/l10n/app_en.arb", '"appTitle": "X Wallet"'),
-    ("lib/l10n/app_ar.arb", '"appTitle": "X Wallet"'),
-    ("lib/l10n/app_es.arb", '"appTitle": "X Wallet"'),
-    ("lib/l10n/app_fa.arb", '"appTitle": "X Wallet"'),
-    ("lib/l10n/app_ru.arb", '"appTitle": "X Wallet"'),
-    ("lib/l10n/app_zh.arb", '"appTitle": "X Wallet"'),
     ("android/app/src/main/AndroidManifest.xml", 'android:label="X Wallet"'),
     ("linux/runner/my_application.cc", '"X Wallet"'),
     ("scripts/build-deb.sh", "Name=X Wallet"),
@@ -103,10 +98,10 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.4.2+11":
-        errors.append(f"pubspec version is not 1.4.2+11: {version.group(1) if version else 'missing'}")
-    if not (ROOT / "docs" / "releases" / "1.3.0.md").is_file():
-        errors.append("missing docs/releases/1.4.2.md")
+    if not version or version.group(1) != "1.5.0+13":
+        errors.append(f"pubspec version is not 1.5.0+13: {version.group(1) if version else 'missing'}")
+    if not (ROOT / "docs" / "releases" / "1.5.0.md").is_file():
+        errors.append("missing docs/releases/1.5.0.md")
 
     app_version_file = ROOT / "lib" / "app_version.dart"
     if not app_version_file.is_file():

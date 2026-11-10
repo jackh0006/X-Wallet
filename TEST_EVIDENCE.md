@@ -1,4 +1,4 @@
-# Test Evidence — X Wallet 1.4.2
+# Test Evidence — X Wallet 1.5.0
 
 Canonical command-by-command evidence: [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md).
 
@@ -9,7 +9,7 @@ Canonical command-by-command evidence: [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENC
 | `dart format --output=none --set-exit-if-changed lib test tool` | PASS |
 | `flutter analyze --no-pub` | PASS |
 | `bash scripts/test-suite.sh` | PASS — 59/59 files, 696 s |
-| `python3 scripts/test_inventory.py --check` | PASS — 60 files / 347 declarations |
+| `python3 scripts/test_inventory.py --check` | PASS — 62 files / 352 declarations |
 | `flutter test test/vault_multi_wallet_test.dart` | PASS — 6/6 |
 | `flutter test test/token_registry_test.dart` | PASS — 3/3 |
 | `flutter test test/data_boundary_test.dart` | PASS — 4/4 |

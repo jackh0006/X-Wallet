@@ -39,11 +39,53 @@ class AppSecurity {
 
   static Future<bool> authenticate(String reason) async {
     try {
-      return await _auth.authenticate(localizedReason: reason);
+      return await _auth.authenticate(
+        localizedReason: reason,
+        biometricOnly: true,
+        persistAcrossBackgrounding: true,
+        sensitiveTransaction: true,
+      );
     } catch (_) {
       return false;
     }
   }
+
+  /// A new app PIN must be 6+ digits and must not be trivial.
+  ///
+  /// Existing vaults keep their old PIN working; this rule applies when a PIN
+  /// is created or replaced.
+  static bool isWeakPin(String pin) {
+    if (!RegExp(r'^[0-9]{6,12}$').hasMatch(pin)) return true;
+    if (pin.split('').toSet().length == 1) return true;
+    var ascending = true;
+    var descending = true;
+    for (var i = 1; i < pin.length; i++) {
+      final previous = pin.codeUnitAt(i - 1);
+      final current = pin.codeUnitAt(i);
+      if (current != previous + 1) ascending = false;
+      if (current != previous - 1) descending = false;
+    }
+    if (ascending || descending) return true;
+    const common = {
+      '121212',
+      '112233',
+      '123123',
+      '159753',
+      '147258',
+      '258369',
+      '123456',
+      '654321',
+      '111111',
+      '000000',
+      '666666',
+      '999999',
+    };
+    return common.contains(pin);
+  }
+
+  /// Number of PIN failures recorded in the persisted backoff state.
+  static Future<int> failedAttempts() async =>
+      (await AppStorage.getBackoffState())?.$1 ?? 0;
 
   static String _salt() {
     final random = Random.secure();

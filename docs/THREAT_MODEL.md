@@ -16,7 +16,7 @@ grade". Software carries risk; this document describes ours.
 | Device-bound secret | Linux owner-only local drawer | Never in preferences or the vault file; Linux is not hardware-bound |
 | App-lock PIN | Only as a salted Argon2id hash in secure storage | Exponential backoff on failures: 1 s, 2 s, 4 s … capped at 15 min |
 | BscScan API key | Secure storage | Public-but-private value; erased with "Erase all data" |
-| Transaction history | Not persisted at all | Fetched live from the explorer API; nothing on disk |
+| Transaction history | Local receipts and pending sends are persisted encrypted; explorer history is fetched live | Receipts use `BNBRCPT1`; pending rows contain public transaction data only |
 | Cold pairing (public addresses + fingerprint) | Preferences, public | No secret; fingerprint must be compared out-of-band |
 | Cold unsigned request / signed response | Preferences, public | Bounded to 20 each; no seed or key |
 | Non-secret config (network, RPC nodes, Tor host/port, auto-lock) | SharedPreferences | No secrets by policy |
@@ -174,6 +174,26 @@ audit.
 A risk is never marked "closed" here without a test that names the exact
 commit. The generated status report and the release gate are the current
 evidence index.
+
+## Android-specific threats
+
+Android adds attack surfaces that a Linux desktop does not have. These are the
+controls and the honest limits in 1.5.0.
+
+| Threat | Control | Residual risk |
+|---|---|---|
+| Screen capture / recents thumbnail | `FLAG_SECURE` on every screen | A rooted/camera-equipped attacker can still photograph the screen |
+| Tapjacking / overlay | `filterTouchesWhenObscured` on the Android view | A compromised OS or accessibility service can still inject events |
+| Backup extraction | `allowBackup=false`, `dataExtractionRules` excludes root, no broad storage permission | A rooted device or vendor backup tool may bypass app-level flags |
+| Clipboard substitution | Secret-shaped text is blocked; copied addresses clear after 30 s; full address review | Clipboard is inherently untrusted |
+| Malicious keyboard / IME learning | Seed entry uses an in-app word picker; secret fields disable suggestions, autocorrect and personalized learning | The OS keyboard can still observe non-secret fields |
+| Keystore/TEE compromise | Device secret is Keystore-wrapped; StrongBox/TEE where available | The current key is not yet user-auth-bound; a compromised OS can use it while the app runs |
+| Rooted / emulator / debugger | No silent block; local warnings are planned | A rooted device can read app memory and bypass many controls |
+| Malicious RPC / price / IP service | Fixed hosts, HTTPS, system CAs only, no wallet data in price requests; IP echo only on route test | Those services still see the request and the public IP |
+| Fake APK | Approved signer gate, old certificate denylisted, signed checksums | Users who skip signature verification can install a fake build |
+| Intent spoofing / deep links | Only the launcher activity is exported; no deep links | A malicious app can still show a fake UI and phish the user |
+| Offline signing on Android | Cold mode sets the RPC offline; QR/file/paste protocol with field verification | No camera QR scanner in 1.5.0; no two-device physical test |
+| Native KDF | Android ships `libargon2-arm.so`; 64 MiB/t=3/p=4 unchanged | Device timing and low-memory behavior are **NOT TESTED** on a physical phone |
 
 ## When Tor mode is useful, and when it is not
 

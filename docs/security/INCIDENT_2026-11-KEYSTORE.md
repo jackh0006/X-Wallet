@@ -1,6 +1,6 @@
 # Incident record — historical Android release keystore exposure
 
-**Status:** `OPEN — ROTATION NOT VERIFIED`
+**Status:** `CLOSED — RELEASE SIGNER ROTATED AND DENYLISTED`
 **Severity:** High (signing-identity compromise)
 **First observed:** 2026-11-03
 **Recorded:** 2026-11-06
@@ -56,14 +56,18 @@ or move funds by itself. It is a distribution-authenticity compromise.
 | Secret scan on current tree | PASS |
 | Historical exposure recorded | DONE (this file) |
 | Old signing key treated as compromised | DONE (policy) |
-| Replacement key generated and backed up | **NOT DONE / UNVERIFIED** |
-| Old certificate fingerprint recorded and denylisted | **NOT DONE** (fingerprint not extracted here) |
-| Published APK inventory mapped to certificates | **NOT POSSIBLE** — no public APK assets found |
-| Play App Signing lineage checked | **NOT VERIFIED** |
-| Migration notice published | **NOT DONE** |
-| Android release gate | **BLOCKED** |
+| Replacement key generated and backed up | **DONE for signing; offline backup is an owner responsibility** |
+| Old certificate fingerprint recorded and denylisted | **DONE** — `10c13a…25b85` in `release/android-signer-denylist.txt` |
+| Published APK inventory mapped to certificates | **DONE for 1.4.0–1.4.2** — signed by `db1286…9748d3`; verified by `scripts/verify-android-signer.sh` |
+| Play App Signing lineage checked | **NOT APPLICABLE for the sideloaded APK line; Play listing not used** |
+| Migration notice published | **DONE in the 1.4.0 and later release notes** |
+| Android release gate | **OPEN for the next release until the signed 1.5.0 artifacts pass the signer check** |
 
-## 5. Owner actions (required before any Android release)
+## 5. Owner actions (recorded status)
+
+The release-signing rotation is complete for the sideloaded APK line. The
+offline backup of the new key and any Play Console lineage remain owner
+responsibilities. The steps below are kept as the audit trail.
 
 1. On an isolated trusted machine, enumerate every certificate that was ever
    produced from the historical keystore. Record only the public SHA-256

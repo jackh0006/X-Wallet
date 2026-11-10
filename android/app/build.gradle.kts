@@ -14,6 +14,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.jackh0006.xwallet"
         // Android 8.0 (API 26) supports devices such as the Huawei Y9 2019
@@ -40,8 +47,12 @@ android {
             // Signed with apksigner (v3) by scripts/build-apk.sh; debug keys here
             // keep `flutter run --release` working during development.
             signingConfig = signingConfigs.getByName("debug")
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

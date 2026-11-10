@@ -4,12 +4,12 @@ This guide uses short sentences on purpose.
 
 ## 1. Install
 
-1. Download **`x-wallet-1.4.2-android-arm64.apk`** for almost every modern phone, or **`universal`** if you are unsure.
+1. Download **`x-wallet-1.4.3-android-arm64.apk`** for almost every modern phone, or **`universal`** if you are unsure.
 2. Tap the file.
 3. Android may ask to allow installs from this app. Allow it for the file manager, then tap **Install**.
 4. Open **X Wallet**.
 
-The app is the same wallet as the Linux app: same logo, same colors, same languages, same vault, same tokens, same spending controls, and the same cold-signing protocol.
+The app is the same wallet as the Linux app: same logo, same vault, same tokens, same spending controls, and the same cold-signing protocol. The UI is English-only.
 
 ## 2. Create or import a wallet
 
@@ -29,6 +29,10 @@ The app is the same wallet as the Linux app: same logo, same colors, same langua
 4. Tap a wallet, then **Use**.
 
 The password is not shortened or trimmed. Spaces count.
+
+The wallet also locks itself when the app goes to the background and after the
+idle timeout, even if you have not set a PIN. A PIN is a convenience gate, not
+the lock itself.
 
 ## 4. Backup
 
@@ -53,29 +57,45 @@ X Wallet does not hide a Tor program inside the app. On Android it uses **Orbot*
 
 If Orbot is off, X Wallet fails closed. It does not quietly use a direct connection.
 
-## 6. Biometrics
+## 6. PIN and biometrics
 
 1. Open **Settings → Security**.
-2. Set a PIN or turn on biometric unlock.
-3. Android asks for your fingerprint or face.
-4. If biometrics are unavailable, the PIN still works.
+2. Turn on **Enable app lock** and set a 6-digit PIN. Trivial PINs are refused.
+3. If the phone has strong biometrics, unlocking asks for the fingerprint or
+   face first; the PIN is the fallback.
+4. **Erase after 10 wrong PINs** is on by default. It deletes the local vault
+   and device key; only your paper recovery words can restore the wallet.
 
 ## 7. Cold signing
 
 1. On the offline phone choose **Cold** wallet mode.
 2. Tap **Export for online device**.
-3. The app shows a QR code. It can also save a file or share it.
+3. The app shows a QR code. You can also save it to a file.
 4. On the online phone choose **Online** mode and import the pairing.
 5. Check the fingerprint on both screens.
 6. Carry the request to the cold phone, review it, hold to sign, and carry the signed response back.
 
-A private-key-only wallet can also pair and sign. It does not need a recovery phrase.
+A private-key-only wallet can also pair and sign. It does not need a recovery
+phrase.
+
+Camera QR scanning is **not implemented** in 1.5.0. Use the displayed QR and
+the file/paste options. This is listed in the release limitations.
 
 ## 8. File sharing
 
 Android uses the system file picker for backups and cold-wallet files. The app does not request broad storage permission. You choose the exact file or folder each time.
 
-## 9. If something looks wrong
+## 9. USD values and activity
+
+- **Activity** shows pending transfers and saved receipts, with All / Pending /
+  Done / Failed filters.
+- **Show USD values** in Settings → Display uses public CoinGecko prices. The
+  request contains only fixed coin IDs, never your address or balance. Turn it
+  off if you do not want the request at all.
+- **Inspect any address** is under Settings → Security. It is a read-only
+  public lookup.
+
+## 10. If something looks wrong
 
 - **Wrong password:** check the keyboard language and spaces. The vault uses the password exactly as typed.
 - **No saved wallet:** tap **Save to vault** once and look for the green **Saved in vault** mark.

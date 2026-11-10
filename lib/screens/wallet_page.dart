@@ -9,6 +9,7 @@ import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
 import '../models.dart';
+import '../price_service.dart';
 import '../storage.dart' show DeviceKeyException;
 import '../vault.dart';
 import '../token_logos.dart';
@@ -306,6 +307,8 @@ class _WalletPageState extends State<WalletPage>
       if (mounted) setState(() => _balances = null);
       return;
     }
+    // Cached for five minutes; the service ignores extra calls.
+    unawaited(PriceService.instance.refresh());
     try {
       final balances = await loadBalances(appState.address!);
       if (mounted) setState(() => _balances = balances);
@@ -313,6 +316,39 @@ class _WalletPageState extends State<WalletPage>
       // Home narrates connection problems into the story card; this summary
       // simply keeps whatever it last showed.
     }
+  }
+
+  double? _walletTotalUsd() {
+    final balances = _balances;
+    if (balances == null) return null;
+    var total = 0.0;
+    var any = false;
+
+    void add(String symbol, BigInt? raw, int decimals, String priceSymbol) {
+      if (raw == null || raw < BigInt.zero) return;
+      final value = PriceService.instance.usdValue(
+        raw,
+        decimals,
+        PriceService.instance.price(priceSymbol),
+      );
+      if (value != null) {
+        total += value;
+        any = true;
+      }
+    }
+
+    add('BNB', balances['BNB'], 18, 'BNB');
+    for (final token in appState.tokensForNetwork.where(
+      (token) => !token.native && !appState.isTokenHidden(token),
+    )) {
+      add(
+        token.symbol,
+        balances[token.symbol],
+        token.decimals,
+        TokenRegistry.of(token).symbol,
+      );
+    }
+    return any ? total : null;
   }
 
   Future<void> _loadHistory() async {
@@ -357,7 +393,10 @@ class _WalletPageState extends State<WalletPage>
             if (!appState.unlocked) ...[
               _lockedCard(),
             ] else if (Platform.isAndroid) ...[
-              _androidDashboard(),
+              AnimatedBuilder(
+                animation: PriceService.instance,
+                builder: (context, _) => _androidDashboard(),
+              ),
             ] else ...[
               _unlockedCard(),
               const SizedBox(height: 14),
@@ -442,9 +481,23 @@ class _WalletPageState extends State<WalletPage>
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'BNB · BSC',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              Builder(
+                builder: (context) {
+                  final usd = bnb == null || bnb < BigInt.zero
+                      ? null
+                      : PriceService.instance.usdValue(
+                          bnb,
+                          18,
+                          PriceService.instance.price('BNB'),
+                        );
+                  return Text(
+                    usd == null ? 'BNB · BSC' : '${usdLabel(usd)} · BNB on BSC',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 18),
               Row(
@@ -497,11 +550,87 @@ class _WalletPageState extends State<WalletPage>
             ),
           ),
         const SizedBox(height: 18),
-        Text('Assets', style: Theme.of(context).textTheme.titleMedium),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Assets',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Text(
+              'USD · CoinGecko',
+              style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 6),
         _androidAssetList(),
         const SizedBox(height: 18),
         _walletsCard(),
+        const SizedBox(height: 18),
+        _androidRecentActivity(),
+      ],
+    );
+  }
+
+  Widget _androidRecentActivity() {
+    final receipts = _receipts;
+    final pending = appState.pendingTxs;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Recent activity', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 6),
+        if ((receipts == null || receipts.isEmpty) && pending.isEmpty)
+          Text(
+            'Your sent transfers and receipts will appear here.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          )
+        else ...[
+          for (final tx in pending.take(3))
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.schedule, color: Colors.amber),
+              title: Text(
+                '${tx.amountHuman} ${tx.assetSymbol}',
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              subtitle: const Text('Waiting for confirmation'),
+            ),
+          if (receipts != null)
+            for (final receipt in receipts.take(5))
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(
+                  receipt.status == 'success'
+                      ? Icons.check_circle_outline
+                      : Icons.error_outline,
+                  color: receipt.status == 'success'
+                      ? Colors.green
+                      : Colors.orange,
+                ),
+                title: Text(
+                  '${receipt.amountHuman} ${receipt.assetSymbol}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  '${receipt.status == 'success' ? 'Confirmed' : 'Failed'} · '
+                  'block ${receipt.blockNumber}',
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => ReceiptPage(receipt: receipt),
+                  ),
+                ),
+              ),
+        ],
       ],
     );
   }
@@ -513,131 +642,246 @@ class _WalletPageState extends State<WalletPage>
         child: Text('Loading balances…'),
       );
     }
-    final tokens = [
-      const TokenInfo(
-        symbol: 'BNB',
-        name: 'BNB',
-        address: '',
-        decimals: 18,
-        native: true,
-      ),
-      ...appState.tokensForNetwork.where(
-        (token) => !appState.isTokenHidden(token),
-      ),
-    ];
+    return AnimatedBuilder(
+      animation: PriceService.instance,
+      builder: (context, _) {
+        final tokens = [
+          const TokenInfo(
+            symbol: 'BNB',
+            name: 'BNB',
+            address: '',
+            decimals: 18,
+            native: true,
+          ),
+          ...appState.tokensForNetwork.where(
+            (token) => !appState.isTokenHidden(token),
+          ),
+        ];
+        return Column(
+          children: [
+            for (final token in tokens)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    TokenLogo(token: token, size: 34),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            TokenRegistry.of(token).symbol,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            TokenRegistry.of(token).name,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Builder(
+                      builder: (context) {
+                        final raw = _balances![token.symbol];
+                        final price = PriceService.instance.price(
+                          TokenRegistry.of(token).symbol,
+                        );
+                        final usd = raw == null || raw < BigInt.zero
+                            ? null
+                            : PriceService.instance.usdValue(
+                                raw,
+                                token.decimals,
+                                price,
+                              );
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              raw == null || raw < BigInt.zero
+                                  ? '—'
+                                  : '${WalletCore.formatUnits(raw, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            if (usd != null)
+                              Text(
+                                usdLabel(usd),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Linux desktop wallet card. The Android dashboard is separate.
+  Widget _lockedCard() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (final token in tokens)
-          Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(16),
+        Container(
+          padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(26),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF2563EB), Color(0xFF1E3A8A)],
             ),
-            child: Row(
-              children: [
-                TokenLogo(token: token, size: 34),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        TokenRegistry.of(token).symbol,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        TokenRegistry.of(token).name,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF1D4ED8).withValues(alpha: 0.22),
+                blurRadius: 28,
+                offset: const Offset(0, 12),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/icon/x-wallet-1024.png',
+                    width: 46,
+                    height: 46,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'X Wallet',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Your money.\nOnly you hold the keys.',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  height: 1.15,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.6,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'No account. No cloud. Your recovery words stay on this '
+                'device and never go to a server.',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.78),
+                  fontSize: 13,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        InfoCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FilledButton.icon(
+                onPressed: () => showCreateWalletDialog(context),
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('Create a new wallet'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text(
-                  _balances![token.symbol] == null ||
-                          _balances![token.symbol]! < BigInt.zero
-                      ? '—'
-                      : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.of(token).symbol}',
-                  style: const TextStyle(
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => showImportWalletDialog(context),
+                icon: const Icon(Icons.file_download_outlined),
+                label: const Text('I already have a wallet'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+              ),
+              if (appState.hasVault) ...[
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  onPressed: () =>
+                      showUnlockVaultDialog(context, jumpToWalletTab: true),
+                  icon: const Icon(Icons.lock_open_rounded),
+                  label: const Text('Open a saved wallet'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
-            ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Icon(
+                    Icons.verified_user_outlined,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Non-custodial · encrypted on this device · no analytics',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
+        ),
       ],
-    );
-  }
-
-  Widget _lockedCard() {
-    return InfoCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Wallet',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 6),
-          const Text(
-            'Create a wallet, import one, or open a wallet you already saved.',
-            style: TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              onPressed: () => showCreateWalletDialog(context),
-              icon: const Icon(Icons.add),
-              label: const Text('Create a new wallet'),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => showImportWalletDialog(context),
-              icon: const Icon(Icons.file_download),
-              label: const Text('Import a wallet'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(fontSize: 15),
-              ),
-            ),
-          ),
-          if (appState.hasVault) ...[
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () =>
-                    showUnlockVaultDialog(context, jumpToWalletTab: true),
-                icon: const Icon(Icons.lock_open),
-                label: const Text('Open a saved wallet'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  textStyle: const TextStyle(fontSize: 15),
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
     );
   }
 
@@ -777,6 +1021,16 @@ class _WalletPageState extends State<WalletPage>
                 'Balances',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              if (_balances != null && _walletTotalUsd() != null) ...[
+                const SizedBox(width: 8),
+                Text(
+                  '≈ ${usdLabel(_walletTotalUsd())}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
               const Spacer(),
               IconButton(
                 tooltip: tr(context, 'Refresh balances'),
@@ -827,15 +1081,69 @@ class _WalletPageState extends State<WalletPage>
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
-                      TokenLogo(token: token, size: 24),
-                      const SizedBox(width: 8),
+                      TokenLogo(token: token, size: 34),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: Text(
-                          _balances![token.symbol]! < BigInt.zero
-                              ? '${TokenRegistry.of(token).symbol}: unavailable right now'
-                              : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.label(token)}',
-                          style: const TextStyle(fontSize: 14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              TokenRegistry.of(token).symbol,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              TokenRegistry.of(token).name,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      Builder(
+                        builder: (context) {
+                          final raw = _balances![token.symbol]!;
+                          final price = PriceService.instance.price(
+                            TokenRegistry.of(token).symbol,
+                          );
+                          final usd = raw < BigInt.zero
+                              ? null
+                              : PriceService.instance.usdValue(
+                                  raw,
+                                  token.decimals,
+                                  price,
+                                );
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                raw < BigInt.zero
+                                    ? 'unavailable'
+                                    : '${WalletCore.formatUnits(raw, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              if (usd != null)
+                                Text(
+                                  usdLabel(usd),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
                       ),
                       if (!token.native)
                         IconButton(

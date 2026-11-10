@@ -121,6 +121,30 @@ def npm_components(path: str) -> tuple[list, int]:
     return out, len(direct)
 
 
+def vendored_components() -> list:
+    """Components compiled into the app but not resolved through pubspec.lock."""
+    return [
+        {
+            "type": "library",
+            "name": "argon2",
+            "version": "reference-20190702",
+            "purl": "pkg:generic/argon2@reference-20190702",
+            "scope": "required",
+            "licenses": [{"license": {"name": "CC0-1.0 OR Apache-2.0"}}],
+            "properties": [
+                {
+                    "name": "vendored_path",
+                    "value": "android/app/src/main/cpp/argon2",
+                },
+                {
+                    "name": "purpose",
+                    "value": "Native Argon2id KDF for Android (offline, no network)",
+                },
+            ],
+        }
+    ]
+
+
 def package_version(path: str) -> str:
     """Read the release version without requiring a YAML dependency."""
     try:
@@ -170,7 +194,8 @@ def main() -> int:
 
     direct = [p for p in packages if "direct" in p.get("dependency", "")]
     components = sorted(
-        [component(p) for p in packages] + npm, key=lambda item: item["purl"]
+        [component(p) for p in packages] + npm + vendored_components(),
+        key=lambda item: item["purl"],
     )
     # CycloneDX requires a serialNumber URN. Derive a UUIDv5 from the component
     # list so the SBOM stays deterministic (same lockfiles -> same bytes) while

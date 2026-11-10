@@ -1,5 +1,5 @@
 {
-  "fileCount": 60,
+  "fileCount": 62,
   "files": [
     {
       "lines": 101,
@@ -190,9 +190,9 @@
       "tests": 1
     },
     {
-      "lines": 26,
+      "lines": 27,
       "path": "test/localization_test.dart",
-      "sha256": "04683b2193d88155029f5310e36892b451f55b6e2b05d4f495e2778f2cd68d1a",
+      "sha256": "88be40d56fc10e02e513ee7556c0ee790d0d7a082a578b8bc6dff5d69594477c",
       "tags": [],
       "tests": 1
     },
@@ -222,7 +222,7 @@
     {
       "lines": 309,
       "path": "test/navigation_flow_test.dart",
-      "sha256": "e793059c24798fa4ccb2a99815fe5f2cfd4949bf2f5adb7c5c6451fea98c2157",
+      "sha256": "23282333c92c098877b804636e209510cd946bdb6562a054d2ebf4058ec414b0",
       "tags": [],
       "tests": 3
     },
@@ -246,6 +246,13 @@
       "sha256": "bb30ceeea93a58254528d44b37e526b7d747760b245b5b2759db2e14af2a98fd",
       "tags": [],
       "tests": 5
+    },
+    {
+      "lines": 28,
+      "path": "test/price_service_test.dart",
+      "sha256": "783ae0e7a48eb55f43abf8adc6fc83fd8234aa78a44ba45dd6127913f2801862",
+      "tags": [],
+      "tests": 3
     },
     {
       "lines": 211,
@@ -297,6 +304,13 @@
       "sha256": "c611ba19a249e127672d8b44f6c19e01f91b6d742703b7c8b4004fd5c032e049",
       "tags": [],
       "tests": 6
+    },
+    {
+      "lines": 36,
+      "path": "test/security_policy_test.dart",
+      "sha256": "d522a2b5e9fa5b2bd31b5fbe459b3e9612b56744e1bc11b6d7c92eb9830d696f",
+      "tags": [],
+      "tests": 2
     },
     {
       "lines": 327,
@@ -442,5 +456,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 347
+  "testCount": 352
 }

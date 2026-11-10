@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_state.dart';
+import 'price_service.dart';
 import 'screens/screens.dart';
 import 'security.dart';
 import 'memory_protection.dart';
@@ -24,8 +25,9 @@ void main() async {
   ]);
   await MemoryProtection.initialize();
   await appState.init();
-  // Android opens on the wallet dashboard; Linux keeps its Home overview.
-  if (Platform.isAndroid) appState.tab = 1;
+  // Android opens on the wallet dashboard; Linux opens on Home.
+  appState.tab = Platform.isAndroid ? 1 : 0;
+  unawaited(PriceService.instance.refresh());
   runApp(const XWalletApp());
 }
 
@@ -71,15 +73,21 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
   void _checkIdle() {
     final budget = appState.autoLockSeconds;
     if (budget <= 0) return;
-    if (appState.appLocked || !appState.usePin) return;
+    if (appState.appLocked) return;
     if (DateTime.now().difference(_lastActivity).inSeconds >= budget) {
-      appState.lockApp();
-      if (appState.unlocked) appState.lock();
+      // The vault is locked even when no PIN is configured. The PIN only
+      // gates the unlock screen; it is not the lock itself.
+      if (appState.usePin) appState.lockApp();
+      if (appState.unlocked && !appState.watchOnly) appState.lock();
     }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Prices are cached; refreshing on resume keeps USD values current.
+      unawaited(PriceService.instance.refresh());
+    }
     if (state == AppLifecycleState.detached) {
       // Best effort: the window is gone, so do not leave our private Tor
       // daemon running in the background. Only the captured child is killed.
@@ -91,10 +99,10 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
     // interrupted transfers and made the vault feel as if it locked itself.
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
-      if (appState.usePin) {
-        appState.lockApp();
-        if (appState.unlocked) appState.lock();
-      }
+      // Always clear signing keys when the app leaves the foreground. A
+      // watch-only profile has no key to clear and stays readable.
+      if (appState.usePin) appState.lockApp();
+      if (appState.unlocked && !appState.watchOnly) appState.lock();
     }
   }
 
@@ -129,58 +137,64 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
   }
 
   ThemeData _lightTheme() {
-    const gold = Color(0xFFF0B90B);
-    const bg = Color(0xFFF5F5F5);
+    const blue = Color(0xFF2563EB);
+    const bg = Color(0xFFF4F7FC);
     const surface = Color(0xFFFFFFFF);
     final scheme =
         ColorScheme.fromSeed(
-          seedColor: gold,
+          seedColor: blue,
           brightness: Brightness.light,
         ).copyWith(
-          // A dark amber keeps text, icons, and outlines readable on white.
-          // The filled button deliberately keeps the bright gold background
-          // below, with black text.
-          primary: const Color(0xFF7A5C00),
-          secondary: const Color(0xFF8A6D00),
+          primary: const Color(0xFF1D4ED8),
+          onPrimary: Colors.white,
+          secondary: const Color(0xFF0EA5E9),
           surface: surface,
-          onSurface: Colors.black87,
-          onSurfaceVariant: const Color(0xFF4F555C),
+          surfaceContainerHighest: const Color(0xFFF1F5F9),
+          onSurface: const Color(0xFF0F172A),
+          onSurfaceVariant: const Color(0xFF5B6472),
+          outlineVariant: const Color(0xFFE2E8F0),
         );
     return _baseTheme(scheme, Brightness.light, bg, surface);
   }
 
   ThemeData _darkTheme() {
-    const gold = Color(0xFFF0B90B);
-    const goldLight = Color(0xFFFCD535);
-    const bg = Color(0xFF0B0E11);
-    const surface = Color(0xFF161A1E);
+    const blue = Color(0xFF7AA2FF);
+    const bg = Color(0xFF0B1120);
+    const surface = Color(0xFF111827);
     final scheme =
         ColorScheme.fromSeed(
-          seedColor: gold,
+          seedColor: blue,
           brightness: Brightness.dark,
         ).copyWith(
-          primary: gold,
-          secondary: goldLight,
+          primary: blue,
+          onPrimary: const Color(0xFF081226),
+          secondary: const Color(0xFF22D3EE),
           surface: surface,
-          onSurface: Colors.white,
+          surfaceContainerHighest: const Color(0xFF1A2233),
+          onSurface: const Color(0xFFF8FAFC),
+          onSurfaceVariant: const Color(0xFFA7B0C0),
+          outlineVariant: const Color(0xFF263244),
         );
     return _baseTheme(scheme, Brightness.dark, bg, surface);
   }
 
   ThemeData _amoledTheme() {
-    const gold = Color(0xFFF0B90B);
-    const goldLight = Color(0xFFFCD535);
-    const bg = Color(0xFF000000); // True black for AMOLED
-    const surface = Color(0xFF121212);
+    const blue = Color(0xFF8AB4FF);
+    const bg = Color(0xFF000000);
+    const surface = Color(0xFF0F1420);
     final scheme =
         ColorScheme.fromSeed(
-          seedColor: gold,
+          seedColor: blue,
           brightness: Brightness.dark,
         ).copyWith(
-          primary: gold,
-          secondary: goldLight,
+          primary: blue,
+          onPrimary: const Color(0xFF081226),
+          secondary: const Color(0xFF22D3EE),
           surface: surface,
-          onSurface: Colors.white,
+          surfaceContainerHighest: const Color(0xFF171E2C),
+          onSurface: const Color(0xFFF8FAFC),
+          onSurfaceVariant: const Color(0xFFA7B0C0),
+          outlineVariant: const Color(0xFF243044),
         );
     return _baseTheme(scheme, Brightness.dark, bg, surface);
   }
@@ -200,48 +214,25 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       scaffoldBackgroundColor: bg,
-      appBarTheme: AppBarTheme(
-        backgroundColor: isAmoled ? Colors.transparent : bg,
-        foregroundColor: brightness == Brightness.light
-            ? Colors.black87
-            : Colors.white,
-        elevation: 0,
-        centerTitle: false,
-        scrolledUnderElevation: 0,
-      ),
       cardTheme: CardThemeData(
         color: surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-          side: BorderSide(
-            color: brightness == Brightness.light
-                ? const Color(0xFFE0E0E0)
-                : const Color(0xFF2B3139),
-          ),
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: scheme.outlineVariant),
         ),
         margin: EdgeInsets.zero,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: brightness == Brightness.light
-            ? const Color(0xFFFAFAFA)
-            : const Color(0xFF1E2329),
+        fillColor: scheme.surfaceContainerHighest,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: brightness == Brightness.light
-                ? const Color(0xFFE0E0E0)
-                : const Color(0xFF2B3139),
-          ),
+          borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: brightness == Brightness.light
-                ? const Color(0xFFE0E0E0)
-                : const Color(0xFF2B3139),
-          ),
+          borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -249,12 +240,15 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: brightness == Brightness.light
-            ? const Color(0xFFF5F5F5)
-            : (isAmoled ? const Color(0xFF000000) : const Color(0xFF12161B)),
-        indicatorColor: scheme.primary.withValues(alpha: 0.18),
-        labelTextStyle: const WidgetStatePropertyAll(
-          TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        backgroundColor: isAmoled ? const Color(0xFF000000) : surface,
+        indicatorColor: scheme.primary.withValues(alpha: 0.14),
+        elevation: 0,
+        labelTextStyle: WidgetStatePropertyAll(
+          TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: scheme.onSurfaceVariant,
+          ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
@@ -272,22 +266,20 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFFF0B90B),
-          // Binance yellow is too light for white text (about 1.8:1).  Black
-          // remains comfortably readable in every supported theme.
-          foregroundColor: Colors.black,
+          backgroundColor: scheme.primary,
+          foregroundColor: scheme.onPrimary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: scheme.primary,
-          side: BorderSide(color: scheme.primary),
+          side: BorderSide(color: scheme.primary.withValues(alpha: 0.45)),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         ),
@@ -295,11 +287,20 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(foregroundColor: scheme.primary),
       ),
-      dividerColor: brightness == Brightness.light
-          ? const Color(0xFFE0E0E0)
-          : const Color(0xFF2B3139),
-      iconTheme: IconThemeData(
-        color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+      dividerColor: scheme.outlineVariant,
+      iconTheme: IconThemeData(color: scheme.onSurface),
+      appBarTheme: AppBarTheme(
+        backgroundColor: isAmoled ? Colors.transparent : bg,
+        foregroundColor: scheme.onSurface,
+        elevation: 0,
+        centerTitle: false,
+        scrolledUnderElevation: 0,
+        titleTextStyle: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.3,
+          color: scheme.onSurface,
+        ),
       ),
       textTheme: TextTheme(
         bodyLarge: TextStyle(
@@ -425,12 +426,40 @@ class _AppLockScreenState extends State<AppLockScreen> {
     final ok = await AppSecurity.verifyPin(_pin.text);
     if (ok) {
       appState.unlockApp();
-    } else {
-      // State refresh shows the new cooldown immediately.
-      await _refreshWait();
+      return;
+    }
+    final threshold = appState.wipeAfterFailures;
+    final failures = await AppSecurity.failedAttempts();
+    if (threshold > 0 && failures >= threshold) {
+      // The user opted in to this. Crypto-erasure removes the device factor,
+      // so the encrypted vault is permanently unreadable.
+      await appState.eraseAll();
+      appState.unlockApp();
       if (mounted) {
-        setState(() => _error ??= 'Incorrect PIN.');
+        await showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) => AlertDialog(
+            title: const Text('Wallet erased'),
+            content: const Text(
+              'Too many wrong PINs. The local wallet was erased. Restore it '
+              'with your paper recovery words.',
+            ),
+            actions: [
+              FilledButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
       }
+      return;
+    }
+    // State refresh shows the new cooldown immediately.
+    await _refreshWait();
+    if (mounted) {
+      setState(() => _error ??= 'Incorrect PIN.');
     }
   }
 
@@ -476,6 +505,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                   controller: _pin,
                   obscureText: true,
                   keyboardType: TextInputType.number,
+                  enableIMEPersonalizedLearning: false,
                   enabled: !lockedOut,
                   decoration: InputDecoration(
                     labelText: 'PIN',
@@ -532,7 +562,7 @@ class _ShellState extends State<Shell> {
       const HomePage(),
       const WalletPage(),
       const SendPage(),
-      const InspectPage(),
+      const ActivityPage(),
       const SettingsPage(),
     ];
     return Scaffold(
@@ -557,9 +587,9 @@ class _ShellState extends State<Shell> {
             label: strings.send,
           ),
           NavigationDestination(
-            icon: Icon(Icons.travel_explore_outlined),
-            selectedIcon: Icon(Icons.travel_explore),
-            label: strings.inspect,
+            icon: Icon(Icons.receipt_long_outlined),
+            selectedIcon: Icon(Icons.receipt_long),
+            label: 'Activity',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined),
