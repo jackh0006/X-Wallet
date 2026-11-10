@@ -25,7 +25,7 @@
   "releaseEvidence": "docs/releases/1.4.2.md",
   "sbom": {
     "path": "docs/SBOM.json",
-    "sha256": "00d73c9ac3c3de66a7d06e3162c40a543a679193fa813a62259a33de200315ca"
+    "sha256": "7199162e070b2cc253c4e8155bcd491aa3e2cd500b38f1898c68b2c027ea6573"
   },
   "schemaVersion": 1,
   "tests": {
