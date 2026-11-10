@@ -1,5 +1,5 @@
 {
-  "fileCount": 60,
+  "fileCount": 61,
   "files": [
     {
       "lines": 101,
@@ -190,9 +190,9 @@
       "tests": 1
     },
     {
-      "lines": 26,
+      "lines": 27,
       "path": "test/localization_test.dart",
-      "sha256": "04683b2193d88155029f5310e36892b451f55b6e2b05d4f495e2778f2cd68d1a",
+      "sha256": "88be40d56fc10e02e513ee7556c0ee790d0d7a082a578b8bc6dff5d69594477c",
       "tags": [],
       "tests": 1
     },
@@ -246,6 +246,13 @@
       "sha256": "bb30ceeea93a58254528d44b37e526b7d747760b245b5b2759db2e14af2a98fd",
       "tags": [],
       "tests": 5
+    },
+    {
+      "lines": 27,
+      "path": "test/price_service_test.dart",
+      "sha256": "1743cc631919480031dd3a29ff1f1e866c25158492f8ea88f294ffce61a5d5f7",
+      "tags": [],
+      "tests": 3
     },
     {
       "lines": 211,
@@ -442,5 +449,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 347
+  "testCount": 350
 }

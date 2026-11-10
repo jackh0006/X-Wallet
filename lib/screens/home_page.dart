@@ -4,6 +4,7 @@ import '../localized_text.dart';
 
 import '../app_state.dart';
 import '../rpc_service.dart';
+import '../price_service.dart';
 import '../rpc_story.dart';
 import '../token_registry.dart';
 import 'common.dart';
@@ -133,7 +134,10 @@ class _HomePageState extends State<HomePage>
             if (!appState.unlocked)
               _welcomeCard()
             else ...[
-              _balanceCard(),
+              AnimatedBuilder(
+                animation: PriceService.instance,
+                builder: (context, _) => _balanceCard(),
+              ),
               const SizedBox(height: 14),
               _actionsCard(),
             ],
@@ -648,11 +652,21 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _balanceRow(String symbol, BigInt value, int decimals) {
+  Widget _balanceRow(
+    String symbol,
+    BigInt value,
+    int decimals, {
+    String? priceSymbol,
+  }) {
     final unavailable = value == BigInt.from(-1);
+    final unit = PriceService.instance.price(priceSymbol ?? symbol);
+    final usd = unavailable
+        ? null
+        : PriceService.instance.usdValue(value, decimals, unit);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 112,
@@ -662,9 +676,22 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           Expanded(
-            child: Text(
-              unavailable ? 'unavailable' : formatToken(value, decimals),
-              textAlign: TextAlign.right,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  unavailable ? 'unavailable' : formatToken(value, decimals),
+                  textAlign: TextAlign.right,
+                ),
+                if (usd != null)
+                  Text(
+                    usdLabel(usd),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

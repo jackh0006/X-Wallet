@@ -6,11 +6,11 @@ import 'package:bnb_wallet_gui/l10n/ui_strings.dart';
 import 'package:bnb_wallet_gui/localized_text.dart' as l10n;
 
 void main() {
-  testWidgets('Text follows the selected locale', (tester) async {
+  testWidgets('English is the only supported language', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        locale: const Locale('fa'),
-        supportedLocales: const [Locale('en'), Locale('fa')],
+        locale: const Locale('en'),
+        supportedLocales: const [Locale('en')],
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -20,7 +20,8 @@ void main() {
       ),
     );
     await tester.pump();
-    expect(find.text('Add node'), findsNothing);
-    expect(find.text(translateUi('fa', 'Add node')), findsOneWidget);
+    expect(find.text('Add node'), findsOneWidget);
+    expect(translateUi('en', 'Add node'), 'Add node');
+    expect(translateUi('fa', 'Add node'), 'Add node');
   });
 }

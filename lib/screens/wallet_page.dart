@@ -9,6 +9,7 @@ import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
 import '../models.dart';
+import '../price_service.dart';
 import '../storage.dart' show DeviceKeyException;
 import '../vault.dart';
 import '../token_logos.dart';
@@ -306,6 +307,8 @@ class _WalletPageState extends State<WalletPage>
       if (mounted) setState(() => _balances = null);
       return;
     }
+    // Cached for five minutes; the service ignores extra calls.
+    unawaited(PriceService.instance.refresh());
     try {
       final balances = await loadBalances(appState.address!);
       if (mounted) setState(() => _balances = balances);
@@ -357,7 +360,10 @@ class _WalletPageState extends State<WalletPage>
             if (!appState.unlocked) ...[
               _lockedCard(),
             ] else if (Platform.isAndroid) ...[
-              _androidDashboard(),
+              AnimatedBuilder(
+                animation: PriceService.instance,
+                builder: (context, _) => _androidDashboard(),
+              ),
             ] else ...[
               _unlockedCard(),
               const SizedBox(height: 14),
@@ -442,9 +448,23 @@ class _WalletPageState extends State<WalletPage>
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'BNB · BSC',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              Builder(
+                builder: (context) {
+                  final usd = bnb == null || bnb < BigInt.zero
+                      ? null
+                      : PriceService.instance.usdValue(
+                          bnb,
+                          18,
+                          PriceService.instance.price('BNB'),
+                        );
+                  return Text(
+                    usd == null ? 'BNB · BSC' : '${usdLabel(usd)} · BNB on BSC',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 18),
               Row(
@@ -497,11 +517,87 @@ class _WalletPageState extends State<WalletPage>
             ),
           ),
         const SizedBox(height: 18),
-        Text('Assets', style: Theme.of(context).textTheme.titleMedium),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Assets',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Text(
+              'USD · CoinGecko',
+              style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 6),
         _androidAssetList(),
         const SizedBox(height: 18),
         _walletsCard(),
+        const SizedBox(height: 18),
+        _androidRecentActivity(),
+      ],
+    );
+  }
+
+  Widget _androidRecentActivity() {
+    final receipts = _receipts;
+    final pending = appState.pendingTxs;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Recent activity', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 6),
+        if ((receipts == null || receipts.isEmpty) && pending.isEmpty)
+          Text(
+            'Your sent transfers and receipts will appear here.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          )
+        else ...[
+          for (final tx in pending.take(3))
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.schedule, color: Colors.amber),
+              title: Text(
+                '${tx.amountHuman} ${tx.assetSymbol}',
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              subtitle: const Text('Waiting for confirmation'),
+            ),
+          if (receipts != null)
+            for (final receipt in receipts.take(5))
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(
+                  receipt.status == 'success'
+                      ? Icons.check_circle_outline
+                      : Icons.error_outline,
+                  color: receipt.status == 'success'
+                      ? Colors.green
+                      : Colors.orange,
+                ),
+                title: Text(
+                  '${receipt.amountHuman} ${receipt.assetSymbol}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  '${receipt.status == 'success' ? 'Confirmed' : 'Failed'} · '
+                  'block ${receipt.blockNumber}',
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => ReceiptPage(receipt: receipt),
+                  ),
+                ),
+              ),
+        ],
       ],
     );
   }
@@ -513,70 +609,110 @@ class _WalletPageState extends State<WalletPage>
         child: Text('Loading balances…'),
       );
     }
-    final tokens = [
-      const TokenInfo(
-        symbol: 'BNB',
-        name: 'BNB',
-        address: '',
-        decimals: 18,
-        native: true,
-      ),
-      ...appState.tokensForNetwork.where(
-        (token) => !appState.isTokenHidden(token),
-      ),
-    ];
-    return Column(
-      children: [
-        for (final token in tokens)
-          Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                TokenLogo(token: token, size: 34),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        TokenRegistry.of(token).symbol,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        TokenRegistry.of(token).name,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  _balances![token.symbol] == null ||
-                          _balances![token.symbol]! < BigInt.zero
-                      ? '—'
-                      : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.of(token).symbol}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
+    return AnimatedBuilder(
+      animation: PriceService.instance,
+      builder: (context, _) {
+        final tokens = [
+          const TokenInfo(
+            symbol: 'BNB',
+            name: 'BNB',
+            address: '',
+            decimals: 18,
+            native: true,
           ),
-      ],
+          ...appState.tokensForNetwork.where(
+            (token) => !appState.isTokenHidden(token),
+          ),
+        ];
+        return Column(
+          children: [
+            for (final token in tokens)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    TokenLogo(token: token, size: 34),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            TokenRegistry.of(token).symbol,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            TokenRegistry.of(token).name,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Builder(
+                      builder: (context) {
+                        final raw = _balances![token.symbol];
+                        final price = PriceService.instance.price(
+                          TokenRegistry.of(token).symbol,
+                        );
+                        final usd = raw == null || raw < BigInt.zero
+                            ? null
+                            : PriceService.instance.usdValue(
+                                raw,
+                                token.decimals,
+                                price,
+                              );
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              raw == null || raw < BigInt.zero
+                                  ? '—'
+                                  : '${WalletCore.formatUnits(raw, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            if (usd != null)
+                              Text(
+                                usdLabel(usd),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
+  // Linux desktop wallet card. The Android dashboard is separate.
   Widget _lockedCard() {
     return InfoCard(
       child: Column(

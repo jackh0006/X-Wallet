@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_state.dart';
+import 'price_service.dart';
 import 'screens/screens.dart';
 import 'security.dart';
 import 'memory_protection.dart';
@@ -26,6 +27,7 @@ void main() async {
   await appState.init();
   // Android opens on the wallet dashboard; Linux keeps its Home overview.
   if (Platform.isAndroid) appState.tab = 1;
+  unawaited(PriceService.instance.refresh());
   runApp(const XWalletApp());
 }
 
@@ -80,6 +82,10 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Prices are cached; refreshing on resume keeps USD values current.
+      unawaited(PriceService.instance.refresh());
+    }
     if (state == AppLifecycleState.detached) {
       // Best effort: the window is gone, so do not leave our private Tor
       // daemon running in the background. Only the captured child is killed.

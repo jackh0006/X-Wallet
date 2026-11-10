@@ -1,4 +1,4 @@
-# Builder and AI No-Access Guarantee — X Wallet 1.4.2
+# Builder and AI No-Access Guarantee — X Wallet 1.4.3
 
 **Guarantee:** the X Wallet Linux and Android applications contain no channel
 that lets DeepSeek, the AI assistant, or the builder read, copy, receive, or
@@ -17,7 +17,7 @@ This guarantee covers:
 |---|---|
 | No AI service call | No `openai`, `anthropic`, `deepseek`, `chatgpt`, or model endpoint in source or compiled artifacts |
 | No telemetry or analytics SDK | Artifact and dependency scans found none of `firebase`, `analytics`, `sentry`, `amplitude`, `mixpanel`, `segment`, `crashlytics`, `appsflyer` |
-| No builder-controlled server | The only runtime hosts are BSC RPC nodes, BscScan, GitHub, and Orbot |
+| No builder-controlled server | The only runtime hosts are BSC RPC nodes, BscScan, GitHub, Orbot, the public CoinGecko price API, and the public ipify IP echo |
 | No account or sign-up | The app has no login, account ID, subscription, or cloud profile |
 | No remote control or remote update | The app has no command channel, remote config, or background updater |
 | Keys stay local | Vault, recovery phrase, private keys, signing, and spending policy are local-only |
@@ -93,6 +93,8 @@ The signed Linux and Android `libapp.so` files contain only these runtime hosts:
 ```
 https://1rpc.io
 https://api.bscscan.com
+https://api.coingecko.com
+https://api.ipify.org
 https://bsc-dataseed.bnbchain.org
 https://bsc-dataseed.nariox.org
 https://bsc-dataseed-public.bnbchain.org
@@ -116,10 +118,10 @@ No builder or AI domain is present.
 grep -rniE "firebase|analytics|sentry|openai|anthropic|deepseek|chatgpt|telemetry|remote.?config" lib pubspec.yaml
 
 # Android permissions
-aapt dump permissions x-wallet-1.4.2-android-universal.apk
+aapt dump permissions x-wallet-1.4.3-android-universal.apk
 
 # Runtime hosts in the compiled Android app
-unzip -p x-wallet-1.4.2-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
+unzip -p x-wallet-1.4.3-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
 strings libapp.so | grep -oE 'https?://[^/]+' | sort -u
 
 # Linux startup trace
@@ -132,6 +134,8 @@ strace -f -e trace=connect,sendto ./bnb_wallet_gui
 **Android release signer:**
 `db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3`
 
-This guarantee is issued for the published 1.4.1 source and signed artifacts.
+CoinGecko receives only a fixed list of public coin IDs; it never receives a wallet address, balance, vault, or identifier. ipify receives only the request itself and is used to display the public IP of the active route when the user runs the route test.
+
+This guarantee is issued for the published 1.4.3 source and signed artifacts.
 Device-level hardening controls are documented in
 [SECURITY_LIMITATIONS.md](../SECURITY_LIMITATIONS.md).

@@ -4,7 +4,7 @@ This guide uses short sentences on purpose.
 
 ## 1. Install
 
-1. Download **`x-wallet-1.4.2-android-arm64.apk`** for almost every modern phone, or **`universal`** if you are unsure.
+1. Download **`x-wallet-1.4.3-android-arm64.apk`** for almost every modern phone, or **`universal`** if you are unsure.
 2. Tap the file.
 3. Android may ask to allow installs from this app. Allow it for the file manager, then tap **Install**.
 4. Open **X Wallet**.
