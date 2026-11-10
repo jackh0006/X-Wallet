@@ -63,6 +63,9 @@ class MainActivity : FlutterFragmentActivity() {
         // FLAG_SECURE blocks screenshots and screen recording of wallet
         // secrets, recovery phrases and QR codes.
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        // Reject touches that the system marks as obscured by an overlay.
+        // This is a defense against tapjacking/overlay attacks.
+        window.decorView.filterTouchesWhenObscured = true
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

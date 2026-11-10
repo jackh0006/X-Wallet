@@ -31,8 +31,7 @@ came from repeated full-suite runs. Follow the playbook to avoid that cost.
 - Comprehensive EVM blockchain functionality (BNB Smart Chain enabled in 1.2.0; more networks planned)
 - Transparent, encrypted local activity logs
 - Beautiful, exceptionally easy user experience (black/dark theme, orange/yellow accent)
-- First release: Ubuntu Linux amd64 `.deb`
-- Future: Android APK
+- Releases: Android APK (arm64 + universal) and Ubuntu Linux amd64 `.deb`
 
 ## Architecture Overview
 
@@ -227,7 +226,7 @@ Every meaningful change must update:
 - Relevant technical doc (CRYPTO, THREAT_MODEL, SECURITY, SPEC-COMPLIANCE, etc.)
 - `docs/DECISIONS/` for architectural decisions
 
-## Current Blockers (as of 2026-11-03)
+## Current Blockers (as of 2026-11-10)
 
 | ID | Blocker | Status |
 |----|---------|--------|
@@ -236,7 +235,7 @@ Every meaningful change must update:
 | BLK-03 | No local Anvil integration test | `anvil` not installed; fake RPC used in tests |
 | BLK-04 | Hardware wallet compatibility unverified | No physical devices; matrix is NOT TESTED |
 | BLK-05 | Linux QR camera scanning not implemented | File/paste/QR display only; camera plugin needed |
-| BLK-06 | Old release keystore in Git history | **COMPROMISED** — must rotate; cannot rewrite public history |
+| BLK-06 | Old release keystore in Git history | **COMPROMISED, ROTATED, DENYLISTED** — old `10c13a…` in `release/android-signer-denylist.txt`; current signer `db1286…` |
 | BLK-07 | `mlockall` best-effort; may fail under low RLIMIT_MEMLOCK | Kernel-state test asserts dumpable=0, core=0 only |
 | BLK-08 | HTTP CONNECT with pins refused, not enforced | Documented limitation |
 

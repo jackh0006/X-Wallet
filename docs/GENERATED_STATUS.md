@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.4.2+11`
+- Version: `1.5.0+13`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 7199162e070b2cc253c4e8155bcd491aa3e2cd500b38f1898c68b2c027ea6573 |
+| SBOM SHA-256 | 185f3dbc8d5d0a006e95ed5e872714710255e5e87ac834619061dfb17b621a1e |
 
 ## Test inventory
 
-- Test files: **60**
-- Test/testWidgets declarations: **347**
+- Test files: **62**
+- Test/testWidgets declarations: **352**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,33 +34,19 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| android-arm64-build | 0 | 303 | yes | — |
-| android-dashboard | 0 | 28.878 | yes | d39181e8200cc2d3 |
-| android-signer | 0 | 2 | yes | — |
-| android-universal-build | 0 | 390 | yes | — |
-| backup-e2e | 0 | 12.408 | yes | 6629cc627168d087 |
-| cold-signature | 0 | 5.774 | yes | 87d225095d2a70a4 |
-| data-boundary | 0 | 8.088 | yes | 3b5c788081aaa22f |
-| deb-build | 0 | 17.502 | yes | 4ccbb65317f94da9 |
-| deb-signature | 0 | 0.704 | yes | c7987476d718883d |
-| dependency-audit | 0 | 4.262 | yes | 531db7f60a49620c |
-| english-only | 0 | 17.242 | yes | 8f5fd7deb946187a |
-| full-test-suite | 0 | 873.271 | yes | cb66dc387ea21182 |
-| identity-negative-tests | 0 | 0.374 | yes | c13bc4062bff62d1 |
-| install-smoke | 0 | 136 | yes | — |
-| integration | 0 | 14.007 | yes | d581506f5377a5df |
-| license-inventory | 0 | 0.274 | yes | ab9b22cbedaa80d3 |
-| linux-build | 0 | 126.088 | yes | ee7e1d90cc6af35a |
-| release-evidence | 0 | 0.051 | yes | 07513a54a5d24bf2 |
-| release-signing-tests | 0 | 1.68 | yes | cddddfef6b745a90 |
-| reproducibility | 0 | 240.779 | yes | b6a4d3954bf73496 |
-| sbom | 0 | 0.093 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 4.232 | yes | 7ff728a5877b4846 |
-| security-mutation | 0 | 78.105 | yes | d04b5408453d3d8d |
-| static-analysis | 0 | 5.019 | yes | 3ba6a1ac660a95d5 |
-| test-inventory | 0 | 0.108 | yes | 67786091b8099080 |
-| token-registry | 0 | 9.282 | yes | 8f0310eb951563c0 |
-| vault-multi-wallet | 0 | 10.484 | yes | 46bee835c0630cf6 |
+| cold-signature | 0 | 6.06 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 121.115 | yes | 6e7ae407aa6cbc58 |
+| deb-signature | 0 | 0.057 | yes | cdc5ab08a7bf0113 |
+| dependency-audit | 0 | 3.927 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 722.287 | yes | 6b5318f7027a92bc |
+| license-inventory | 0 | 0.067 | yes | ab9b22cbedaa80d3 |
+| release-evidence | 0 | 0.056 | yes | 3f46c826b1cad4c4 |
+| reproducibility | 0 | 273.156 | yes | 9c118bd0aac6ae1e |
+| sbom | 0 | 0.059 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 2.597 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 6.124 | yes | d144de2d07105e70 |
+| test-inventory | 0 | 0.093 | yes | 86e80c8f760d0524 |
+| install-smoke | 0 | 155 | yes | — |
 
 ## Artifacts
 
@@ -68,8 +54,8 @@ No release artifact is recorded for this commit. **NOT TESTED.**
 
 ## Android signing incident
 
-- Incident status: `OPEN — ROTATION NOT VERIFIED`
-- Rotation verified: **NO**
+- Incident status: `CLOSED — RELEASE SIGNER ROTATED AND DENYLISTED`
+- Rotation verified: **yes**
 - Denylisted certificates: 1
 
 An Android artifact is never releasable while rotation is unverified or the denylist is empty. See [the incident record](security/INCIDENT_2026-11-KEYSTORE.md).

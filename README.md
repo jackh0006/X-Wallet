@@ -2,7 +2,7 @@
   <img src="assets/icon/x-wallet-256.png" alt="X Wallet" width="128" />
   <h1>X Wallet</h1>
   <p><strong>Your keys. Your device. Your EVM wallet.</strong></p>
-  <p>A free, open-source, self-custodial desktop wallet for Linux.</p>
+  <p>A free, open-source, self-custodial wallet for Android and Linux.</p>
 
   [![Latest release](https://img.shields.io/github/v/release/jackh0006/X-Wallet?label=release&sort=semver)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![Verify CI](https://github.com/jackh0006/X-Wallet/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/jackh0006/X-Wallet/actions/workflows/verify.yml)
@@ -10,14 +10,16 @@
   [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
   [![Platform](https://img.shields.io/badge/platform-Linux%20amd64%20%7C%20Android-lightgrey)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/jackh0006/X-Wallet?label=OpenSSF%20Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/jackh0006/X-Wallet)
-  [![Tests](https://img.shields.io/badge/tests-59%20files%20%7C%20347%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
+  [![Tests](https://img.shields.io/badge/tests-62%20files%20%7C%20352%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.4.2+11** · 60 test files · 347 test declarations
+> **X Wallet 1.5.0+13** · 62 test files · 352 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
+![X Wallet 1.5.0 on Linux](docs/screenshots/linux-home-1.5.0.png)
+
 
 ## Contents
 
@@ -36,13 +38,13 @@
 
 ## Why X Wallet
 
-X Wallet is built for people who want a real desktop wallet, not a browser tab
-or a phone-only app.
+X Wallet is built for people who want a real self-custodial wallet on their
+phone and on their desktop, without an account or a cloud.
 
 - **Self-custodial by design.** The recovery phrase and signing keys stay on
   your device. There is no account, no custody, and no sign-up.
-- **Native Linux package.** A real `.deb` with a desktop launcher, upgrade
-  path, and user-data preservation.
+- **Android and Linux.** A signed Android APK with a native KDF and a real
+  `.deb` with a desktop launcher, upgrade path, and user-data preservation.
 - **Cold signing built in.** Create an offline signer and an online companion
   from the same open-source application; private-key-only wallets can pair and
   sign too.
@@ -60,15 +62,22 @@ or a phone-only app.
   and calldata checks, with hold-to-confirm.
 - **Encrypted local history.** Vault, activity log, and receipts are protected
   at rest with Argon2id and XChaCha20-Poly1305.
+- **No AI or builder access.** There is no AI endpoint, analytics SDK, ads SDK,
+  remote config, or builder-controlled server. DeepSeek and the builder cannot
+  read or control a user's vault, keys, balances, or activity. See
+  [the no-access proof](docs/NO_RUNTIME_ACCESS.md).
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
-- **Evidence, not slogans.** 60 test files, 347 test declarations, mutation
+- **Evidence, not slogans.** 62 test files, 352 test declarations, mutation
   testing, CodeQL, SBOM, a reproducible build, and an independent ethers.js
   cross-check.
+- **Android hardening.** Native Argon2id, background/idle vault lock, 6-digit
+  PIN rules, optional wipe-after-failures, FLAG_SECURE, obscured-touch
+  rejection, R8/obfuscation, and a verified signer gate.
 
 ## Supported networks
 
-Version **1.4.2** enables **BNB Smart Chain** mainnet (56) and testnet (97).
+Version **1.5.0** enables **BNB Smart Chain** mainnet (56) and testnet (97).
 The codebase uses EVM address, transaction, and signing primitives. Additional
 EVM networks are planned; support begins only when a release documents it.
 
@@ -81,14 +90,14 @@ Get the latest release from:
 ```bash
 # 1. Download the package and checksums from the release page.
 # 2. Verify the download.
-sha256sum x-wallet-1.4.2-amd64.deb
+sha256sum x-wallet-1.5.0-amd64.deb
 sha256sum -c SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
 # 3. Install.
-sudo apt install ./x-wallet-1.4.2-amd64.deb
+sudo apt install ./x-wallet-1.5.0-amd64.deb
 ```
 
 The Debian package is `x-wallet`. It replaces `bnb-wallet`, preserves the
@@ -103,11 +112,14 @@ independent channel before trusting it.
 
 Download the APK that matches the phone:
 
-- `x-wallet-1.4.2-android-arm64.apk` — almost every modern Android phone.
-- `x-wallet-1.4.2-android-universal.apk` — if you are not sure about the CPU.
+- `x-wallet-1.5.0-android-arm64.apk` — almost every modern Android phone,
+  including the Huawei Y9 2019.
+- `x-wallet-1.5.0-android-universal.apk` — if you are not sure about the CPU.
 
 The Android app uses the same logo, label, vault, tokens, spending controls,
-languages, and cold-signing protocol as Linux. Install it with the Android file
+English-only UI, and cold-signing protocol as Linux. It ships the native
+Argon2id library, clears signing keys when it leaves the foreground, rejects
+overlay touches, and blocks screenshots. Install it with the Android file
 manager. Android asks you to allow installs from the file manager once.
 
 Tor on Android uses **Orbot**; open [the Android guide](docs/ANDROID.md) for the
@@ -187,7 +199,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
 | ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 674 s | Unit, widget, vault, network, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 60 files / 347 declarations | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 62 files / 352 declarations | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 97 s | Deliberately broken security checks are caught. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
@@ -218,7 +230,7 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.4.2-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.5.0-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
 | ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `dffb5b35…` | Two builds produce the identical archive and manifest. |
@@ -229,7 +241,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | SBOM | `python3 scripts/sbom.py` — 116 packages | The full dependency inventory is published and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `scripts/test_release_identity.py` — 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |
-| ✅ PASS | Localization | `test/localization_test.dart` | The runtime `Text` layer follows the selected locale. |
+| ✅ PASS | Localization | `test/localization_test.dart` | English is the only supported language; translations are not shipped. |
 | ✅ PASS | Spending safety | `test/spending_policy_test.dart` — 5/5 | Freeze signing, allowlist, and native per-transaction limit are enforced before signing. |
 | ✅ PASS | Data boundary | `test/data_boundary_test.dart` — 4/4 | No telemetry/AI SDK; no network in key modules; a single HTTP choke point. |
 | ✅ PASS | Hosted CI | `main`: `verify`, `docs-sync`, `integration`, `package-smoke`, `CodeQL` | Every required workflow is green. |
@@ -249,7 +261,7 @@ local key custody, and a built-in cold-signing workflow.
 
 | Advantage | Why it matters |
 |---|---|
-| **Native Linux `.deb` and Android APK** | The same wallet, logo, colors, languages, vault, tokens, and cold protocol on desktop and phone. |
+| **Native Linux `.deb` and Android APK** | The same wallet, logo, colors, English-only UI, vault, tokens, and cold protocol on desktop and phone. |
 | **Built-in cold/offline signing** | The offline signer and online companion live in one open-source codebase. |
 | **Tor / SOCKS5 / proxy routing** | Privacy is a first-class setting, with fail-closed routing. |
 | **Double-wrapped local vault** | Argon2id plus XChaCha20-Poly1305, with a device-bound layer. |
@@ -258,7 +270,7 @@ local key custody, and a built-in cold-signing workflow.
 | **No account, no KYC, no ads** | No sign-up, no subscription, no paywall, and no analytics SDK in the locked dependency inventory. |
 | **Open source and reproducible** | AGPL-3.0-or-later, SBOM, checksums, and a fixed-path reproducible build. |
 | **Data-preserving package migration** | Upgrading from the previous package keeps existing wallet data and compatibility aliases. |
-| **347 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
+| **352 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
 
 ### Compared by wallet style
 
@@ -308,6 +320,11 @@ control the security boundary.
 | [Threat model](docs/THREAT_MODEL.md) | Assets, adversaries, and controls |
 | [Crypto](docs/CRYPTO.md) | KDF, vault envelopes, and key handling |
 | [Backup and recovery](docs/BACKUP_AND_RECOVERY.md) | Recovery phrase and vault recovery |
+| [Android guide](docs/ANDROID.md) | Install, create/import, lock, Orbot, and limits |
+| [Android audit](docs/ANDROID_AUDIT.md) | Current Android security and UX findings |
+| [Android plan](docs/ANDROID_PLAN.md) | Phased hardening and UI plan |
+| [Android release](docs/ANDROID_RELEASE.md) | Signer rotation, denylist, and signed builds |
+| [No runtime access](docs/NO_RUNTIME_ACCESS.md) | Builder/AI no-access guarantee and proof |
 | [Cold wallet](docs/COLD_WALLET.md) | Offline signer and companion workflow |
 | [Network guide](docs/network/NETWORK_GUIDE.md) | RPC, Tor, proxies, and privacy |
 | [Privacy setup](docs/PRIVACY_SETUP.md) | VPN/VLESS before Tor, Tor chaining, proxy commands, and logs |

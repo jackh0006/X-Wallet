@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -12,6 +13,7 @@ import '../app_state.dart';
 import '../app_version.dart';
 import '../models.dart';
 import '../platform_files.dart';
+import '../price_service.dart';
 import '../net/privacy_client.dart';
 import '../rpc_service.dart';
 import '../security.dart';
@@ -22,6 +24,7 @@ import '../wallet_core.dart';
 import 'backup_quiz_dialog.dart';
 import 'cold_wallet_dialogs.dart';
 import 'common.dart';
+import 'inspect_page.dart';
 import 'donations_dialog.dart';
 import 'logs_page.dart';
 import 'privacy_dialogs.dart';
@@ -1914,11 +1917,17 @@ class _SettingsPageState extends State<SettingsPage> {
         await Process.run('xdg-open', [url]);
         if (mounted) showInfo(context, 'Opened $url in your browser.');
       } else {
+        final opened = await launchUrl(
+          Uri.parse(url),
+          mode: LaunchMode.externalApplication,
+        );
         if (mounted) {
-          await copyText(context, url, 'Link');
-          if (mounted) {
-            showInfo(context, 'Link copied — paste it into your browser.');
-          }
+          showInfo(
+            context,
+            opened
+                ? 'Opened in your browser.'
+                : 'Could not open the link. Copy it and paste it manually.',
+          );
         }
       }
     } catch (error) {
@@ -2103,6 +2112,23 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showThemeDialog(context),
+          ),
+          const Divider(height: 24),
+          SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Show USD values'),
+            subtitle: const Text(
+              'Fetches public prices from CoinGecko. The request contains only '
+              'fixed coin IDs — never your address, balance, or wallet.',
+            ),
+            value: appState.showUsd,
+            onChanged: (value) async {
+              await appState.setShowUsd(value);
+              if (value) {
+                unawaited(PriceService.instance.refresh(force: true));
+              }
+              if (mounted) setState(() {});
+            },
           ),
           const Divider(height: 24),
           Text(
@@ -2386,26 +2412,29 @@ class _SettingsPageState extends State<SettingsPage> {
                             icon: const Icon(Icons.copy, size: 16),
                             label: const Text('Copy vault path'),
                           ),
-                          OutlinedButton.icon(
-                            onPressed: dataPath == null
-                                ? null
-                                : () => Process.run('xdg-open', [dataPath]),
-                            icon: const Icon(Icons.folder_open, size: 16),
-                            label: const Text('Open data folder'),
-                          ),
-                          OutlinedButton.icon(
-                            onPressed: _changeVaultPath,
-                            icon: const Icon(Icons.drive_file_move, size: 16),
-                            label: const Text('Move vault'),
-                          ),
-                          OutlinedButton.icon(
-                            onPressed: _resetVaultPath,
-                            icon: const Icon(
-                              Icons.settings_backup_restore,
-                              size: 16,
+                          if (!PlatformFiles.isAndroid)
+                            OutlinedButton.icon(
+                              onPressed: dataPath == null
+                                  ? null
+                                  : () => Process.run('xdg-open', [dataPath]),
+                              icon: const Icon(Icons.folder_open, size: 16),
+                              label: const Text('Open data folder'),
                             ),
-                            label: const Text('Reset vault path'),
-                          ),
+                          if (!PlatformFiles.isAndroid)
+                            OutlinedButton.icon(
+                              onPressed: _changeVaultPath,
+                              icon: const Icon(Icons.drive_file_move, size: 16),
+                              label: const Text('Move vault'),
+                            ),
+                          if (!PlatformFiles.isAndroid)
+                            OutlinedButton.icon(
+                              onPressed: _resetVaultPath,
+                              icon: const Icon(
+                                Icons.settings_backup_restore,
+                                size: 16,
+                              ),
+                              label: const Text('Reset vault path'),
+                            ),
                           OutlinedButton.icon(
                             onPressed: _exportBackup,
                             icon: const Icon(Icons.save_alt, size: 16),
@@ -2583,6 +2612,20 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ],
           const Divider(height: 26),
+          SwitchListTile.adaptive(
+            title: const Text('Erase after 10 wrong PINs'),
+            subtitle: const Text(
+              'The vault, PIN and device key are deleted. Only your paper '
+              'recovery words can restore the wallet.',
+            ),
+            value: appState.wipeAfterFailures > 0,
+            onChanged: (value) async {
+              await appState.setWipeAfterFailures(value ? 10 : 0);
+              if (mounted) setState(() {});
+            },
+            secondary: const Icon(Icons.delete_forever_outlined),
+          ),
+          const Divider(height: 26),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.fact_check_outlined),
@@ -2621,6 +2664,18 @@ class _SettingsPageState extends State<SettingsPage> {
               context,
             ).push(MaterialPageRoute<void>(builder: (_) => const LogsPage())),
           ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.travel_explore_outlined),
+            title: const Text('Inspect any address'),
+            subtitle: const Text(
+              'Read-only public lookup. No key is used and nothing is signed.',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const InspectPage()),
+            ),
+          ),
         ],
       ),
     );
@@ -2633,8 +2688,13 @@ class _SettingsPageState extends State<SettingsPage> {
       label: 'New PIN (hidden)',
       obscure: true,
       keyboardType: TextInputType.number,
-      validator: (value) =>
-          value.length >= 4 ? null : 'PIN must be at least 4 digits.',
+      validator: (value) {
+        if (value.length < 6) return 'PIN must be at least 6 digits.';
+        if (AppSecurity.isWeakPin(value)) {
+          return 'Choose a less predictable PIN.';
+        }
+        return null;
+      },
     );
     if (first == null || first.isEmpty || !context.mounted) return false;
     final confirm = await promptText(

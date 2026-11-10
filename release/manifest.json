@@ -2,13 +2,13 @@
   "androidSigning": {
     "denylistPath": "release/android-signer-denylist.txt",
     "denylistedFingerprints": 1,
-    "incidentStatus": "OPEN \u2014 ROTATION NOT VERIFIED",
-    "rotationVerified": false
+    "incidentStatus": "CLOSED \u2014 RELEASE SIGNER ROTATED AND DENYLISTED",
+    "rotationVerified": true
   },
   "evidenceBundle": {
     "path": "release/evidence.json",
-    "sha256": "4cf8a9aa1c0324107e70fdf45aa25a32f412139edc4c516f8113721c8987b195",
-    "sourceCommit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8"
+    "sha256": "3c95fe9a21f774a5e2e904e5308c557fa0548de40d813816a2bb6d22400360b5",
+    "sourceCommit": "6c7841ec8aaffd857628c2c19941a265067a2c81"
   },
   "generatedFrom": "working-tree source facts; the exact commit is bound by release/evidence.json",
   "knownLimitations": "docs/KNOWN_LIMITATIONS.md",
@@ -22,22 +22,22 @@
     "name": "X Wallet",
     "repository": "https://github.com/jackh0006/X-Wallet"
   },
-  "releaseEvidence": "docs/releases/1.4.2.md",
+  "releaseEvidence": "docs/releases/1.5.0.md",
   "sbom": {
     "path": "docs/SBOM.json",
-    "sha256": "7199162e070b2cc253c4e8155bcd491aa3e2cd500b38f1898c68b2c027ea6573"
+    "sha256": "185f3dbc8d5d0a006e95ed5e872714710255e5e87ac834619061dfb17b621a1e"
   },
   "schemaVersion": 1,
   "tests": {
-    "files": 60,
+    "files": 62,
     "matches": true,
     "path": "docs/testing/test-inventory.json",
-    "recordedFiles": 60,
-    "sha256": "4c82b27af3ee9ed0b0751964f27ffae505bccadfd10119b99fb1b64263a4b33a"
+    "recordedFiles": 62,
+    "sha256": "3d50e7709fea72794ee217c28d4de71042fdfb16edef5ed2db9010f67df78d9b"
   },
   "toolchain": {
     "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
     "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
   },
-  "version": "1.4.2+11"
+  "version": "1.5.0+13"
 }

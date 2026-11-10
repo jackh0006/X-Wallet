@@ -488,6 +488,36 @@ class _AuthenticatingHttpClient extends http.BaseClient {
 
 /// Verifies a draft proxy configuration before it is saved. The temporary
 /// client is closed even on failure; the saved route is never touched.
+/// Returns the public IP that an outside service sees on [config].
+///
+/// It sends only the GET request — no wallet data. Used by the proxy and Tor
+/// test buttons so the user can confirm the exact exit IP.
+Future<String> probePublicIp(
+  GlobalProxyConfig config, {
+  Duration timeout = const Duration(seconds: 12),
+}) async {
+  final inner = HttpClient()
+    ..userAgent = null
+    ..idleTimeout = const Duration(seconds: 10);
+  _applyGlobalProxy(inner, config);
+  final client = http_io.IOClient(inner);
+  try {
+    final response = await client
+        .get(Uri.parse('https://api.ipify.org?format=json'))
+        .timeout(timeout);
+    if (response.statusCode != 200) {
+      return 'unavailable (HTTP ${response.statusCode})';
+    }
+    final decoded = jsonDecode(response.body);
+    final ip = decoded is Map ? '${decoded['ip'] ?? ''}'.trim() : '';
+    return ip.isEmpty ? 'unavailable (empty response)' : ip;
+  } catch (error) {
+    return 'unavailable ($error)';
+  } finally {
+    client.close();
+  }
+}
+
 Future<String> probeProxyRoute(
   GlobalProxyConfig config,
   String rpcUrl, {

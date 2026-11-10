@@ -1,122 +1,23 @@
 {
-  "artifactPathRecord": "x-wallet-1.4.2-amd64.deb (not committed; hash is evidence); Android APKs are separate assets",
-  "artifactSha256": "c61b6c9e2667df8675fcd633939f415ededc515606139e569d0f7702c99d3eea",
+  "schemaVersion": 1,
+  "version": "1.5.0+13",
+  "sourceCommit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+  "checksCommit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+  "artifactSourceCommit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+  "artifactPathRecord": "x-wallet-1.5.0-amd64.deb; signed Android arm64 and universal APKs; source archive; SBOM (not committed; hashes are the evidence)",
+  "artifactSha256": "339a5c9e9b3e8981341b6f352cc08b6b153b8d942e1bb0ea8433de3b782b96aa",
   "artifactSigned": true,
-  "artifactSourceCommit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
   "artifacts": [],
   "checks": [
     {
-      "command": "flutter build apk --release --target-platform android-arm64 --no-pub",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 303,
-      "evidence": "SHA-256 05849085e78facd7bd5706c2a26d4b3fd60b0038744fd508502a06b433a48c19; arm64-v8a only",
+      "command": "bash -lc cd verification && npm ci --silent && node verify.cjs",
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 6.06,
       "exitCode": 0,
-      "id": "android-arm64-build",
-      "log": null,
-      "logSha256": null,
-      "machine": {
-        "architecture": "x86_64",
-        "os": "Linux-7.0.0-42-generic"
-      },
-      "required": true,
-      "toolchain": {
-        "dart": "3.13.5",
-        "flutter": "3.47.6 stable"
-      }
-    },
-    {
-      "command": "flutter test test/widget_test.dart test/navigation_flow_test.dart test/accessibility_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 28.878,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:03.328439Z",
-      "id": "android-dashboard",
-      "log": "/tmp/opencode/evidence-1.4.2/android-dashboard.log",
-      "logSha256": "d39181e8200cc2d364db1cb8c332ce0a878cbc5d683482daa4160f9ade7dac22",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:54:34.450263Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "apksigner verify --print-certs + verify-android-signer.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 2,
-      "evidence": "Signer db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3; denylist PASS",
-      "exitCode": 0,
-      "id": "android-signer",
-      "log": null,
-      "logSha256": null,
-      "machine": {
-        "architecture": "x86_64",
-        "os": "Linux-7.0.0-42-generic"
-      },
-      "required": true,
-      "toolchain": {
-        "dart": "3.13.5",
-        "flutter": "3.47.6 stable"
-      }
-    },
-    {
-      "command": "flutter build apk --release --no-pub",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 390,
-      "evidence": "SHA-256 06d5895a5611ebaf3b8ff383f97fd5d970cb5005c456491adb6f62eacfa226d2; three ABIs",
-      "exitCode": 0,
-      "id": "android-universal-build",
-      "log": null,
-      "logSha256": null,
-      "machine": {
-        "architecture": "x86_64",
-        "os": "Linux-7.0.0-42-generic"
-      },
-      "required": true,
-      "toolchain": {
-        "dart": "3.13.5",
-        "flutter": "3.47.6 stable"
-      }
-    },
-    {
-      "command": "flutter test test/backup_restore_e2e_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 12.408,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:58:05.627758Z",
-      "id": "backup-e2e",
-      "log": "/tmp/opencode/evidence-1.4.2/backup-e2e.log",
-      "logSha256": "6629cc627168d08786b85fcabf41748d7b4f0d15d62d5b0482bdd94a1611a72f",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:57:53.219961Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "bash -c cd verification && npm ci && node verify.cjs",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 5.774,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:05.891095Z",
+      "finishedAt": "2026-11-10T13:27:45.173142Z",
       "id": "cold-signature",
-      "log": "/tmp/opencode/evidence-1.4.2/cold-signature.log",
-      "logSha256": "87d225095d2a70a49690e8303beba63346dec03c64047a940ef609503c7c3e69",
+      "log": "/tmp/opencode/evidence-1.5.0/cold-signature.log",
+      "logSha256": "5575c271e9b604d3995d6dfecfcfeb7b00bd0f6e05fef7a49893ba1cd90e342d",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -125,44 +26,21 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:00.116844Z",
+      "startedAt": "2026-11-10T13:27:39.112950Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
       }
     },
     {
-      "command": "flutter test test/data_boundary_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 8.088,
+      "command": "env BNB_OUTDIR=/tmp/opencode/release-1.5.0 BNB_GPG_KEY=CC819EF5E109A1518E840379D8C0CEC84BCCE06B bash scripts/build-deb.sh",
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 121.115,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:53.426486Z",
-      "id": "data-boundary",
-      "log": "/tmp/opencode/evidence-1.4.2/data-boundary.log",
-      "logSha256": "3b5c788081aaa22f3dda5cd583af49c0edf1301c2fc58cfd862e725ffcaf2552",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:55:45.338338Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "bash -c SKIP_FLUTTER_BUILD=1 bash scripts/build-deb.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 17.502,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T02:00:35.179153Z",
+      "finishedAt": "2026-11-10T13:29:58.016870Z",
       "id": "deb-build",
-      "log": "/tmp/opencode/evidence-1.4.2/deb-build.log",
-      "logSha256": "4ccbb65317f94da9a578e174d340b2fe598ef5176fe389573b5f8a50dcd105c9",
+      "log": "/tmp/opencode/evidence-1.5.0/deb-build.log",
+      "logSha256": "6e7ae407aa6cbc58dbf43eb0a781f237827747dfde55dd41f07ea93aae6a6328",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -171,21 +49,21 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T02:00:17.677133Z",
+      "startedAt": "2026-11-10T13:27:56.901475Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
       }
     },
     {
-      "command": "bash -c set -euo pipefail; D=/tmp/opencode/release-1.4.2; C=$(mktemp -d); trap \"rm -rf $C\" EXIT; GNUPGHOME=$C gpg --batch --import docs/keys/x-wallet-signing-key.asc >/dev/null 2>&1; GNUPGHOME=$C gpg --batch --verify \"$D/SHA256SUMS.asc\" \"$D/SHA256SUMS\"; (cd \"$D\" && sha256sum --check --strict SHA256SUMS)",
-      "commit": "7d15f33fe884d0e3a3475428a70b8c1126aa99cc",
-      "durationSeconds": 0.704,
+      "command": "gpg --batch --verify /tmp/opencode/release-1.5.0/x-wallet-1.5.0-amd64.deb.asc /tmp/opencode/release-1.5.0/x-wallet-1.5.0-amd64.deb",
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 0.057,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T02:27:36.887029Z",
+      "finishedAt": "2026-11-10T13:29:59.434375Z",
       "id": "deb-signature",
-      "log": "/tmp/opencode/evidence-1.4.2/deb-signature.log",
-      "logSha256": "c7987476d718883d8d07e9c5056fb6aec4d15cbcb85053efe38ceb4aaab605c1",
+      "log": "/tmp/opencode/evidence-1.5.0/deb-signature.log",
+      "logSha256": "cdc5ab08a7bf0113e4637e7d1c34b6b24d47378a35a19410d6398a5fa8396a04",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -194,7 +72,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T02:27:36.183060Z",
+      "startedAt": "2026-11-10T13:29:59.377726Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -202,12 +80,12 @@
     },
     {
       "command": "python3 scripts/dependency-audit.py",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 4.262,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 3.927,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:11.474865Z",
+      "finishedAt": "2026-11-10T13:27:50.403392Z",
       "id": "dependency-audit",
-      "log": "/tmp/opencode/evidence-1.4.2/dependency-audit.log",
+      "log": "/tmp/opencode/evidence-1.5.0/dependency-audit.log",
       "logSha256": "531db7f60a49620ca2633b95bcde030e9ea4984fb6ea2ed418fed511600906dc",
       "machine": {
         "architecture": "x86_64",
@@ -217,30 +95,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:07.212879Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "flutter test test/localization_test.dart test/settings_state_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 17.242,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:21.804877Z",
-      "id": "english-only",
-      "log": "/tmp/opencode/evidence-1.4.2/english-only.log",
-      "logSha256": "8f5fd7deb946187a9e228d66617c77fd55a627777d6c5effc9eded32579387b9",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:55:04.562479Z",
+      "startedAt": "2026-11-10T13:27:46.475921Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -248,13 +103,13 @@
     },
     {
       "command": "bash scripts/test-suite.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 873.271,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 722.287,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:54:32.828340Z",
+      "finishedAt": "2026-11-10T13:27:34.054667Z",
       "id": "full-test-suite",
-      "log": "/tmp/opencode/evidence-1.4.2/full-test-suite.log",
-      "logSha256": "cb66dc387ea211822e7991202f0da6eb05b3d7ab98ddb3c68eca280952c6269e",
+      "log": "/tmp/opencode/evidence-1.5.0/full-test-suite.log",
+      "logSha256": "6b5318f7027a92bcb7a023ff7d6ac8b51b24cbf07af027ef7bddca066b7993e3",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -263,74 +118,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:39:59.557509Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "python3 scripts/test_release_identity.py",
-      "commit": "7d15f33fe884d0e3a3475428a70b8c1126aa99cc",
-      "durationSeconds": 0.374,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T02:28:34.383419Z",
-      "id": "identity-negative-tests",
-      "log": "/tmp/opencode/evidence-1.4.2/identity-negative-tests.log",
-      "logSha256": "c13bc4062bff62d1a8bef10add472b4373d20b5aeadfc4702c42a2fdff405b8e",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T02:28:34.009695Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "bash scripts/package-smoke.sh --deb dist/x-wallet-1.4.2-amd64.deb --previous previous.deb --seconds 20",
-      "commit": "7d15f33fe884d0e3a3475428a70b8c1126aa99cc",
-      "durationSeconds": 136,
-      "evidence": "GitHub Actions package-smoke run 42742116355",
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T02:23:06Z",
-      "id": "install-smoke",
-      "log": null,
-      "logSha256": null,
-      "machine": {
-        "architecture": "x86_64",
-        "os": "Linux-ubuntu-24.04"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T02:20:50Z",
-      "toolchain": {
-        "dart": "3.13.5",
-        "flutter": "3.47.6 stable"
-      }
-    },
-    {
-      "command": "bash scripts/run-anvil-tests.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 14.007,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:32.422231Z",
-      "id": "integration",
-      "log": "/tmp/opencode/evidence-1.4.2/integration.log",
-      "logSha256": "d581506f5377a5df07ef09beffcb8d9990e2c49dc26f5c2bb45008c48bfe67af",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:56:18.415054Z",
+      "startedAt": "2026-11-10T13:15:31.767830Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -338,12 +126,12 @@
     },
     {
       "command": "python3 scripts/license-check.py",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 0.274,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 0.067,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:17.086346Z",
+      "finishedAt": "2026-11-10T13:27:55.667280Z",
       "id": "license-inventory",
-      "log": "/tmp/opencode/evidence-1.4.2/license-inventory.log",
+      "log": "/tmp/opencode/evidence-1.5.0/license-inventory.log",
       "logSha256": "ab9b22cbedaa80d39baa88de903ce82c34004be60b57a50f36260d2db2832e07",
       "machine": {
         "architecture": "x86_64",
@@ -353,30 +141,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:16.812182Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "flutter build linux --release --no-pub",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 126.088,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T02:00:15.900364Z",
-      "id": "linux-build",
-      "log": "/tmp/opencode/evidence-1.4.2/linux-build.log",
-      "logSha256": "ee7e1d90cc6af35a154a68700544138d8b6611dc077471150a534ee2a8ed06f3",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:58:09.812520Z",
+      "startedAt": "2026-11-10T13:27:55.599785Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -384,13 +149,13 @@
     },
     {
       "command": "python3 scripts/check_release_evidence.py",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 0.051,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 0.056,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:15.531926Z",
+      "finishedAt": "2026-11-10T13:27:54.314338Z",
       "id": "release-evidence",
-      "log": "/tmp/opencode/evidence-1.4.2/release-evidence.log",
-      "logSha256": "07513a54a5d24bf299d65857fe2ebc00c33d9b46ce56dea08e3af36d06f4a98f",
+      "log": "/tmp/opencode/evidence-1.5.0/release-evidence.log",
+      "logSha256": "3f46c826b1cad4c4cca439e564c249b046345f19e4b34e898ab3b3c7083b570a",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -399,44 +164,21 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:15.480877Z",
+      "startedAt": "2026-11-10T13:27:54.258412Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
       }
     },
     {
-      "command": "bash scripts/test_release_signing.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 1.68,
+      "command": "bash scripts/reproducibility-check.sh HEAD",
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 273.156,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:58:08.544545Z",
-      "id": "release-signing-tests",
-      "log": "/tmp/opencode/evidence-1.4.2/release-signing-tests.log",
-      "logSha256": "cddddfef6b745a90fc0bb33bd7dea7a9adf31d58aa8e567d96a225cb13d6bc6d",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:58:06.864251Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "bash scripts/reproducibility-check.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 240.779,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T02:04:37.132412Z",
+      "finishedAt": "2026-11-10T14:03:26.235630Z",
       "id": "reproducibility",
-      "log": "/tmp/opencode/evidence-1.4.2/reproducibility.log",
-      "logSha256": "b6a4d3954bf73496cd7e34f9e62cea59ac855b1f95b6eb10e216a92382aa665a",
+      "log": "/tmp/opencode/evidence-1.5.0/reproducibility.log",
+      "logSha256": "9c118bd0aac6ae1ecbc3a1771736b854f3753929666520caeb02e154418099c5",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -445,7 +187,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T02:00:36.353671Z",
+      "startedAt": "2026-11-10T13:58:53.079165Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -453,12 +195,12 @@
     },
     {
       "command": "python3 scripts/sbom.py --out docs/SBOM.json",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 0.093,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 0.059,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:12.848934Z",
+      "finishedAt": "2026-11-10T13:27:51.695261Z",
       "id": "sbom",
-      "log": "/tmp/opencode/evidence-1.4.2/sbom.log",
+      "log": "/tmp/opencode/evidence-1.5.0/sbom.log",
       "logSha256": "2eae3b70d7706078af7362530e44bb910ed74cfb90b1f7cc7dcc70d460ce2997",
       "machine": {
         "architecture": "x86_64",
@@ -468,7 +210,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:12.755502Z",
+      "startedAt": "2026-11-10T13:27:51.636323Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -476,12 +218,12 @@
     },
     {
       "command": "bash scripts/secret-scan.sh",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 4.232,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 2.597,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:58.865318Z",
+      "finishedAt": "2026-11-10T13:27:37.887267Z",
       "id": "secret-scan",
-      "log": "/tmp/opencode/evidence-1.4.2/secret-scan.log",
+      "log": "/tmp/opencode/evidence-1.5.0/secret-scan.log",
       "logSha256": "7ff728a5877b4846116a6f998866554a174b4630c36e76db4d52070b3f0e08ae",
       "machine": {
         "architecture": "x86_64",
@@ -491,30 +233,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:55:54.633556Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "python3 scripts/security_mutation_check.py",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 78.105,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:57:51.891882Z",
-      "id": "security-mutation",
-      "log": "/tmp/opencode/evidence-1.4.2/security-mutation.log",
-      "logSha256": "d04b5408453d3d8d2c8d51b8268909d0d4d24de61743e94d018ceef3a90b4acb",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-10T01:56:33.787340Z",
+      "startedAt": "2026-11-10T13:27:35.290703Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -522,13 +241,13 @@
     },
     {
       "command": "flutter analyze --no-pub",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 5.019,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 6.124,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:39:58.349666Z",
+      "finishedAt": "2026-11-10T13:15:30.558300Z",
       "id": "static-analysis",
-      "log": "/tmp/opencode/evidence-1.4.2/static-analysis.log",
-      "logSha256": "3ba6a1ac660a95d58253eaf3c66b63e2d3621baaa0f69edd2cfbc742fb1f3e1d",
+      "log": "/tmp/opencode/evidence-1.5.0/static-analysis.log",
+      "logSha256": "d144de2d07105e705a4d27df92bf655c8b76f08960044edb0517455255fad5db",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -537,7 +256,7 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:39:53.330426Z",
+      "startedAt": "2026-11-10T13:15:24.434254Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
@@ -545,13 +264,13 @@
     },
     {
       "command": "python3 scripts/test_inventory.py --check",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 0.108,
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "durationSeconds": 0.093,
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:56:14.209509Z",
+      "finishedAt": "2026-11-10T13:27:52.969973Z",
       "id": "test-inventory",
-      "log": "/tmp/opencode/evidence-1.4.2/test-inventory.log",
-      "logSha256": "67786091b809908012f70e554b7a416c8a73c15a23326e4065e73e335838c8fa",
+      "log": "/tmp/opencode/evidence-1.5.0/test-inventory.log",
+      "logSha256": "86e80c8f760d05246e448374d6ec90392f2204b5c9c1582b5d8a570c4f4268e9",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
@@ -560,84 +279,63 @@
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-10T01:56:14.101162Z",
+      "startedAt": "2026-11-10T13:27:52.877173Z",
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
       }
     },
     {
-      "command": "flutter test test/token_registry_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 9.282,
+      "id": "install-smoke",
+      "commit": "6c7841ec8aaffd857628c2c19941a265067a2c81",
+      "command": "GitHub Actions package-smoke: build .deb, install, launch under Xvfb, upgrade from public 1.0.9, uninstall, reinstall",
       "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:32.356400Z",
-      "id": "token-registry",
-      "log": "/tmp/opencode/evidence-1.4.2/token-registry.log",
-      "logSha256": "8f0310eb951563c0b9370eb91c62dad5d8e6bc638fc2eb1a458e75953938ceaf",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
+      "durationSeconds": 155,
+      "startedAt": "2026-11-10T13:15:48Z",
+      "finishedAt": "2026-11-10T13:18:23Z",
       "required": true,
-      "startedAt": "2026-11-10T01:55:23.074619Z",
-      "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
-      }
-    },
-    {
-      "command": "flutter test test/vault_multi_wallet_test.dart --concurrency=1",
-      "commit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-      "durationSeconds": 10.484,
-      "exitCode": 0,
-      "finishedAt": "2026-11-10T01:55:44.080328Z",
-      "id": "vault-multi-wallet",
-      "log": "/tmp/opencode/evidence-1.4.2/vault-multi-wallet.log",
-      "logSha256": "46bee835c0630cf66442a9721912a122f58e23641c1f861fabfaf740374598b6",
+      "evidence": "GitHub Actions run 42822907816, job 129852658585: all steps PASS",
+      "log": "https://github.com/jackh0006/X-Wallet/actions/runs/42822907816",
+      "logSha256": null,
       "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
+        "os": "Linux-6.8.0-1030-azure",
+        "architecture": "x86_64"
       },
-      "required": true,
-      "startedAt": "2026-11-10T01:55:33.596320Z",
       "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
+        "dart": "3.13.5",
+        "flutter": "3.47.6 stable"
       }
     }
   ],
-  "checksCommit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-  "identityNote": "Source checks and both signed Android APKs were produced at 110b67f. The documentation commit 7d15f33 records results, the real-world evidence, and the 1.4.2 SBOM; packaged code and assets are unchanged.",
+  "status": "RELEASE APPROVED",
+  "identityNote": "All source checks ran at the release code commit. The later evidence commit changes documentation, manifest and release evidence only.",
   "notes": [
     "Linux package signed with owner key CC819EF5E109A1518E840379D8C0CEC84BCCE06B and verified in a clean keyring.",
-    "Android APKs signed by db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3.",
-    "Historical Android signer 10c13aa91cc14288df995095c6b620ff60f3c10e77fd6615635b150463e25b85 is denylisted.",
-    "Android arm64 APK contains only arm64-v8a; universal contains three ABIs.",
-    "Android runtime on a physical phone was not tested in this environment; the small-amount test covers device verification.",
-    "Default suite 59/59 non-integration files; inventory 60 files / 347 declarations.",
-    "Owner-verified real transfers on Linux and Android are recorded in docs/REAL_WORLD_TESTING.md without addresses or transaction hashes."
+    "Android APKs signed by db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3; historical 10c13aa9...25b85 is denylisted.",
+    "Android arm64 APK contains arm64-v8a only; universal contains arm64-v8a, armeabi-v7a and x86_64.",
+    "Android APK contains lib/arm64-v8a/libargon2-arm.so with exported argon2id_hash_raw. Device KDF timing is NOT TESTED.",
+    "Physical Android device runtime (Huawei Y9 2019) is NOT TESTED in this environment. The GitHub Actions package smoke covers Linux install/launch/upgrade/uninstall.",
+    "62 test files / 352 declarations; default suite 61/61 non-integration files.",
+    "No AI, analytics, ads, remote-control, or builder SDK is present. CoinGecko and ipify receive no wallet data.",
+    "Android signer rotation is verified for the public APK line; offline backup of the new key remains an owner action."
   ],
   "problems": [],
-  "schemaVersion": 1,
   "signature": {
     "algorithm": "EdDSA",
     "file": "SHA256SUMS.asc",
     "fingerprint": "CC819EF5E109A1518E840379D8C0CEC84BCCE06B",
     "keyId": "D8C0CEC84BCCE06B",
-    "sha256Signature": "9bb79c34f607191462377721914f1749c7bb9e1d1910d2c5e29bfbbdf8aaf8f5",
-    "sha256Sums": "53acdd15000980f1d1e63c2215c4969b99609723f37a0f8aa0a2c0327bb2c39b",
-    "verificationMethod": "clean GNUPGHOME containing only the published public key; sha256sum --check over package, APKs, source, and SBOM",
+    "sha256Sums": "abf733dba1c610b05387af1081301a5bc9a199eb84ef1ae4ce28968d2f8a3123",
+    "sha256Signature": "94375f1eb18f59b162c837e3a134eb88cea05fb16775c60289819f1400ab7bd8",
     "verified": true,
-    "verifiedAt": "2026-11-10T02:30:00Z"
+    "verificationMethod": "clean GNUPGHOME containing only the published public key; sha256sum --check over package, APKs, source archive and SBOM",
+    "verifiedAt": "2026-11-10T14:28:02Z"
   },
-  "sourceCommit": "110b67fd5bde59aa7b17b5b5afe99ea8fb7972b8",
-  "status": "RELEASE APPROVED",
-  "version": "1.4.2+11"
+  "artifactsDetail": {
+    "linuxDeb": "339a5c9e9b3e8981341b6f352cc08b6b153b8d942e1bb0ea8433de3b782b96aa",
+    "androidArm64": "bb6f331a79b48f97574f6ca71f3e86e3db770ffe174643e1396f3bf332490a7f",
+    "androidUniversal": "18bb9173d4ec81d7a4f3a48e03d0acf0cb729d6c868e7878e18b5958ca953bd0",
+    "sourceArchive": "2cff6874d434ec4d43cecc30c73e3c0d6dd396bed9ea90868dc6f7b1ca047b9d",
+    "sbom": "185f3dbc8d5d0a006e95ed5e872714710255e5e87ac834619061dfb17b621a1e"
+  }
 }

@@ -86,6 +86,12 @@ The production parameters are fixed at **64 MiB, t=3, p=4, 32-byte tag**
 2. The pure-Dart `cryptography` Argon2id only when no native library can be
    loaded. This is the same algorithm and parameters, but much slower.
 
+Android 1.5.0 ships the same reference C library as `libargon2-arm.so`,
+built from `android/app/src/main/cpp/` and loaded through the FFI path in
+`lib/kdf.dart`. The 64 MiB / t=3 / p=4 parameters are identical to Linux. The
+release APK contains that library; device-level timing is **NOT TESTED** in this
+environment.
+
 Measured on the release-check machine (Ubuntu 24.04, 2 physical cores,
 3.8 GiB RAM, Flutter 3.47.6 / Dart 3.13.5): **344 ms** for one 64 MiB,
 t=3, p=4 derivation through the native reference library. The same

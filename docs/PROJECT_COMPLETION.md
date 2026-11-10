@@ -3,7 +3,7 @@
 ## What X Wallet is
 
 X Wallet is a free, open-source (AGPL-3.0-or-later), local, non-custodial
-EVM-compatible desktop wallet for Linux. Version 1.4.2 enables BNB Smart Chain.
+EVM-compatible desktop wallet for Linux. Version 1.5.0 enables BNB Smart Chain.
 It creates or imports BIP-39 wallets,
 derives EVM addresses, signs locally, and stores the vault with Argon2id and
 XChaCha20-Poly1305. It also provides a cold/offline signing workflow, optional
@@ -11,24 +11,24 @@ Tor/SOCKS routing, transaction review, and a hardened Linux storage path.
 
 ## Supported networks
 
-Version 1.4.2 enables BNB Smart Chain mainnet (56) and testnet (97). The
+Version 1.5.0 enables BNB Smart Chain mainnet (56) and testnet (97). The
 codebase uses EVM primitives, but no other network is enabled or claimed in
 this release. Additional EVM networks are planned; do not assume support until
 a release documents it.
 
 ## Current stable version
 
-**X Wallet 1.4.2** (`1.4.2+11`)
+**X Wallet 1.5.0** (`1.5.0+13`)
 
 The stable release is published at:
 
-<https://github.com/jackh0006/X-Wallet/releases/tag/v1.4.2>
+<https://github.com/jackh0006/X-Wallet/releases/tag/v1.5.0>
 
 ## Download
 
 Download only from the release page:
 
-- `x-wallet-1.4.2-amd64.deb`
+- `x-wallet-1.5.0-amd64.deb`
 - `SHA256SUMS` and `SHA256SUMS.asc`
 - `x-wallet-signing-key.asc`
 - SBOM and release documentation
@@ -40,7 +40,7 @@ independent channel before trusting it.
 ## Verify the SHA-256
 
 ```bash
-sha256sum x-wallet-1.4.2-amd64.deb
+sha256sum x-wallet-1.5.0-amd64.deb
 sha256sum --check SHA256SUMS
 ```
 
@@ -73,7 +73,7 @@ limitation, not a claim of headless support.
 ## Installation
 
 ```bash
-sudo apt install ./x-wallet-1.4.2-amd64.deb
+sudo apt install ./x-wallet-1.5.0-amd64.deb
 ```
 
 The Debian package is `x-wallet` and replaces `bnb-wallet` while preserving

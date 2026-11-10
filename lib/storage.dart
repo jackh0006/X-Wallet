@@ -1049,7 +1049,15 @@ Future<AtomicWriteResult> _atomicWritePortable(
 class AppStorage {
   AppStorage._();
 
-  static final FlutterSecureStorage _secure = const FlutterSecureStorage();
+  // Fail closed on Android: a Keystore read error must never silently erase
+  // the only device factor and orphan the vault. Migration keeps a backup.
+  static final FlutterSecureStorage _secure = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      resetOnError: false,
+      migrateWithBackup: true,
+      migrateOnAlgorithmChange: true,
+    ),
+  );
 
   static SharedPreferences? _prefs;
 
@@ -1743,6 +1751,8 @@ class AppStorage {
       'profiles',
       'pending_txs',
       'auto_lock_seconds',
+      'wipe_after_failures',
+      'show_usd',
       'tor_enabled',
       'tor_host',
       'tor_port',
@@ -2089,6 +2099,18 @@ class AppStorage {
   static int get autoLockSeconds => prefs.getInt('auto_lock_seconds') ?? 60;
   static Future<void> setAutoLockSeconds(int seconds) =>
       prefs.setInt('auto_lock_seconds', seconds);
+
+  /// 0 = never wipe. Default 10 wrong PINs. This is a local preference; it
+  /// never leaves the device.
+  static int get wipeAfterFailures => prefs.getInt('wipe_after_failures') ?? 10;
+  static Future<void> setWipeAfterFailures(int failures) =>
+      prefs.setInt('wipe_after_failures', failures);
+
+  /// Public USD prices are optional. The request contains only fixed coin
+  /// IDs; no address or balance is ever sent.
+  static bool get showUsd => prefs.getBool('show_usd') ?? true;
+  static Future<void> setShowUsd(bool value) =>
+      prefs.setBool('show_usd', value);
 
   static bool get torEnabled => prefs.getBool('tor_enabled') ?? false;
   static Future<void> setTorEnabled(bool value) =>

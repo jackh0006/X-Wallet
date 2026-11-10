@@ -1,8 +1,8 @@
 # Security Scorecard
 
-**Date:** 2026-11-07
-**Release:** X Wallet `1.4.2+11`
-**Tested source commit:** `7e153548c150ba4df7a6bb3945437a3bf58e388a`
+**Date:** 2026-11-10
+**Release:** X Wallet `1.5.0+13`
+**Tested source commit:** recorded in `release/evidence.json` for the 1.5.0 candidate
 **Status:** provisional, internal self-assessment. **This is not an independent
 audit.** A score never overrides a release blocker.
 
@@ -18,11 +18,11 @@ audit.** A score never overrides a release blocker.
 - Any critical/high unresolved finding blocks production approval regardless of
   score.
 
-## Internal self-assessment: 90 / 100
+## Internal self-assessment: 91 / 100
 
 | Category | Weight | Score | Evidence |
 |---|---:|---:|---|
-| Cryptography and key protection | 20 | 17 | Native Argon2id 64 MiB/t=3/p=4 with pure-Dart cross-check; double-wrapped XChaCha20-Poly1305 vault; device-bound layer; tamper, wrong-password, wrong-device, truncation, and v1-migration tests; legacy pre-1.2 data-directory migration; any-length password with confirmation and strength score; key modules have no network path (`data_boundary_test`) |
+| Cryptography and key protection | 20 | 18 | Native Argon2id 64 MiB/t=3/p=4 on Linux **and Android** (`libargon2-arm.so` in the APK, loaded through FFI); double-wrapped XChaCha20-Poly1305 vault; device-bound layer; tamper, wrong-password, wrong-device, truncation, and v1-migration tests; legacy migration; any-length password with confirmation and strength score; key modules have no network path (`data_boundary_test`). Android device KDF timing is still **NOT TESTED**. |
 | Transaction and blockchain security | 15 | 14 | Exact ERC-20 calldata; chain-ID validation; EIP-1559 codec; fee/nonce/zero-address checks; freeze signing, recipient allowlist, and per-transaction limit; hold-to-confirm; multi-wallet vault with one password; private-key cold signing with replay protection; independent ethers.js cold-signature oracle; real Anvil native and ERC-20 tests |
 | Testing, fuzzing and reliability | 15 | 15 | 59 files / 342 declarations; 58/58 default suite pass; deterministic fuzz/property tests; mock-RPC adversarial tests; real Anvil integration; mutation score 5/5; backup E2E; localization, data-boundary, multi-wallet, password-strength, default-token, migration, public-default, and private-key cold tests; hosted CI green |
 | Supply chain and CI/CD | 10 | 10 | Pinned action SHAs; CodeQL; OpenSSF Scorecard; secret scan; dependency advisory audit; license inventory; CycloneDX SBOM; least-privilege workflows; signed checksums; published public key |
@@ -32,7 +32,7 @@ audit.** A score never overrides a release blocker.
 | Platform compatibility and performance | 5 | 3 | Ubuntu 24.04 build, `.deb` package smoke, install/launch/upgrade/uninstall, data preservation; KDF measured at 344 ms |
 | UI, accessibility and user safety | 5 | 4 | Keyboard hold-to-confirm; semantics; 200% text scale; full-address review; donation separation; spending-safety settings |
 | Documentation, transparency and governance | 5 | 5 | Threat model; self-audit; risk-control and data-control records; generated status; manifest; SBOM; PR and CI evidence; signed release; AI review guide; test evidence |
-| **Total** | **100** | **90** | |
+| **Total** | **100** | **91** | |
 
 ### What the remaining ten points represent
 
@@ -68,12 +68,14 @@ Token-Permissions, and Pinned-Dependencies.
 
 ## Release blockers regardless of score
 
-1. Android historical signing key not rotated
-   (`docs/security/INCIDENT_2026-11-KEYSTORE.md`).
+1. Physical Android device tests (Huawei Y9 2019) and Android
+   instrumentation/emulator tests have not been run.
 2. Full interactive clean-desktop test and non-Ubuntu installs not yet run.
 3. No independent security audit is claimed.
 4. Startup/RSS benchmark not measured on a runner with a Secret Service
    provider.
+5. Android QR camera scanning, token approvals, and a user-auth-bound
+   Keystore key remain future work.
 
 ## What raised the score honestly
 
@@ -94,7 +96,8 @@ Token-Permissions, and Pinned-Dependencies.
 - Independent-machine rebuild and a published build-provenance attestation.
 - Clean-install CI on Debian 12 and a full interactive desktop session.
 - Coverage-guided fuzzing and a long-running soak test.
-- Android key rotation and denylist verification.
+- Android device verification of the native KDF, lock lifecycle, biometrics,
+  and overlay protection.
 
 ## What would not raise the score
 

@@ -64,6 +64,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `node_manager_test.dart` | 17 | (light) | ✅ PASS | Pool selection, strict mode, import/export |
 | `ua_scrub_test.dart` | 1 | (light) | ✅ PASS | User-Agent scrubbing on all transports |
 | `rpc_adversarial_test.dart` | 6 | (light) | ✅ PASS | Wrong chain, non-JSON/HTML RPC, oversized/malformed balance, network-switch mismatch, URL policy |
+| `price_service_test.dart` | 3 | (light) | ✅ PASS | USD conversion, missing price, readable dollar labels |
 
 ### Transaction & Fees
 
@@ -99,10 +100,11 @@ These tests are excluded from the default 47-file suite and run in the
 | `widget_test.dart` | 3 | (light) | ✅ PASS | App launch, home tab, app lock |
 | `navigation_flow_test.dart` | 3 | (light) | ✅ PASS | Unlock→send, unlock→wallet, no save dialogs |
 | `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
-| `localization_test.dart` | 1 | (light) | ✅ PASS | Text follows the selected locale |
+| `localization_test.dart` | 1 | (light) | ✅ PASS | English is the only supported language |
 | `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
 | `data_boundary_test.dart` | 4 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
 | `password_strength_test.dart` | 5 | (light) | ✅ PASS | Very weak → Very strong scoring; any length is accepted |
+| `security_policy_test.dart` | 2 | (light) | ✅ PASS | 6-digit PIN policy, trivial PIN rejection, strong PIN acceptance |
 | `vault_multi_wallet_test.dart` | 6 | (test override) | ✅ PASS | Multiple wallets, one vault password, rename, remove, session cache |
 | `default_tokens_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC USDT/USDC contracts and one-time default merge |
 | `cold_private_key_test.dart` | 3 | (light) | ✅ PASS | Private-key cold signing, wrong-key refusal, replay safety |

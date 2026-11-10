@@ -77,8 +77,11 @@ APK="$OUTDIR/x-wallet-${VERSION}-android-arm64.apk"
 mkdir -p "$OUTDIR"
 
 echo "[1/5] Building arm64 release APK ..."
+SPLIT_DEBUG_DIR="${BNB_SPLIT_DEBUG_DIR:-$OUTDIR/debug-info}"
+mkdir -p "$SPLIT_DEBUG_DIR"
 ORG_GRADLE_PROJECT_xwalletAbi=arm64-v8a \
-  flutter build apk --release --target-platform android-arm64 --no-pub
+  flutter build apk --release --target-platform android-arm64 --no-pub \
+    --obfuscate --split-debug-info="$SPLIT_DEBUG_DIR/arm64"
 ARM_UNSIGNED="$OUTDIR/x-wallet-${VERSION}-android-arm64-unsigned.apk"
 cp build/app/outputs/flutter-apk/app-release.apk "$ARM_UNSIGNED"
 ARM_LIST="$(unzip -l "$ARM_UNSIGNED")"
@@ -92,7 +95,8 @@ esac
 
 echo "[2/5] Building universal release APK ..."
 ORG_GRADLE_PROJECT_xwalletAbi= \
-  flutter build apk --release --no-pub
+  flutter build apk --release --no-pub \
+    --obfuscate --split-debug-info="$SPLIT_DEBUG_DIR/universal"
 UNIVERSAL_UNSIGNED="$OUTDIR/x-wallet-${VERSION}-android-universal-unsigned.apk"
 cp build/app/outputs/flutter-apk/app-release.apk "$UNIVERSAL_UNSIGNED"
 UNIVERSAL_LIST="$(unzip -l "$UNIVERSAL_UNSIGNED")"
