@@ -1,7 +1,7 @@
 {
-  "archiveSha256": "0cb21d41bb1f304ae42e2c19d5239c56cbc3343eda9e7d6cbfe30f006154e573",
-  "buildPath": "/tmp/bnb-repro-build",
-  "constraint": "Flutter embeds the absolute build path in libapp.so and plugin .so files. Two different absolute paths are NOT guaranteed to match; this result is not an independent-machine proof.",
+  "archiveSha256": "9a8a22d646d7b7d678c81e9156bb76a4e664e3b159ad6167d82ed4d2abd0bce8",
+  "buildPath": "/build/x-wallet (GitHub Actions, two runners)",
+  "constraint": "GitHub Actions builds at the fixed path /build/x-wallet on two ubuntu-24.04 runners; identical archive hashes and file manifests.",
   "environment": {
     "architecture": "x86_64",
     "dart": "3.13.5",
@@ -10,9 +10,9 @@
     "os": "Ubuntu 24.04.5 LTS",
     "sourceDateEpoch": 0
   },
-  "evidence": "docs/evidence/2026-11-09/reproducibility.log",
+  "evidence": "https://github.com/jackh0006/X-Wallet/actions/runs/42838045916",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "6610b251ed806b0f6e6b1174fc19a1c14f011686",
+  "sourceCommit": "8c2a969a95e3d8b350d7bb5af9aefd6df80f426c",
   "status": "PASS_FIXED_PATH"
 }
