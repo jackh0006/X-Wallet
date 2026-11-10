@@ -9,7 +9,7 @@
   "runner": "GitHub Actions ubuntu-24.04",
   "schemaVersion": 1,
   "script": "scripts/package-smoke.sh",
-  "sourceCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
+  "sourceCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
   "status": "PASS",
   "steps": {
     "buildDeb": "PASS",
