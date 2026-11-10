@@ -2118,8 +2118,9 @@ class _SettingsPageState extends State<SettingsPage> {
             contentPadding: EdgeInsets.zero,
             title: const Text('Show USD values'),
             subtitle: const Text(
-              'Fetches public prices from CoinGecko. The request contains only '
-              'fixed coin IDs — never your address, balance, or wallet.',
+              'Fetches public prices from CoinMarketCap, CoinGecko, Binance, or '
+              'Coinbase. The request contains only fixed coin symbols — never '
+              'your address, balance, or wallet.',
             ),
             value: appState.showUsd,
             onChanged: (value) async {

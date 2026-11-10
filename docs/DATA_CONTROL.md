@@ -29,8 +29,9 @@ The app sends only what is required for the selected action:
 
 - JSON-RPC calls to the configured node (balances, nonces, fees, broadcast).
 - Optional explorer history requests to BscScan when the user adds an API key.
-- A public USD price request to `api.coingecko.com` containing only a fixed
-  list of public coin IDs. No address, balance, vault, or identifier is sent.
+- A public USD price request to `api.coinmarketcap.com`, with fallback to
+  `api.coingecko.com`, `api.binance.com`, or `api.coinbase.com`, containing only
+  fixed public coin symbols/IDs. No address, balance, vault, or identifier is sent.
 - A public-IP echo request to `api.ipify.org` made only when the user runs the
   privacy, proxy, or external Tor route test. It sends no wallet data.
 - No account registration, analytics, ads, telemetry, or AI service calls.

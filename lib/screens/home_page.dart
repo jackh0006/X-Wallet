@@ -851,7 +851,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               Text(
-                'USD · CoinGecko',
+                'USD · ${PriceService.instance.sourceLabel}',
                 style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
               ),
             ],
@@ -957,21 +957,48 @@ class _HomePageState extends State<HomePage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Safety notice',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              Icon(
+                Icons.verified_user_outlined,
+                size: 20,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'Built for safety',
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           const Text(
-            'Hot wallet: the signing key exists in memory while unlocked. Back up '
-            'your recovery phrase offline and test with small amounts — device '
-            'security is part of this wallet\'s security.',
-            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
+            'Your recovery words and keys stay on this device. The vault is '
+            'encrypted, signing is local, and every transfer needs your '
+            'approval.',
+            style: TextStyle(fontSize: 13, height: 1.4),
           ),
           const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Non-custodial · no account · no cloud · no analytics',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
           Text(
             'Made by jackh0006 · jackh109867@gmail.com',
-            style: const TextStyle(color: Color(0xFFF0B90B), fontSize: 12),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontSize: 12,
+            ),
           ),
         ],
       ),
