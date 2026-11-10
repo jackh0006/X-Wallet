@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "version": "1.5.0+13",
-  "sourceCommit": "8c2a969a95e3d8b350d7bb5af9aefd6df80f426c",
-  "checksCommit": "8c2a969a95e3d8b350d7bb5af9aefd6df80f426c",
-  "artifactSourceCommit": "8c2a969a95e3d8b350d7bb5af9aefd6df80f426c",
+  "sourceCommit": "28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2",
+  "checksCommit": "28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2",
+  "artifactSourceCommit": "28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2",
   "artifactPathRecord": "x-wallet-1.5.0-amd64.deb; signed Android arm64 and universal APKs; source archive; SBOM (not committed; hashes are the evidence)",
   "artifactSha256": "339a5c9e9b3e8981341b6f352cc08b6b153b8d942e1bb0ea8433de3b782b96aa",
   "artifactSigned": true,
@@ -308,7 +308,7 @@
     }
   ],
   "status": "RELEASE APPROVED",
-  "identityNote": "The signed source commit 8c2a969a95e3d8b350d7bb5af9aefd6df80f426c has Git tree 0a15caf1c2d4cab019e829b14a18396a657beee7, byte-identical to the tree (6c7841e) on which the local Linux build, reproducibility run and signed artifacts were produced. CI checks also ran on the signed commit.",
+  "identityNote": "The reviewed branch head f6ee2aa6137ad619e306ae01b4236c0025c67027 was squash-merged as 28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2. The squash tree is identical to the reviewed branch tree. Source checks were recorded against the tested branch commit 8c2a969a95e3d8b350d7bb5af9aefd6df80f426c; the release commit is its content-identical squash.",
   "notes": [
     "Linux package signed with owner key CC819EF5E109A1518E840379D8C0CEC84BCCE06B and verified in a clean keyring.",
     "Android APKs signed by db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3; historical 10c13aa9...25b85 is denylisted.",
@@ -340,5 +340,10 @@
     "androidUniversal": "18bb9173d4ec81d7a4f3a48e03d0acf0cb729d6c868e7878e18b5958ca953bd0",
     "sourceArchive": "2cff6874d434ec4d43cecc30c73e3c0d6dd396bed9ea90868dc6f7b1ca047b9d",
     "sbom": "185f3dbc8d5d0a006e95ed5e872714710255e5e87ac834619061dfb17b621a1e"
+  },
+  "squashMerge": {
+    "testedCommit": "8c2a969a95e3d8b350d7bb5af9aefd6df80f426c",
+    "mergeCommit": "28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2",
+    "branchHead": "f6ee2aa6137ad619e306ae01b4236c0025c67027"
   }
 }
