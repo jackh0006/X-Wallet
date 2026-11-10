@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "version": "1.5.1+14",
-  "sourceCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
-  "checksCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
-  "artifactSourceCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
+  "sourceCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
+  "checksCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
+  "artifactSourceCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
   "artifactPathRecord": "x-wallet-1.5.1-amd64.deb; signed Android arm64 and universal APKs; source archive; SBOM (not committed; hashes are evidence)",
   "artifactSha256": "8ffd8ea9a664ef6865ceae677b0767e4c3488bcb5d93c070fc109e4f02e51b85",
   "artifactSigned": true,
@@ -324,5 +324,11 @@
     "verified": true,
     "verificationMethod": "clean GNUPGHOME containing only the published public key; sha256sum --check over package, APKs, source archive and SBOM",
     "verifiedAt": "2026-11-10T18:37:32Z"
-  }
+  },
+  "squashMerge": {
+    "testedCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
+    "mergeCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
+    "branchHead": "c271e9a07bd588414adefd0b3eb54bc9ff82619e"
+  },
+  "identityNote": "The reviewed branch head c271e9a07bd588414adefd0b3eb54bc9ff82619e was squash-merged as 107ab22b4f89b13c1429476a2f15c2b4af2aadca. The squash tree is identical to the reviewed branch tree. Source checks were recorded against the tested branch commit ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab; the release commit is its content-identical squash."
 }
