@@ -62,6 +62,10 @@ phone and on their desktop, without an account or a cloud.
   and calldata checks, with hold-to-confirm.
 - **Encrypted local history.** Vault, activity log, and receipts are protected
   at rest with Argon2id and XChaCha20-Poly1305.
+- **No AI or builder access.** There is no AI endpoint, analytics SDK, ads SDK,
+  remote config, or builder-controlled server. DeepSeek and the builder cannot
+  read or control a user's vault, keys, balances, or activity. See
+  [the no-access proof](docs/NO_RUNTIME_ACCESS.md).
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
 - **Evidence, not slogans.** 62 test files, 352 test declarations, mutation
@@ -316,6 +320,11 @@ control the security boundary.
 | [Threat model](docs/THREAT_MODEL.md) | Assets, adversaries, and controls |
 | [Crypto](docs/CRYPTO.md) | KDF, vault envelopes, and key handling |
 | [Backup and recovery](docs/BACKUP_AND_RECOVERY.md) | Recovery phrase and vault recovery |
+| [Android guide](docs/ANDROID.md) | Install, create/import, lock, Orbot, and limits |
+| [Android audit](docs/ANDROID_AUDIT.md) | Current Android security and UX findings |
+| [Android plan](docs/ANDROID_PLAN.md) | Phased hardening and UI plan |
+| [Android release](docs/ANDROID_RELEASE.md) | Signer rotation, denylist, and signed builds |
+| [No runtime access](docs/NO_RUNTIME_ACCESS.md) | Builder/AI no-access guarantee and proof |
 | [Cold wallet](docs/COLD_WALLET.md) | Offline signer and companion workflow |
 | [Network guide](docs/network/NETWORK_GUIDE.md) | RPC, Tor, proxies, and privacy |
 | [Privacy setup](docs/PRIVACY_SETUP.md) | VPN/VLESS before Tor, Tor chaining, proxy commands, and logs |

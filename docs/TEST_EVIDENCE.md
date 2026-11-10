@@ -26,7 +26,7 @@ reading the source or testing the wallet yourself.
 |---|---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | PASS in 1.5 s | The source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | PASS, no issues | The wallet code has no analyzer findings. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 59/59 non-integration files, 0 failed, 0 timed out, 873 s | Unit, widget, vault, network, transaction, and security tests pass. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` | PASS: 61/61 non-integration files, 0 failed, 0 timed out, 723 s | Unit, widget, vault, network, transaction, and security tests pass. |
 | ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` | PASS: 62 files / 352 declarations / 7 real-KDF files | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` | PASS: 5/5 mutations killed, 69 s | Deliberately broken security checks are caught by the tests. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | PASS | User-facing product identity is consistent. |
