@@ -185,6 +185,31 @@ truncating them.
 - No two-physical-device field test has been recorded.
 - No third-party audit.
 
+## Network-isolated launcher
+
+Cold mode blocks every app-initiated call at runtime. For a stronger,
+OS-enforced boundary, the `.deb` also installs `x-wallet-offline`. It runs the
+same binary inside an empty network namespace with only a loopback interface:
+
+```sh
+x-wallet-offline
+```
+
+It requires `util-linux` and user namespaces. If the namespace cannot be
+created, the launcher **fails closed** and tells you to keep the machine
+physically offline; it never falls back to a networked run.
+
+For a dedicated cold machine, the stronger procedure is:
+
+1. Use a machine that has no Wi-Fi/Bluetooth hardware enabled and no network
+   cable; disable the interfaces in the firmware/OS as well.
+2. Boot a clean, fully updated OS from removable media if possible.
+3. Run `x-wallet-offline` (or `unshare -n -- x-wallet`) and verify that the
+   only interface in the namespace is `lo`.
+4. Move signing requests and responses only by USB or by displaying/copying
+   the payload, and verify the payload hash on the cold screen before signing.
+5. Never connect the cold machine to a network, even briefly, for updates.
+
 ## Tests
 
 ```sh

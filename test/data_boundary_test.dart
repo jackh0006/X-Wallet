@@ -14,6 +14,7 @@ void main() {
 
   test('locked dependencies contain no telemetry, ads, or AI SDK', () {
     final pubspec = read('pubspec.yaml').toLowerCase();
+    final lock = read('pubspec.lock').toLowerCase();
     const forbidden = <String>[
       'firebase',
       'google_analytics',
@@ -34,6 +35,11 @@ void main() {
         pubspec,
         isNot(contains(needle)),
         reason: 'pubspec.yaml must not depend on $needle',
+      );
+      expect(
+        lock,
+        isNot(contains(needle)),
+        reason: 'pubspec.lock must not contain $needle',
       );
     }
   });
@@ -103,6 +109,52 @@ void main() {
       offenders,
       isEmpty,
       reason: 'unexpected HttpClient sites: $offenders',
+    );
+  });
+
+  test('outbound APIs outside the privacy client are allowlisted', () {
+    const httpConstructors = <String>[
+      'HttpClient(',
+      'IOClient(',
+      'http.Client(',
+      'http.get(',
+      'http.post(',
+      'WebSocket(',
+      'RawSocket(',
+      'Socket.connect(',
+      'InternetAddress.lookup(',
+    ];
+    const allowedLaunch = <String>{
+      'lib/screens/send_page.dart',
+      'lib/screens/settings_page.dart',
+      'lib/screens/receipt_page.dart',
+    };
+    final offenders = <String>[];
+    for (final entity in Directory('lib').listSync(recursive: true)) {
+      if (entity is! File || !entity.path.endsWith('.dart')) continue;
+      final path = entity.path.replaceAll('\\', '/');
+      final source = entity.readAsStringSync();
+      if (!path.endsWith('lib/net/privacy_client.dart')) {
+        for (final pattern in httpConstructors) {
+          if (source.contains(pattern)) {
+            offenders.add('$path: $pattern');
+          }
+        }
+      }
+      if (source.contains('launchUrl(') && !allowedLaunch.any(path.endsWith)) {
+        offenders.add('$path: launchUrl');
+      }
+      if (RegExp(r"Process\.(run|start)\([^)]*'(curl|wget)'")
+          .hasMatch(source)) {
+        offenders.add('$path: curl/wget');
+      }
+    }
+    expect(
+      offenders,
+      isEmpty,
+      reason:
+          'Every outbound call must pass through lib/net/privacy_client.dart '
+          'or a reviewed, user-initiated launcher. Offenders: $offenders',
     );
   });
 }

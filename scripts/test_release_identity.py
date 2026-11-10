@@ -34,7 +34,7 @@ FILES = [
     "docs/releases/1.4.1.md",
     "docs/releases/1.4.2.md",
     "docs/releases/1.5.0.md",
-    "docs/releases/1.5.1.md",
+    "docs/releases/1.5.3.md",
 ]
 
 

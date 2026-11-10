@@ -48,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final _securityKey = GlobalKey();
   final _appearanceKey = GlobalKey();
   final _privacyKey = GlobalKey();
+  final _vaultsKey = GlobalKey();
   final _aboutKey = GlobalKey();
 
   /// §10e trusted signing-list sources, loaded from assets/token_sources.json.
@@ -119,6 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
               const SizedBox(height: 18),
               _historyKeySection(),
               const SizedBox(height: 18),
+              KeyedSubtree(key: _vaultsKey, child: _vaultsSection()),
+              const SizedBox(height: 18),
               _storageSection(),
               const SizedBox(height: 18),
               KeyedSubtree(key: _spendingKey, child: _spendingSafetySection()),
@@ -166,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
               _jumpChip('Network', _networkKey),
               _jumpChip('Nodes', _nodesKey),
               _jumpChip('Tokens', _tokensKey),
+              _jumpChip('Vaults', _vaultsKey),
               _jumpChip('Spending safety', _spendingKey),
               _jumpChip('Security', _securityKey),
               _jumpChip('Appearance', _appearanceKey),
@@ -2220,8 +2224,8 @@ class _SettingsPageState extends State<SettingsPage> {
     if (PlatformFiles.isAndroid) {
       final password = await promptText(
         context,
-        title: 'Export encrypted backup',
-        label: 'Vault password',
+        title: 'Export portable backup',
+        label: 'Vault password (also protects the backup)',
         obscure: true,
         validator: (value) => value.isEmpty ? 'Password required' : null,
       );
@@ -2244,8 +2248,8 @@ class _SettingsPageState extends State<SettingsPage> {
     if (path == null || !mounted) return;
     final password = await promptText(
       context,
-      title: 'Export encrypted backup',
-      label: 'Vault password',
+      title: 'Export portable backup',
+      label: 'Vault password (also protects the backup)',
       obscure: true,
       validator: (value) => value.isEmpty ? 'Password required' : null,
     );
@@ -2285,7 +2289,8 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       title: 'Replace the active vault?',
       message:
-          'The selected backup will replace the current vault only after its '
+          'The selected backup is portable and can be restored on any device '
+          'with its password. It will replace the active vault only after its '
           'password and integrity are verified. Keep a copy of the current '
           'vault if you are unsure.',
       confirmLabel: 'Restore backup',
@@ -2345,6 +2350,237 @@ class _SettingsPageState extends State<SettingsPage> {
       if (mounted) showInfo(context, 'Vault location reset to the default.');
     } catch (error) {
       if (mounted) showError(context, 'Could not reset vault location: $error');
+    }
+  }
+
+  Widget _vaultsSection() {
+    final vaults = appState.vaults;
+    final scheme = Theme.of(context).colorScheme;
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('Vaults'),
+          const SizedBox(height: 8),
+          Text(
+            'Each vault is a separate encrypted file with its own password '
+            'and its own wallets. Up to ${AppState.maxVaults} vaults are '
+            'supported. Switching vaults locks the current session.',
+            style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
+          ),
+          const SizedBox(height: 8),
+          if (vaults.isEmpty)
+            Text(
+              'No vault is registered yet. Create one to get started.',
+              style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
+            ),
+          for (final vault in vaults)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(
+                vault.id == appState.activeVaultId
+                    ? Icons.lock_rounded
+                    : Icons.lock_outline_rounded,
+                color: vault.id == appState.activeVaultId
+                    ? scheme.primary
+                    : scheme.onSurfaceVariant,
+              ),
+              title: Text(
+                vault.id == appState.activeVaultId
+                    ? '${vault.label}  ·  Active'
+                    : vault.label,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                vault.file,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 11),
+              ),
+              trailing: PopupMenuButton<String>(
+                tooltip: 'Vault actions',
+                onSelected: (action) async {
+                  switch (action) {
+                    case 'switch':
+                      await _switchVault(vault);
+                    case 'rename':
+                      await _renameVault(vault);
+                    case 'delete':
+                      await _deleteVault(vault);
+                  }
+                },
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: 'switch',
+                    child: Text('Switch / unlock'),
+                  ),
+                  PopupMenuItem(value: 'rename', child: Text('Rename')),
+                  PopupMenuItem(value: 'delete', child: Text('Delete')),
+                ],
+              ),
+            ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: vaults.length >= AppState.maxVaults
+                    ? null
+                    : _createVault,
+                icon: const Icon(Icons.add, size: 16),
+                label: const Text('Create vault'),
+              ),
+              OutlinedButton.icon(
+                onPressed: vaults.isEmpty ? null : _changeVaultPassword,
+                icon: const Icon(Icons.key, size: 16),
+                label: const Text('Change password'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _createVault() async {
+    final label = await promptText(
+      context,
+      title: 'New vault',
+      label: 'Vault name',
+      initialValue: 'Vault ${appState.vaults.length + 1}',
+      validator: (value) => value.trim().isEmpty ? 'Enter a vault name' : null,
+    );
+    if (label == null || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'New vault password',
+      label: 'Password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    final confirm = await promptText(
+      context,
+      title: 'Confirm password',
+      label: 'Password again',
+      obscure: true,
+      validator: (value) => value == password ? null : 'Passwords do not match',
+    );
+    if (confirm == null || !mounted) return;
+    try {
+      await appState.createVault(label, password);
+      if (mounted) {
+        showInfo(context, 'Vault "$label" created. Unlock it to add a wallet.');
+      }
+    } catch (error) {
+      if (mounted) showError(context, 'Could not create the vault: $error');
+    }
+  }
+
+  Future<void> _switchVault(VaultEntry vault) async {
+    final password = await promptText(
+      context,
+      title: 'Unlock "${vault.label}"',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    try {
+      await appState.switchVault(vault.id, password);
+      if (mounted) {
+        showInfo(context, 'Switched to "${vault.label}".');
+      }
+    } catch (error) {
+      if (mounted) showError(context, 'Could not switch vault: $error');
+    }
+  }
+
+  Future<void> _renameVault(VaultEntry vault) async {
+    final label = await promptText(
+      context,
+      title: 'Rename vault',
+      label: 'Vault name',
+      initialValue: vault.label,
+      validator: (value) => value.trim().isEmpty ? 'Enter a vault name' : null,
+    );
+    if (label == null || !mounted) return;
+    try {
+      await appState.renameVault(vault.id, label);
+      if (mounted) showInfo(context, 'Vault renamed.');
+    } catch (error) {
+      if (mounted) showError(context, 'Could not rename the vault: $error');
+    }
+  }
+
+  Future<void> _deleteVault(VaultEntry vault) async {
+    final confirmed = await confirmDialog(
+      context,
+      title: 'Delete "${vault.label}"?',
+      message:
+          'The vault file will be shredded. Only the recovery phrase or a '
+          'portable backup can restore it. This cannot be undone.',
+      confirmLabel: 'Continue',
+    );
+    if (!confirmed || !mounted) return;
+    final password = await promptText(
+      context,
+      title: 'Confirm vault password',
+      label: 'Vault password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (password == null || !mounted) return;
+    final typed = await promptText(
+      context,
+      title: 'Type DELETE to confirm',
+      label: 'Confirmation',
+      validator: (value) =>
+          value.trim() == 'DELETE' ? null : 'Type DELETE exactly',
+    );
+    if (typed == null || !mounted) return;
+    try {
+      await appState.deleteVault(vault.id, password);
+      if (mounted) showInfo(context, 'Vault "${vault.label}" deleted.');
+    } catch (error) {
+      if (mounted) showError(context, 'Could not delete the vault: $error');
+    }
+  }
+
+  Future<void> _changeVaultPassword() async {
+    final oldPassword = await promptText(
+      context,
+      title: 'Change vault password',
+      label: 'Current password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (oldPassword == null || !mounted) return;
+    final newPassword = await promptText(
+      context,
+      title: 'New vault password',
+      label: 'New password',
+      obscure: true,
+      validator: (value) => value.isEmpty ? 'Password required' : null,
+    );
+    if (newPassword == null || !mounted) return;
+    final confirm = await promptText(
+      context,
+      title: 'Confirm new password',
+      label: 'New password again',
+      obscure: true,
+      validator: (value) =>
+          value == newPassword ? null : 'Passwords do not match',
+    );
+    if (confirm == null || !mounted) return;
+    try {
+      await appState.changeVaultPassword(oldPassword, newPassword);
+      if (mounted) showInfo(context, 'Vault password changed.');
+    } catch (error) {
+      if (mounted) {
+        showError(context, 'Could not change the vault password: $error');
+      }
     }
   }
 
@@ -2456,7 +2692,9 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'The vault can be moved with the existing vault move flow. '
+            'Backups are portable: they depend on the backup password only, '
+            'so they can be restored on a new device without this machine\'s '
+            'device secret. The vault file itself stays device-bound. '
             'Receipts follow the vault folder; the activity log and device '
             'secret stay in the data folder.',
             style: TextStyle(
@@ -2724,14 +2962,15 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SectionTitle('About'),
           const SizedBox(height: 8),
-          Text(
-            'X Wallet $appVersion',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          Text('X Wallet', style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(
-            'Local, non-custodial EVM wallet. Version $appVersion enables '
-            'BNB Smart Chain; more EVM networks are planned.',
+            'Version $appVersion',
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
+          ),
+          Text(
+            'Local, non-custodial EVM wallet for BNB Smart Chain. '
+            'More EVM networks are planned.',
           ),
           const SizedBox(height: 2),
           Text(

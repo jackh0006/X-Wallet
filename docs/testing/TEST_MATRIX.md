@@ -36,6 +36,16 @@ paying for repeated 64 MiB derivations.
 |-----------|-------|-----|--------|----------|
 | `fuzz_and_property_test.dart` | 10 | (light) | ✅ PASS | Amount round-trips, checksum invariants, canonical RLP fuzz, vault/envelope fuzz, ERC-20 calldata totality |
 
+### Hardening Regressions (1.5.3)
+
+| Test File | Tests | Tag | Status | Coverage |
+|-----------|-------|-----|--------|----------|
+| `hardening_regressions_test.dart` | 11 | (light) | ✅ PASS | Pending recovery state, cancel verification, approve spender, unlimited threshold, token spoofing, clipboard guard |
+| `multi_vault_test.dart` | 6 | (light) | ✅ PASS | Three vaults, create/switch/rename/delete, password change, pending isolation |
+| `portable_backup_test.dart` | 5 | (light) | ✅ PASS | Round-trip, wrong password, tamper, truncation, fresh-device restore |
+| `privacy_startup_test.dart` | 2 | (light) | ✅ PASS | Tor transport rebuilt after init, USD prices off by default |
+| `node_secret_storage_test.dart` | 3 | (light) | ✅ PASS | Node credentials absent from plain prefs, export strips them, PIN fails closed |
+
 ### Real EVM Integration (tag: `integration`)
 
 | Test File | Tests | Tag | Status | Coverage |
@@ -102,7 +112,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `settings_state_test.dart` | 1 | (light) | ✅ PASS | Settings rebuilds when network and toggles change |
 | `localization_test.dart` | 1 | (light) | ✅ PASS | English is the only supported language |
 | `spending_policy_test.dart` | 5 | (light) | ✅ PASS | Frozen signing, allowlist, and native per-transaction limit |
-| `data_boundary_test.dart` | 4 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
+| `data_boundary_test.dart` | 5 | (light) | ✅ PASS | No telemetry/ads/AI SDK, no network in key modules, single HTTP choke point |
 | `password_strength_test.dart` | 5 | (light) | ✅ PASS | Very weak → Very strong scoring; any length is accepted |
 | `security_policy_test.dart` | 2 | (light) | ✅ PASS | 6-digit PIN policy, trivial PIN rejection, strong PIN acceptance |
 | `vault_multi_wallet_test.dart` | 6 | (test override) | ✅ PASS | Multiple wallets, one vault password, rename, remove, session cache |

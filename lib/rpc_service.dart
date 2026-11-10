@@ -130,6 +130,11 @@ class RpcService extends ChangeNotifier {
     : _httpClient = httpClient ?? createRpcClient();
 
   http.Client _httpClient;
+
+  /// Test-only access to the live transport, so a regression test can prove
+  /// the configured proxy/Tor route survives startup.
+  @visibleForTesting
+  http.Client get transportForTest => _httpClient;
   http.Client? _activeNodeClient;
   Web3Client? _client;
   String? _activeRpc;
@@ -325,9 +330,16 @@ class RpcService extends ChangeNotifier {
     _scheduleNotify();
   }
 
-  /// Called when Tor/proxy settings change so the transport and the current
-  /// connection are rebuilt through the new route.
-  Future<void> privacyChanged() async {
+  /// Rebuilds the HTTP transport from the current preferences without opening
+  /// a connection.
+  ///
+  /// The field initializer runs when the global [AppState] is constructed,
+  /// which happens before `AppStorage.init()`. At that moment `createRpcClient`
+  /// cannot read the proxy/Tor settings and historically fell back to a direct
+  /// client; it was then never rebuilt. Calling this immediately after storage
+  /// initialization guarantees the very first request uses the configured
+  /// route instead of leaking a direct connection.
+  void rebuildTransport() {
     _dropClient();
     final old = _httpClient;
     _httpClient = createRpcClient();
@@ -336,6 +348,12 @@ class RpcService extends ChangeNotifier {
         old.close();
       } catch (_) {}
     }
+  }
+
+  /// Called when Tor/proxy settings change so the transport and the current
+  /// connection are rebuilt through the new route.
+  Future<void> privacyChanged() async {
+    rebuildTransport();
     try {
       await connect();
     } catch (_) {
@@ -414,6 +432,40 @@ class RpcService extends ChangeNotifier {
   }
 
   static const Duration _rpcCallTimeout = Duration(seconds: 10);
+
+  /// A hostile or broken node must not be able to exhaust the app's memory.
+  static const int _maxResponseBytes = 2 * 1024 * 1024;
+
+  /// The only JSON-RPC methods this wallet ever sends. Anything else is
+  /// refused before a socket is opened, so a compromised caller (or a future
+  /// code path) cannot turn the wallet into a generic RPC proxy.
+  static const Set<String> _allowedMethods = {
+    'eth_chainId',
+    'eth_blockNumber',
+    'eth_gasPrice',
+    'eth_maxPriorityFeePerGas',
+    'eth_feeHistory',
+    'eth_getBalance',
+    'eth_getTransactionCount',
+    'eth_getTransactionReceipt',
+    'eth_getBlockByNumber',
+    'eth_getCode',
+    'eth_getLogs',
+    'eth_estimateGas',
+    'eth_call',
+    'eth_sendRawTransaction',
+    'net_version',
+  };
+
+  /// Cold-signer mode is absolute: every network path checks it, not only
+  /// `connect()`.
+  void _ensureOnline() {
+    if (_offline) {
+      throw StateError(
+        'This device is in cold-signer mode: all network access is disabled.',
+      );
+    }
+  }
 
   Future<void> connect({bool allowFallback = true}) async {
     if (_offline) {
@@ -502,6 +554,7 @@ class RpcService extends ChangeNotifier {
   // ---- probing -------------------------------------------------------------
 
   Future<RpcProbeResult> probeNode(String url) async {
+    _ensureOnline();
     final host = Uri.tryParse(url)?.host ?? url;
     if (!nodeUrlAllowed(url)) {
       _tell(
@@ -592,6 +645,7 @@ class RpcService extends ChangeNotifier {
     String url, {
     String? expectedNetwork,
   }) async {
+    _ensureOnline();
     final host = Uri.tryParse(url)?.host ?? url;
     final side = expectedNetwork ?? _network;
     final expected = BnbNetworks.chainIds[side] ?? 56;
@@ -1301,6 +1355,16 @@ class RpcService extends ChangeNotifier {
     String method,
     List<Object?> params,
   ) async {
+    _ensureOnline();
+    if (!_allowedMethods.contains(method)) {
+      throw StateError(
+        'Refusing to send the non-allowlisted RPC method "$method".',
+      );
+    }
+    final scheme = Uri.tryParse(url)?.scheme.toLowerCase();
+    if (scheme != 'https' && scheme != 'http') {
+      throw StateError('RPC must be an HTTP(S) endpoint.');
+    }
     _requestCount++;
     final body = jsonEncode({
       'jsonrpc': '2.0',
@@ -1308,13 +1372,26 @@ class RpcService extends ChangeNotifier {
       'method': method,
       'params': params,
     });
-    final response = await client
-        .post(
-          Uri.parse(url),
-          headers: const {'content-type': 'application/json'},
-          body: body,
-        )
-        .timeout(_rpcCallTimeout);
+    final request = http.Request('POST', Uri.parse(url))
+      ..headers['content-type'] = 'application/json'
+      ..body = body;
+    final streamed = await client.send(request).timeout(_rpcCallTimeout);
+    final bytes = <int>[];
+    await for (final chunk in streamed.stream) {
+      if (bytes.length + chunk.length > _maxResponseBytes) {
+        throw StateError(
+          'The node response exceeded the 2 MiB safety limit; refusing it.',
+        );
+      }
+      bytes.addAll(chunk);
+    }
+    final String responseBody;
+    try {
+      responseBody = utf8.decode(bytes);
+    } catch (_) {
+      throw StateError('The node answered with invalid UTF-8.');
+    }
+    final statusCode = streamed.statusCode;
     _exchanges.insert(
       0,
       RpcExchange(
@@ -1322,20 +1399,20 @@ class RpcService extends ChangeNotifier {
         url: url,
         method: method,
         body: body,
-        response: response.body,
-        status: response.statusCode,
+        response: responseBody,
+        status: statusCode,
       ),
     );
     if (_exchanges.length > exchangeCap) {
       _exchanges.removeRange(exchangeCap, _exchanges.length);
     }
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      final body = response.body.length > 160
-          ? '${response.body.substring(0, 160)}…'
-          : response.body;
-      throw StateError('The node answered HTTP ${response.statusCode}: $body');
+    if (statusCode < 200 || statusCode >= 300) {
+      final preview = responseBody.length > 160
+          ? '${responseBody.substring(0, 160)}…'
+          : responseBody;
+      throw StateError('The node answered HTTP $statusCode: $preview');
     }
-    final decoded = jsonDecode(response.body);
+    final decoded = jsonDecode(responseBody);
     if (decoded is! Map) {
       throw StateError(
         'The node answered with something that is not JSON-RPC.',
@@ -1501,6 +1578,7 @@ class RpcService extends ChangeNotifier {
   }
 
   Future<TransactionReceipt?> receiptFrom(String url, String hash) async {
+    _ensureOnline();
     final node = _poolNode(url);
     final transport = node != null ? createClientForNode(node) : _httpClient;
     Web3Client? wc;
@@ -1527,6 +1605,7 @@ class RpcService extends ChangeNotifier {
 
   /// Public BscScan history rows. Needs the user's own API key (Settings).
   Future<List<HistoryTx>> history(String address) async {
+    _ensureOnline();
     final key = _bscscanKey;
     if (key == null || key.isEmpty) {
       throw StateError(
@@ -1674,6 +1753,7 @@ class RpcService extends ChangeNotifier {
     String rawHex,
     List<RpcNode> nodes,
   ) async {
+    _ensureOnline();
     final results = <String, String>{};
     for (final node in nodes) {
       if (!node.enabled || !node.useForBroadcast) continue;
@@ -1717,6 +1797,7 @@ class RpcService extends ChangeNotifier {
     int maxBatchDelay = 500,
     int paddingCount = 2,
   }) async {
+    _ensureOnline();
     final node = _poolNode(url);
     final transport = node != null ? createClientForNode(node) : _httpClient;
     final results = <dynamic>[];

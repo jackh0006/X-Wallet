@@ -87,8 +87,12 @@ class TokenRegistry {
       );
     }
     final upper = token.symbol.toUpperCase();
+    // A symbol that matches (or extends) a well-known ticker on a contract we
+    // do not recognise is ALWAYS unverified. The old rule skipped an exact
+    // match, so a fake contract could display "USDT" with no warning at all.
     final lookalike = _knownSymbols.any(
-      (known) => upper != known && upper.startsWith(known),
+      (known) =>
+          upper == known || upper.startsWith(known) || known.startsWith(upper),
     );
     return TokenPresentation(
       symbol: lookalike ? '${token.symbol} (unverified)' : token.symbol,
@@ -98,7 +102,8 @@ class TokenRegistry {
       warning: lookalike
           ? 'This contract imitates a well-known token name. Verify the '
                 'contract address before using it.'
-          : null,
+          : 'This token is not in the built-in registry. Verify the contract '
+                'address before using it.',
     );
   }
 

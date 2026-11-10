@@ -1,0 +1,29 @@
+#!/bin/sh
+# X Wallet cold-mode launcher.
+#
+# Runs the normal desktop wallet inside a network namespace that has only a
+# loopback interface. This is an OS-level complement to the app's own cold-mode
+# gate: if a code path ever tried to open a socket, it would have nowhere to go.
+#
+# Requirements: util-linux `unshare` and user namespaces enabled
+# (`kernel.unprivileged_userns_clone=1` on older kernels). If the namespace
+# cannot be created, this script FAILS CLOSED and tells the user to keep the
+# machine physically offline instead. It never falls back to a networked run.
+set -eu
+
+APP="${X_WALLET_APP:-/usr/bin/x-wallet}"
+
+if ! command -v unshare >/dev/null 2>&1; then
+  echo "x-wallet-offline: 'unshare' is not installed." >&2
+  echo "Install util-linux, or keep the machine physically offline and run x-wallet." >&2
+  exit 1
+fi
+
+if [ ! -x "$APP" ]; then
+  echo "x-wallet-offline: launcher not found: $APP" >&2
+  exit 1
+fi
+
+# -r maps the current user to root inside a new user namespace, -n creates the
+# network namespace. No host interface is moved into it.
+exec unshare -rn -- "$APP" "$@"

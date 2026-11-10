@@ -6,14 +6,18 @@ Version 1.0.5 · AGPL-3.0-or-later · Contact: jackh109867@gmail.com
 
 The wallet has no telemetry, no analytics, no crash reporting, no update
 pings, no account, no email. It never calls a server of the developer. The
-developer never receives anything, ever. A network capture of a running
-wallet shows ONLY requests to the RPC nodes and explorer you (or the
-defaults) selected — nothing else.
+developer receives nothing, ever. A network capture of a running wallet
+shows requests to the RPC nodes and explorer you (or the defaults) selected,
+plus optional public price lookups. Price lookups are off by default and are
+blocked in cold mode. They send only fixed coin IDs, never an address or
+balance.
 
 ## What the network layer actually sends
 
-Every RPC and explorer request goes through one mandatory client factory
-(`net/privacy_client.dart`):
+Every HTTP client is constructed in one module (`net/privacy_client.dart`);
+`test/data_boundary_test.dart` fails if another construction site appears.
+Node proxy passwords, bearer tokens and custom headers are held in the
+platform secure store, not in the plain preferences file:
 
 - **No identifying headers.** Requests carry only `content-type:
   application/json` (RPC) or `accept: application/json` (explorer).

@@ -73,12 +73,15 @@
 - **Explorer (BscScan)**: Through route
 - **Token metadata**: Through route
 - **Price APIs**: Through route (if enabled)
-- **Update checks**: Through route
+- **Update checks**: none exist in this app
 - **Fail-closed**: Any route failure = error shown, no fallback
 - **Enable**: Settings → Network → Strict Privacy Mode
 
 ### 7. Offline Mode
-- **What it does**: Blocks **ALL** outbound connections at network layer
+- **What it does**: Blocks all **app-initiated** network calls (RPC, prices,
+  explorer history, node probes). It is a runtime gate, not an OS sandbox; for
+  a dedicated air-gapped machine, also run the app under `unshare -n` or a
+  systemd unit with `PrivateNetwork=yes` (see `docs/COLD_WALLET.md`).
 - **DNS**: Not resolved
 - **RPC**: Not polled
 - **Tor/Proxy**: Not connected

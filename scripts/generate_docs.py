@@ -99,6 +99,8 @@ RELEASE_TOOLING_PATHS = {
     "scripts/release_manifest.py",
     "scripts/sbom.py",
     "scripts/test_release_identity.py",
+    "scripts/test-suite-fast.sh",
+    "scripts/package-launch-smoke.sh",
 }
 
 

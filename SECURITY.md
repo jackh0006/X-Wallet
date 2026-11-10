@@ -14,7 +14,28 @@ Email jackh109867@gmail.com with:
 - impact and any suggested mitigation.
 
 The maintainer will acknowledge reports privately, assess impact, prepare a
-fix, and coordinate disclosure with the reporter. There is no bounty program.
+fix, and coordinate disclosure with the reporter. Target first response:
+within 7 days; fix or mitigation plan for a confirmed high issue: within 30
+days. There is no bounty program, and this project does not claim a funded
+bounty or a long public track record.
+
+### PGP
+
+Release and report key fingerprint:
+
+```
+CC819EF5E109A1518E840379D8C0CEC84BCCE06B
+```
+
+Public key: `docs/keys/x-wallet-signing-key.asc`. Verify the fingerprint
+through an independent channel before trusting it. Encrypt sensitive report
+details to this key if you can.
+
+### Safe harbour
+
+Good-faith research on your own test keys, a local node, and testnet is
+welcome. Do not test against other people's wallets, mainnet funds, or
+third-party infrastructure without permission.
 
 ## Security status
 
@@ -34,10 +55,11 @@ engineering work, not an audit opinion.
 
 | Version | Status |
 |---|---|
-| `1.5.1` | Current release candidate; signed Linux package and Android APKs; owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| `1.5.3` | Current release; signed Linux package and Android APKs; owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| `1.5.1` | Previous release; Android APKs used the older `db12869c…9748d3` signer |
 | `1.2.0` | Previous stable release; superseded by 1.3.0 |
 | `1.0.10` and earlier | Historical; use their release notes and do not treat old results as evidence for a new build |
-| Any Android APK | **Blocked** until the historical signing key is rotated and denylisted |
+| Any APK signed by the historical `10c13aa9…25b85` key | **Blocked and denylisted** |
 
 ## Key rotation
 

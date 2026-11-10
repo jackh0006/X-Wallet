@@ -54,6 +54,10 @@ LAUNCHER
 chmod 0755 "$STAGE/usr/bin/x-wallet"
 ln -s x-wallet "$STAGE/usr/bin/bnb-wallet"  # compatibility alias
 
+# Cold-mode launcher: runs the same binary inside an empty network namespace.
+install -D -m 0755 "$ROOT/scripts/x-wallet-offline" \
+  "$STAGE/usr/bin/x-wallet-offline"
+
 # .desktop file.
 cat > "$STAGE/usr/share/applications/x-wallet.desktop" <<'DESKTOP'
 [Desktop Entry]
@@ -69,6 +73,23 @@ StartupNotify=true
 StartupWMClass=com.jackh0006.xwallet
 DESKTOP
 chmod 0644 "$STAGE/usr/share/applications/x-wallet.desktop"
+
+# Cold launcher entry. The display name stays "X Wallet"; the offline variant
+# is distinguished by its subtitle and Exec line.
+cat > "$STAGE/usr/share/applications/x-wallet-offline.desktop" <<'DESKTOP'
+[Desktop Entry]
+Type=Application
+Name=X Wallet
+Comment=X Wallet (cold signer, no network namespace)
+Exec=x-wallet-offline
+Icon=x-wallet
+Terminal=false
+Categories=Finance;Office;
+Keywords=bnb;bsc;crypto;wallet;cold;offline;
+StartupNotify=true
+StartupWMClass=com.jackh0006.xwallet
+DESKTOP
+chmod 0644 "$STAGE/usr/share/applications/x-wallet-offline.desktop"
 
 # Icons: the repository ships every hicolor size, so packaging does not need
 # an image-resizing dependency (Pillow) in CI.

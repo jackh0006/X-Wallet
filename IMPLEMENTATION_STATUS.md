@@ -9,7 +9,7 @@ runs. This file is a human-readable index, not a second source of truth.
 
 | Item | Value |
 |---|---|
-| Version | `1.5.1+14` |
+| Version | `1.5.3+15` |
 | Branch | `main` (use `git rev-parse HEAD` for the exact checkout) |
 | Tested source commit | recorded in `release/evidence.json` for the 1.5.0 candidate |
 | Release source commit | recorded in `release/evidence.json` (`sourceCommit`) |
@@ -17,7 +17,7 @@ runs. This file is a human-readable index, not a second source of truth.
 | Pull requests | merged through the 1.2.0 release PR |
 | Hosted CI | All required `main` workflows pass |
 | Release status | **RELEASE CANDIDATE / local artifacts, pending final gate** |
-| Final package | `x-wallet-1.5.1-amd64.deb` (hash recorded in `release/evidence.json`) |
+| Final package | `x-wallet-1.5.3-amd64.deb` (hash recorded in `release/evidence.json`) |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 
 ## Verified
@@ -25,7 +25,7 @@ runs. This file is a human-readable index, not a second source of truth.
 - Native Argon2id (`lib/kdf.dart`) with fixed 64 MiB / t=3 / p=4; measured
   **347 ms** vs ~110 s for the debug pure-Dart fallback.
 - Exact ERC-20 transfer calldata in `SendIntent`; trailing bytes rejected.
-- 62 test files / 352 declarations; default suite 60/60 non-integration files;
+- 67 test files / 382 declarations; the 1.5.3 additions cover portable backups, multi-vault, proxy startup, approvals and node credentials;
   3 real-Anvil tests; mutation score 5/5; backup E2E 4/4; localization,
   spending-safety, data-boundary, multi-wallet, password-strength, default-token, legacy-migration, public-default, and private-key cold tests pass.
 - Independent ethers.js cold-signature verification; 8 substitutions rejected.

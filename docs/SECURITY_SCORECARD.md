@@ -1,10 +1,9 @@
-# Security Scorecard
+# Security scorecard — X Wallet 1.5.3
 
 **Date:** 2026-11-10
-**Release:** X Wallet `1.5.0+13`
-**Tested source commit:** recorded in `release/evidence.json` for the 1.5.0 candidate
-**Status:** provisional, internal self-assessment. **This is not an independent
-audit.** A score never overrides a release blocker.
+**Release:** X Wallet `1.5.3+15`
+**Status:** internal self-assessment. **This is not an independent audit.**
+A score never overrides a release blocker.
 
 ## Scoring rules
 
@@ -18,90 +17,50 @@ audit.** A score never overrides a release blocker.
 - Any critical/high unresolved finding blocks production approval regardless of
   score.
 
-## Internal self-assessment: 91 / 100
+## Internal self-assessment: 70 / 100
 
 | Category | Weight | Score | Evidence |
 |---|---:|---:|---|
-| Cryptography and key protection | 20 | 18 | Native Argon2id 64 MiB/t=3/p=4 on Linux **and Android** (`libargon2-arm.so` in the APK, loaded through FFI); double-wrapped XChaCha20-Poly1305 vault; device-bound layer; tamper, wrong-password, wrong-device, truncation, and v1-migration tests; legacy migration; any-length password with confirmation and strength score; key modules have no network path (`data_boundary_test`). Android device KDF timing is still **NOT TESTED**. |
-| Transaction and blockchain security | 15 | 14 | Exact ERC-20 calldata; chain-ID validation; EIP-1559 codec; fee/nonce/zero-address checks; freeze signing, recipient allowlist, and per-transaction limit; hold-to-confirm; multi-wallet vault with one password; private-key cold signing with replay protection; independent ethers.js cold-signature oracle; real Anvil native and ERC-20 tests |
-| Testing, fuzzing and reliability | 15 | 15 | 59 files / 342 declarations; 58/58 default suite pass; deterministic fuzz/property tests; mock-RPC adversarial tests; real Anvil integration; mutation score 5/5; backup E2E; localization, data-boundary, multi-wallet, password-strength, default-token, migration, public-default, and private-key cold tests; hosted CI green |
-| Supply chain and CI/CD | 10 | 10 | Pinned action SHAs; CodeQL; OpenSSF Scorecard; secret scan; dependency advisory audit; license inventory; CycloneDX SBOM; least-privilege workflows; signed checksums; published public key |
-| Reproducible builds and release integrity | 10 | 9 | Fixed-path reproducible archive and identical file manifests; deterministic gzip; SBOM; release identity validator; signed `SHA256SUMS` verified in a clean keyring; public fingerprint |
-| Backup, recovery and operational safety | 10 | 9 | Atomic writes; rollback injection; encrypted backup create/wipe/restore E2E; wrong-password, tamper, and truncation rejection; v1 migration; documented recovery drill |
-| Privacy and network security | 5 | 4 | HTTPS-only policy; SPKI pinning after CA/hostname validation; Tor/SOCKS/HTTP proxy with fail-closed routing; User-Agent scrubbing; single HTTP choke point |
-| Platform compatibility and performance | 5 | 3 | Ubuntu 24.04 build, `.deb` package smoke, install/launch/upgrade/uninstall, data preservation; KDF measured at 344 ms |
-| UI, accessibility and user safety | 5 | 4 | Keyboard hold-to-confirm; semantics; 200% text scale; full-address review; donation separation; spending-safety settings |
-| Documentation, transparency and governance | 5 | 5 | Threat model; self-audit; risk-control and data-control records; generated status; manifest; SBOM; PR and CI evidence; signed release; AI review guide; test evidence |
-| **Total** | **100** | **91** | |
+| Cryptography and key protection | 20 | 13 | Argon2id 64 MiB/t=3/p=4, XChaCha20-Poly1305, authenticated header, KDF floors, v1 read, portable backups. The device secret is defense-in-depth, not a required second factor; no zeroisation; official BIP-32/39 vector files are still missing. |
+| Transaction and blockchain security | 15 | 11 | Exact review binding, chain ID, EIP-1559, hold-to-confirm, ERC-20 spender/unlimited decoding, cancel fix, uncertain-broadcast persistence. Nonce is not part of `SendIntent.verify`; the cold path does not consult the spending policy. |
+| Testing, fuzzing and reliability | 15 | 12 | 67 test files / 382 declarations, deterministic fuzz/property tests, real Anvil integration, vault tamper and backup tests, new hardening regressions. No coverage-guided fuzzer or 30–60 min soak. |
+| Supply chain and CI/CD | 10 | 8 | Pinned action SHAs, CodeQL (no Dart), secret scan, dependency advisory audit, licence inventory, CycloneDX SBOM, least privilege. Android CI still uses a debug signing config; the release gate is not strict. |
+| Reproducible builds and release integrity | 10 | 6 | Signed `.deb`/APKs and matching hashes. Fixed-path reproducibility only; no independent-machine rebuild; release gate accepts `INCOMPLETE`. |
+| Backup, recovery and operational safety | 10 | 8 | Portable `BNBBKP01` backup restores on a fresh device; wrong-password/tamper/truncation tests; atomic writes and rollback. No crash/ENOSPC fault injection. |
+| Privacy and network security | 5 | 3 | Startup transport rebuild, cold-mode gate, prices off by default, node credentials in secure storage, 2 MiB cap and method allowlist. No packet capture or OS-enforced air gap in CI. |
+| Platform compatibility and performance | 5 | 2 | Ubuntu 24.04 build and package smoke. Android 1.5.3 APK is signed but not run on a device; no Debian/Fedora clean-install CI. |
+| UI, accessibility and user safety | 5 | 3 | Hold-to-confirm, full-address review, donation separation, vault manager. No real screen-reader session and no anti-phishing phrase. |
+| Documentation, transparency and governance | 5 | 4 | Claim register, proof matrix, honest limitations, threat model, SBOM. Some older documents still contain stale counts and claims. |
+| **Total** | **100** | **70** | |
 
-### What the remaining ten points represent
-
-These are the only uplift areas left in this rubric. They are not defects.
-
-- An independent professional audit (a separate engagement, not claimed).
-- Independent-machine build attestation and a second-path build.
-- Debian and other distribution package smoke tests.
-- A full interactive screen-reader and display session.
-- Coverage-guided fuzzing and a long-running soak test.
-
-## OpenSSF Scorecard (automated)
-
-The workflow is `.github/workflows/scorecard.yml`; the badge in the README
-links to the live OpenSSF viewer. The score and per-check details are updated
-by the workflow on `main` after each release commit.
-
-Recorded prior baseline: **7.1 / 10**. Strong checks at the maximum score
-include CI-Tests, SAST (CodeQL), Vulnerabilities, License, Security-Policy,
-Binary-Artifacts, Dangerous-Workflow, Dependency-Update-Tool,
-Token-Permissions, and Pinned-Dependencies.
-
-## Evidence pointers
-
-- [Test evidence](TEST_EVIDENCE.md)
-- [AI and human review guide](AI_REVIEW.md)
-- [Final self-audit](FINAL_SELF_AUDIT.md)
-- [Risk controls](RISK_CONTROLS.md)
-- [Data control and AI boundary](DATA_CONTROL.md)
-- [Release evidence](RELEASE_EVIDENCE.md)
-- [Signing key](keys/README.md)
-- `release/evidence.json`, `release/manifest.json`, `docs/SBOM.json`
+The previous 91/100 was not supportable: it counted unproven offline,
+device-binding and backup claims, stale test counts, and a non-strict release
+gate. The evidence-backed score before this release was approximately 58.
 
 ## Release blockers regardless of score
 
-1. Physical Android device tests (Huawei Y9 2019) and Android
-   instrumentation/emulator tests have not been run.
-2. Full interactive clean-desktop test and non-Ubuntu installs not yet run.
-3. No independent security audit is claimed.
-4. Startup/RSS benchmark not measured on a runner with a Secret Service
-   provider.
-5. Android QR camera scanning, token approvals, and a user-auth-bound
-   Keystore key remain future work.
-
-## What raised the score honestly
-
-- Owner-signed artifact with a published fingerprint and verified detached
-  signature.
-- Fixed-path reproducible archive with identical file manifests.
-- Real-EVM Anvil integration tests.
-- Mutation testing and a complete test inventory.
-- CodeQL, OpenSSF Scorecard, SBOM, dependency review, secret scan, and pinned
-  actions.
-- Data-boundary tests proving no telemetry/AI SDK and no network path inside
-  key-handling modules.
-- Spending safety controls and cold/offline signing guidance.
+1. No independent professional security audit.
+2. No independent-machine rebuild or external attestation.
+3. No physical two-device cold-signing test.
+4. No real screen-reader/assistive-technology session.
+5. Android 1.5.3 has not been run on a physical device (only built and
+   signature-verified).
+6. Cold-path spending-policy enforcement and nonce binding in
+   `SendIntent.verify` remain open.
+7. The release gate and Android CI signing path are not strict yet.
 
 ## What would raise the score further
 
-- Independent professional security audit.
-- Independent-machine rebuild and a published build-provenance attestation.
-- Clean-install CI on Debian 12 and a full interactive desktop session.
-- Coverage-guided fuzzing and a long-running soak test.
-- Android device verification of the native KDF, lock lifecycle, biometrics,
-  and overlay protection.
+- Independent audit and a published remediation record.
+- Independent rebuild with matching hashes.
+- Physical cold-signing and Android device tests.
+- Coverage-guided fuzzing, a soak test, and crash/ENOSPC fault injection.
+- Strict release gate, Dart SAST, and release-signed Android CI.
+- Packet-capture evidence for the privacy claims.
 
 ## What would not raise the score
 
-- Re-labeling the same tests.
+- Re-labelling the same tests.
 - Removing a failing check.
 - Claiming a platform works because it compiles.
 - Claiming an audit that did not happen.

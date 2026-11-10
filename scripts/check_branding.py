@@ -80,6 +80,27 @@ def main() -> int:
                         f"{line.strip()[:120]}"
                     )
 
+    # The user-visible .deb name is exactly "X Wallet": the version belongs in
+    # the package Version field (and the About subtitle), never in Name=.
+    build_deb = (ROOT / "scripts" / "build-deb.sh").read_text(encoding="utf-8")
+    for line in build_deb.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("Name=") and stripped != "Name=X Wallet":
+            errors.append(f"scripts/build-deb.sh: display name carries a version: {stripped}")
+        if stripped.startswith("Description:") and not stripped.startswith(
+            "Description: X Wallet —"
+        ):
+            errors.append(f"scripts/build-deb.sh: description must start with 'X Wallet —': {stripped}")
+
+    settings = (ROOT / "lib" / "screens" / "settings_page.dart").read_text(
+        encoding="utf-8"
+    )
+    if "'X Wallet $appVersion'" in settings:
+        errors.append(
+            "lib/screens/settings_page.dart: About title must be 'X Wallet' with "
+            "the version on a separate line"
+        )
+
     for rel, needle in REQUIRED:
         path = ROOT / rel
         if not path.is_file():
@@ -98,10 +119,10 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.5.1+14":
-        errors.append(f"pubspec version is not 1.5.1+14: {version.group(1) if version else 'missing'}")
-    if not (ROOT / "docs" / "releases" / "1.5.1.md").is_file():
-        errors.append("missing docs/releases/1.5.1.md")
+    if not version or version.group(1) != "1.5.3+15":
+        errors.append(f"pubspec version is not 1.5.3+15: {version.group(1) if version else 'missing'}")
+    if not (ROOT / "docs" / "releases" / "1.5.3.md").is_file():
+        errors.append("missing docs/releases/1.5.3.md")
 
     app_version_file = ROOT / "lib" / "app_version.dart"
     if not app_version_file.is_file():

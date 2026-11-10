@@ -6,6 +6,13 @@
 **Recorded:** 2026-11-06
 **Affected project:** X Wallet (Android release signing only)
 
+> **1.5.3 update:** the 1.5.3 APKs are signed with a newly generated
+> certificate,
+> `2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a`.
+> They are **not** an in-place upgrade over the 1.5.1 APKs (certificate
+> `db12869c…9748d3`). Export a portable backup, uninstall 1.5.1, then install
+> 1.5.3. The historical exposed key `10c13aa9…25b85` remains denylisted.
+
 This record is deliberately factual. It does not claim that the exposed key was
 revoked, that a replacement is in use, or that any store listing is safe. Those
 are owner actions and remain `UNVERIFIED` until the evidence below is completed.

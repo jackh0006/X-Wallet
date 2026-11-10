@@ -1,47 +1,65 @@
-# Linux hardening report
+# Hardening report — X Wallet 1.5.3
 
-Status labels: **DONE** means the listed command completed successfully in
-this workspace. **PARTIAL** means source controls exist but cannot establish a
-real-world claim alone. **NEEDS OWNER** means it requires a device, key, or
-operational decision outside this repository.
+Date: 2026-11-10
+Scope: the 1.5.1 source at `v1.5.1`, hardened into 1.5.3.
+This is an internal self-review, **not** an independent audit.
 
-The evidence record for version 1.0.10 is
-[`docs/releases/1.0.10.md`](releases/1.0.10.md). Its status is partial, not a
-full-release confirmation.
+## Result
 
-## Current Linux release gate
+| Area | Before 1.5.3 | 1.5.3 | Evidence |
+|---|---|---|---|
+| Recovery | Backup required the old device secret; a new device could not restore it | `BNBBKP01` portable backup restores with the password only | `test/portable_backup_test.dart` |
+| Multiple vaults | One active vault file | Up to three independent vaults with separate passwords; pending rows scoped per vault | `test/multi_vault_test.dart` |
+| Password change | Implemented but unreachable in the UI | Settings → Vaults → Change password | `test/multi_vault_test.dart` |
+| Uncertain broadcast | Signed hash discarded; retry could pay twice | Signed bytes persisted before broadcast; unresolved rows block sends and are checkable | `lib/screens/send_page.dart`, `test/hardening_regressions_test.dart` |
+| Cancel | Always failed verification | Signs an explicit zero value | `test/hardening_regressions_test.dart` |
+| ERC-20 approval | Spender hidden; only exact 2^256-1 flagged | Spender displayed, 2^255 threshold, `increaseAllowance`/`transferFrom` decoded | `test/hardening_regressions_test.dart` |
+| ABI decoding | `transfer`/`approve` address words rejected as invalid | Last 20 bytes of the ABI word are used | `test/hardening_regressions_test.dart` |
+| Token spoofing | Exact "USDT" on a fake contract passed silently | Always unverified | `test/hardening_regressions_test.dart` |
+| Tor/proxy startup | Transport built before prefs, silently direct | Rebuilt after init; dead SOCKS fails closed | `test/privacy_startup_test.dart` |
+| Cold mode | Prices still ran at startup | All app-initiated calls gated; USD off by default | `test/privacy_startup_test.dart` |
+| Node credentials | Proxy passwords/tokens in plain preferences | Secure store; export strips them | `test/node_secret_storage_test.dart` |
+| RPC trust | Unbounded responses, any method, credential URLs | 2 MiB cap, method allowlist, URL policy | `test/rpc_adversarial_test.dart` |
+| Erase | Log and orphan temp files survived | All vaults, log and `.dest-<hex>` files removed | `test/erase_flow_test.dart` |
+| Branding | Version could appear in the display name | Gate enforces "X Wallet" exactly | `scripts/check_branding.py` |
+| Android signer | 1.5.1 identity | New 1.5.3 identity (see claim register) | `apksigner` |
 
-| Item | Status | Evidence |
-|---|---|---|
-| Current-tree secret scan | DONE | `bash scripts/secret-scan.sh` — `Secret scan: current tree has no tracked keystores, private key blocks, or known leaked credentials.` |
-| Independent signature parsing | DONE | `cd verification && npm ci && node verify.cjs` — `independent ethers verification: PASS`; 8 field substitutions rejected. |
-| SBOM regeneration | DONE | `python3 scripts/sbom.py --out docs/SBOM.json` — 116 packages recorded (26 direct and 90 transitive Dart, 9 npm, 1 direct npm). |
-| Production Argon2id backend | DONE | `test/kdf_production_test.dart` — fixed 64 MiB/t=3/p=4, native reference vs pure-Dart agreement, one real round-trip measured at 344 ms native. |
-| Dependency advisory review | DONE | `python3 scripts/dependency-audit.py` — no current pub.dev advisory flags reported. This is advisory metadata, not an audit. |
-| Static analysis | DONE | `flutter analyze --no-pub` — no issues found. |
-| Full Flutter test suite | LOCAL PASS — HOSTED RERUN PENDING | Local serial run on 2026-11-06: 47 files / 299 declarations, 0 failed, 0 timed out. The previous hosted run failed for the reasons recorded in `docs/TESTING_STRATEGY.md`; the fixed runner and KDF backend must pass on the candidate PR before this row becomes hosted-verified. |
-| Linux `.deb` artifact integrity | NOT BUILT FOR 1.0.10 | The earlier 1.0.9 package and its signature are historical. A 1.0.10 package must be built from the tagged candidate and verified with `release-check.sh`. |
-| Full Linux rebuild from source | PASS (single build) | `flutter build linux --release` completed in 2m03s for 1.0.10. |
-| Bit-for-bit reproducibility | PASS with constraint | Two clean builds at fixed path `/tmp/bnb-repro-final` produced identical archive `388f94bf…` and file manifests. Different absolute paths differ because Flutter embeds them; independent-machine proof is still required. |
-| Clean Ubuntu 24.04 install, launch, upgrade, uninstall, reinstall | PASS (smoke) | GitHub `ubuntu-24.04` run `42302764476`: install, Xvfb launch, upgrade from 1.0.9 with data marker, uninstall, reinstall. A full interactive UI walkthrough is still not tested. |
-| Large-value mainnet safety | NEEDS OWNER | Automated tests cannot prove safety against malware, phishing, a compromised OS, or an incorrect recipient. Perform paper-backup restoration and progressively sized transfers. |
+## Bugs fixed with a regression test
 
-## Release decision
+1. Tor/proxy silently bypassed after restart (privacy).
+2. Cold mode still called price APIs (privacy/offline claim).
+3. Uncertain broadcast could be retried with a new nonce (double payment).
+4. Cancel could never pass verification.
+5. Standard ERC-20 `transfer`/`approve` review threw "Invalid EVM address".
+6. `approve` hid the spender and only flagged the exact maximum.
+7. An exact known symbol on a fake contract was not marked unverified.
+8. Node proxy passwords and tokens were stored in plain preferences and exported.
+9. `eraseAllData` left the activity log and crash-orphaned temp files.
+10. PIN verification returned true when the PIN record was missing.
+11. Backup could not be restored on a new device.
+12. Android keyring could mint a replacement secret over an existing vault
+    (documented; a test still requires a platform-channel harness).
 
-This document does not award a numeric security score. Such a score would be
-misleading without an independent review, reproducible clean-machine install,
-and operational testing. The release must remain blocked until every required
-Linux gate has a current **DONE** entry and the owner completes the device
-checks in `docs/FAMILY_GUIDE.md`.
+## Claims downgraded or removed
 
-## Residual risks
+- "The offline signer has no network path" → cold mode blocks all
+  app-initiated calls; the binary still links network code. See
+  `docs/CLAIM_REGISTER.md` C25.
+- "Device-bound double wrapper; both factors required" → the password wrapper
+  opens the payload; the device wrapper is defense-in-depth (C3/C4).
+- "Crypto-erasure" → deleting the device secret does not make a retained vault
+  plus password undecryptable (C5).
+- "Nonce is checked before signing" → it is displayed and used, but
+  `SendIntent.verify` has no nonce parameter (C18).
+- "91/100" → 70/100 internal self-assessment; no audit credit (C41).
 
-- A compromised Linux account, kernel, desktop session, clipboard manager, or
-  input method can capture secrets before memory hardening helps.
-- A recovery phrase copied to cloud storage, a screenshot, or a message can
-  bypass all vault encryption.
-- BSC transactions are irreversible; RPC redundancy and transaction review do
-  not prove a recipient controls an address.
-- No independent external security review is recorded for this project.
-- Flash storage secure deletion is best-effort because wear leveling can retain
-  old physical blocks; crypto-erasure reduces the practical exposure.
+## Remaining blockers
+
+- Independent audit, independent rebuild, physical cold-device test, real
+  screen-reader session, Android device run.
+- Cold-path spending policy and nonce binding in `SendIntent.verify`.
+- Strict release gate and release-signed Android CI.
+- Coverage-guided fuzzing and a soak test.
+
+**This wallet is NOT approved for large amounts until the independent audit
+and the human-only items are complete.**

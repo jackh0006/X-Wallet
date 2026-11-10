@@ -131,6 +131,8 @@ RELEASE_TOOLING_PATHS = {
     "scripts/release_manifest.py",
     "scripts/sbom.py",
     "scripts/test_release_identity.py",
+    "scripts/test-suite-fast.sh",
+    "scripts/package-launch-smoke.sh",
 }
 
 
@@ -282,6 +284,14 @@ def main() -> int:
         status = "INCOMPLETE"
     else:
         status = "VERIFIED"
+
+    # "VERIFIED" above means every recorded check passed. It is not an audit
+    # and not a production approval. If the evidence bundle itself declares a
+    # lower status, never display a stronger one.
+    bundle = load(EVIDENCE_FILE, {})
+    declared = bundle.get("status") if isinstance(bundle, dict) else None
+    if status == "VERIFIED" and declared in {"PARTIALLY VERIFIED", "INCOMPLETE"}:
+        status = declared
 
     summary = {
         "status": status,

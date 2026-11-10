@@ -1,75 +1,75 @@
 {
-  "schemaVersion": 1,
   "platforms": [
     {
-      "platform": "Ubuntu 24.04",
       "arch": "x86_64",
-      "package": ".deb / source",
       "build": "PASS",
-      "install": "NOT TESTED",
-      "functional": "NOT TESTED",
-      "status": "BUILD + PACKAGE ONLY",
-      "evidence": "flutter build linux --release 2m03s; the 1.0.10 package sha256 see the SHA-256 published on the v1.1.0 GitHub release; dpkg-deb -x + ldd resolved all libraries; no secret-bearing filenames"
-    },
-    {
-      "platform": "Debian 12",
-      "arch": "x86_64",
+      "evidence": "flutter build linux --release; .deb built and GPG-verified; launch not exercised in this headless session",
+      "functional": "NOT TESTED (interactive)",
+      "install": "PASS (package smoke, 1.5.3)",
       "package": ".deb / source",
-      "build": "NOT TESTED",
-      "install": "NOT TESTED",
-      "functional": "NOT TESTED",
-      "status": "NOT TESTED",
-      "evidence": "container test planned"
+      "platform": "Ubuntu 24.04",
+      "status": "BUILD + PACKAGE ONLY"
     },
     {
+      "arch": "x86_64",
+      "build": "NOT TESTED",
+      "evidence": "container test planned",
+      "functional": "NOT TESTED",
+      "install": "NOT TESTED",
+      "package": ".deb / source",
+      "platform": "Debian 12",
+      "status": "NOT TESTED"
+    },
+    {
+      "arch": "x86_64",
+      "build": "NOT TESTED",
+      "evidence": "container build planned; no .rpm is produced",
+      "functional": "NOT TESTED",
+      "install": "NOT TESTED",
+      "package": "source",
       "platform": "Fedora 40",
-      "arch": "x86_64",
-      "package": "source",
-      "build": "NOT TESTED",
-      "install": "NOT TESTED",
-      "functional": "NOT TESTED",
-      "status": "NOT TESTED",
-      "evidence": "container build planned; no .rpm is produced"
+      "status": "NOT TESTED"
     },
     {
-      "platform": "Linux",
       "arch": "arm64",
-      "package": "source",
       "build": "NOT TESTED",
-      "install": "NOT TESTED",
+      "evidence": "no arm64 hardware or emulator in this release environment",
       "functional": "NOT TESTED",
-      "status": "NOT TESTED",
-      "evidence": "no arm64 hardware or emulator in this release environment"
+      "install": "NOT TESTED",
+      "package": "source",
+      "platform": "Linux",
+      "status": "NOT TESTED"
     },
     {
-      "platform": "Windows",
       "arch": "x86_64",
-      "package": "source",
       "build": "NOT TESTED",
-      "install": "NOT TESTED",
+      "evidence": "not built or tested",
       "functional": "NOT TESTED",
-      "status": "NOT TESTED",
-      "evidence": "not built or tested"
+      "install": "NOT TESTED",
+      "package": "source",
+      "platform": "Windows",
+      "status": "NOT TESTED"
     },
     {
-      "platform": "macOS",
       "arch": "arm64/x86_64",
-      "package": "source",
       "build": "NOT TESTED",
-      "install": "NOT TESTED",
+      "evidence": "not built or tested",
       "functional": "NOT TESTED",
-      "status": "NOT TESTED",
-      "evidence": "not built or tested"
+      "install": "NOT TESTED",
+      "package": "source",
+      "platform": "macOS",
+      "status": "NOT TESTED"
     },
     {
-      "platform": "Android",
       "arch": "arm64-v8a",
+      "build": "PASS",
+      "evidence": "1.5.3 arm64 and ARM-only universal APKs built, apksigner-verified with 2a96a384\u20263ba9a; no physical-device install in this environment",
+      "functional": "NOT TESTED",
+      "install": "NOT TESTED",
       "package": ".apk",
-      "build": "BLOCKED",
-      "install": "BLOCKED",
-      "functional": "BLOCKED",
-      "status": "BLOCKED",
-      "evidence": "historical signing key not rotated; see docs/security/INCIDENT_2026-11-KEYSTORE.md"
+      "platform": "Android",
+      "status": "BUILD + SIGNATURE ONLY"
     }
-  ]
+  ],
+  "schemaVersion": 1
 }

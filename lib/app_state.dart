@@ -11,6 +11,7 @@ import 'cold_wallet_service.dart';
 import 'default_tokens.dart';
 import 'encrypted_log_store.dart';
 import 'models.dart';
+import 'portable_backup.dart';
 import 'receipt_store.dart';
 import 'rpc_service.dart';
 import 'spending_policy.dart';
@@ -41,6 +42,18 @@ class AppState extends ChangeNotifier {
     if (bytes.length < 8) {
       throw StateError('Not a valid vault file (too short).');
     }
+    // Portable disaster-recovery backup (password-only, restorable on a new
+    // device). It is not a vault envelope, but the same import path accepts it.
+    const portableMagic = 'BNBBKP01';
+    final portableBytes = utf8.encode(portableMagic);
+    var portable = true;
+    for (var i = 0; i < portableBytes.length; i++) {
+      if (bytes[i] != portableBytes[i]) {
+        portable = false;
+        break;
+      }
+    }
+    if (portable) return portableMagic;
     const magicPrefix = 'BNBVL';
     final prefixBytes = utf8.encode(magicPrefix);
     // Check that the blob starts with BNBVL prefix (any version)
@@ -334,12 +347,18 @@ class AppState extends ChangeNotifier {
 
   Future<void> init() async {
     await AppStorage.init();
+    // The global AppState (and its RpcService) is constructed before this
+    // method runs, so the transport was built while preferences were still
+    // unavailable. Rebuild it now so a configured Tor/proxy route applies to
+    // the very first request instead of silently sending it direct.
+    rpc.rebuildTransport();
     rpc.setNetwork(AppStorage.network);
     rpc.setConfiguredRpc(AppStorage.rpc);
     rpc.setCustomTokens(AppStorage.customTokens);
     _bscscanKey = await AppStorage.getBscscanKey();
     rpc.setBscscanKey(_bscscanKey);
     _profiles = AppStorage.profiles;
+    await AppStorage.loadNodeSecrets();
     _nodes = AppStorage.nodes;
     _customTokens = withDefaultTokens(AppStorage.customTokens);
     await AppStorage.setCustomTokens(_customTokens);
@@ -357,6 +376,14 @@ class AppState extends ChangeNotifier {
     rpc.setStrictFlag(_strictNode);
     _syncNodePool();
     _pending = _decodePending(AppStorage.getPendingTxsJson());
+    _vaults = AppStorage.getVaultEntries();
+    _activeVaultId = AppStorage.activeVaultEntry?.id;
+    if (_activeVaultId != null) {
+      _pending = [
+        for (final tx in _pending)
+          if (tx.vaultId == null) tx.copyWith(vaultId: _activeVaultId) else tx,
+      ];
+    }
     _vaultExists = await AppStorage.vaultExists();
     _usePin = await AppSecurity.hasPin();
     _appLocked = _usePin;
@@ -774,7 +801,8 @@ class AppState extends ChangeNotifier {
 
   /// Exports the book as JSON. Nothing in the book is secret — names and
   /// public addresses only — so the default export is safe to share.
-  String exportNodesJson() => jsonEncode([for (final n in _nodes) n.toJson()]);
+  String exportNodesJson() =>
+      jsonEncode([for (final n in _nodes) n.toPublicJson()]);
 
   /// Imports a node list (JSON array of {label,url,network,enabled}). Any
   /// unusable address refuses the WHOLE import (fail closed), duplicates are
@@ -1388,9 +1416,24 @@ class AppState extends ChangeNotifier {
 
   List<PendingTx> _pending = [];
 
+  List<VaultEntry> _vaults = [];
+  String? _activeVaultId;
+
+  /// Registered vaults, newest last.
+  List<VaultEntry> get vaults => List.unmodifiable(_vaults);
+  String? get activeVaultId => _activeVaultId;
+  String get activeVaultLabel {
+    for (final entry in _vaults) {
+      if (entry.id == _activeVaultId) return entry.label;
+    }
+    return _vaults.isEmpty ? 'Main' : _vaults.first.label;
+  }
+
   /// Outgoing transactions this device saw broadcast and not yet resolved.
-  /// Public chain facts only — no keys, no secrets.
-  List<PendingTx> get pendingTxs => List.unmodifiable(_pending);
+  /// Public chain facts only — no keys, no secrets. Scoped to the active vault.
+  List<PendingTx> get pendingTxs => List.unmodifiable(
+    _pending.where((t) => t.vaultId == null || t.vaultId == _activeVaultId),
+  );
 
   static List<PendingTx> _decodePending(String? json) {
     if (json == null || json.isEmpty) return [];
@@ -1406,8 +1449,42 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> addPendingTx(PendingTx tx) async {
-    _pending = [tx, ..._pending.where((t) => t.hash != tx.hash)];
+    final row = tx.vaultId == null ? tx.copyWith(vaultId: _activeVaultId) : tx;
+    _pending = [row, ..._pending.where((t) => t.hash != row.hash)];
     await _persistPending();
+  }
+
+  /// True when a previous signed/broadcast transaction for [from] never got a
+  /// definitive answer. New sends are blocked until it is checked, because
+  /// retrying blindly can sign a second payment with the next nonce.
+  bool hasUnresolvedBroadcast(String from) => _pending.any(
+    (t) =>
+        t.from.toLowerCase() == from.toLowerCase() &&
+        (t.vaultId == null || t.vaultId == _activeVaultId) &&
+        (t.status == 'unknown' || t.status == 'signed'),
+  );
+
+  /// Re-checks an uncertain broadcast against the active node.
+  /// Returns true when the transaction is confirmed (the row is removed).
+  Future<bool> checkPendingTx(String hash) async {
+    PendingTx? row;
+    for (final tx in _pending) {
+      if (tx.hash == hash) {
+        row = tx;
+        break;
+      }
+    }
+    if (row == null) return true;
+    try {
+      final receipt = await rpc.receipt(hash);
+      if (receipt != null) {
+        await removePendingTx(hash);
+        return true;
+      }
+    } catch (_) {
+      // A network failure is not evidence that the transaction failed.
+    }
+    return false;
   }
 
   Future<void> updatePendingTx(
@@ -1643,6 +1720,7 @@ class AppState extends ChangeNotifier {
         throw StateError('Vault move verification failed.');
       }
       await AppStorage.setVaultPath(newPath);
+      await AppStorage.updateActiveVaultPath(newPath);
       rpc.note('Vault moved to $newPath.', kind: RpcStoryKind.info);
       notifyListeners();
     });
@@ -1675,11 +1753,13 @@ class AppState extends ChangeNotifier {
       if (json == null) {
         throw StateError('Wrong vault password. Export aborted.');
       }
-      final blob = await AppStorage.readVault();
-      if (blob == null) throw StateError('Vault file not found.');
-      _validateVaultMagic(blob);
+      final blob = await PortableBackup.encrypt(
+        password: password,
+        accountsJson: jsonEncode(json),
+        label: activeVaultLabel,
+      );
       if (blob.length > 5 * 1024 * 1024) {
-        throw StateError('Vault is too large. Export aborted.');
+        throw StateError('Backup is too large. Export aborted.');
       }
       return blob;
     });
@@ -1699,14 +1779,16 @@ class AppState extends ChangeNotifier {
         throw StateError('Wrong vault password. Export aborted.');
       }
 
-      // Re-read the validated vault blob for export
-      final blob = await AppStorage.readVault();
-      if (blob == null) throw StateError('Vault file not found.');
-
-      // Validate the vault envelope format before exporting
-      _validateVaultMagic(blob);
+      // The disaster-recovery backup is deliberately portable: it depends on
+      // the password only, so it can be restored on a new machine without the
+      // old device secret.
+      final blob = await PortableBackup.encrypt(
+        password: password,
+        accountsJson: jsonEncode(json),
+        label: activeVaultLabel,
+      );
       if (blob.length > 5 * 1024 * 1024) {
-        throw StateError('Vault is too large. Export aborted.');
+        throw StateError('Backup is too large. Export aborted.');
       }
 
       final exportFile = File(exportPath);
@@ -1807,13 +1889,26 @@ class AppState extends ChangeNotifier {
       if (blob.isEmpty) throw StateError('Import file is empty.');
 
       // Validate the envelope format and version by checking base64-decoded magic bytes.
-      _validateVaultMagic(blob);
+      final magic = _validateVaultMagic(blob);
+      final bool portable = magic == 'BNBBKP01';
+      String? portableAccountsJson;
 
-      // Validate the backup can be decrypted with the provided password
-      // This validates: format, version, Argon2id parameters, cryptographic tags, device-key dependencies
-      final device = await AppStorage.getOrGenerateDeviceSecret();
+      // Validate the backup can be decrypted with the provided password.
+      // A portable backup needs only the password; a vault envelope also needs
+      // this device's secret.
       try {
-        final decryptedJson = await _decryptVaultBlob(blob, password, device);
+        final String decryptedJson;
+        if (portable) {
+          final data = await PortableBackup.decrypt(
+            encoded: blob,
+            password: password,
+          );
+          portableAccountsJson = data.accountsJson;
+          decryptedJson = data.accountsJson;
+        } else {
+          final device = await AppStorage.getOrGenerateDeviceSecret();
+          decryptedJson = await _decryptVaultBlob(blob, password, device);
+        }
         final decoded = jsonDecode(decryptedJson) as List;
         if (decoded.isEmpty) {
           throw StateError('Imported vault contains no accounts.');
@@ -1871,8 +1966,17 @@ class AppState extends ChangeNotifier {
       }
 
       try {
+        // A portable backup is re-encrypted under this device's secret before
+        // it becomes the active vault; a native vault envelope is written as-is.
+        final blobToWrite = portable
+            ? await _runVaultEncrypt(
+                password,
+                portableAccountsJson!,
+                await AppStorage.getOrGenerateDeviceSecret(),
+              )
+            : blob;
         // Write the imported vault to a secure temporary location first, validate, then atomically replace
-        final writeResult = await atomicWrite(vaultFile, blob);
+        final writeResult = await atomicWrite(vaultFile, blobToWrite);
         if (!writeResult.committed) {
           throw StateError('Import write failed: ${writeResult.error}');
         }
@@ -1975,6 +2079,19 @@ class AppState extends ChangeNotifier {
     return VaultCipher.validateAndDecrypt(encoded, password, deviceSecret);
   }
 
+  /// Decrypts a specific vault during a switch/delete. Honors the test-only
+  /// reversible override so multi-vault tests do not pay for 64 MiB Argon2id.
+  Future<String> _decryptVaultForSwitch(
+    String encoded,
+    String password,
+    String deviceSecret,
+  ) async {
+    if (kDebugMode && vaultDecryptOverride != null) {
+      return vaultDecryptOverride!(password, encoded, deviceSecret);
+    }
+    return VaultCipher.validateAndDecrypt(encoded, password, deviceSecret);
+  }
+
   /// Change the vault password.
   ///
   /// Reads the vault with [oldPassword], decrypts it, and re-encrypts with
@@ -2033,6 +2150,151 @@ class AppState extends ChangeNotifier {
     };
   }
 
+  /// At most three independent vaults, each with its own password and file.
+  static const int maxVaults = 3;
+
+  VaultEntry? _vaultEntry(String id) {
+    for (final entry in _vaults) {
+      if (entry.id == id) return entry;
+    }
+    return null;
+  }
+
+  Future<void> refreshVaults() async {
+    _vaults = AppStorage.getVaultEntries();
+    _activeVaultId = AppStorage.activeVaultEntry?.id;
+    notifyListeners();
+  }
+
+  /// Creates an empty vault file and makes it active. The user then adds or
+  /// imports the first wallet. The existing vault is left untouched.
+  Future<void> createVault(String label, String password) async {
+    final trimmed = label.trim();
+    if (trimmed.isEmpty || trimmed.length > 60) {
+      throw ArgumentError('Vault label must contain 1 to 60 characters.');
+    }
+    if (password.isEmpty) {
+      throw ArgumentError('The vault password cannot be empty.');
+    }
+    if (_vaults.length >= maxVaults) {
+      throw StateError(
+        'At most $maxVaults vaults are supported on one device.',
+      );
+    }
+    final id = 'v${DateTime.now().microsecondsSinceEpoch}';
+    final file = await AppStorage.newVaultFile(id);
+    final blob = await _runVaultEncrypt(
+      password,
+      '[]',
+      await AppStorage.getOrGenerateDeviceSecret(),
+    );
+    final write = await atomicWrite(file, blob);
+    if (write.state != AtomicWriteState.committedVerified) {
+      throw StateError('New vault was not verified: ${write.error}');
+    }
+    final entry = VaultEntry(
+      id: id,
+      label: trimmed,
+      file: file.path,
+      createdAt: DateTime.now().toUtc().toIso8601String(),
+    );
+    final next = [..._vaults, entry];
+    await AppStorage.saveVaultEntries(next, activeId: id);
+    _vaults = next;
+    _activeVaultId = id;
+    _vaultExists = true;
+    lock();
+    _unlocked = false;
+    notifyListeners();
+    rpc.note('Vault "$trimmed" created.', kind: RpcStoryKind.info);
+  }
+
+  /// Verifies the target vault password, locks the current session, switches
+  /// the active file and unlocks its accounts.
+  Future<void> switchVault(String id, String password) async {
+    final entry = _vaultEntry(id);
+    if (entry == null) throw StateError('Vault not found.');
+    final blob = await AppStorage.readVaultAt(entry.file);
+    if (blob == null) throw StateError('Vault file not found.');
+    final device = await AppStorage.getOrGenerateDeviceSecret();
+    final json = await _decryptVaultForSwitch(blob, password, device);
+    final decoded = jsonDecode(json);
+    if (decoded is! List) {
+      throw const FormatException('Vault payload is not an account list.');
+    }
+    final accounts = _accountsFromJson(
+      List<Map<String, dynamic>>.from(decoded),
+    );
+    lock();
+    await AppStorage.setActiveVaultId(id);
+    _activeVaultId = id;
+    _vaultExists = true;
+    _vaultSessionPassword = password;
+    _vaultAccountsCache = accounts;
+    _vaultKnownAddresses = {
+      for (final account in accounts) account.address.toLowerCase(),
+    };
+    notifyListeners();
+    rpc.note('Switched to vault "${entry.label}".', kind: RpcStoryKind.info);
+  }
+
+  /// Selects a vault for the next unlock without needing its password.
+  Future<void> selectVault(String id) async {
+    final entry = _vaultEntry(id);
+    if (entry == null) throw StateError('Vault not found.');
+    lock();
+    await AppStorage.setActiveVaultId(id);
+    _activeVaultId = id;
+    _vaultExists = await AppStorage.vaultExists();
+    notifyListeners();
+  }
+
+  Future<void> renameVault(String id, String label) async {
+    final trimmed = label.trim();
+    if (trimmed.isEmpty || trimmed.length > 60) {
+      throw ArgumentError('Vault label must contain 1 to 60 characters.');
+    }
+    if (_vaultEntry(id) == null) throw StateError('Vault not found.');
+    final next = [
+      for (final entry in _vaults)
+        if (entry.id == id) entry.copyWith(label: trimmed) else entry,
+    ];
+    await AppStorage.saveVaultEntries(next, activeId: _activeVaultId);
+    _vaults = next;
+    notifyListeners();
+  }
+
+  /// Deletes one vault after verifying its password. The file is shredded;
+  /// only the recovery phrase or a portable backup can restore it.
+  Future<void> deleteVault(String id, String password) async {
+    final entry = _vaultEntry(id);
+    if (entry == null) throw StateError('Vault not found.');
+    if (password.isEmpty) throw ArgumentError('Vault password is required.');
+    final blob = await AppStorage.readVaultAt(entry.file);
+    if (blob == null) throw StateError('Vault file not found.');
+    final device = await AppStorage.getOrGenerateDeviceSecret();
+    await _decryptVaultForSwitch(blob, password, device);
+    lock();
+    final removed = await AppStorage.deleteVaultAt(entry.file);
+    if (!removed) {
+      throw StateError('The vault file could not be removed completely.');
+    }
+    final next = [
+      for (final item in _vaults)
+        if (item.id != id) item,
+    ];
+    String? nextActive = _activeVaultId;
+    if (_activeVaultId == id) {
+      nextActive = next.isEmpty ? null : next.first.id;
+    }
+    await AppStorage.saveVaultEntries(next, activeId: nextActive);
+    _vaults = next;
+    _activeVaultId = nextActive;
+    _vaultExists = nextActive != null && await AppStorage.vaultExists();
+    notifyListeners();
+    rpc.note('Vault "${entry.label}" deleted.', kind: RpcStoryKind.info);
+  }
+
   /// Reset vault path to default (system app data directory).
   Future<void> resetVaultPath() async {
     await withVaultOperationLock(() async {
@@ -2049,6 +2311,15 @@ class AppState extends ChangeNotifier {
   /// phrase. Returns anything the wipe could NOT remove (empty = clean).
   Future<List<String>> eraseAll() async {
     return withVaultOperationLock(() async {
+      // Remove the encrypted activity log before preferences (and therefore
+      // its key material) are cleared, then let the storage wipe handle the
+      // vault, receipts, drawer, log file and atomic temporaries.
+      try {
+        await EncryptedLogStore.clear();
+      } catch (_) {
+        // The storage pass below removes the file even if the store was not
+        // initialised.
+      }
       final leftovers = await AppStorage.eraseAllData();
       _key = null;
       _mnemonic = null;
@@ -2060,6 +2331,8 @@ class AppState extends ChangeNotifier {
       _vaultAccountsCache = null;
       _vaultKnownAddresses = {};
       _pending = [];
+      _vaults = [];
+      _activeVaultId = null;
       _unlocked = false;
       _vaultExists = false;
       _usePin = false;

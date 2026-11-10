@@ -169,6 +169,37 @@ class RpcNode {
     if (latencyMs != null) 'latencyMs': latencyMs,
   };
 
+  /// Shareable form with every credential removed. Used by the "export phone
+  /// book" action, which must never write a proxy password, bearer token or
+  /// custom header into a plain-text file or the clipboard.
+  Map<String, dynamic> toPublicJson() => {
+    'label': label,
+    'url': url,
+    'network': network,
+    'enabled': enabled,
+    'transport': transport.index,
+    if (proxyHost != null) 'proxyHost': proxyHost,
+    if (proxyPort != null) 'proxyPort': proxyPort,
+    if (authType != NodeAuthType.none) 'authType': authType.index,
+    if (authUsername != null) 'authUsername': authUsername,
+    if (pinnedSpkiHashes.isNotEmpty) 'pinnedSpkiHashes': pinnedSpkiHashes,
+    'useForReads': useForReads,
+    'useForBroadcast': useForBroadcast,
+    'selectionMode': selectionMode.index,
+    if (latencyMs != null) 'latencyMs': latencyMs,
+  };
+
+  /// Credentials that must live in the platform secure store, never in the
+  /// plain preferences file.
+  Map<String, dynamic> secretFields() => {
+    if (proxyUser != null) 'proxyUser': proxyUser,
+    if (proxyPass != null) 'proxyPass': proxyPass,
+    if (authToken != null) 'authToken': authToken,
+    if (authUsername != null) 'authUsername': authUsername,
+    if (authPassword != null) 'authPassword': authPassword,
+    if (customHeaders.isNotEmpty) 'customHeaders': customHeaders,
+  };
+
   factory RpcNode.fromJson(Map<String, dynamic> json) => RpcNode(
     label: (json['label'] ?? '').toString(),
     url: (json['url'] ?? '').toString(),
@@ -291,7 +322,21 @@ bool nodeUrlAllowed(String url) {
   try {
     final uri = Uri.parse(url.trim());
     if (uri.host.isEmpty) return false;
-    if (uri.scheme == 'https' || uri.scheme == 'wss') return true;
+    // Credentials in a URL leak into logs, history and the raw-RPC panel.
+    if (uri.userInfo.isNotEmpty) return false;
+    if (uri.scheme == 'https' || uri.scheme == 'wss') {
+      final host = uri.host.toLowerCase();
+      // Cloud metadata / link-local targets are never a user's RPC node and
+      // are a classic SSRF target for a malicious imported configuration.
+      if (host == '169.254.169.254' || host == 'metadata.google.internal') {
+        return false;
+      }
+      final v4 = host.split('.');
+      if (v4.length == 4 && v4.every((p) => int.tryParse(p) != null)) {
+        if (int.parse(v4[0]) == 169 && int.parse(v4[1]) == 254) return false;
+      }
+      return true;
+    }
     if (uri.scheme != 'http') return false;
     var host = uri.host.toLowerCase();
     if (host.startsWith('[') && host.endsWith(']')) {
@@ -650,6 +695,44 @@ class LocalReceipt {
   );
 }
 
+/// One registered vault file. Labels and paths are not secrets; the accounts
+/// and their keys remain inside the encrypted envelope.
+@immutable
+class VaultEntry {
+  const VaultEntry({
+    required this.id,
+    required this.label,
+    required this.file,
+    required this.createdAt,
+  });
+
+  final String id;
+  final String label;
+  final String file;
+  final String createdAt;
+
+  VaultEntry copyWith({String? label, String? file}) => VaultEntry(
+    id: id,
+    label: label ?? this.label,
+    file: file ?? this.file,
+    createdAt: createdAt,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'label': label,
+    'file': file,
+    'createdAt': createdAt,
+  };
+
+  static VaultEntry fromJson(Map<String, dynamic> json) => VaultEntry(
+    id: '${json['id'] ?? ''}',
+    label: '${json['label'] ?? 'Vault'}',
+    file: '${json['file'] ?? ''}',
+    createdAt: '${json['createdAt'] ?? ''}',
+  );
+}
+
 /// One locally tracked outgoing transaction that is not yet confirmed.
 /// Only public chain facts live here — no keys, no secrets.
 @immutable
@@ -675,6 +758,9 @@ class PendingTx {
     required this.tierLabel,
     this.replacedBy,
     this.note,
+    this.rawHex,
+    this.status = 'broadcast',
+    this.vaultId,
   });
 
   final String hash;
@@ -698,7 +784,22 @@ class PendingTx {
   final String? replacedBy; // hash of the replacement, when known
   final String? note; // 'speed-up' | 'cancel' marker
 
-  PendingTx copyWith({String? replacedBy, String? note}) => PendingTx(
+  /// The exact signed bytes, retained so an uncertain broadcast can be
+  /// re-submitted unchanged instead of re-signed with a new nonce.
+  final String? rawHex;
+
+  /// 'signed' (persisted before broadcast), 'broadcast', or 'unknown'.
+  final String status;
+
+  /// Which vault produced this transaction (multi-vault isolation).
+  final String? vaultId;
+
+  PendingTx copyWith({
+    String? replacedBy,
+    String? note,
+    String? status,
+    String? vaultId,
+  }) => PendingTx(
     hash: hash,
     network: network,
     from: from,
@@ -719,6 +820,9 @@ class PendingTx {
     tierLabel: tierLabel,
     replacedBy: replacedBy ?? this.replacedBy,
     note: note ?? this.note,
+    rawHex: rawHex,
+    status: status ?? this.status,
+    vaultId: vaultId ?? this.vaultId,
   );
 
   Map<String, dynamic> toJson() => {
@@ -742,6 +846,9 @@ class PendingTx {
     'tierLabel': tierLabel,
     if (replacedBy != null) 'replacedBy': replacedBy,
     if (note != null) 'note': note,
+    if (rawHex != null) 'rawHex': rawHex,
+    'status': status,
+    if (vaultId != null) 'vaultId': vaultId,
   };
 
   static PendingTx fromJson(Map<String, dynamic> json) => PendingTx(
@@ -765,6 +872,9 @@ class PendingTx {
     tierLabel: '${json['tierLabel'] ?? ''}',
     replacedBy: json['replacedBy']?.toString(),
     note: json['note']?.toString(),
+    rawHex: json['rawHex']?.toString(),
+    status: '${json['status'] ?? 'broadcast'}',
+    vaultId: json['vaultId']?.toString(),
   );
 }
 

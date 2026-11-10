@@ -54,12 +54,19 @@ void showInfo(BuildContext context, String message) {
 }
 
 Future<void> copyText(BuildContext context, String text, String label) async {
-  if (!ClipboardGuard.secretFree(text)) {
+  final lowerLabel = label.toLowerCase();
+  final secretLabel =
+      lowerLabel.contains('key') ||
+      lowerLabel.contains('seed') ||
+      lowerLabel.contains('phrase') ||
+      lowerLabel.contains('password') ||
+      lowerLabel.contains('secret');
+  if (secretLabel || !ClipboardGuard.secretFree(text)) {
     if (context.mounted) {
       showError(
         context,
-        'I never copy seed words or private keys to the clipboard — they '
-        'stay inside the unlocked wallet only.',
+        'I never copy seed words or private keys to the clipboard through '
+        'this helper — they stay inside the unlocked wallet only.',
       );
     }
     return;
