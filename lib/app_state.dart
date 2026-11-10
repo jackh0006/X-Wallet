@@ -2076,7 +2076,20 @@ class AppState extends ChangeNotifier {
     String password,
     String deviceSecret,
   ) async {
-    return _runVaultDecrypt(password, encoded, deviceSecret);
+    return VaultCipher.validateAndDecrypt(encoded, password, deviceSecret);
+  }
+
+  /// Decrypts a specific vault during a switch/delete. Honors the test-only
+  /// reversible override so multi-vault tests do not pay for 64 MiB Argon2id.
+  Future<String> _decryptVaultForSwitch(
+    String encoded,
+    String password,
+    String deviceSecret,
+  ) async {
+    if (kDebugMode && vaultDecryptOverride != null) {
+      return vaultDecryptOverride!(password, encoded, deviceSecret);
+    }
+    return VaultCipher.validateAndDecrypt(encoded, password, deviceSecret);
   }
 
   /// Change the vault password.
@@ -2204,7 +2217,7 @@ class AppState extends ChangeNotifier {
     final blob = await AppStorage.readVaultAt(entry.file);
     if (blob == null) throw StateError('Vault file not found.');
     final device = await AppStorage.getOrGenerateDeviceSecret();
-    final json = await _decryptVaultBlob(blob, password, device);
+    final json = await _decryptVaultForSwitch(blob, password, device);
     final decoded = jsonDecode(json);
     if (decoded is! List) {
       throw const FormatException('Vault payload is not an account list.');
@@ -2260,7 +2273,7 @@ class AppState extends ChangeNotifier {
     final blob = await AppStorage.readVaultAt(entry.file);
     if (blob == null) throw StateError('Vault file not found.');
     final device = await AppStorage.getOrGenerateDeviceSecret();
-    await _decryptVaultBlob(blob, password, device);
+    await _decryptVaultForSwitch(blob, password, device);
     lock();
     final removed = await AppStorage.deleteVaultAt(entry.file);
     if (!removed) {

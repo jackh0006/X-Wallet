@@ -65,6 +65,7 @@ void main() {
           const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
           (_) async => null,
         );
+    AppStorage.resetPreferencesForTest();
     SharedPreferences.setMockInitialValues({});
     tmp = await Directory.systemTemp.createTemp('bnb-rollback-injection-');
     PathProviderPlatform.instance = _MockPathProvider(tmp.path);
