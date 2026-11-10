@@ -103,10 +103,10 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.4.1+10":
-        errors.append(f"pubspec version is not 1.4.1+10: {version.group(1) if version else 'missing'}")
+    if not version or version.group(1) != "1.4.2+11":
+        errors.append(f"pubspec version is not 1.4.2+11: {version.group(1) if version else 'missing'}")
     if not (ROOT / "docs" / "releases" / "1.3.0.md").is_file():
-        errors.append("missing docs/releases/1.4.1.md")
+        errors.append("missing docs/releases/1.4.2.md")
 
     app_version_file = ROOT / "lib" / "app_version.dart"
     if not app_version_file.is_file():

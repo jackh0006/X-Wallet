@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.4.1+10`
+- Version: `1.4.2+11`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,7 +19,7 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 00d73c9ac3c3de66a7d06e3162c40a543a679193fa813a62259a33de200315ca |
+| SBOM SHA-256 | 7199162e070b2cc253c4e8155bcd491aa3e2cd500b38f1898c68b2c027ea6573 |
 
 ## Test inventory
 
@@ -34,32 +34,33 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| android-arm64-build | 0 | 317 | yes | — |
+| android-arm64-build | 0 | 303 | yes | — |
+| android-dashboard | 0 | 28.878 | yes | d39181e8200cc2d3 |
 | android-signer | 0 | 2 | yes | — |
-| android-universal-build | 0 | 543 | yes | — |
-| backup-e2e | 0 | 12.13 | yes | 6629cc627168d087 |
-| cold-signature | 0 | 5.48 | yes | d1a7cb52ed24b0ce |
-| data-boundary | 0 | 8.071 | yes | 3b5c788081aaa22f |
-| deb-build | 0 | 16.953 | yes | ad87cf377cc6ea3b |
-| deb-signature | 0 | 0.611 | yes | 3243608fad939b34 |
-| dependency-audit | 0 | 4.676 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 695.781 | yes | 1bc2f39641595163 |
-| identity-negative-tests | 0 | 0.402 | yes | ec361915e8a72349 |
-| install-smoke | 0 | 284 | yes | — |
-| integration | 0 | 13.801 | yes | d581506f5377a5df |
-| license-inventory | 0 | 0.066 | yes | ab9b22cbedaa80d3 |
-| linux-build | 0 | 119.427 | yes | ee7e1d90cc6af35a |
-| release-evidence | 0 | 0.048 | yes | 3d40456dd12f5b27 |
-| release-signing-tests | 0 | 1.369 | yes | 806b2e225357df53 |
-| reproducibility | 0 | 262.037 | yes | 1796b1e24fa98789 |
-| sbom | 0 | 0.148 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 3.417 | yes | 7ff728a5877b4846 |
-| security-mutation | 0 | 82.11 | yes | d04b5408453d3d8d |
-| static-analysis | 0 | 19.286 | yes | 2599b548443a6c2c |
-| test-inventory | 0 | 0.093 | yes | 67786091b8099080 |
-| token-registry | 0 | 9.117 | yes | 8f0310eb951563c0 |
-| ui-contrast | 0 | 30.28 | yes | c3df95d1938aef0b |
-| vault-multi-wallet | 0 | 10.275 | yes | 46bee835c0630cf6 |
+| android-universal-build | 0 | 390 | yes | — |
+| backup-e2e | 0 | 12.408 | yes | 6629cc627168d087 |
+| cold-signature | 0 | 5.774 | yes | 87d225095d2a70a4 |
+| data-boundary | 0 | 8.088 | yes | 3b5c788081aaa22f |
+| deb-build | 0 | 17.502 | yes | 4ccbb65317f94da9 |
+| deb-signature | 0 | 0.704 | yes | c7987476d718883d |
+| dependency-audit | 0 | 4.262 | yes | 531db7f60a49620c |
+| english-only | 0 | 17.242 | yes | 8f5fd7deb946187a |
+| full-test-suite | 0 | 873.271 | yes | cb66dc387ea21182 |
+| identity-negative-tests | 0 | 0.374 | yes | c13bc4062bff62d1 |
+| install-smoke | 0 | 136 | yes | — |
+| integration | 0 | 14.007 | yes | d581506f5377a5df |
+| license-inventory | 0 | 0.274 | yes | ab9b22cbedaa80d3 |
+| linux-build | 0 | 126.088 | yes | ee7e1d90cc6af35a |
+| release-evidence | 0 | 0.051 | yes | 07513a54a5d24bf2 |
+| release-signing-tests | 0 | 1.68 | yes | cddddfef6b745a90 |
+| reproducibility | 0 | 240.779 | yes | b6a4d3954bf73496 |
+| sbom | 0 | 0.093 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 4.232 | yes | 7ff728a5877b4846 |
+| security-mutation | 0 | 78.105 | yes | d04b5408453d3d8d |
+| static-analysis | 0 | 5.019 | yes | 3ba6a1ac660a95d5 |
+| test-inventory | 0 | 0.108 | yes | 67786091b8099080 |
+| token-registry | 0 | 9.282 | yes | 8f0310eb951563c0 |
+| vault-multi-wallet | 0 | 10.484 | yes | 46bee835c0630cf6 |
 
 ## Artifacts
 

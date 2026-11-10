@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -1341,21 +1342,55 @@ class _SendPageState extends State<SendPage>
         });
         return;
       }
-      final suffix = checksummed.substring(checksummed.length - 6);
+      const confirmationWords = [
+        'apple',
+        'river',
+        'stone',
+        'light',
+        'green',
+        'cloud',
+        'happy',
+        'brave',
+        'silver',
+        'garden',
+        'orange',
+        'planet',
+      ];
+      final challenge =
+          confirmationWords[Random.secure().nextInt(confirmationWords.length)];
       _suffix.clear();
       final typed = await showDialog<String>(
         context: context,
         builder: (dialogContext) => AlertDialog(
-          title: const Text('Final address check'),
-          content: TextField(
-            controller: _suffix,
-            decoration: InputDecoration(
-              labelText: tr(
-                context,
-                'Type the last 6 recipient characters ($suffix)',
+          title: const Text('Confirm this transfer'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Type the word shown below. This confirms you reviewed the '
+                'recipient, amount, and network.',
               ),
-              border: const OutlineInputBorder(),
-            ),
+              const SizedBox(height: 10),
+              SelectableText(
+                challenge,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _suffix,
+                autocorrect: false,
+                enableSuggestions: false,
+                decoration: const InputDecoration(
+                  labelText: 'Type the word',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -1370,7 +1405,7 @@ class _SendPageState extends State<SendPage>
           ],
         ),
       );
-      if (typed != suffix) {
+      if (typed?.toLowerCase() != challenge) {
         if (!mounted) return;
         setState(() {
           _sending = false;
@@ -1378,7 +1413,7 @@ class _SendPageState extends State<SendPage>
         });
         showError(
           context,
-          'Recipient suffix does not match. Transaction not signed.',
+          'The confirmation word did not match. Transaction not signed.',
         );
         return;
       }

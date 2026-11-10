@@ -1,4 +1,4 @@
-# Builder and AI No-Access Guarantee — X Wallet 1.4.1
+# Builder and AI No-Access Guarantee — X Wallet 1.4.2
 
 **Guarantee:** the X Wallet Linux and Android applications contain no channel
 that lets DeepSeek, the AI assistant, or the builder read, copy, receive, or
@@ -116,10 +116,10 @@ No builder or AI domain is present.
 grep -rniE "firebase|analytics|sentry|openai|anthropic|deepseek|chatgpt|telemetry|remote.?config" lib pubspec.yaml
 
 # Android permissions
-aapt dump permissions x-wallet-1.4.1-android-universal.apk
+aapt dump permissions x-wallet-1.4.2-android-universal.apk
 
 # Runtime hosts in the compiled Android app
-unzip -p x-wallet-1.4.1-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
+unzip -p x-wallet-1.4.2-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
 strings libapp.so | grep -oE 'https?://[^/]+' | sort -u
 
 # Linux startup trace

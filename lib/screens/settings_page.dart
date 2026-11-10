@@ -452,6 +452,27 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  /// Returns the public IP exactly as an outside service sees it on the
+  /// currently configured route. This is the IP the RPC/explorer can see.
+  Future<String> _publicIpThroughRoute() async {
+    final client = createRpcClient();
+    try {
+      final response = await client
+          .get(Uri.parse('https://api.ipify.org?format=json'))
+          .timeout(const Duration(seconds: 12));
+      if (response.statusCode != 200) {
+        return 'unavailable (HTTP ${response.statusCode})';
+      }
+      final decoded = jsonDecode(response.body);
+      final ip = decoded is Map ? '${decoded['ip'] ?? ''}'.trim() : '';
+      return ip.isEmpty ? 'unavailable (empty response)' : ip;
+    } catch (error) {
+      return 'unavailable ($error)';
+    } finally {
+      client.close();
+    }
+  }
+
   Future<String> _runPrivacyRouteTest() async {
     final tor = appState.torEnabled;
     final proxy = appState.globalProxy;
@@ -463,6 +484,7 @@ class _SettingsPageState extends State<SettingsPage> {
           )
         : proxy;
     final started = DateTime.now();
+    final publicIp = await _publicIpThroughRoute();
     try {
       if (tor || proxy.enabled) {
         final message = await probeProxyRoute(
@@ -470,15 +492,18 @@ class _SettingsPageState extends State<SettingsPage> {
           BnbNetworks.mainnetFallbacks.first,
         );
         final elapsed = DateTime.now().difference(started).inMilliseconds;
-        return '$message\nLatency: $elapsed ms';
+        return '$message\nPublic IP seen by the outside service: $publicIp\n'
+            'Latency: $elapsed ms';
       }
       await appState.rpc.connect();
       final elapsed = DateTime.now().difference(started).inMilliseconds;
       return 'Direct HTTPS reached the node. Chain ID: ${appState.rpc.chainId}\n'
+          'Public IP seen by the outside service: $publicIp\n'
           'Latency: $elapsed ms';
     } catch (error) {
       final elapsed = DateTime.now().difference(started).inMilliseconds;
-      return 'Test failed after $elapsed ms: $error';
+      return 'Test failed after $elapsed ms: $error\n'
+          'Public IP seen by the outside service: $publicIp';
     }
   }
 
@@ -522,8 +547,8 @@ class _SettingsPageState extends State<SettingsPage> {
         '• Tor guard/exit: $guard\n'
         '• RPC node: $node\n'
         '• Public blockchain: $chainView\n\n'
-        'This report describes the configured route. The app does not expose '
-        'the Tor exit IP to itself; only the RPC node sees it.';
+        'The public IP above is what an outside service saw on this exact route. '
+        'In Tor/proxy mode it is the exit IP, not your device IP.';
   }
 
   Future<void> _testPrivacyRoute() async {
@@ -2081,22 +2106,12 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const Divider(height: 24),
           Text(
-            'Navigation labels update immediately. Detailed wallet and security '
-            'instructions are currently English; they are never presented as translated when they are not.',
+            'The app language is English. This keeps wallet and security '
+            'instructions exact and avoids partial translations.',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontSize: 12.5,
             ),
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Language'),
-            subtitle: Text(
-              _languageLabel(appState.locale),
-              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => _showLanguageDialog(context),
           ),
         ],
       ),
@@ -2113,23 +2128,6 @@ class _SettingsPageState extends State<SettingsPage> {
         return 'AMOLED black';
       default:
         return 'System default';
-    }
-  }
-
-  String _languageLabel(String locale) {
-    switch (locale) {
-      case 'fa':
-        return 'فارسی (Persian)';
-      case 'ar':
-        return 'العربية (Arabic)';
-      case 'zh':
-        return '中文 (Chinese)';
-      case 'ru':
-        return 'Русский (Russian)';
-      case 'es':
-        return 'Español (Spanish)';
-      default:
-        return 'English';
     }
   }
 
@@ -2160,55 +2158,6 @@ class _SettingsPageState extends State<SettingsPage> {
     );
     if (theme != null) {
       await appState.setThemeMode(theme);
-    }
-  }
-
-  Future<void> _showLanguageDialog(BuildContext context) async {
-    final locale = await showDialog<String>(
-      context: context,
-      builder: (dialogContext) => SimpleDialog(
-        title: const Text('Select language'),
-        children: [
-          RadioGroup<String>(
-            groupValue: appState.locale,
-            onChanged: (value) => Navigator.pop(dialogContext, value),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<String>(
-                  title: const Text('English'),
-                  value: 'en',
-                ),
-                RadioListTile<String>(
-                  title: const Text('فارسی (Persian)'),
-                  value: 'fa',
-                ),
-                RadioListTile<String>(
-                  title: const Text('العربية (Arabic)'),
-                  value: 'ar',
-                ),
-                RadioListTile<String>(
-                  title: const Text('中文 (Chinese)'),
-                  value: 'zh',
-                ),
-                RadioListTile<String>(
-                  title: const Text('Русский (Russian)'),
-                  value: 'ru',
-                ),
-                RadioListTile<String>(
-                  title: const Text('Español (Spanish)'),
-                  value: 'es',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-    if (locale != null) {
-      await appState.setLocale(locale);
-      if (!context.mounted) return;
-      showInfo(context, 'Language changed. Navigation labels updated.');
     }
   }
 

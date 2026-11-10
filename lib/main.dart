@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:ui' show AppExitResponse;
 
 import 'localized_text.dart';
@@ -23,6 +24,8 @@ void main() async {
   ]);
   await MemoryProtection.initialize();
   await appState.init();
+  // Android opens on the wallet dashboard; Linux keeps its Home overview.
+  if (Platform.isAndroid) appState.tab = 1;
   runApp(const XWalletApp());
 }
 
@@ -82,11 +85,16 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
       // daemon running in the background. Only the captured child is killed.
       unawaited(TorManager.instance.stop());
     }
+    // Only a real background transition may lock the vault, and only when
+    // the optional app lock is enabled. `inactive` happens for dialogs,
+    // permission sheets, and the notification shade on Android; locking there
+    // interrupted transfers and made the vault feel as if it locked itself.
     if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.hidden ||
-        state == AppLifecycleState.inactive) {
-      appState.lockApp();
-      if (appState.unlocked) appState.lock();
+        state == AppLifecycleState.hidden) {
+      if (appState.usePin) {
+        appState.lockApp();
+        if (appState.unlocked) appState.lock();
+      }
     }
   }
 
@@ -108,14 +116,7 @@ class _XWalletAppState extends State<XWalletApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fa'),
-              Locale('ar'),
-              Locale('zh'),
-              Locale('ru'),
-              Locale('es'),
-            ],
+            supportedLocales: const [Locale('en')],
             locale: appState.localeObj,
             themeMode: appState.themeMode,
             theme: _lightTheme(),
