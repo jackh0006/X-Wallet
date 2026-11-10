@@ -285,6 +285,14 @@ def main() -> int:
     else:
         status = "VERIFIED"
 
+    # "VERIFIED" above means every recorded check passed. It is not an audit
+    # and not a production approval. If the evidence bundle itself declares a
+    # lower status, never display a stronger one.
+    bundle = load(EVIDENCE_FILE, {})
+    declared = bundle.get("status") if isinstance(bundle, dict) else None
+    if status == "VERIFIED" and declared in {"PARTIALLY VERIFIED", "INCOMPLETE"}:
+        status = declared
+
     summary = {
         "status": status,
         "commit": head_commit(),
