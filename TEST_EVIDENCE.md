@@ -1,4 +1,4 @@
-# Test Evidence — X Wallet 1.4.1
+# Test Evidence — X Wallet 1.4.2
 
 Canonical command-by-command evidence: [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md).
 

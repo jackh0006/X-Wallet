@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import '../localized_text.dart';
 
@@ -355,6 +356,8 @@ class _WalletPageState extends State<WalletPage>
           children: [
             if (!appState.unlocked) ...[
               _lockedCard(),
+            ] else if (Platform.isAndroid) ...[
+              _androidDashboard(),
             ] else ...[
               _unlockedCard(),
               const SizedBox(height: 14),
@@ -365,6 +368,212 @@ class _WalletPageState extends State<WalletPage>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _androidDashboard() {
+    final address = appState.address!;
+    final label = _currentWalletLabel(appState.profiles, address);
+    final bnb = _balances?['BNB'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: LinearGradient(
+              colors: Theme.of(context).brightness == Brightness.dark
+                  ? const [Color(0xFF1D2530), Color(0xFF10151B)]
+                  : const [Color(0xFFFFF8E1), Color(0xFFFFFDF7)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Copy address',
+                    onPressed: () => copyText(context, address, 'Address'),
+                    icon: const Icon(Icons.copy, size: 19),
+                  ),
+                ],
+              ),
+              Text(
+                shortAddress(address),
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                'BNB balance',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                bnb == null || bnb < BigInt.zero
+                    ? '—'
+                    : '${WalletCore.formatUnits(bnb, 18)} BNB',
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'BNB · BSC',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () => appState.focusTab(2),
+                      icon: const Icon(Icons.send_rounded, size: 18),
+                      label: const Text('Send'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => showQrDialog(context, address),
+                      icon: const Icon(Icons.qr_code_2, size: 18),
+                      label: const Text('Receive'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        if (!appState.watchOnly)
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: _currentWalletSaved(address)
+                  ? null
+                  : () => _saveVault(context),
+              icon: Icon(
+                _currentWalletSaved(address)
+                    ? Icons.check_circle
+                    : Icons.save_outlined,
+              ),
+              label: Text(
+                _currentWalletSaved(address)
+                    ? 'Saved in vault'
+                    : 'Save to vault',
+              ),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: 18),
+        Text('Assets', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 6),
+        _androidAssetList(),
+        const SizedBox(height: 18),
+        _walletsCard(),
+      ],
+    );
+  }
+
+  Widget _androidAssetList() {
+    if (_balances == null) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 12),
+        child: Text('Loading balances…'),
+      );
+    }
+    final tokens = [
+      const TokenInfo(
+        symbol: 'BNB',
+        name: 'BNB',
+        address: '',
+        decimals: 18,
+        native: true,
+      ),
+      ...appState.tokensForNetwork.where(
+        (token) => !appState.isTokenHidden(token),
+      ),
+    ];
+    return Column(
+      children: [
+        for (final token in tokens)
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                TokenLogo(token: token, size: 34),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        TokenRegistry.of(token).symbol,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        TokenRegistry.of(token).name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  _balances![token.symbol] == null ||
+                          _balances![token.symbol]! < BigInt.zero
+                      ? '—'
+                      : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 

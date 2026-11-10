@@ -9,9 +9,9 @@ reading the source or testing the wallet yourself.
 
 | Item | Value |
 |---|---|
-| Release | **X Wallet 1.4.1** (`1.4.1+10`) |
-| Tag | `v1.4.1` |
-| Package | `x-wallet-1.4.1-amd64.deb` |
+| Release | **X Wallet 1.4.2** (`1.4.2+11`) |
+| Tag | `v1.4.2` |
+| Package | `x-wallet-1.4.2-amd64.deb` |
 | SHA-256 | `cd4e2fef17c907a88fa5e1dde96efc5f30bcc9ee7775157b7295a71097c8b0ec` |
 | SBOM | `docs/SBOM.json` — 116 packages |
 | Signature | `SHA256SUMS.asc` — EdDSA |

@@ -2,6 +2,6 @@
 ///
 /// Keep this in sync with `pubspec.yaml`. `scripts/check_branding.py` fails
 /// when the two disagree, so the About panel cannot silently drift again.
-const String appVersion = '1.4.1';
-const String appBuildNumber = '10';
+const String appVersion = '1.4.2';
+const String appBuildNumber = '11';
 const String appVersionFull = '$appVersion+$appBuildNumber';

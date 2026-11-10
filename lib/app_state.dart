@@ -194,11 +194,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Locale (R6): 'en', 'fa', 'ar', 'zh', 'ru', 'es'
+  /// The app is English-only. Any stored legacy locale is ignored.
   Future<void> setLocale(String value) async {
-    const supported = {'en', 'fa', 'ar', 'zh', 'ru', 'es'};
-    _locale = supported.contains(value) ? value : 'en';
-    await AppStorage.setLocale(_locale);
+    _locale = 'en';
+    await AppStorage.setLocale('en');
     notifyListeners();
   }
 
