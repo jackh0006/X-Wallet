@@ -31,6 +31,7 @@ void main() {
   late Directory tmp;
 
   setUp(() async {
+    AppStorage.resetPreferencesForTest();
     SharedPreferences.setMockInitialValues({});
     tmp = await Directory.systemTemp.createTemp('x-wallet-multi-test-');
     PathProviderPlatform.instance = _MockPathProvider(tmp.path);
