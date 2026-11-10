@@ -325,9 +325,9 @@
       "tests": 8
     },
     {
-      "lines": 195,
+      "lines": 196,
       "path": "test/rollback_injection_test.dart",
-      "sha256": "81dc9a1edcb324b5a46267f7e1fc62a450c59ddfd77d79ea7c452fc3c209ee18",
+      "sha256": "629c4b6671d9ff24e34cdfbed0106880adeaf20b6f494e26790ed811c7512523",
       "tags": [
         "kdf"
       ],
@@ -434,9 +434,9 @@
       "tests": 9
     },
     {
-      "lines": 174,
+      "lines": 175,
       "path": "test/vault_multi_wallet_test.dart",
-      "sha256": "99d591afa124222d5c96e2f0ca35bd806382dfc415047c9f1c29f0bad434d020",
+      "sha256": "b7e93a75abc55527356e06e90eb6b010ca59ee886b64fbc5418e910cf38077ab",
       "tags": [],
       "tests": 6
     },

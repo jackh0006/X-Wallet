@@ -5,9 +5,9 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.1+14`
+- Version: `1.5.3+15`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **RELEASE APPROVED**
+- Status: **INCOMPLETE**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 4c46b0f2e59e302d3876889403d50a5802dc1027d8744bdb4c2ef5415caa4439 |
+| SBOM SHA-256 | c6887bdd1a37aaf87c5caa1b6371a79e6025e27def90f125eeb248389682aafa |
 
 ## Test inventory
 
-- Test files: **62**
-- Test/testWidgets declarations: **354**
+- Test files: **67**
+- Test/testWidgets declarations: **382**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -32,21 +32,7 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 ## Recorded checks for this commit
 
-| Check | Exit | Duration (s) | Required | Log SHA-256 |
-|---|---|---|---|---|
-| cold-signature | 0 | 13.269 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 72.396 | yes | 9cf0cff2444bee02 |
-| deb-signature | 0 | 0.052 | yes | f527bc5fb887ee85 |
-| dependency-audit | 0 | 7.854 | yes | 531db7f60a49620c |
-| license-inventory | 0 | 0.462 | yes | ab9b22cbedaa80d3 |
-| release-evidence | 0 | 0.168 | yes | 114387f2aaaca6d1 |
-| sbom | 0 | 0.231 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 8.203 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 51.752 | yes | 37629ce12a2d122e |
-| test-inventory | 0 | 0.145 | yes | fc388ac3ebaa4870 |
-| full-test-suite | 0 | 333 | yes | — |
-| install-smoke | 0 | 153 | yes | — |
-| reproducibility | 0 | 600 | yes | — |
+No committed evidence bundle names this commit. **NOT TESTED / INCOMPLETE.**
 
 ## Artifacts
 
@@ -64,13 +50,13 @@ An Android artifact is never releasable while rotation is unverified or the deny
 
 | Platform | Arch | Package | Build | Install | Functional | Status |
 |---|---|---|---|---|---|---|
-| Ubuntu 24.04 | x86_64 | .deb / source | PASS | NOT TESTED | NOT TESTED | BUILD + PACKAGE ONLY |
+| Ubuntu 24.04 | x86_64 | .deb / source | PASS | PASS (package smoke, 1.5.3) | NOT TESTED (interactive) | BUILD + PACKAGE ONLY |
 | Debian 12 | x86_64 | .deb / source | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | Fedora 40 | x86_64 | source | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | Linux | arm64 | source | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | Windows | x86_64 | source | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | macOS | arm64/x86_64 | source | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
-| Android | arm64-v8a | .apk | BLOCKED | BLOCKED | BLOCKED | BLOCKED |
+| Android | arm64-v8a | .apk | PASS | NOT TESTED | NOT TESTED | BUILD + SIGNATURE ONLY |
 
 ## Performance
 
@@ -99,3 +85,7 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 - Artifacts: `release/artifacts.json`
 - Test inventory: `docs/testing/test-inventory.json`
 - SBOM: `docs/SBOM.json`
+
+## Open gate problems
+
+- no committed evidence bundle for this source commit

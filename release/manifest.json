@@ -7,8 +7,8 @@
   },
   "evidenceBundle": {
     "path": "release/evidence.json",
-    "sha256": "36bf0a8d25b4bb010e8082d50626f7fd43fcfa0a8ac63e379a3dac124902aa9d",
-    "sourceCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca"
+    "sha256": "91eb29ee27893d822e00db5b9e1d3aa97bc8b6be536517cac7f793f35df11166",
+    "sourceCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84"
   },
   "generatedFrom": "working-tree source facts; the exact commit is bound by release/evidence.json",
   "knownLimitations": "docs/KNOWN_LIMITATIONS.md",
@@ -22,22 +22,22 @@
     "name": "X Wallet",
     "repository": "https://github.com/jackh0006/X-Wallet"
   },
-  "releaseEvidence": "docs/releases/1.5.1.md",
+  "releaseEvidence": "docs/releases/1.5.3.md",
   "sbom": {
     "path": "docs/SBOM.json",
-    "sha256": "4c46b0f2e59e302d3876889403d50a5802dc1027d8744bdb4c2ef5415caa4439"
+    "sha256": "c6887bdd1a37aaf87c5caa1b6371a79e6025e27def90f125eeb248389682aafa"
   },
   "schemaVersion": 1,
   "tests": {
-    "files": 62,
+    "files": 67,
     "matches": true,
     "path": "docs/testing/test-inventory.json",
-    "recordedFiles": 62,
-    "sha256": "e23b158ad775ba4fa4f296ad7dc16214bc981bb6b07fa1ccf7ed89f5c89c73d9"
+    "recordedFiles": 67,
+    "sha256": "2fc968c6c945e4669fcf2508aa40295ae2069c36f5e27ab164f97fd53378a56c"
   },
   "toolchain": {
     "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
     "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
   },
-  "version": "1.5.1+14"
+  "version": "1.5.3+15"
 }

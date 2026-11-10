@@ -14,14 +14,14 @@ Commands that could not run are marked **NOT RUN HERE**, never guessed.
 
 | Check | Command | Result |
 |---|---|---|
-| Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | see final run |
+| Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | **PASS** — 127 files, 0 changed |
 | Static analysis | `flutter analyze --no-pub` | **PASS** — "No issues found" |
 | Branding | `python3 scripts/check_branding.py` | **PASS** — "Branding: PASS (X Wallet; compatibility identifiers preserved)" |
 | Test inventory | `python3 scripts/test_inventory.py --check` | **PASS** — 67 files, 382 declarations |
-| Secret scan | `bash scripts/secret-scan.sh` | **NOT RUN HERE** (final gate) |
-| Dependency audit | `python3 scripts/dependency-audit.py` | **NOT RUN HERE** (final gate) |
+| Secret scan | `bash scripts/secret-scan.sh` | **PASS** — current tree clean |
+| Dependency audit | `python3 scripts/dependency-audit.py` | **PASS** — no advisory flags |
 | SBOM | `python3 scripts/sbom.py` | regenerated for 1.5.3 |
-| Full suite | `bash scripts/test-suite.sh` | **NOT RUN HERE** (final gate) |
+| Full suite | `bash scripts/test-suite-fast.sh` | **PASS** — 66 non-integration files, 382 declarations |
 
 ## New regression tests added
 

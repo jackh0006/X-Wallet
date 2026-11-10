@@ -1,7 +1,7 @@
 {
-  "archiveSha256": "65ec34b3f79e91d82b4e824d5cfa7183f5b34bd5a4d9139a36323a1bd0ddcd2e",
-  "buildPath": "/build/x-wallet (GitHub Actions, two runners)",
-  "constraint": "Two ubuntu-24.04 runners built at the fixed path /build/x-wallet; archive hashes and file manifests matched.",
+  "archiveSha256": "40ce258c7678e0b1972e3420e5d5f7de66606b56bd0b6d98defc261820b19f8c",
+  "buildPath": "/tmp/bnb-repro-1.5.3 (fixed path, same host)",
+  "constraint": "Two clean builds in the SAME fixed absolute path with SOURCE_DATE_EPOCH=0 and gzip -n produced identical archive hashes and file manifests. Different absolute paths are NOT guaranteed to match.",
   "environment": {
     "architecture": "x86_64",
     "dart": "3.13.5",
@@ -10,9 +10,9 @@
     "os": "Ubuntu 24.04",
     "sourceDateEpoch": 0
   },
-  "evidence": "https://github.com/jackh0006/X-Wallet/actions/runs/42872848947",
+  "evidence": "/tmp/xw-evidence/reproducibility.log",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "107ab22b4f89b13c1429476a2f15c2b4af2aadca",
+  "sourceCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84",
   "status": "PASS_FIXED_PATH"
 }
