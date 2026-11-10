@@ -2,8 +2,9 @@
 
 **Date:** 2026-11-10
 **Input:** `docs/ANDROID_AUDIT.md` (audit baseline `9eac76d`)
-**Status:** proposed plan. **No Phase B code has been written.** The owner must
-confirm the decisions in §9 before implementation starts.
+**Status:** Phase A plan, followed by the 1.5.0 implementation noted in the
+addendum. The remaining items are still proposals and must not be treated as
+shipped security claims.
 
 ---
 
@@ -451,3 +452,26 @@ must pass before the Android-specific commit is called complete.
 - All docs/version numbers agree; incident record matches reality.
 - Release gate `VERIFIED` for the exact tagged commit and signed artifacts.
 - No claim of independent audit or absolute security.
+
+---
+
+## Addendum — what 1.5.0 actually shipped
+
+| Phase | Item | State |
+|---|---|---|
+| B1 | Native Android Argon2 | **DONE (build-verified; device timing NOT TESTED)** |
+| B3 | Lock on background/idle without PIN | **DONE** |
+| B4 | 6-digit PIN, weak-PIN rejection, wipe-after-N | **DONE** |
+| B4 | Biometric strong-only | **DONE** |
+| B2/B3 | Fail-closed secure storage | **PARTIAL** (no reset-on-error; user-auth-bound key still future) |
+| B5 | FLAG_SECURE + obscured-touch rejection | **DONE (view-level)** |
+| B6 | System-only trust anchors, host list | **DONE** |
+| B7 | R8, shrinking, obfuscation, CI KDF assertion | **DONE** |
+| C | Blue theme, Home hero, Activity tab, USD toggle, Android links | **DONE** |
+| C | Onboarding wizard, Send wizard, Scan, Contacts, Approvals | **NOT DONE** |
+| D | Core/platform/UI split | **NOT DONE** (deferred; current files remain feature-first) |
+| E | Android emulator/instrumentation/device tests | **NOT DONE** |
+| F | Version/docs reconciliation | **PARTIAL** — 1.5.0 documented; incident owner confirmation still open |
+
+The remaining items are not silently claimed as complete. They need separate
+work and, for device behavior, a real phone.

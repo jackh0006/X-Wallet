@@ -102,6 +102,7 @@ class _Argon2LibraryLoader implements LibLoader {
   @override
   DynamicLibrary loadLib() {
     final candidates = <String>[
+      if (Platform.isAndroid) ...['libargon2-arm.so', 'libargon2.so'],
       if (Platform.isLinux) ...[
         '${File(Platform.resolvedExecutable).parent.path}/lib/libargon2.so',
         'libargon2.so.1',

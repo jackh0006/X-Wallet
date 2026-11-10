@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'net/privacy_client.dart';
+import 'storage.dart';
 
 /// Public USD price lookup. It sends only a fixed list of coin IDs — never an
 /// address, wallet, balance, vault, or user identifier.
@@ -44,6 +45,13 @@ class PriceService extends ChangeNotifier {
   }
 
   Future<void> refresh({bool force = false}) async {
+    if (!AppStorage.showUsd) {
+      if (_usd.isNotEmpty) {
+        _usd.clear();
+        notifyListeners();
+      }
+      return;
+    }
     if (_loading) return;
     if (!force &&
         _fetchedAt != null &&

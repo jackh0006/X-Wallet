@@ -297,7 +297,7 @@ void main() {
     );
     await tester.pumpWidget(const MaterialApp(home: HomePage()));
     await tester.pump(const Duration(milliseconds: 100));
-    final button = find.widgetWithText(OutlinedButton, 'Send');
+    final button = find.widgetWithText(FilledButton, 'Send');
     expect(button, findsOneWidget);
     await tester.ensureVisible(button);
     await tester.tap(button);

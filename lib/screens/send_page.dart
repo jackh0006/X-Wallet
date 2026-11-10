@@ -561,17 +561,27 @@ class _SendPageState extends State<SendPage>
             ],
           ),
           const SizedBox(height: 18),
-          FilledButton.icon(
-            onPressed: _sending ? null : _review,
-            icon: _sending
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.preview_outlined),
-            label: Text(
-              _sending ? (_stage?.label ?? 'Working…') : 'Review transfer',
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: _sending ? null : _review,
+              icon: _sending
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.preview_outlined),
+              label: Text(
+                _sending ? (_stage?.label ?? 'Working…') : 'Review transfer',
+              ),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ),
         ],

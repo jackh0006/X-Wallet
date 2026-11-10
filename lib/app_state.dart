@@ -1504,6 +1504,18 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  int get wipeAfterFailures => AppStorage.wipeAfterFailures;
+  Future<void> setWipeAfterFailures(int failures) async {
+    await AppStorage.setWipeAfterFailures(failures.clamp(0, 50));
+    notifyListeners();
+  }
+
+  bool get showUsd => AppStorage.showUsd;
+  Future<void> setShowUsd(bool value) async {
+    await AppStorage.setShowUsd(value);
+    notifyListeners();
+  }
+
   Future<void> setTorEnabled(bool value) async {
     if (value) {
       // Tor and a custom proxy are mutually exclusive. Keeping both selected

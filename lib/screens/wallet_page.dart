@@ -318,6 +318,39 @@ class _WalletPageState extends State<WalletPage>
     }
   }
 
+  double? _walletTotalUsd() {
+    final balances = _balances;
+    if (balances == null) return null;
+    var total = 0.0;
+    var any = false;
+
+    void add(String symbol, BigInt? raw, int decimals, String priceSymbol) {
+      if (raw == null || raw < BigInt.zero) return;
+      final value = PriceService.instance.usdValue(
+        raw,
+        decimals,
+        PriceService.instance.price(priceSymbol),
+      );
+      if (value != null) {
+        total += value;
+        any = true;
+      }
+    }
+
+    add('BNB', balances['BNB'], 18, 'BNB');
+    for (final token in appState.tokensForNetwork.where(
+      (token) => !token.native && !appState.isTokenHidden(token),
+    )) {
+      add(
+        token.symbol,
+        balances[token.symbol],
+        token.decimals,
+        TokenRegistry.of(token).symbol,
+      );
+    }
+    return any ? total : null;
+  }
+
   Future<void> _loadHistory() async {
     if (!appState.unlocked ||
         appState.address == null ||
@@ -714,66 +747,141 @@ class _WalletPageState extends State<WalletPage>
 
   // Linux desktop wallet card. The Android dashboard is separate.
   Widget _lockedCard() {
-    return InfoCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Wallet',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(26),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF2563EB), Color(0xFF1E3A8A)],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF1D4ED8).withValues(alpha: 0.22),
+                blurRadius: 28,
+                offset: const Offset(0, 12),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
-          const Text(
-            'Create a wallet, import one, or open a wallet you already saved.',
-            style: TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              onPressed: () => showCreateWalletDialog(context),
-              icon: const Icon(Icons.add),
-              label: const Text('Create a new wallet'),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/icon/x-wallet-1024.png',
+                    width: 46,
+                    height: 46,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'X Wallet',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Your money.\nOnly you hold the keys.',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  height: 1.15,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.6,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => showImportWalletDialog(context),
-              icon: const Icon(Icons.file_download),
-              label: const Text('Import a wallet'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(fontSize: 15),
+              const SizedBox(height: 10),
+              Text(
+                'No account. No cloud. Your recovery words stay on this '
+                'device and never go to a server.',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.78),
+                  fontSize: 13,
+                  height: 1.4,
+                ),
               ),
-            ),
+            ],
           ),
-          if (appState.hasVault) ...[
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () =>
-                    showUnlockVaultDialog(context, jumpToWalletTab: true),
-                icon: const Icon(Icons.lock_open),
-                label: const Text('Open a saved wallet'),
+        ),
+        const SizedBox(height: 14),
+        InfoCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FilledButton.icon(
+                onPressed: () => showCreateWalletDialog(context),
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('Create a new wallet'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => showImportWalletDialog(context),
+                icon: const Icon(Icons.file_download_outlined),
+                label: const Text('I already have a wallet'),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  textStyle: const TextStyle(fontSize: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ],
-      ),
+              if (appState.hasVault) ...[
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  onPressed: () =>
+                      showUnlockVaultDialog(context, jumpToWalletTab: true),
+                  icon: const Icon(Icons.lock_open_rounded),
+                  label: const Text('Open a saved wallet'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Icon(
+                    Icons.verified_user_outlined,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Non-custodial · encrypted on this device · no analytics',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -913,6 +1021,16 @@ class _WalletPageState extends State<WalletPage>
                 'Balances',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              if (_balances != null && _walletTotalUsd() != null) ...[
+                const SizedBox(width: 8),
+                Text(
+                  '≈ ${usdLabel(_walletTotalUsd())}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
               const Spacer(),
               IconButton(
                 tooltip: tr(context, 'Refresh balances'),
@@ -963,15 +1081,69 @@ class _WalletPageState extends State<WalletPage>
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
-                      TokenLogo(token: token, size: 24),
-                      const SizedBox(width: 8),
+                      TokenLogo(token: token, size: 34),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: Text(
-                          _balances![token.symbol]! < BigInt.zero
-                              ? '${TokenRegistry.of(token).symbol}: unavailable right now'
-                              : '${WalletCore.formatUnits(_balances![token.symbol]!, token.decimals)} ${TokenRegistry.label(token)}',
-                          style: const TextStyle(fontSize: 14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              TokenRegistry.of(token).symbol,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              TokenRegistry.of(token).name,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      Builder(
+                        builder: (context) {
+                          final raw = _balances![token.symbol]!;
+                          final price = PriceService.instance.price(
+                            TokenRegistry.of(token).symbol,
+                          );
+                          final usd = raw < BigInt.zero
+                              ? null
+                              : PriceService.instance.usdValue(
+                                  raw,
+                                  token.decimals,
+                                  price,
+                                );
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                raw < BigInt.zero
+                                    ? 'unavailable'
+                                    : '${WalletCore.formatUnits(raw, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              if (usd != null)
+                                Text(
+                                  usdLabel(usd),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
                       ),
                       if (!token.native)
                         IconButton(

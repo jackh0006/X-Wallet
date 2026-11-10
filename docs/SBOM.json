@@ -2641,6 +2641,30 @@
       "version": "3.1.4"
     },
     {
+      "licenses": [
+        {
+          "license": {
+            "name": "CC0-1.0 OR Apache-2.0"
+          }
+        }
+      ],
+      "name": "argon2",
+      "properties": [
+        {
+          "name": "vendored_path",
+          "value": "android/app/src/main/cpp/argon2"
+        },
+        {
+          "name": "purpose",
+          "value": "Native Argon2id KDF for Android (offline, no network)"
+        }
+      ],
+      "purl": "pkg:generic/argon2@reference-20190702",
+      "scope": "required",
+      "type": "library",
+      "version": "reference-20190702"
+    },
+    {
       "hashes": [
         {
           "alg": "SHA512",
@@ -2916,7 +2940,7 @@
       "description": "Local, non-custodial EVM wallet (deb).",
       "name": "bnb_wallet_gui",
       "type": "application",
-      "version": "1.4.2"
+      "version": "1.5.0"
     },
     "properties": [
       {
@@ -2929,7 +2953,7 @@
       }
     ]
   },
-  "serialNumber": "urn:uuid:2251a18a-145c-5e30-8659-d6c11ab94f9e",
+  "serialNumber": "urn:uuid:8bb94457-abdf-5851-a3b5-09c150aebfb6",
   "specVersion": "1.5",
   "version": 1
 }

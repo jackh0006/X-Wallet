@@ -4,6 +4,7 @@ import 'dart:io';
 import '../localized_text.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models.dart';
 import '../receipt_image.dart';
@@ -647,8 +648,17 @@ class ReceiptPage extends StatelessWidget {
         await Process.run('xdg-open', [url]);
         return;
       } catch (_) {
-        // Fall through to a copy so the user still has the link.
+        // Fall through to the system browser.
       }
+    }
+    try {
+      final opened = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+      if (opened) return;
+    } catch (_) {
+      // Fall through to a copy so the user still has the link.
     }
     if (!context.mounted) return;
     await copyText(context, url, 'Explorer link');

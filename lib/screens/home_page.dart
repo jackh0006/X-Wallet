@@ -3,9 +3,11 @@ import 'dart:async';
 import '../localized_text.dart';
 
 import '../app_state.dart';
+import '../models.dart';
 import '../rpc_service.dart';
 import '../price_service.dart';
 import '../rpc_story.dart';
+import '../token_logos.dart';
 import '../token_registry.dart';
 import 'common.dart';
 import 'wallet_page.dart';
@@ -110,9 +112,34 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         title: Row(
           children: [
-            Image.asset('assets/icon/x-wallet-1024.png', width: 30, height: 30),
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary
+                    .withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Image.asset(
+                'assets/icon/x-wallet-1024.png',
+                width: 26,
+                height: 26,
+              ),
+            ),
             const SizedBox(width: 10),
-            const Text('X Wallet'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('X Wallet'),
+                Text(
+                  'BSC Mainnet · chain 56',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         actions: [
@@ -127,22 +154,25 @@ class _HomePageState extends State<HomePage>
         child: ListView(
           padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
           children: [
-            _nodeCard(rpc),
-            const SizedBox(height: 14),
-            _storyCard(rpc),
-            const SizedBox(height: 14),
             if (!appState.unlocked)
               _welcomeCard()
             else ...[
               AnimatedBuilder(
                 animation: PriceService.instance,
-                builder: (context, _) => _balanceCard(),
+                builder: (context, _) => _heroCard(),
               ),
               const SizedBox(height: 14),
-              _actionsCard(),
+              AnimatedBuilder(
+                animation: PriceService.instance,
+                builder: (context, _) => _assetsCard(),
+              ),
             ],
             const SizedBox(height: 14),
             _noticeCard(),
+            const SizedBox(height: 14),
+            _storyCard(rpc),
+            const SizedBox(height: 14),
+            _nodeCard(rpc),
           ],
         ),
       ),
@@ -599,8 +629,215 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _balanceCard() {
+  double? _totalUsd() {
+    final balances = _balances;
+    if (balances == null) return null;
+    var total = 0.0;
+    var any = false;
+
+    void add(String symbol, BigInt? raw, int decimals, String priceSymbol) {
+      if (raw == null || raw < BigInt.zero) return;
+      final value = PriceService.instance.usdValue(
+        raw,
+        decimals,
+        PriceService.instance.price(priceSymbol),
+      );
+      if (value != null) {
+        total += value;
+        any = true;
+      }
+    }
+
+    add('BNB', balances['BNB'], 18, 'BNB');
+    for (final token in appState.tokensForNetwork.where(
+      (token) => !token.native && !appState.isTokenHidden(token),
+    )) {
+      add(
+        token.symbol,
+        balances[token.symbol],
+        token.decimals,
+        TokenRegistry.of(token).symbol,
+      );
+    }
+    return any ? total : null;
+  }
+
+  Widget _heroCard() {
     final address = appState.address!;
+    final scheme = Theme.of(context).colorScheme;
+    final total = _totalUsd();
+    final bnb = _balances?['BNB'];
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(26),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF2563EB), Color(0xFF1E3A8A)],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1D4ED8).withValues(alpha: 0.22),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: const Text(
+                  'BSC MAINNET',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: tr(context, 'Copy address'),
+                onPressed: () => copyText(context, address, 'Address'),
+                icon: const Icon(
+                  Icons.copy_rounded,
+                  size: 18,
+                  color: Colors.white70,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            'Total balance',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.72),
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _loading ? 'Loading…' : (total == null ? '—' : usdLabel(total)),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 40,
+              height: 1.05,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -1,
+            ),
+          ),
+          if (bnb != null && bnb >= BigInt.zero) ...[
+            const SizedBox(height: 4),
+            Text(
+              '${formatToken(bnb, 18)} BNB',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.78),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.13),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.account_balance_wallet_outlined,
+                  size: 16,
+                  color: Colors.white70,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    shortAddress(address),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'monospace',
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.icon(
+                  onPressed: () => appState.focusTab(2),
+                  icon: const Icon(Icons.arrow_upward_rounded, size: 18),
+                  label: const Text('Send'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF1D4ED8),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => showQrDialog(context, address),
+                  icon: const Icon(Icons.qr_code_2_rounded, size: 18),
+                  label: const Text('Receive'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: BorderSide(
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (_error != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              _error!,
+              style: TextStyle(
+                color: scheme.onPrimary.withValues(alpha: 0.9),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _assetsCard() {
+    final scheme = Theme.of(context).colorScheme;
+    final tokens = [
+      const TokenInfo(
+        symbol: 'BNB',
+        name: 'BNB Smart Chain',
+        address: '',
+        decimals: 18,
+        native: true,
+      ),
+      ...appState.tokensForNetwork.where(
+        (token) => !token.native && !appState.isTokenHidden(token),
+      ),
+    ];
     return InfoCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,123 +846,106 @@ class _HomePageState extends State<HomePage>
             children: [
               Expanded(
                 child: Text(
-                  shortAddress(address),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'Assets',
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-              IconButton(
-                tooltip: tr(context, 'Copy address'),
-                icon: const Icon(Icons.copy, size: 18),
-                onPressed: () => copyText(context, address, 'Address'),
+              Text(
+                'USD · CoinGecko',
+                style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           if (_loading)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 18),
-              child: Center(child: CircularProgressIndicator()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 22),
+              child: Text(
+                'Fetching balances…',
+                style: TextStyle(color: scheme.onSurfaceVariant),
+              ),
             )
           else if (_error != null)
-            Text(_error!, style: const TextStyle(color: Colors.redAccent))
-          else if (_balances != null) ...[
-            _balanceRow('BNB · BSC', _balances!['BNB'] ?? BigInt.zero, 18),
-            for (final token in appState.tokensForNetwork.where(
-              (t) => !t.native,
-            ))
-              _balanceRow(
-                TokenRegistry.label(token),
-                _balances![token.symbol] ?? BigInt.zero,
-                token.decimals,
-              ),
-            const Divider(height: 28),
-            Text(
-              'nonce ${_nonce ?? '—'} · block ${_block ?? '—'}',
-              style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
-            ),
-          ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(_error!, style: TextStyle(color: scheme.error)),
+            )
+          else if (_balances == null)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Text('Fetching balances…'),
+            )
+          else
+            for (final token in tokens) _assetTile(token),
+          const Divider(height: 26),
+          Text(
+            'nonce ${_nonce ?? '—'} · block ${_block ?? '—'}',
+            style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
+          ),
         ],
       ),
     );
   }
 
-  Widget _balanceRow(
-    String symbol,
-    BigInt value,
-    int decimals, {
-    String? priceSymbol,
-  }) {
-    final unavailable = value == BigInt.from(-1);
-    final unit = PriceService.instance.price(priceSymbol ?? symbol);
+  Widget _assetTile(TokenInfo token) {
+    final scheme = Theme.of(context).colorScheme;
+    final raw = _balances![token.symbol];
+    final unavailable = raw == null || raw < BigInt.zero;
     final usd = unavailable
         ? null
-        : PriceService.instance.usdValue(value, decimals, unit);
+        : PriceService.instance.usdValue(
+            raw,
+            token.decimals,
+            PriceService.instance.price(TokenRegistry.of(token).symbol),
+          );
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 9),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 112,
-            child: Text(
-              symbol,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
+          TokenLogo(token: token, size: 38),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  unavailable ? 'unavailable' : formatToken(value, decimals),
-                  textAlign: TextAlign.right,
-                ),
-                if (usd != null)
-                  Text(
-                    usdLabel(usd),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  TokenRegistry.of(token).symbol,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
                   ),
+                ),
+                Text(
+                  TokenRegistry.of(token).name,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _actionsCard() {
-    return InfoCard(
-      child: Row(
-        children: [
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () =>
-                  appState.focusTab(2), // the Send TAB — never a blank page
-              icon: const Icon(Icons.send),
-              label: const Text('Send'),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => showQrDialog(context, appState.address!),
-              icon: const Icon(Icons.qr_code),
-              label: const Text('Receive'),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => copyText(context, appState.address!, 'Address'),
-              icon: const Icon(Icons.copy),
-              label: const Text('Copy'),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                unavailable
+                    ? 'unavailable'
+                    : '${formatToken(raw, token.decimals)} ${TokenRegistry.of(token).symbol}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (usd != null)
+                Text(
+                  usdLabel(usd),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+            ],
           ),
         ],
       ),

@@ -512,3 +512,28 @@ Write `docs/ANDROID_PLAN.md` (done in the same phase), then wait for the
 owner's answers to D1–D9 and explicit approval to start Phase B. Phase B should
 begin with the native KDF, lock defaults, and Keystore hardening, because those
 are the highest-risk gaps and they do not depend on the UI redesign.
+
+---
+
+## Addendum — 1.5.0+13 implementation status
+
+This addendum records what changed after the audit. It does not rewrite the
+audit findings; it marks them.
+
+| Finding | Status in 1.5.0 |
+|---|---|
+| B1 Android pure-Dart KDF | **FIXED (build-verified)** — `android/app/src/main/cpp/` builds `libargon2-arm.so`; the APK contains it and exports `argon2id_hash_raw`. Device timing still **NOT TESTED**. |
+| C1 lock without PIN | **FIXED** — idle/background always clears signing keys; watch-only profiles are kept readable. |
+| C2 4-digit PIN | **FIXED for new PINs** — 6–12 digits, weak-PIN rejection. Old 4-digit records still verify. |
+| C3 no wipe-after-N | **FIXED** — optional, on by default at 10 wrong PINs; user-configurable. |
+| B2/B3 Keystore binding/reset | **PARTIAL** — `resetOnError` is false and migration backup is on; user-auth-bound/StrongBox-preferred keys are still future work. |
+| B4 TEE/StrongBox diagnostics | **NOT DONE**. |
+| D3 tapjacking | **FIXED (view-level)** — `filterTouchesWhenObscured` is set on the Android view. |
+| A2 R8/obfuscation | **FIXED** — minify, shrink, `--obfuscate --split-debug-info` in the release script. |
+| A6 adaptive icon/splash | **FIXED** — adaptive icon, monochrome layer, Android 12+ splash. |
+| E1/E2 onboarding/Home | **PARTIAL** — modern blue theme, hero Home, Activity tab, redesigned locked wallet card. A separate multi-slide onboarding flow is still future work. |
+| E3 Send wizard | **NOT DONE** — the existing form remains, with the available balance and review. |
+| E6/E7 scanner/approvals | **NOT DONE** — documented as limitations. |
+| F1/F2 localization | **UNCHANGED** — English-only by owner decision; strings remain hardcoded. |
+| H1–H4 Android tests | **NOT DONE** — no emulator/instrumentation/physical run. |
+| I1–I3 version/incident docs | **PARTIALLY RECONCILED** — version moves to 1.5.0; the incident record still needs owner confirmation. |
