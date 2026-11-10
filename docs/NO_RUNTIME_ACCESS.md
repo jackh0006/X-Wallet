@@ -1,4 +1,4 @@
-# Builder and AI No-Access Guarantee — X Wallet 1.4.0
+# Builder and AI No-Access Guarantee — X Wallet 1.4.1
 
 **Guarantee:** the X Wallet Linux and Android applications contain no channel
 that lets DeepSeek, the AI assistant, or the builder read, copy, receive, or
@@ -28,6 +28,43 @@ This guarantee covers:
 | No startup phone-home | The Linux release binary made no external TCP connection at startup |
 | Signed, verifiable artifacts | Linux `.deb`, both APKs, source, and SBOM are covered by `SHA256SUMS.asc` |
 
+## Who can see or control what
+
+| Party | Control over the app or funds | What they can see |
+|---|---|---|
+| **DeepSeek / AI assistant** | **No runtime control** — no AI endpoint, SDK, account, or command channel in the app | Public source, public releases, this chat. Not a user device or wallet. |
+| **Builder** | **No runtime control** — cannot reach into an installed app | Public repository and releases. No live wallet access. |
+| **Google / Firebase / analytics** | **No app control** — no Firebase, analytics, ads, telemetry, or AI SDK in the app | Android/Play system telemetry is outside X Wallet. The app itself does not call Google services. |
+| **RPC provider** | **Cannot sign or change a signed transaction** — the review is verified against the signed bytes | IP, public addresses, and public transaction data. Never the seed, private keys, password, or signing material. |
+| **BscScan** | No control — optional history lookup only | The address/history query the user makes. |
+| **Orbot / Tor** | No control — route only | Reduced network metadata. |
+| **Blockchain** | No control — public ledger | Public on-chain data. |
+
+## What leaves the app
+
+- RPC requests to the node the user chooses.
+- Optional BscScan history requests if the user adds a key.
+- External links only when the user taps them.
+- Encrypted backups and cold-wallet files only when the user chooses a destination.
+
+No seed phrase, private key, vault password, or signing key is sent to any
+server.
+
+## Verified in the signed artifacts
+
+- The compiled Linux and Android apps contain only BSC RPC, BscScan, GitHub,
+  and Orbot hosts.
+- No `openai`, `anthropic`, `deepseek`, `firebase`, `analytics`, `sentry`, or
+  similar SDK is present.
+- Android permissions are only `INTERNET`, `USE_BIOMETRIC`, and
+  `USE_FINGERPRINT`.
+- All HTTP passes through one privacy client.
+- Vault, KDF, wallet-core, cold-codec, send-intent, and spending-policy modules
+  contain no network path.
+- Sending is signed locally; the reviewed transaction is verified against the
+  signed bytes.
+- Startup trace showed no external TCP connection.
+
 ## What the builder and AI can see
 
 - Public source code.
@@ -44,7 +81,7 @@ This guarantee covers:
 
 ## Runtime proof
 
-The Linux 1.4.0 release binary was started against a copied wallet directory
+The Linux 1.4.1 release binary was started against a copied wallet directory
 under `strace -f -e trace=connect,sendto`. It made only local D-Bus, X11, and
 AT-SPI Unix-socket connections. No external TCP connection was established.
 `ss -tnp` showed no established connection for the wallet process.
@@ -79,10 +116,10 @@ No builder or AI domain is present.
 grep -rniE "firebase|analytics|sentry|openai|anthropic|deepseek|chatgpt|telemetry|remote.?config" lib pubspec.yaml
 
 # Android permissions
-aapt dump permissions x-wallet-1.4.0-android-universal.apk
+aapt dump permissions x-wallet-1.4.1-android-universal.apk
 
 # Runtime hosts in the compiled Android app
-unzip -p x-wallet-1.4.0-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
+unzip -p x-wallet-1.4.1-android-universal.apk lib/arm64-v8a/libapp.so > libapp.so
 strings libapp.so | grep -oE 'https?://[^/]+' | sort -u
 
 # Linux startup trace
@@ -95,6 +132,6 @@ strace -f -e trace=connect,sendto ./bnb_wallet_gui
 **Android release signer:**
 `db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3`
 
-This guarantee is issued for the published 1.4.0 source and signed artifacts.
-Device-level security remains the responsibility of the operating system and
-the person holding the device.
+This guarantee is issued for the published 1.4.1 source and signed artifacts.
+Device-level hardening controls are documented in
+[SECURITY_LIMITATIONS.md](../SECURITY_LIMITATIONS.md).
