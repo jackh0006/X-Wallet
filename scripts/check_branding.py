@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 # `com.jackh0006.xwallet` are asserted separately and are intentionally kept.
 FORBIDDEN = ("BNB Wallet", "BNB-Wallet-GUI")
 
-SKIP_DIRS = {".git", "build", ".dart_tool", "node_modules", ".gradle", "dist", "ephemeral"}
+SKIP_DIRS = {".git", "build", ".dart_tool", "node_modules", ".gradle", ".cxx", "dist", "ephemeral"}
 SKIP_SUFFIXES = {
     ".png", ".jpg", ".jpeg", ".ico", ".bin", ".so", ".deb", ".lock",
     ".pyc", ".dill", ".snapshot", ".zip", ".gz",
