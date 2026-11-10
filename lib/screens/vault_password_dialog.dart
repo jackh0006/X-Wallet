@@ -43,6 +43,7 @@ Future<String?> showVaultPasswordDialog(
                     obscureText: obscure,
                     autocorrect: false,
                     enableSuggestions: false,
+                    enableIMEPersonalizedLearning: false,
                     onChanged: (_) => setState(() => error = null),
                     decoration: InputDecoration(
                       labelText: label,
@@ -63,6 +64,7 @@ Future<String?> showVaultPasswordDialog(
                       obscureText: obscure,
                       autocorrect: false,
                       enableSuggestions: false,
+                      enableIMEPersonalizedLearning: false,
                       onChanged: (_) => setState(() => error = null),
                       decoration: InputDecoration(
                         labelText: 'Confirm password',

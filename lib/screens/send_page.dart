@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../localized_text.dart';
+import '../price_service.dart';
 
 import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
@@ -59,6 +60,9 @@ class _SendPageState extends State<SendPage>
   final _to = TextEditingController();
   final _amount = TextEditingController();
   final _suffix = TextEditingController();
+  BigInt? _available;
+  bool _availableLoading = false;
+  String? _availableKey;
   TokenInfo _asset = _nativeAsset;
   bool _sending = false;
   TxStage? _stage;
@@ -107,12 +111,40 @@ class _SendPageState extends State<SendPage>
     // lands in memory — the Shell's const children never rebuild themselves.
     appState.addListener(_onAppStateChanged);
     _refreshColdDesk();
+    _loadAvailable();
   }
 
   void _onAppStateChanged() {
     if (!mounted) return;
     setState(() {});
     _refreshColdDesk();
+    _loadAvailable();
+  }
+
+  Future<void> _loadAvailable() async {
+    if (!appState.unlocked || appState.address == null) {
+      if (mounted) setState(() => _available = null);
+      return;
+    }
+    final key = '${appState.address}:${_asset.network}:${_asset.address}';
+    if (key == _availableKey || _availableLoading) return;
+    _availableLoading = true;
+    final address = appState.address!;
+    final asset = _asset;
+    try {
+      final value = asset.native
+          ? await appState.rpc.getNativeBalance(address)
+          : await appState.rpc.getTokenBalance(asset.address, address);
+      if (!mounted) return;
+      setState(() {
+        _available = value;
+        _availableKey = key;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _available = null);
+    } finally {
+      _availableLoading = false;
+    }
   }
 
   Future<void> _refreshColdDesk() async {
@@ -462,7 +494,13 @@ class _SendPageState extends State<SendPage>
                 ),
             ],
             onChanged: (value) {
-              if (value != null) setState(() => _asset = value);
+              if (value == null) return;
+              setState(() {
+                _asset = value;
+                _available = null;
+                _availableKey = null;
+              });
+              _loadAvailable();
             },
           ),
           const SizedBox(height: 14),
@@ -489,18 +527,61 @@ class _SendPageState extends State<SendPage>
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _available == null
+                      ? (_availableLoading
+                            ? 'Loading available balance…'
+                            : 'Available balance unavailable.')
+                      : 'Available: ${WalletCore.formatUnits(_available!, _asset.native ? 18 : _asset.decimals)} $_assetDisplaySymbol',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              if (_available != null &&
+                  PriceService.instance.price(_assetDisplaySymbol) != null)
+                Text(
+                  usdLabel(
+                    PriceService.instance.usdValue(
+                      _available!,
+                      _asset.native ? 18 : _asset.decimals,
+                      PriceService.instance.price(_assetDisplaySymbol),
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+            ],
+          ),
           const SizedBox(height: 18),
-          FilledButton.icon(
-            onPressed: _sending ? null : _review,
-            icon: _sending
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.preview_outlined),
-            label: Text(
-              _sending ? (_stage?.label ?? 'Working…') : 'Review transfer',
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: _sending ? null : _review,
+              icon: _sending
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.preview_outlined),
+              label: Text(
+                _sending ? (_stage?.label ?? 'Working…') : 'Review transfer',
+              ),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ),
         ],
@@ -1773,6 +1854,9 @@ class _SendPageState extends State<SendPage>
       );
       await appState.addLocalReceipt(receipt);
       await appState.removePendingTx(hash);
+      // The confirmed transfer changed the on-chain balance.
+      _availableKey = null;
+      unawaited(_loadAvailable());
       if (success) {
         unawaited(_notifyConfirmed());
         final included = sendEventNote(SendEvent.included);

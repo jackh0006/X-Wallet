@@ -147,6 +147,7 @@ Future<String?> promptText(
           obscureText: obscure,
           autocorrect: false,
           enableSuggestions: false,
+          enableIMEPersonalizedLearning: false,
           keyboardType: keyboardType,
           maxLines: maxLines ?? 1,
           decoration: InputDecoration(

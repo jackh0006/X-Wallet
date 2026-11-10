@@ -158,8 +158,11 @@ class _ProxySettingsDialogState extends State<_ProxySettingsDialog> {
         config,
         BnbNetworks.mainnetFallbacks.first,
       );
+      final ip = await probePublicIp(config);
       if (!mounted) return;
-      setState(() => _status = message);
+      setState(
+        () => _status = '$message\nPublic IP seen by the outside service: $ip',
+      );
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -708,13 +711,19 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
       _status = 'Testing the SOCKS5 route…';
     });
     try {
+      final config = GlobalProxyConfig(
+        type: ProxyType.socks5h,
+        host: host,
+        port: port,
+      );
       final message = await probeProxyRoute(
-        GlobalProxyConfig(type: ProxyType.socks5h, host: host, port: port),
+        config,
         BnbNetworks.mainnetFallbacks.first,
       );
+      final ip = await probePublicIp(config);
       if (!mounted) return;
       setState(() {
-        _status = message;
+        _status = '$message\nPublic IP seen by the outside service: $ip';
         _busy = false;
       });
     } catch (error) {
