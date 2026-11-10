@@ -1085,11 +1085,15 @@ class AppStorage {
         _torUpstreamPasswordCache = null;
       }
     }
-    // Register the legacy single vault as "Main" without moving it. Tests
-    // without a path_provider implementation simply keep an empty registry.
-    try {
-      await ensureVaultRegistry();
-    } catch (_) {}
+    // Register the legacy single vault as "Main" without moving it. The
+    // Flutter test runner has no path_provider implementation unless a test
+    // mocks it; calling it there would leave the future pending forever, so
+    // tests register explicitly when they need a multi-vault fixture.
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      try {
+        await ensureVaultRegistry();
+      } catch (_) {}
+    }
   }
 
   /// Migrates data written under the pre-1.2 Linux application ID.
