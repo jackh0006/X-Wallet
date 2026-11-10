@@ -17,7 +17,7 @@ This guarantee covers:
 |---|---|
 | No AI service call | No `openai`, `anthropic`, `deepseek`, `chatgpt`, or model endpoint in source or compiled artifacts |
 | No telemetry or analytics SDK | Artifact and dependency scans found none of `firebase`, `analytics`, `sentry`, `amplitude`, `mixpanel`, `segment`, `crashlytics`, `appsflyer` |
-| No builder-controlled server | The only runtime hosts are BSC RPC nodes, BscScan, GitHub, Orbot, the public CoinGecko price API, and the public ipify IP echo |
+| No builder-controlled server | The only runtime hosts are BSC RPC nodes, BscScan, GitHub, Orbot, the public CoinMarketCap/CoinGecko/Binance/Coinbase price APIs, and the public ipify IP echo |
 | No account or sign-up | The app has no login, account ID, subscription, or cloud profile |
 | No remote control or remote update | The app has no command channel, remote config, or background updater |
 | Keys stay local | Vault, recovery phrase, private keys, signing, and spending policy are local-only |
@@ -95,6 +95,9 @@ The signed Linux and Android `libapp.so` files contain only these runtime hosts:
 ```
 https://1rpc.io
 https://api.bscscan.com
+https://api.coinmarketcap.com
+https://api.binance.com
+https://api.coinbase.com
 https://api.coingecko.com
 https://api.ipify.org
 https://bsc-dataseed.bnbchain.org
@@ -156,7 +159,7 @@ strace -f -e trace=connect,sendto ./bnb_wallet_gui
 **Android release signer:**
 `db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3`
 
-CoinGecko receives only a fixed list of public coin IDs; it never receives a wallet address, balance, vault, or identifier. ipify receives only the request itself and is used to display the public IP of the active route when the user runs the route test.
+CoinMarketCap, CoinGecko, Binance, or Coinbase receive only fixed public coin symbols/IDs; it never receives a wallet address, balance, vault, or identifier. ipify receives only the request itself and is used to display the public IP of the active route when the user runs the route test.
 
 This guarantee is issued for the published 1.5.0 source and signed artifacts.
 Device-level hardening controls are documented in

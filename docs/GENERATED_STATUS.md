@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.0+13`
+- Version: `1.5.1+14`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 185f3dbc8d5d0a006e95ed5e872714710255e5e87ac834619061dfb17b621a1e |
+| SBOM SHA-256 | 4c46b0f2e59e302d3876889403d50a5802dc1027d8744bdb4c2ef5415caa4439 |
 
 ## Test inventory
 
 - Test files: **62**
-- Test/testWidgets declarations: **352**
+- Test/testWidgets declarations: **354**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,19 +34,19 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| cold-signature | 0 | 6.06 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 121.115 | yes | 6e7ae407aa6cbc58 |
-| deb-signature | 0 | 0.057 | yes | cdc5ab08a7bf0113 |
-| dependency-audit | 0 | 3.927 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 722.287 | yes | 6b5318f7027a92bc |
-| license-inventory | 0 | 0.067 | yes | ab9b22cbedaa80d3 |
-| release-evidence | 0 | 0.056 | yes | 3f46c826b1cad4c4 |
-| reproducibility | 0 | 273.156 | yes | 9c118bd0aac6ae1e |
-| sbom | 0 | 0.059 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 2.597 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 6.124 | yes | d144de2d07105e70 |
-| test-inventory | 0 | 0.093 | yes | 86e80c8f760d0524 |
-| install-smoke | 0 | 140 | yes | — |
+| cold-signature | 0 | 13.269 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 72.396 | yes | 9cf0cff2444bee02 |
+| deb-signature | 0 | 0.052 | yes | f527bc5fb887ee85 |
+| dependency-audit | 0 | 7.854 | yes | 531db7f60a49620c |
+| license-inventory | 0 | 0.462 | yes | ab9b22cbedaa80d3 |
+| release-evidence | 0 | 0.168 | yes | 114387f2aaaca6d1 |
+| sbom | 0 | 0.231 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 8.203 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 51.752 | yes | 37629ce12a2d122e |
+| test-inventory | 0 | 0.145 | yes | fc388ac3ebaa4870 |
+| full-test-suite | 0 | 333 | yes | — |
+| install-smoke | 0 | 153 | yes | — |
+| reproducibility | 0 | 600 | yes | — |
 
 ## Artifacts
 

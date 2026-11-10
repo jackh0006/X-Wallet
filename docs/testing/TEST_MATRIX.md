@@ -64,7 +64,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `node_manager_test.dart` | 17 | (light) | ✅ PASS | Pool selection, strict mode, import/export |
 | `ua_scrub_test.dart` | 1 | (light) | ✅ PASS | User-Agent scrubbing on all transports |
 | `rpc_adversarial_test.dart` | 6 | (light) | ✅ PASS | Wrong chain, non-JSON/HTML RPC, oversized/malformed balance, network-switch mismatch, URL policy |
-| `price_service_test.dart` | 3 | (light) | ✅ PASS | USD conversion, missing price, readable dollar labels |
+| `price_service_test.dart` | 5 | (light) | ✅ PASS | USD conversion, missing price, labels, CoinMarketCap and CoinGecko parsing |
 
 ### Transaction & Fees
 

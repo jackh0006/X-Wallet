@@ -1,18 +1,18 @@
 {
-  "archiveSha256": "9a8a22d646d7b7d678c81e9156bb76a4e664e3b159ad6167d82ed4d2abd0bce8",
+  "archiveSha256": "65ec34b3f79e91d82b4e824d5cfa7183f5b34bd5a4d9139a36323a1bd0ddcd2e",
   "buildPath": "/build/x-wallet (GitHub Actions, two runners)",
-  "constraint": "GitHub Actions builds at the fixed path /build/x-wallet on two ubuntu-24.04 runners; identical archive hashes and file manifests.",
+  "constraint": "Two ubuntu-24.04 runners built at the fixed path /build/x-wallet; archive hashes and file manifests matched.",
   "environment": {
     "architecture": "x86_64",
     "dart": "3.13.5",
     "flutter": "3.47.6 stable",
     "gzip": "gzip -n",
-    "os": "Ubuntu 24.04.5 LTS",
+    "os": "Ubuntu 24.04",
     "sourceDateEpoch": 0
   },
-  "evidence": "https://github.com/jackh0006/X-Wallet/actions/runs/42838045916",
+  "evidence": "https://github.com/jackh0006/X-Wallet/actions/runs/42872848947",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "28ef1cf2d8ab54d241136f47e2de4bb4fcebf8d2",
+  "sourceCommit": "ec5b77fafa79d0f2e87f7688ac90aebfbfdf61ab",
   "status": "PASS_FIXED_PATH"
 }

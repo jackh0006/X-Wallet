@@ -559,7 +559,7 @@ class _WalletPageState extends State<WalletPage>
               ),
             ),
             Text(
-              'USD · CoinGecko',
+              'USD · ${PriceService.instance.sourceLabel}',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
