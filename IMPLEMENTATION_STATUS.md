@@ -16,8 +16,8 @@ runs. This file is a human-readable index, not a second source of truth.
 | Evidence bundle | `release/evidence.json` (release-approved, signed) |
 | Pull requests | merged through the 1.2.0 release PR |
 | Hosted CI | All required `main` workflows pass |
-| Release status | **RELEASE CANDIDATE / local artifacts, pending final gate** |
-| Final package | `x-wallet-1.5.0-amd64.deb` (hash recorded in `release/evidence.json`) |
+| Release status | **RELEASE APPROVED / signed; release gate VERIFIED** |
+| Final package | `x-wallet-1.5.0-amd64.deb`, SHA-256 `339a5c9e9b3e8981341b6f352cc08b6b153b8d942e1bb0ea8433de3b782b96aa` |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 
 ## Verified
