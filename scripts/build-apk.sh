@@ -93,19 +93,23 @@ case "$ARM_LIST" in
   *'lib/x86_64/libapp.so'*) echo "ERROR: arm64 APK unexpectedly contains x86_64 libraries" >&2; exit 1 ;;
 esac
 
-echo "[2/5] Building universal release APK ..."
+echo "[2/5] Building universal (ARM 32/64) release APK ..."
 ORG_GRADLE_PROJECT_xwalletAbi= \
   flutter build apk --release --no-pub \
+    --target-platform android-arm,android-arm64 \
     --obfuscate --split-debug-info="$SPLIT_DEBUG_DIR/universal"
 UNIVERSAL_UNSIGNED="$OUTDIR/x-wallet-${VERSION}-android-universal-unsigned.apk"
 cp build/app/outputs/flutter-apk/app-release.apk "$UNIVERSAL_UNSIGNED"
 UNIVERSAL_LIST="$(unzip -l "$UNIVERSAL_UNSIGNED")"
-for abi in arm64-v8a armeabi-v7a x86_64; do
+for abi in arm64-v8a armeabi-v7a; do
   case "$UNIVERSAL_LIST" in
     *"lib/$abi/libapp.so"*) ;;
     *) echo "ERROR: universal APK is missing $abi" >&2; exit 1 ;;
   esac
 done
+case "$UNIVERSAL_LIST" in
+  *'lib/x86_64/libapp.so'*) echo "ERROR: universal APK unexpectedly contains x86_64 libraries" >&2; exit 1 ;;
+esac
 
 ANDROID_BUILD_TOOLS="${ANDROID_BUILD_TOOLS:-$HOME/Android/Sdk/build-tools/36.0.0}"
 APKSIGNER="$ANDROID_BUILD_TOOLS/apksigner"

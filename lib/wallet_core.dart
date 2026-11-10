@@ -373,6 +373,18 @@ class WalletCore {
       ? value.substring(2)
       : value;
 
+  /// ABI words are 32 bytes and carry an address in their low 20 bytes.
+  /// Taking the whole word made every standard `transfer`/`approve` review
+  /// throw "Invalid EVM address"; only the last 40 hex characters are the
+  /// address.
+  static String _addressFromAbiWord(String word) {
+    final body = _strip0x(word);
+    if (body.length < 40) {
+      throw ArgumentError('ERC-20 calldata has a truncated address word');
+    }
+    return '0x${body.substring(body.length - 40)}';
+  }
+
   /// Encodes a non-negative BigInt as big-endian unsigned bytes.
   static Uint8List _encodeBigIntAsUnsigned(BigInt value) {
     if (value.isNegative) {
@@ -537,7 +549,7 @@ class WalletCore {
           throw ArgumentError('ERC-20 transfer calldata has the wrong length');
         }
         functionName = 'transfer';
-        final toHex = '0x${dataHex.substring(8, 72)}';
+        final toHex = _addressFromAbiWord(dataHex.substring(8, 72));
         decodedTo = checksumAddress(toHex);
         decodedValue = BigInt.parse(dataHex.substring(72, 136), radix: 16);
         if (request.assetInfo.isNative) {
@@ -561,9 +573,45 @@ class WalletCore {
         if (dataHex.length != 136) {
           throw ArgumentError('ERC-20 approve calldata has the wrong length');
         }
+        // Word 1 is the spender (the address that receives the allowance).
+        // The old decoder ignored it, so a review could show an approval
+        // amount without ever naming who could spend it.
+        decodedTo = checksumAddress(
+          _addressFromAbiWord(dataHex.substring(8, 72)),
+        );
         decodedValue = BigInt.parse(dataHex.substring(72, 136), radix: 16);
         warning =
-            'This is an APPROVE transaction — unlimited approvals are risky';
+            'This is an APPROVE transaction: the spender can move the '
+            'allowance you grant. Verify the spender address.';
+      } else if (dataHex.startsWith('39509351')) {
+        functionName = 'increaseAllowance';
+        if (dataHex.length != 136) {
+          throw ArgumentError(
+            'ERC-20 increaseAllowance calldata has the wrong length',
+          );
+        }
+        decodedTo = checksumAddress(
+          _addressFromAbiWord(dataHex.substring(8, 72)),
+        );
+        decodedValue = BigInt.parse(dataHex.substring(72, 136), radix: 16);
+        warning =
+            'This INCREASES an existing allowance. Verify the spender and '
+            'the added amount.';
+      } else if (dataHex.startsWith('23b872dd')) {
+        functionName = 'transferFrom';
+        if (dataHex.length != 200) {
+          throw ArgumentError(
+            'ERC-20 transferFrom calldata has the wrong length',
+          );
+        }
+        // transferFrom(from, to, amount): the recipient is word 2.
+        decodedTo = checksumAddress(
+          _addressFromAbiWord(dataHex.substring(72, 136)),
+        );
+        decodedValue = BigInt.parse(dataHex.substring(136, 200), radix: 16);
+        warning =
+            'This is a TRANSFER-FROM: it moves tokens from another address. '
+            'Verify the recipient and amount.';
       } else if (!allowUnknownData) {
         throw ArgumentError(
           'Unknown calldata (function 0x${dataHex.substring(0, 8)}). '
@@ -595,11 +643,13 @@ class WalletCore {
       }
     }
 
-    if (functionName == 'approve' && decodedValue != null) {
-      final maxUint256 = BigInt.from(2).pow(256) - BigInt.one;
-      if (decodedValue == maxUint256) {
+    if ((functionName == 'approve' || functionName == 'increaseAllowance') &&
+        decodedValue != null) {
+      final huge = BigInt.from(2).pow(255);
+      if (decodedValue >= huge) {
         warning =
-            '${warning != null ? '$warning; ' : ''}UNLIMITED approval — token can spend all your balance';
+            '${warning != null ? '$warning; ' : ''}UNLIMITED approval — the '
+            'spender can move your entire token balance';
       }
     }
 
@@ -923,8 +973,9 @@ class ColdVerifyResult {
   final String? from;
 }
 
-/// One place that decides what may NEVER reach the system clipboard — the
-/// second line of defense behind "no code path copies secrets at all".
+/// One place that decides what may NEVER reach the system clipboard through
+/// the ordinary copy helper. The explicit reveal/copy dialogs in the wallet
+/// screen use their own confirmation and a short auto-clear timer instead.
 class ClipboardGuard {
   const ClipboardGuard._();
 
@@ -932,7 +983,21 @@ class ClipboardGuard {
     final t = text.trim();
     if (t.isEmpty) return false;
     if (_looksLikeMnemonic(t)) return false;
+    // Bare 64-hex keys. A 0x-prefixed 64-hex string is ambiguous (private
+    // key vs transaction hash), so it stays copyable for public hashes; the
+    // copy helper below additionally refuses secret-labelled copies and the
+    // reveal dialogs always require an explicit warning.
     if (RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(t)) return false;
+    // Bitcoin/Ethereum WIF (base58check, version byte 0x80).
+    if (RegExp(r'^[5KL][1-9A-HJ-NP-Za-km-z]{50,51}$').hasMatch(t)) {
+      return false;
+    }
+    // Web3 v3 keystore JSON.
+    if (t.startsWith('{') &&
+        t.contains('"crypto"') &&
+        t.contains('"ciphertext"')) {
+      return false;
+    }
     return true;
   }
 

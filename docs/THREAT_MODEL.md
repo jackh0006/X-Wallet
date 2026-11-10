@@ -10,7 +10,7 @@ grade". Software carries risk; this document describes ours.
 
 | Asset | Where it lives | How it is protected |
 |---|---|---|
-| 24-word seed phrase | In memory only after unlock; in the vault file only Argon2id+device-bound double-wrapped | Two independent wrappers must both open; see docs/CRYPTO.md |
+| 24-word seed phrase | In memory only after unlock; in the vault file under Argon2id + XChaCha20-Poly1305, with a second device wrapper | The password wrapper opens the payload; the device wrapper is defense-in-depth, not a required second factor. See docs/CRYPTO.md |
 | Private keys | In memory after unlock; persisted only inside the vault | Same envelope as the seed |
 | Vault password | Never stored | Only an Argon2id verifier-side KEK exists; there is no recovery path |
 | Device-bound secret | Linux owner-only local drawer | Never in preferences or the vault file; Linux is not hardware-bound |
@@ -23,8 +23,9 @@ grade". Software carries risk; this document describes ours.
 
 ## What this wallet defends against
 
-1. **Stolen vault file.** A copy of `bnb-wallet-vault.bnb` alone is inert:
-   it needs both your password and the device-bound secret. Moving the file
+1. **Stolen vault file.** A copy of `bnb-wallet-vault.bnb` needs the
+   password. The device secret adds defense in depth on the same machine,
+   but it is not a required second factor. Moving the file
    to another machine, or exfiltrating it via malware, yields nothing.
 2. **Weak passwords / offline brute force.** Any password guess costs an
    Argon2id run (64 MiB, t=3, p=4) per attempt, per salt. There are no
@@ -83,7 +84,7 @@ fingerprint and reviewing the transaction on the cold screen.
 | Replay of a signed response | Single-use request id, pending-request requirement, broadcast-hash burn list | Reinstalling the app clears local replay state; the chain nonce still prevents a second valid transaction with the same nonce |
 | Unsigned request sits on disk too long | 30-minute default lifetime, 24-hour hard cap, expiry checked at sign and verify time | Clock skew beyond 5 minutes causes refusal, not acceptance |
 | QR/file channel is observed | Envelopes contain only public tx data and public addresses | The channel is not confidential; it does not need to be |
-| Cold device has no network but is compromised | No network code runs in cold mode; keys stay in process memory while unlocked | A compromised OS can read memory or the seed; out of scope |
+| Cold device has no network but is compromised | Cold mode performs no app-initiated network calls; the binary still links network code; keys stay in process memory while unlocked | A compromised OS can read memory or the seed; out of scope |
 | Online companion is compromised | It never holds a key, and it cannot forge a signature for the paired address | It can refuse service, lie about fees, or withhold a response |
 
 The cold protocol is not a substitute for a hardware wallet: the seed exists
@@ -116,8 +117,9 @@ Honesty section. These are real limits, not corner cases.
   the toolkit level. Lock your session when leaving the machine.
 - **Flash shred guarantees.** "Erase all data" overwrites the vault with
   random bytes before deletion, but wear-leveling means copies can linger
-  in flash. The real guarantee is crypto-erasure: deleting the device
-  secret leaves the ciphertext permanently unverifiable.
+  in flash. Deleting the device secret removes the app's device factor, but a
+  retained vault copy plus the password remains decryptable. Crypto-erasure
+  is not a guarantee here.
 - **Seed loss.** There is no recovery. If you lose the seed phrase and
   forget the vault password, the funds are gone. The app cannot fix this.
 - **User error.** Sending to the wrong (valid) address, losing the seed,

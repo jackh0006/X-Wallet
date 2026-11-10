@@ -1054,6 +1054,15 @@ class _SendPageState extends State<SendPage>
     }
     final checksummed = WalletCore.checksumAddress(to);
     final from = appState.address!;
+    if (appState.hasUnresolvedBroadcast(from)) {
+      showError(
+        context,
+        'A previous transaction from this wallet has an unknown broadcast '
+        'result. Open Activity, check its hash on-chain, and resolve it '
+        'before sending again. Sending now could pay twice.',
+      );
+      return;
+    }
     final rpc = appState.rpc;
     // Everything the user is about to review is pinned here. The signature is
     // refused if any of it differs at sign time (terminal v1 parity).
@@ -1630,47 +1639,12 @@ class _SendPageState extends State<SendPage>
       // Sign locally, then broadcast. The signing and the sending are separate
       // steps so a node that answers "already known" cannot lose the hash.
       final signed = await rpc.signOnly(transaction, key);
-      String hash;
-      var acceptedKnown = false;
-      try {
-        hash = await rpc.sendRawHex(signed.rawHex);
-      } catch (error) {
-        final reading = readBroadcastError(error.toString());
-        if (reading.verdict == BroadcastVerdict.acceptedKnown) {
-          hash = signed.hash;
-          acceptedKnown = true;
-        } else {
-          rpc.note(
-            reading.plainWords,
-            kind: sendEventNote(SendEvent.refused).kind,
-          );
-          if (mounted) {
-            await showMessage(
-              context,
-              reading.verdict == BroadcastVerdict.unknownOutcome
-                  ? 'Broadcast result is unknown'
-                  : 'The node refused the transaction',
-              reading.plainWords,
-            );
-          }
-          setState(() {
-            _sending = false;
-            _stage = TxStage.failed;
-            _flowError = reading.plainWords;
-          });
-          return;
-        }
-      }
-      if (mounted) setState(() => _stage = TxStage.broadcast);
-      final broadcastNote = sendEventNote(
-        acceptedKnown ? SendEvent.acceptedKnown : SendEvent.broadcast,
-      );
-      rpc.note(broadcastNote.text, kind: broadcastNote.kind);
-      // Track the pending transaction so the user can watch, speed it up or
-      // cancel it — never auto-resent.
+      // Persist the exact signed bytes BEFORE the first network attempt. If
+      // the broadcast result is unknown, the row survives a crash/restart and
+      // blocks a second payment with the next nonce.
       await appState.addPendingTx(
         PendingTx(
-          hash: hash,
+          hash: signed.hash,
           network: rpc.network,
           from: from,
           to: checksummed,
@@ -1688,8 +1662,98 @@ class _SendPageState extends State<SendPage>
           gasPrice: (selected.gasPrice ?? BigInt.zero).toString(),
           sentAt: DateTime.now().toIso8601String(),
           tierLabel: selected.label,
+          rawHex: signed.rawHex,
+          status: 'signed',
         ),
       );
+      String hash = signed.hash;
+      var acceptedKnown = false;
+      try {
+        final returned = await rpc.sendRawHex(signed.rawHex);
+        if (returned.toLowerCase() != signed.hash.toLowerCase()) {
+          // The node may have accepted the bytes but reported a different
+          // hash. Treat this as an unknown outcome, never as a clean failure.
+          await appState.updatePendingTx(
+            signed.hash,
+            (t) => t.copyWith(status: 'unknown'),
+          );
+          rpc.note(
+            'The node returned a hash that does not match the signed bytes. '
+            'The broadcast result is unknown.',
+            kind: sendEventNote(SendEvent.refused).kind,
+          );
+          if (mounted) {
+            await showMessage(
+              context,
+              'Broadcast result is unknown',
+              'The node returned a hash that does not match the signed bytes.\n\n'
+                  'Signed hash: ${signed.hash}\n\n'
+                  'Do not resend. Open Activity and check this hash first.',
+            );
+            setState(() {
+              _sending = false;
+              _stage = TxStage.pending;
+              _flowError = 'The node returned a mismatched hash.';
+            });
+          }
+          return;
+        }
+        await appState.updatePendingTx(
+          signed.hash,
+          (t) => t.copyWith(status: 'broadcast'),
+        );
+      } catch (error) {
+        final reading = readBroadcastError(error.toString());
+        if (reading.verdict == BroadcastVerdict.acceptedKnown) {
+          acceptedKnown = true;
+          await appState.updatePendingTx(
+            signed.hash,
+            (t) => t.copyWith(status: 'broadcast'),
+          );
+        } else {
+          final unknown = reading.verdict == BroadcastVerdict.unknownOutcome;
+          if (unknown) {
+            await appState.updatePendingTx(
+              signed.hash,
+              (t) => t.copyWith(status: 'unknown'),
+            );
+          } else {
+            // A definite refusal means the bytes were not accepted; remove the
+            // row so the user can correct the transaction.
+            await appState.removePendingTx(signed.hash);
+          }
+          rpc.note(
+            reading.plainWords,
+            kind: sendEventNote(SendEvent.refused).kind,
+          );
+          if (mounted) {
+            await showMessage(
+              context,
+              unknown
+                  ? 'Broadcast result is unknown'
+                  : 'The node refused the transaction',
+              unknown
+                  ? '${reading.plainWords}\n\nSigned hash: ${signed.hash}\n\n'
+                        'Do not resend. Open Activity and check this hash first.'
+                  : reading.plainWords,
+            );
+          }
+          if (mounted) {
+            setState(() {
+              _sending = false;
+              _stage = unknown ? TxStage.pending : TxStage.failed;
+              _flowError = reading.plainWords;
+            });
+          }
+          return;
+        }
+      }
+      if (mounted) setState(() => _stage = TxStage.broadcast);
+      final broadcastNote = sendEventNote(
+        acceptedKnown ? SendEvent.acceptedKnown : SendEvent.broadcast,
+      );
+      rpc.note(broadcastNote.text, kind: broadcastNote.kind);
+
       if (mounted) {
         showInfo(context, 'Broadcast: $hash');
         setState(() => _stage = TxStage.pending);
@@ -2219,6 +2283,14 @@ class _SendPageState extends State<SendPage>
     try {
       final amountRaw = BigInt.parse(tx.amountRaw);
       final self = appState.address!;
+      final policyRejection = appState.spendingPolicy.rejection(
+        nativeAmountWei: (cancel || tx.native) ? amountRaw : BigInt.zero,
+        recipient: cancel ? self : tx.to,
+      );
+      if (policyRejection != null) {
+        showError(context, policyRejection);
+        return;
+      }
       final data = (!tx.native && !cancel)
           ? _erc20TransferData(tx.to, amountRaw)
           : Uint8List(0);
@@ -2227,7 +2299,9 @@ class _SendPageState extends State<SendPage>
         to: EthereumAddress.fromHex(
           cancel ? self : (tx.native ? tx.to : tx.assetAddress),
         ),
-        value: (tx.native && !cancel) ? EtherAmount.inWei(amountRaw) : null,
+        value: cancel
+            ? EtherAmount.inWei(BigInt.zero)
+            : (tx.native ? EtherAmount.inWei(amountRaw) : null),
         data: data,
         maxGas: int.parse(tx.gasLimit),
         nonce: tx.nonce,

@@ -56,6 +56,15 @@ class PriceService extends ChangeNotifier {
   }
 
   Future<void> refresh({bool force = false}) async {
+    // Cold-signer mode is absolute: no price lookup may leave the device,
+    // even at startup or on resume. This used to bypass `RpcService.offline`.
+    if (AppStorage.walletModeIndex == 1) {
+      if (_usd.isNotEmpty) {
+        _usd.clear();
+        notifyListeners();
+      }
+      return;
+    }
     if (!AppStorage.showUsd) {
       if (_usd.isNotEmpty) {
         _usd.clear();

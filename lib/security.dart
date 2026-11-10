@@ -138,8 +138,15 @@ class AppSecurity {
   static Future<void> clearBackoff() => AppStorage.clearBackoffState();
 
   static Future<bool> verifyPin(String pin) async {
-    final stored = await AppStorage.getPinHash();
-    if (stored == null) return true;
+    final String? stored;
+    try {
+      stored = await AppStorage.getPinHash();
+    } catch (_) {
+      // An unreadable keyring must never unlock the app.
+      return false;
+    }
+    // Fail closed: a missing/corrupt PIN record must never unlock the app.
+    if (stored == null) return false;
     if (!stored.startsWith('a2:')) {
       // Legacy SHA-256 record → obsolete by policy, never accepted.
       await registerFailedAttempt();

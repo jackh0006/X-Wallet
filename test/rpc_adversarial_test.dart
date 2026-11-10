@@ -136,5 +136,8 @@ void main() {
     expect(nodeUrlAllowed('http://example.com'), isFalse);
     expect(nodeUrlAllowed('ws://example.com'), isFalse);
     expect(nodeUrlAllowed(''), isFalse);
+    expect(nodeUrlAllowed('https://user:pass@node.example'), isFalse);
+    expect(nodeUrlAllowed('https://169.254.169.254/latest/meta-data'), isFalse);
+    expect(nodeUrlAllowed('https://metadata.google.internal'), isFalse);
   });
 }

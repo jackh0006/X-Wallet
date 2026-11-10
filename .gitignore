@@ -66,6 +66,9 @@ app.*.map.json
 *.pfx
 key.properties
 release-signing/
+# Local handoff keys and passwords (backup folder only, never git)
+keys/
+*.password
 
 # Local build/release output
 /dist/

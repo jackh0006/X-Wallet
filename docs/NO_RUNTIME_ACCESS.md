@@ -129,7 +129,7 @@ No builder or AI domain is present.
   disabled, and only system CAs are trusted.
 - `FLAG_SECURE` blocks screenshots/recents; `filterTouchesWhenObscured` rejects
   overlay touches.
-- The release is signed by `db12869c…9748d3`; the historical
+- The 1.5.3 release is signed by `2a96a384…3ba9a`; the 1.5.1 APKs used `db12869c…9748d3`; the historical
   `10c13aa9…25b85` is denylisted.
 
 DeepSeek and the builder have **no runtime channel** into the app: no endpoint,
@@ -157,7 +157,7 @@ strace -f -e trace=connect,sendto ./bnb_wallet_gui
 `CC819EF5E109A1518E840379D8C0CEC84BCCE06B`
 
 **Android release signer:**
-`db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3`
+`2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a`
 
 CoinMarketCap, CoinGecko, Binance, or Coinbase receive only fixed public coin symbols/IDs; it never receives a wallet address, balance, vault, or identifier. ipify receives only the request itself and is used to display the public IP of the active route when the user runs the route test.
 

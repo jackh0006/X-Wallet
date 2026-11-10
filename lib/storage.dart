@@ -1085,6 +1085,11 @@ class AppStorage {
         _torUpstreamPasswordCache = null;
       }
     }
+    // Register the legacy single vault as "Main" without moving it. Tests
+    // without a path_provider implementation simply keep an empty registry.
+    try {
+      await ensureVaultRegistry();
+    } catch (_) {}
   }
 
   /// Migrates data written under the pre-1.2 Linux application ID.
@@ -1130,6 +1135,11 @@ class AppStorage {
         '$dataHome/bnb_wallet_gui',
       ],
     );
+  }
+
+  @visibleForTesting
+  static void resetPreferencesForTest() {
+    _prefs = null;
   }
 
   @visibleForTesting
@@ -1276,15 +1286,111 @@ class AppStorage {
       final list = jsonDecode(raw) as List;
       return [
         for (final item in list)
-          if (item is Map<String, dynamic>) RpcNode.fromJson(item),
+          if (item is Map<String, dynamic>)
+            RpcNode.fromJson({
+              ...item,
+              ...?_nodeSecretsCache['${item['url'] ?? ''}'],
+            }),
       ];
     } catch (_) {
       return [];
     }
   }
 
-  static Future<void> setNodes(List<RpcNode> nodes) =>
-      prefs.setString('nodes', jsonEncode([for (final n in nodes) n.toJson()]));
+  /// Node credentials live in the platform secure store, not in the plain
+  /// preferences file. The cache is loaded during init so [nodes] can stay
+  /// synchronous.
+  static Map<String, Map<String, dynamic>> _nodeSecretsCache = {};
+
+  /// Migrates credentials out of the legacy plain-JSON node book, then loads
+  /// them from secure storage. Best effort: a missing keyring never blocks
+  /// startup, it simply means authenticated nodes need the credential again.
+  static Future<void> loadNodeSecrets() async {
+    // Move any credentials still in the plain preferences into the cache and
+    // rewrite the prefs without them.
+    var migrated = false;
+    try {
+      final raw = prefs.getString('nodes');
+      if (raw != null && raw.isNotEmpty) {
+        final decoded = jsonDecode(raw);
+        if (decoded is List) {
+          final sanitized = <Map<String, dynamic>>[];
+          for (final item in decoded) {
+            if (item is! Map<String, dynamic>) continue;
+            final map = Map<String, dynamic>.from(item);
+            final secret = <String, dynamic>{};
+            for (final key in const [
+              'proxyUser',
+              'proxyPass',
+              'authToken',
+              'authUsername',
+              'authPassword',
+              'customHeaders',
+            ]) {
+              if (map.containsKey(key)) {
+                secret[key] = map.remove(key);
+              }
+            }
+            final url = '${map['url'] ?? ''}';
+            if (secret.isNotEmpty && url.isNotEmpty) {
+              _nodeSecretsCache[url] = secret;
+              migrated = true;
+            }
+            sanitized.add(map);
+          }
+          if (migrated) {
+            await prefs.setString('nodes', jsonEncode(sanitized));
+          }
+        }
+      }
+    } catch (_) {
+      // A corrupt node book is handled by the normal reader.
+    }
+    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    try {
+      final raw = await _secure
+          .read(key: _nodeSecretsKey)
+          .timeout(_keyringTimeout);
+      if (raw == null || raw.isEmpty) return;
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map) return;
+      _nodeSecretsCache = {
+        for (final entry in decoded.entries)
+          if (entry.value is Map)
+            '${entry.key}': Map<String, dynamic>.from(entry.value as Map),
+      };
+    } catch (_) {
+      // Keep the migrated cache; the keyring is unavailable.
+    }
+  }
+
+  static const String _nodeSecretsKey = 'node_secrets_v1';
+
+  static Future<void> setNodes(List<RpcNode> nodes) async {
+    final secrets = <String, Map<String, dynamic>>{};
+    for (final node in nodes) {
+      final secret = node.secretFields();
+      if (secret.isNotEmpty) secrets[node.url] = secret;
+    }
+    _nodeSecretsCache = secrets;
+    await prefs.setString(
+      'nodes',
+      jsonEncode([for (final node in nodes) node.toPublicJson()]),
+    );
+    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    try {
+      if (secrets.isEmpty) {
+        await _secure.delete(key: _nodeSecretsKey).timeout(_keyringTimeout);
+      } else {
+        await _secure
+            .write(key: _nodeSecretsKey, value: jsonEncode(secrets))
+            .timeout(_keyringTimeout);
+      }
+    } catch (_) {
+      // The sanitized prefs are still safe; the credential is simply not
+      // persisted and the user is asked for it again.
+    }
+  }
 
   static List<TokenInfo> get customTokens {
     final raw = prefs.getString('tokens');
@@ -1369,8 +1475,117 @@ class AppStorage {
     return true;
   }
 
-  /// Get the active vault file (custom path or default).
+  // ---- multi-vault registry -------------------------------------------------
+
+  static const String _vaultRegistryKey = 'vault_registry_v1';
+  static const String _vaultActiveKey = 'vault_active_id';
+
+  /// Registered vaults. Labels and paths are not secrets; account keys remain
+  /// inside the encrypted envelope.
+  static List<VaultEntry> getVaultEntries() {
+    final raw = prefs.getString(_vaultRegistryKey);
+    if (raw == null || raw.isEmpty) return const [];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! List) return const [];
+      return [
+        for (final row in decoded)
+          if (row is Map<String, dynamic> &&
+              '${row['id'] ?? ''}'.isNotEmpty &&
+              '${row['file'] ?? ''}'.isNotEmpty)
+            VaultEntry.fromJson(row),
+      ];
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  static String? get activeVaultId => prefs.getString(_vaultActiveKey);
+
+  static Future<void> saveVaultEntries(
+    List<VaultEntry> entries, {
+    String? activeId,
+  }) async {
+    await prefs.setString(
+      _vaultRegistryKey,
+      jsonEncode([for (final entry in entries) entry.toJson()]),
+    );
+    if (activeId != null) {
+      await prefs.setString(_vaultActiveKey, activeId);
+    }
+  }
+
+  static Future<void> setActiveVaultId(String id) =>
+      prefs.setString(_vaultActiveKey, id);
+
+  static VaultEntry? get activeVaultEntry {
+    final entries = getVaultEntries();
+    if (entries.isEmpty) return null;
+    final id = activeVaultId;
+    for (final entry in entries) {
+      if (entry.id == id) return entry;
+    }
+    return entries.first;
+  }
+
+  /// Registers the pre-multi-vault single file as "Main" on first run.
+  /// No file is moved, so a downgrade still opens the same vault.
+  static Future<void> ensureVaultRegistry() async {
+    if (getVaultEntries().isNotEmpty) return;
+    final file = await _legacyVaultFile();
+    if (!await file.exists()) return;
+    final entry = VaultEntry(
+      id: 'legacy',
+      label: 'Main',
+      file: file.path,
+      createdAt: DateTime.now().toUtc().toIso8601String(),
+    );
+    await saveVaultEntries([entry], activeId: entry.id);
+  }
+
+  static Future<Directory> vaultsDirectory() async {
+    final base = await getApplicationSupportDirectory();
+    final dir = Directory('${base.path}/vaults');
+    if (!await dir.exists()) {
+      await dir.create(recursive: true);
+      if (Platform.isLinux || Platform.isMacOS) {
+        try {
+          await Process.run('/bin/chmod', ['700', dir.path]);
+        } catch (_) {}
+      }
+    }
+    return dir;
+  }
+
+  static Future<File> newVaultFile(String id) async {
+    final dir = await vaultsDirectory();
+    return File('${dir.path}/$id.bnb');
+  }
+
+  /// Keeps the registry in step with the legacy move/reset controls.
+  static Future<void> updateActiveVaultPath(String path) async {
+    final entries = getVaultEntries();
+    if (entries.isEmpty) return;
+    final id = activeVaultId ?? entries.first.id;
+    final updated = [
+      for (final entry in entries)
+        if (entry.id == id) entry.copyWith(file: path) else entry,
+    ];
+    await saveVaultEntries(updated, activeId: id);
+  }
+
+  /// Get the active vault file (registry entry, legacy custom path, or default).
   static Future<File> vaultFile() async {
+    final entry = activeVaultEntry;
+    if (entry != null) {
+      final file = File(entry.file);
+      await ensureParentDir(file);
+      return file;
+    }
+    return _legacyVaultFile();
+  }
+
+  static Future<File> _legacyVaultFile() async {
     final customPath = getVaultPath();
     if (customPath != null) {
       final file = File(customPath);
@@ -1548,6 +1763,32 @@ class AppStorage {
     );
   }
 
+  /// Reads a specific vault file without changing the active vault.
+  static Future<String?> readVaultAt(String path) => readRegularFileNoFollow(
+    path,
+    maxBytes: _kMaxVaultBytes,
+    tooLargeMessage: 'Vault is too large.',
+  );
+
+  /// Shreds a specific vault file (and its atomic temp siblings) without
+  /// changing the active vault.
+  static Future<bool> deleteVaultAt(String path) async {
+    var ok = await _shredAndUnlink(path);
+    await _shredAndUnlink('$path.tmp');
+    try {
+      final dir = Directory(_parentOf(path));
+      final prefix = '.${_basenameOf(path)}-';
+      await for (final entity in dir.list(followLinks: false)) {
+        if (entity is! File) continue;
+        if (!_basenameOf(entity.path).startsWith(prefix)) continue;
+        if (!await _shredAndUnlink(entity.path)) ok = false;
+      }
+    } catch (_) {
+      ok = false;
+    }
+    return ok;
+  }
+
   /// Atomic save: writes a temp file first, then renames it over the final
   /// path (atomic on POSIX). A crash can therefore never leave a half-written
   /// vault in place of the good one.
@@ -1556,6 +1797,7 @@ class AppStorage {
     final file = await vaultFile();
     final result = await atomicWrite(file, base64);
     result.getOrThrow();
+    await ensureVaultRegistry();
   }
 
   static Future<void> deleteVault() async {
@@ -1586,6 +1828,7 @@ class AppStorage {
     final file = await vaultFile();
     final result = await atomicWrite(file, base64);
     result.getOrThrow();
+    await ensureVaultRegistry();
   }
 
   // ---- encrypted local receipts (key from wallet + drawer, see receipt_store) ----
@@ -1710,18 +1953,67 @@ class AppStorage {
 
   static Future<List<String>> eraseAllData() async {
     final leftovers = <String>[];
-    final vault = await vaultFile();
-    final receipts = await _receiptsFile();
-    for (final path in <String>[
-      vault.path,
-      '${vault.path}.tmp',
-      receipts.path,
-      '${receipts.path}.tmp',
-    ]) {
+    final entries = getVaultEntries();
+    final vaults = <File>[
+      if (entries.isNotEmpty)
+        for (final entry in entries) File(entry.file)
+      else
+        await _legacyVaultFile(),
+    ];
+    final dirs = <String>{};
+    try {
+      dirs.add((await getApplicationSupportDirectory()).path);
+    } catch (_) {}
+    for (final vault in vaults) {
+      dirs.add(vault.parent.path);
+    }
+
+    final paths = <String>[];
+    for (final vault in vaults) {
+      paths
+        ..add(vault.path)
+        ..add('${vault.path}.tmp');
+    }
+    for (final dir in dirs) {
+      paths
+        ..add('$dir/bnb-wallet-receipts.bin')
+        ..add('$dir/bnb-wallet-receipts.bin.tmp')
+        ..add('$dir/bnb-wallet-log.bin')
+        ..add('$dir/bnb-wallet-log.bin.tmp');
+    }
+    for (final path in paths) {
       if (!await _shredAndUnlink(path)) {
         leftovers.add(path);
       }
     }
+
+    // Atomic writes create `.<destination>-<random>` siblings. A crash during
+    // any write can leave one behind; "erase everything" must remove them too.
+    for (final dir in dirs) {
+      try {
+        final prefixes = <String>[
+          for (final vault in vaults)
+            if (vault.parent.path == dir) '.${_basenameOf(vault.path)}-',
+          '.bnb-wallet-receipts.bin-',
+          '.bnb-wallet-log.bin-',
+        ];
+        await for (final entity in Directory(dir).list(followLinks: false)) {
+          if (entity is! File) continue;
+          final name = _basenameOf(entity.path);
+          if (!prefixes.any(name.startsWith)) continue;
+          if (!await _shredAndUnlink(entity.path)) {
+            leftovers.add(entity.path);
+          }
+        }
+      } catch (_) {
+        leftovers.add(dir);
+      }
+    }
+
+    try {
+      await prefs.remove(_vaultRegistryKey);
+      await prefs.remove(_vaultActiveKey);
+    } catch (_) {}
     // The locked drawer holds the same class of key as the keyring copy:
     // shred it too, and drop the in-memory memo so a restart starts clean.
     final drawer = await _drawerFile();
@@ -2106,9 +2398,11 @@ class AppStorage {
   static Future<void> setWipeAfterFailures(int failures) =>
       prefs.setInt('wipe_after_failures', failures);
 
-  /// Public USD prices are optional. The request contains only fixed coin
-  /// IDs; no address or balance is ever sent.
-  static bool get showUsd => prefs.getBool('show_usd') ?? true;
+  /// Public USD prices are optional and disabled by default: the privacy
+  /// documentation promises that a fresh install talks only to the selected
+  /// RPC/explorer. The request contains only fixed coin IDs; no address or
+  /// balance is ever sent.
+  static bool get showUsd => prefs.getBool('show_usd') ?? false;
   static Future<void> setShowUsd(bool value) =>
       prefs.setBool('show_usd', value);
 

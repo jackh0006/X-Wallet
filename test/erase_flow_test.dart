@@ -47,6 +47,12 @@ void main() {
       ..writeAsStringSync('AAAA');
     final prefsFile = File('${tmp.path}/shared_preferences.json')
       ..writeAsStringSync('{}');
+    final logFile = File('${tmp.path}/bnb-wallet-log.bin')
+      ..writeAsStringSync('BNBLOG01fake');
+    final orphanVaultTemp = File('${tmp.path}/.bnb-wallet-vault.bnb-deadbeef')
+      ..writeAsStringSync('orphan');
+    final orphanLogTemp = File('${tmp.path}/.bnb-wallet-log.bin-deadbeef')
+      ..writeAsStringSync('orphan');
     expect(await AppStorage.vaultExists(), isTrue);
 
     final leftovers = await AppStorage.eraseAllData();
@@ -60,6 +66,9 @@ void main() {
     expect(await tmpVault.exists(), isFalse);
     expect(await drawer.exists(), isFalse);
     expect(await prefsFile.exists(), isFalse);
+    expect(await logFile.exists(), isFalse);
+    expect(await orphanVaultTemp.exists(), isFalse);
+    expect(await orphanLogTemp.exists(), isFalse);
     expect(await AppStorage.vaultExists(), isFalse);
     final prefs = await SharedPreferences.getInstance();
     for (final key in [

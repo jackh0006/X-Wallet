@@ -1,20 +1,23 @@
 # Android release and signing
 
-Status: current release line **1.5.0**. This page describes the release
+Status: current release line **1.5.3**. This page describes the release
 identity and the owner actions. It never contains private key material.
 
 ## Current release signer
 
 - Certificate SHA-256:
-  `db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3`
-- Used by the 1.4.0–1.4.2 public APKs and the 1.5.0 candidate.
+  `2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a`
+- Used by the 1.5.3 APKs.
+- The 1.5.1 identity (`db12869c…9748d3`) is a different certificate. Android
+  will not install 1.5.3 as an in-place upgrade over 1.5.1. Export a portable
+  backup, uninstall the old app, then install 1.5.3.
 - Verify:
 
 ```bash
 ANDROID_BUILD_TOOLS="$HOME/Android/Sdk/build-tools/36.0.0" \
   bash scripts/verify-android-signer.sh \
-  x-wallet-1.5.0-android-arm64.apk \
-  --allow db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3 \
+  x-wallet-1.5.3-android-arm64.apk \
+  --allow 2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a \
   --deny release/android-signer-denylist.txt \
   --require-deny
 ```
@@ -38,14 +41,15 @@ BNB_KEYSTORE=/secure/x-wallet-release.jks \
 BNB_KEY_ALIAS=x-wallet \
 BNB_STORE_PASS='…' \
 BNB_KEY_PASS='…' \
-BNB_EXPECTED_SIGNER_SHA256=db12869c9127914ff2b8f64cc0a14ddc9be481bf8b4713fb26bb0bd0bd9748d3 \
+BNB_EXPECTED_SIGNER_SHA256=2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a \
 BNB_RELEASE_OWNER_APPROVED=1 \
 BNB_GPG_KEY=CC819EF5E109A1518E840379D8C0CEC84BCCE06B \
-BNB_OUTDIR=/secure/x-wallet-1.5.0 \
+BNB_OUTDIR=/secure/x-wallet-1.5.3 \
   bash scripts/build-apk.sh
 ```
 
-The script builds arm64 and universal APKs, verifies every ABI, signs with
+The script builds arm64 and an ARM-only universal APK (arm64 + armeabi-v7a;
+x86_64 is deliberately excluded to keep the download smaller), verifies every ABI, signs with
 apksigner v3, verifies the certificate, and writes a detached `.asc` when a GPG
 key is supplied.
 

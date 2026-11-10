@@ -34,10 +34,11 @@ engineering work, not an audit opinion.
 
 | Version | Status |
 |---|---|
-| `1.5.1` | Current release candidate; signed Linux package and Android APKs; owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| `1.5.3` | Current release; signed Linux package and Android APKs; owner key `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| `1.5.1` | Previous release; Android APKs used the older `db12869c…9748d3` signer |
 | `1.2.0` | Previous stable release; superseded by 1.3.0 |
 | `1.0.10` and earlier | Historical; use their release notes and do not treat old results as evidence for a new build |
-| Any Android APK | **Blocked** until the historical signing key is rotated and denylisted |
+| Any APK signed by the historical `10c13aa9…25b85` key | **Blocked and denylisted** |
 
 ## Key rotation
 

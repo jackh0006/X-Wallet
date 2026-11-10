@@ -63,8 +63,10 @@ Where deviceSecret lives: Android/iOS keep it in the platform keyring
 macOS, Windows) deliberately keep it in an owner-only (0600) drawer file
 beside the vault in the app's data directory — the Linux keyring plugin
 performs libsecret calls synchronously inside the GTK window thread, which
-froze weak machines mid-wallet-creation. Machine binding either way: a
-copied vault is inert without the secret from THIS machine. Existing vaults
+froze weak machines mid-wallet-creation. Machine binding is defense-in-depth, not a required second factor: on Linux
+the device secret is an owner-only file beside the vault, so an attacker who
+copies the whole data directory and knows the password can open the vault.
+The password wrapper alone is sufficient to recover the payload. Existing vaults
 migrate once (keyring → drawer on the first vault operation after the
 update); if a vault's keyring secret cannot be read, the wallet retries once
 and FAILS CLOSED — it never mints a replacement that would orphan the vault.
@@ -111,9 +113,11 @@ Tests:
 A time-out, OOM, or native-library crash is recorded as `FAILED` or
 `INCOMPLETE`; it is never treated as a passing KDF test.
 
-Decryption opens BOTH wrappers and then compares the two recovered DEKs in
+Decryption opens both wrappers and compares the two recovered DEKs in
 constant time; a mismatch ("both boxes authenticate but disagree") is a
-tampering indicator and fails closed. Any failure surfaces one generic
+tampering indicator and fails closed. The payload is then decrypted with the
+password-derived DEK, so the password wrapper is sufficient on its own; the
+device wrapper is an additional at-rest factor, not a required one. Any failure surfaces one generic
 message — "Wrong password, device key unavailable, or corrupted vault" — so
 there is no oracle that says which factor was wrong.
 
@@ -239,7 +243,8 @@ new one.
 
 1. Overwrite vault + `.tmp` with CSPRNG bytes of equal size (best effort;
    flash wear-leveling prevents guarantees) then unlink both.
-2. Delete secure-storage keys (crypto-erasure of the DEK's device factor).
+2. Delete secure-storage keys. This removes the device factor; it does NOT
+   make a retained vault copy undecryptable with the password.
 3. Remove every preference key the app owns.
 4. Clear in-memory caches and UI state.
 

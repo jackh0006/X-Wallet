@@ -196,6 +196,46 @@ class _ActivityPageState extends State<ActivityPage>
     );
   }
 
+  Future<void> _checkPending(PendingTx tx) async {
+    final confirmed = await appState.checkPendingTx(tx.hash);
+    if (!mounted) return;
+    if (confirmed) {
+      showInfo(context, 'Confirmed on-chain. The waiting row was removed.');
+      return;
+    }
+    final discard = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Not confirmed yet'),
+        content: Text(
+          'No receipt was found for:\n\n${tx.hash}\n\n'
+          'The node may not have seen it, or it may still be pending. '
+          'Do not resend until you have checked this hash on an explorer. '
+          'Discarding this row does not cancel anything on-chain.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Keep waiting'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Discard row'),
+          ),
+        ],
+      ),
+    );
+    if (discard == true) {
+      await appState.removePendingTx(tx.hash);
+      if (mounted) {
+        showInfo(
+          context,
+          'Waiting row discarded. The transaction was not cancelled.',
+        );
+      }
+    }
+  }
+
   Widget _activityTile(_ActivityRow row) {
     final scheme = Theme.of(context).colorScheme;
     final receipt = row.receipt;
@@ -203,18 +243,27 @@ class _ActivityPageState extends State<ActivityPage>
     final symbol = receipt?.assetSymbol ?? pending?.assetSymbol ?? 'BNB';
     final amount = receipt?.amountHuman ?? pending?.amountHuman ?? '—';
     final isPending = pending != null;
+    final unknown =
+        pending != null &&
+        (pending.status == 'unknown' || pending.status == 'signed');
     final failed = receipt != null && receipt.status != 'success';
-    final status = isPending
+    final status = unknown
+        ? 'Unconfirmed'
+        : isPending
         ? 'Pending'
         : failed
         ? 'Failed'
         : 'Done';
-    final color = isPending
+    final color = unknown
+        ? scheme.error
+        : isPending
         ? const Color(0xFFB45309)
         : failed
         ? scheme.error
         : const Color(0xFF15803D);
-    final icon = isPending
+    final icon = unknown
+        ? Icons.help_outline_rounded
+        : isPending
         ? Icons.schedule_rounded
         : failed
         ? Icons.error_outline_rounded
@@ -243,7 +292,9 @@ class _ActivityPageState extends State<ActivityPage>
           style: const TextStyle(fontWeight: FontWeight.w700),
         ),
         subtitle: Text(
-          isPending
+          unknown
+              ? 'Broadcast result unknown — check before resending'
+              : isPending
               ? 'Waiting for confirmation'
               : '${row.timeLabel} · ${receipt!.confirmations} confirmation'
                     '${receipt.confirmations == 1 ? '' : 's'}',
@@ -271,6 +322,21 @@ class _ActivityPageState extends State<ActivityPage>
             if (receipt != null) ...[
               const SizedBox(height: 4),
               const Icon(Icons.chevron_right_rounded, size: 18),
+            ],
+            if (unknown) ...[
+              const SizedBox(height: 4),
+              SizedBox(
+                height: 28,
+                child: TextButton(
+                  onPressed: () => _checkPending(pending),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text('Check', style: TextStyle(fontSize: 11)),
+                ),
+              ),
             ],
           ],
         ),

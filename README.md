@@ -10,15 +10,20 @@
   [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
   [![Platform](https://img.shields.io/badge/platform-Linux%20amd64%20%7C%20Android-lightgrey)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/jackh0006/X-Wallet?label=OpenSSF%20Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/jackh0006/X-Wallet)
-  [![Tests](https://img.shields.io/badge/tests-62%20files%20%7C%20354%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
+  [![Tests](https://img.shields.io/badge/tests-67%20files%20%7C%20382%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.5.1+14** · 62 test files · 354 test declarations
+> **X Wallet 1.5.3+15** · 67 test files · 382 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
-![X Wallet 1.5.1 on Linux](docs/screenshots/linux-home-1.5.0.png)
+
+> **Security status:** internal self-assessment, not an independent audit.
+> 1.5.3 is **not approved for large amounts**. The evidence and the remaining
+> gaps are listed in [the claim register](docs/CLAIM_REGISTER.md).
+
+![X Wallet 1.5.3 on Linux](docs/screenshots/linux-home-1.5.0.png)
 
 
 ## Contents
@@ -64,7 +69,7 @@ phone and on their desktop, without an account or a cloud.
   at rest with Argon2id and XChaCha20-Poly1305.
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
-- **Evidence, not slogans.** 62 test files, 354 test declarations, mutation
+- **Evidence, not slogans.** 67 test files, 382 test declarations, mutation
   testing, CodeQL, SBOM, a reproducible build, and an independent ethers.js
   cross-check.
 - **Android hardening.** Native Argon2id, background/idle vault lock, 6-digit
@@ -108,9 +113,18 @@ independent channel before trusting it.
 
 Download the APK that matches the phone:
 
-- `x-wallet-1.5.1-android-arm64.apk` — almost every modern Android phone,
+- `x-wallet-1.5.3-android-arm64.apk` — almost every modern Android phone,
   including the Huawei Y9 2019.
-- `x-wallet-1.5.1-android-universal.apk` — if you are not sure about the CPU.
+- `x-wallet-1.5.3-android-universal.apk` — ARM 32-bit and 64-bit phones if you
+  are not sure about the CPU. It no longer carries the x86_64 emulator slice,
+  so it is smaller than the 1.5.1 universal build.
+
+**1.5.3 uses a new Android signing identity**
+(`2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a`).
+Android will not install it as an in-place upgrade over a 1.5.1 build signed
+by `db12869c…9748d3`. Export a portable backup first, then uninstall the old
+app and install 1.5.3. Uninstalling removes app data; the backup is the
+recovery path.
 
 The Android app uses the same logo, label, vault, tokens, spending controls,
 English-only UI, and cold-signing protocol as Linux. It ships the native
@@ -137,7 +151,7 @@ payloads, so the app never needs broad storage permission.
 ### Encrypted local vault
 
 The vault uses Argon2id (64 MiB, t=3, p=4) and XChaCha20-Poly1305 with a
-double-wrapped envelope: a password-derived layer and a device-bound layer.
+two AEAD wrappers around a random data key: the password wrapper opens the payload, and the device wrapper adds at-rest defense in depth. The device wrapper is not a required second factor.
 Writes are atomic, permissions are hardened, and the v1 vault format migrates
 on save.
 
@@ -150,7 +164,7 @@ state are part of the flow.
 
 ### Cold and offline signing
 
-The offline signer has no network path. The online companion prepares the
+Cold mode blocks every app-initiated network call (RPC, prices, explorer history and node probes). The binary still links networking code; OS-level isolation is documented in the cold-wallet guide. The online companion prepares the
 request and broadcasts the signed result. Pairing, expiry, replay protection,
 and field allowlists are enforced, and a separate ethers.js implementation
 reconstructs and verifies the signed bytes.
@@ -171,7 +185,7 @@ Lock, PIN backoff, idle lock, and erase-all-data controls are built in.
 | Control | Implementation |
 |---|---|
 | Vault key derivation | Argon2id, 64 MiB, t=3, p=4 |
-| Vault encryption | XChaCha20-Poly1305, double-wrapped envelope, authenticated header |
+| Vault encryption | XChaCha20-Poly1305, two AEAD wrappers, authenticated header |
 | Device binding | Device secret in the platform secure store, separate from the vault file |
 | Storage | Atomic writes, restrictive permissions, no-follow checks, process lock |
 | Transaction integrity | Local signing with chain, nonce, recipient, value, fee, and calldata checks |
@@ -194,8 +208,8 @@ Actions run. No new tests were invented for this page.
 |---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 52/52 files, 0 failed, 0 timed out, 674 s | Unit, widget, vault, network, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 62 files / 354 declarations | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 66/66 files, 0 failed, 0 timed out | Unit, widget, vault, network, and security tests pass. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 67 files / 382 declarations | Every test file is accounted for; none is silently missing. |
 | ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 97 s | Deliberately broken security checks are caught. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
@@ -205,7 +219,7 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Production KDF | `test/kdf_production_test.dart` — native Argon2id 64 MiB, t=3, p=4 | Real key derivation works and the pure-Dart path agrees. |
-| ✅ PASS | Independent cold signature | `verification/` ethers.js oracle — 8 substitutions rejected | A separate implementation rebuilds and verifies signed transactions; tampering fails. |
+| ✅ PASS | Independent cold signature | `verification/` ethers.js oracle — 8 substitutions rejected | A separate ethers.js implementation verifies one published fixture and rejects eight field substitutions. It is a cross-check, not a live differential test of the Dart codec. |
 | ✅ PASS | Cold wallet protocol/service | `cold_wallet_protocol_test`, `cold_wallet_service_test` | Pairing, expiry, replay, substitution, persistence, and broadcast rules are enforced. |
 | ✅ PASS | Backup/restore E2E | `test/backup_restore_e2e_test.dart` — 4/4 | Create, backup, wipe, restore, wrong password, tamper, and truncation cases pass. |
 | ✅ PASS | Release signing tools | `bash scripts/test_release_signing.sh` — 6 cases | Valid signatures pass; wrong key, tampered package/sums, missing signature, and unknown key are rejected. |
@@ -260,13 +274,13 @@ local key custody, and a built-in cold-signing workflow.
 | **Native Linux `.deb` and Android APK** | The same wallet, logo, colors, English-only UI, vault, tokens, and cold protocol on desktop and phone. |
 | **Built-in cold/offline signing** | The offline signer and online companion live in one open-source codebase. |
 | **Tor / SOCKS5 / proxy routing** | Privacy is a first-class setting, with fail-closed routing. |
-| **Double-wrapped local vault** | Argon2id plus XChaCha20-Poly1305, with a device-bound layer. |
+| **Two-wrapper local vault** | Argon2id plus XChaCha20-Poly1305; the password opens the payload and the device secret adds at-rest defense in depth. |
 | **Exact transaction review** | Full recipient, chain, nonce, fee, maximum-cost, and calldata checks before signing. |
 | **Encrypted local history** | Activity logs and receipts are protected at rest. |
 | **No account, no KYC, no ads** | No sign-up, no subscription, no paywall, and no analytics SDK in the locked dependency inventory. |
 | **Open source and reproducible** | AGPL-3.0-or-later, SBOM, checksums, and a fixed-path reproducible build. |
 | **Data-preserving package migration** | Upgrading from the previous package keeps existing wallet data and compatibility aliases. |
-| **354 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
+| **382 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
 
 ### Compared by wallet style
 

@@ -26,7 +26,7 @@
 |-------|--------|----------|
 | Vault uses Argon2id (64 MiB, t=3, p=4) + XChaCha20-Poly1305 | **TESTED** | `lib/vault.dart`, `test/vault_test.dart` (9 tests), `test/kdf_production_test.dart` |
 | Argon2id runs on the reference native library, with pure-Dart fallback | **TESTED** | `lib/kdf.dart`, `test/kdf_production_test.dart` (native vs pure-Dart agreement, 344 ms measured) |
-| Vault v2 (BNBVL004) double-wrapped (password + device secret) | **TESTED** | `lib/vault.dart`, `test/vault_test.dart` |
+| Vault v2 (BNBVL004) has two AEAD wrappers; the password wrapper opens the payload and the device wrapper is defense-in-depth | **TESTED** | `lib/vault.dart`, `test/vault_test.dart` |
 | Vault v1 (BNBVL003) read-only migration | **TESTED** | `test/vault_test.dart` legacy blob test |
 | Argon2id runs on worker isolate (off UI thread) | **TESTED** | `lib/workers.dart`, `test/workers_test.dart` (3 tests) |
 | BIP-39 seed generation (24 words, CSPRNG) | **TESTED** | `lib/wallet_core.dart`, `test/wallet_core_test.dart` |
@@ -37,8 +37,8 @@
 | EIP-1559 signing digest = keccak256(0x02 \| rlp([...])) | **VERIFIED WITH EVIDENCE** | `verification/verify.cjs` (ethers.js 6.17.0 independent) |
 | Cold response verification (field-by-field + recovery) | **TESTED** | `WalletCore.verifyColdSignatureDetailed`, 15 service tests |
 | Cold replay protection (single-use request ID + burn list) | **TESTED** | `lib/cold_wallet_service.dart`, `test/cold_wallet_service_test.dart` |
-| No private keys/seed in logs, URLs, clipboard, network | **TESTED** | `ClipboardGuard.secretFree()`, `lib/screens/common.dart` |
-| App-lock PIN: Argon2id (same params) + exponential backoff | **TESTED** | `lib/security.dart`, `lib/storage.dart` |
+| No private keys/seed in logs or network; clipboard copies require an explicit warning and clear after 15 s | **TESTED** | `test/log_canary_test.dart`, `test/clipboard_guard_test.dart`, `lib/screens/wallet_page.dart` |
+| App-lock PIN: Argon2id (same params) + exponential backoff | **PARTLY** | `lib/security.dart`, `lib/storage.dart`; backoff persistence has no dedicated test yet |
 
 ---
 
@@ -46,7 +46,7 @@
 
 | Claim | Status | Evidence |
 |-------|--------|----------|
-| All outbound traffic through `NetworkPrivacyManager` | **IMPLEMENTED** | `lib/net/privacy_client.dart`, `lib/rpc_service.dart` |
+| All outbound HTTP construction is in `lib/net/privacy_client.dart` | **TESTED** | `lib/net/privacy_client.dart`; `test/data_boundary_test.dart` |
 | Direct HTTPS with certificate validation | **TESTED** | `test/tls_pinning_test.dart` (standard validation first) |
 | TLS SPKI pinning (after standard CA/hostname validation) | **TESTED** | `test/tls_pinning_test.dart` (6/6: pin cannot bypass CA/hostname) |
 | Fixed v3 cert SPKI index (was hashing extensions) | **VERIFIED WITH EVIDENCE** | Dart pin == OpenSSL `x509 -pubkey \| pkey -outform DER \| dgst -sha256` |
@@ -55,7 +55,7 @@
 | Tor via system daemon (SOCKS5, fail-closed) | **IMPLEMENTED** | `lib/net/privacy_client.dart`, `lib/tor_manager.dart` |
 | Tor bridges (obfs4, WebTunnel via Tor config) | **IMPLEMENTED** | Documented in settings; Tor handles bridges |
 | Strict Privacy Mode (all traffic, no fallback) | **IMPLEMENTED** | `lib/app_state.dart` enforces route |
-| Offline Mode (blocks all outbound at network layer) | **IMPLEMENTED** | `RpcService.setOffline(true)`, `connect()` fails closed |
+| Cold mode blocks all app-initiated network calls (RPC, prices, explorer, probes) | **TESTED** | `RpcService.setOffline`, `PriceService` cold gate; the binary still links network code |
 | No identifying headers (User-Agent scrubbed) | **TESTED** | `test/ua_scrub_test.dart` |
 | DNS leak prevention (SOCKS5h, Tor remote resolve) | **IMPLEMENTED** | `lib/net/privacy_client.dart` |
 | Chain ID validated on every RPC connect | **TESTED** | `lib/rpc_service.dart`, `test/nodes_test.dart` |
@@ -68,10 +68,10 @@
 | Claim | Status | Evidence |
 |-------|--------|----------|
 | Vault file atomic write (tmp → rename, fsync, 0600) | **TESTED (Linux)** | `lib/storage.dart::atomicWrite`, `test/filesystem_security_test.dart` (23 focused tests, 2026-11-04); Linux refuses native-helper unavailability rather than silently using the portable pipeline. |
-| Vault double AEAD (password KEK + device KEK) | **TESTED** | `lib/vault.dart`, `test/vault_test.dart` |
+| Vault has two AEAD wrappers (password KEK + device KEK); either opens the shared DEK | **TESTED** | `lib/vault.dart`, `test/vault_test.dart` |
 | Device secret in platform secure storage | **TESTED** | `lib/storage.dart` (flutter_secure_storage) |
 | Desktop: device secret in owner-only drawer file (0600) | **TESTED** | `lib/storage.dart::atomicWrite` for drawer; staged `.deb` first-run |
-| Crypto-erasure on "Erase All Data" (delete device secret) | **TESTED** | `lib/storage.dart`, `test/erase_flow_test.dart` |
+| Erase-all removes every vault, log, temp and the device secret; a retained vault copy plus the password is still decryptable | **TESTED** | `lib/storage.dart`, `test/erase_flow_test.dart` |
 | Best-effort overwrite before unlink | **TESTED** | `lib/storage.dart::_shredAndUnlink`, `test/filesystem_security_test.dart` |
 | Preferences: public config only (no secrets) | **TESTED** | `lib/storage.dart` (SharedPreferences) |
 | Secure storage: only device_secret, PIN hash, backoff, BscScan key | **TESTED** | `lib/storage.dart` |
