@@ -1,5 +1,9 @@
 # Security Self-Assessment — X Wallet
 
+> **Superseded for release status by `docs/CLAIM_REGISTER.md` and
+> `docs/HARDENING_REPORT.md` (1.5.3).** This page records the 2026-11-03
+> self-assessment; it is not an audit and some claims in it were downgraded.
+
 Date: 2026-11-03
 Scope: Linux cold-wallet transaction path, transaction verification, TLS
 pinning, process memory hardening, and Debian release-signing hygiene.

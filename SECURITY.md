@@ -14,7 +14,28 @@ Email jackh109867@gmail.com with:
 - impact and any suggested mitigation.
 
 The maintainer will acknowledge reports privately, assess impact, prepare a
-fix, and coordinate disclosure with the reporter. There is no bounty program.
+fix, and coordinate disclosure with the reporter. Target first response:
+within 7 days; fix or mitigation plan for a confirmed high issue: within 30
+days. There is no bounty program, and this project does not claim a funded
+bounty or a long public track record.
+
+### PGP
+
+Release and report key fingerprint:
+
+```
+CC819EF5E109A1518E840379D8C0CEC84BCCE06B
+```
+
+Public key: `docs/keys/x-wallet-signing-key.asc`. Verify the fingerprint
+through an independent channel before trusting it. Encrypt sensitive report
+details to this key if you can.
+
+### Safe harbour
+
+Good-faith research on your own test keys, a local node, and testnet is
+welcome. Do not test against other people's wallets, mainnet funds, or
+third-party infrastructure without permission.
 
 ## Security status
 

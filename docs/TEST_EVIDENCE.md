@@ -1,5 +1,10 @@
 # X Wallet Test Evidence
 
+> **1.5.3 update:** the current counts and the new regression tests are in
+> `docs/HARDENING_BASELINE.md`, `docs/CLAIM_REGISTER.md`, and
+> `docs/PROOF_MATRIX.md`. Older figures below are historical and must not be
+> read as evidence for the 1.5.3 tree.
+
 This page collects the checks that have already passed for X Wallet. Every
 entry names the command or evidence source so the result can be inspected.
 No result on this page was invented, and the checks are not a substitute for
