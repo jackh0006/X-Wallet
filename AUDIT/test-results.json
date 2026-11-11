@@ -1,0 +1,110 @@
+{
+  "auditBranch": "audit/1.5.3-self-audit",
+  "baselineCommit": "8583393bf3dc98400bc772346ea7608ad1c104be",
+  "generatedAt": "2026-11-11",
+  "newRegressionTests": [
+    {
+      "file": "test/audit_regressions_test.dart",
+      "status": "PASS",
+      "tests": 8
+    },
+    {
+      "file": "test/erase_all_appstate_test.dart",
+      "status": "PASS",
+      "tests": 1
+    }
+  ],
+  "schemaVersion": 1,
+  "static": [
+    {
+      "command": "dart format --output=none --set-exit-if-changed lib test tool",
+      "id": "format",
+      "status": "PASS"
+    },
+    {
+      "command": "flutter analyze --no-pub",
+      "id": "analyze",
+      "status": "PASS"
+    },
+    {
+      "command": "bash scripts/secret-scan.sh",
+      "id": "secret-scan",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 scripts/dependency-audit.py",
+      "id": "dependency-audit",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 scripts/license-check.py --dart-only",
+      "id": "license",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 scripts/sbom.py --out docs/SBOM.json",
+      "id": "sbom",
+      "status": "PASS"
+    },
+    {
+      "command": "cd verification && npm ci && node verify.cjs",
+      "id": "cold-signature",
+      "status": "PASS"
+    },
+    {
+      "command": "BNB_REPRO_PATH=/tmp/bnb-repro-1.5.3 bash scripts/reproducibility-check.sh b84c6fe",
+      "id": "reproducibility",
+      "status": "PASS_FIXED_PATH"
+    },
+    {
+      "command": "XVFB_BIN=... bash scripts/package-launch-smoke.sh <deb>",
+      "id": "package-launch",
+      "status": "PASS"
+    },
+    {
+      "command": "ANVIL_URL=... flutter test --tags integration",
+      "id": "anvil",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "scripts/package-smoke.sh",
+      "id": "apt-install-smoke",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "strace/tcpdump full session",
+      "id": "pcap-strace",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "second machine rebuild",
+      "id": "independent-rebuild",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "install APK on device",
+      "id": "physical-android",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "assistive technology session",
+      "id": "screen-reader",
+      "status": "BLOCKED"
+    },
+    {
+      "command": "external firm",
+      "id": "independent-audit",
+      "status": "NOT DONE"
+    }
+  ],
+  "suite": {
+    "command": "bash scripts/test-suite-fast.sh",
+    "declarations": 391,
+    "exitCode": 0,
+    "failed": 0,
+    "log": "/tmp/xw-audit-final-suite.log",
+    "nonIntegrationFiles": 68,
+    "totalFiles": 69
+  },
+  "version": "1.5.3+15"
+}

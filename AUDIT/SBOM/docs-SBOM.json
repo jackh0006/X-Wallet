@@ -1,0 +1,2959 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04"
+        }
+      ],
+      "name": "args",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/args@2.7.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cfb3cf6a53158918d52dda61bc26f0cc8612a0d3b9dc29e87eaa3423902ca636"
+        }
+      ],
+      "name": "asn1lib",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/asn1lib@1.6.8",
+      "scope": "required",
+      "type": "library",
+      "version": "1.6.8"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37"
+        }
+      ],
+      "name": "async",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/async@2.13.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.13.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e5ff21f3bd2f4fa063db1f851f0d7a736d46d2e81617f0613ab3f6d17b26608e"
+        }
+      ],
+      "name": "bip32_plus",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/bip32_plus@1.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0fe4ac6c9f2e5b3fb65783371c806007acbcfb66590f4121f577adf5e4523f96"
+        }
+      ],
+      "name": "bip39_mnemonic",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/bip39_mnemonic@4.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "4.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8aab1771e1243a5063b8b0ff68042d67334e3feab9e95b9490f9a6ebf73b42ea"
+        }
+      ],
+      "name": "boolean_selector",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/boolean_selector@2.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c4a164d42b25c2f6bc88a8beccb9fc7d01440f3c60ba23663a20a70faf484ea9"
+        }
+      ],
+      "name": "bs58check",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/bs58check@1.0.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.0.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "faf38497bda5ead2a8c7615f4f7939df04333478bf32e4173fcb06d428b5716b"
+        }
+      ],
+      "name": "characters",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/characters@1.4.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e51d50bca3217c9a9fa2b41a30e4a38971133f5f9ec7a3d57bae095007f1d28e"
+        }
+      ],
+      "name": "clock",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/clock@1.1.3",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "828110d598123b5ea96c00c9f3c72105bf79f8ee36c20a39b26209ade421ec57"
+        }
+      ],
+      "name": "code_assets",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/code_assets@2.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76"
+        }
+      ],
+      "name": "collection",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/collection@1.19.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.19.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b30acd5944035672bc15c6b7a8b47d773e41e2f17de064350988c5d02adb1c68"
+        }
+      ],
+      "name": "convert",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/convert@3.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "3.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e3626ae6270383c9e3a549f34c9e4cd26c09ae6a9adaab2bf4737a00340efdc4"
+        }
+      ],
+      "name": "crypto",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/crypto@3.0.8",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.8"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3eda3029d34ec9095a27a198ac9785630fe525c0eb6a49f3d575272f8e792ef0"
+        }
+      ],
+      "name": "cryptography",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/cryptography@2.9.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.9.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a105fc3837782d02fff09a4aa355181c882962bf2a31c58f1905c401a6d1d6e5"
+        }
+      ],
+      "name": "dargon2_core",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_core@2.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2ec4ed0cf5d80f92758ba2b2c600f237c35849aa723563ffe4c73e02d1904c0c"
+        }
+      ],
+      "name": "dargon2_flutter",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_flutter@3.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ca4a064f5b8e1fa1be62e5be50599567e13b68dca26eec31cbbc0928a276e777"
+        }
+      ],
+      "name": "dargon2_flutter_desktop",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_flutter_desktop@3.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "22b1b5229371c229cb55ca214262c6cb2189d40f7ef4ab87c1bea75bc2c582bf"
+        }
+      ],
+      "name": "dargon2_flutter_mobile",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_flutter_mobile@3.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d9fa9193c7c263a57d53411ccac0339e353e5b199426d861f8649f31564eeef7"
+        }
+      ],
+      "name": "dargon2_flutter_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_flutter_platform_interface@3.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c2607b07047f2937fc8ee0845b7b19fd80c26bf87f122473ee3cf307b8bc3249"
+        }
+      ],
+      "name": "dargon2_flutter_web",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_flutter_web@3.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e352efec19afac3fba5b4c1d4833bec7825ac43bdec88f33117cd68dfccfca40"
+        }
+      ],
+      "name": "dargon2_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/dargon2_interface@1.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c2b81ac85f3e0e71aaf558201dd9a4600f051ece7ebacd0c5d70065c9b458004"
+        }
+      ],
+      "name": "eip1559",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/eip1559@0.6.2",
+      "scope": "required",
+      "type": "library",
+      "version": "0.6.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a81d6afe386ec965e584541fe8f19719bed8a7ae23a5f5061112e96c50e6521b"
+        }
+      ],
+      "name": "eip55",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/eip55@1.0.3",
+      "scope": "required",
+      "type": "library",
+      "version": "1.0.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5368f224a74523e8d2e7399ea1638b37aecfca824a3cc4dfdf77bf1fa905ac44"
+        }
+      ],
+      "name": "fake_async",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/fake_async@1.3.3",
+      "scope": "required",
+      "type": "library",
+      "version": "1.3.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6d7fd89431262d8f3125e81b50d3847a091d846eafcd4fdb88dd06f36d705a45"
+        }
+      ],
+      "name": "ffi",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/ffi@2.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4093d4ef9ca06ffe2786e73bfb25e22aa92112b9bb4ec941f11e3e6b61489a97"
+        }
+      ],
+      "name": "ffi_leak_tracker",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/ffi_leak_tracker@0.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "0.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a3b4f84adafef897088c160faf7dfffb7696046cb13ae90b508c2cbc95d3b8d4"
+        }
+      ],
+      "name": "file",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/file@7.0.1",
+      "scope": "required",
+      "type": "library",
+      "version": "7.0.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b6dc7065e46c974bc7c5f143080a6764ec7a4be6da1285ececdc37be96de53be"
+        }
+      ],
+      "name": "fixnum",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/fixnum@1.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "name": "flutter",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": ""
+        }
+      ],
+      "purl": "pkg:dart/flutter@0.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
+        }
+      ],
+      "name": "flutter_lints",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct dev"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_lints@6.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "6.0.0"
+    },
+    {
+      "name": "flutter_localizations",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": ""
+        }
+      ],
+      "purl": "pkg:dart/flutter_localizations@0.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3854fe5e3bff0b113c658f260b90c95dea17c92db0f2addeac2e343dd9969785"
+        }
+      ],
+      "name": "flutter_plugin_android_lifecycle",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_plugin_android_lifecycle@2.0.35",
+      "scope": "required",
+      "type": "library",
+      "version": "2.0.35"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d4e1fb6b2cb524868929e78dc0282fa000554b22060fb53789dc481c9fc95bb8"
+        }
+      ],
+      "name": "flutter_secure_storage",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage@11.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "11.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a031ceac9b070e62ef183cd7f7d1a8798ebde402d5049f0fe6eb3a51bd797a21"
+        }
+      ],
+      "name": "flutter_secure_storage_darwin",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage_darwin@0.4.3",
+      "scope": "required",
+      "type": "library",
+      "version": "0.4.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "caa75bd78f017422912e3a904933113b2428eb79f981ac37acd2dd2a700458ea"
+        }
+      ],
+      "name": "flutter_secure_storage_linux",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage_linux@3.0.3",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "64951127f001f546891c86f414972bf49ef2c4c8a4c92c65f5790cc0c9100045"
+        }
+      ],
+      "name": "flutter_secure_storage_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage_platform_interface@2.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "073a62b3aeb866ab4ce795f960413948e51e5a42a9b0c8333b6daf5bb3208a1c"
+        }
+      ],
+      "name": "flutter_secure_storage_web",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage_web@2.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "471951813a97006d899db4948acc654a4f28c440083ea08178935ce20b173ec1"
+        }
+      ],
+      "name": "flutter_secure_storage_windows",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/flutter_secure_storage_windows@4.2.2",
+      "scope": "required",
+      "type": "library",
+      "version": "4.2.2"
+    },
+    {
+      "name": "flutter_test",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct dev"
+        },
+        {
+          "name": "download_source",
+          "value": ""
+        }
+      ],
+      "purl": "pkg:dart/flutter_test@0.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.0"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": ""
+        }
+      ],
+      "purl": "pkg:dart/flutter_web_plugins@0.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4e7cd54e4b59ba026432a6be2dd9d96e4c5205725194997193bf871703b82c4a"
+        }
+      ],
+      "name": "hex",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/hex@0.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "eaac480a35ec0814146c2c48d96aaa829e0e44a7662c88ae84c9edf4bc35651f"
+        }
+      ],
+      "name": "hooks",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/hooks@2.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
+        }
+      ],
+      "name": "http",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/http@1.6.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571"
+        }
+      ],
+      "name": "http_parser",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/http_parser@4.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "4.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1ca20c894b1717686a2319b8548763d812bc0aabdac580420a44c5178c57a867"
+        }
+      ],
+      "name": "intl",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/intl@0.20.3",
+      "scope": "required",
+      "type": "library",
+      "version": "0.20.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2e91e6087291affd10b31b6c872f3e3ac7dc5d93b51b5ba485d930c8f08bde6c"
+        }
+      ],
+      "name": "jni",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/jni@1.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0dd33d67797560f66e961a6053882d4df54bd345bf063b8fe7ea133f7ad8b191"
+        }
+      ],
+      "name": "jni_flutter",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/jni_flutter@1.0.4+1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.0.4+1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1ba86da04a5f2bf18fde2edb235587e70c5b0fc5bd4ba955f46b00942c3fc35f"
+        }
+      ],
+      "name": "jni_util",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/jni_util@1.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3"
+        }
+      ],
+      "name": "js",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/js@0.6.7",
+      "scope": "required",
+      "type": "library",
+      "version": "0.6.7"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "82dfd37d3b2e5030ae4729e1d7f5538cbc45eb1c73d618b9272931facac3bec1"
+        }
+      ],
+      "name": "json_rpc_2",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/json_rpc_2@4.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "4.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"
+        }
+      ],
+      "name": "leak_tracker",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/leak_tracker@11.0.2",
+      "scope": "required",
+      "type": "library",
+      "version": "11.0.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
+        }
+      ],
+      "name": "leak_tracker_flutter_testing",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/leak_tracker_flutter_testing@3.0.10",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.10"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
+        }
+      ],
+      "name": "leak_tracker_testing",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/leak_tracker_testing@3.0.2",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
+        }
+      ],
+      "name": "lints",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/lints@6.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "6.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ecf24edf2283c509ecd217e3595f6f71034b68888d28ad1dae6bfa0857b816ac"
+        }
+      ],
+      "name": "local_auth",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/local_auth@3.0.2",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e2ceb84cdecefe1bc0ddd4ac308b0f6525bbfa0a60d0e552082b2970e1fb38c2"
+        }
+      ],
+      "name": "local_auth_android",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/local_auth_android@2.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "45a9db01b57082bc9d6115cb25eb8fc0b72f43e5f330819bdd8352ecdae87589"
+        }
+      ],
+      "name": "local_auth_darwin",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/local_auth_darwin@2.0.5",
+      "scope": "required",
+      "type": "library",
+      "version": "2.0.5"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f98b8e388588583d3f781f6806e4f4c9f9e189d898d27f0c249b93a1973dd122"
+        }
+      ],
+      "name": "local_auth_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/local_auth_platform_interface@1.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d72b8a441e5e6a679902f87c51529fcce65f442d77598484cf35454c3d733eda"
+        }
+      ],
+      "name": "local_auth_windows",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/local_auth_windows@2.0.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.0.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c8245ada5f1717ed44271ed1c26b8ce85ca3228fd2ffdb75468ab01979309d61"
+        }
+      ],
+      "name": "logging",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/logging@1.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "31bd099b47c10cd1aeb55146a2d46ce0277630ecef3f7dae54ad7873f36696cd"
+        }
+      ],
+      "name": "matcher",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/matcher@0.12.20",
+      "scope": "required",
+      "type": "library",
+      "version": "0.12.20"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"
+        }
+      ],
+      "name": "material_color_utilities",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/material_color_utilities@0.13.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.13.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "307249ce4ff29d58a18e97f6345f539382eb9c9c29ecda628900f31de0443dd9"
+        }
+      ],
+      "name": "meta",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/meta@1.19.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.19.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5c80c2ad6e2c0397de5db38c6d653e69616a3397e13aa7633bf39eb668f2041b"
+        }
+      ],
+      "name": "objective_c",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/objective_c@9.6.2",
+      "scope": "required",
+      "type": "library",
+      "version": "9.6.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f096c55ebb7deb7e384101542bfba8c52696c1b56fca2eb62827989ef2353bbc"
+        }
+      ],
+      "name": "package_config",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/package_config@2.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"
+        }
+      ],
+      "name": "path",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path@1.9.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.9.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a7f4874f987173da295a61c181b8ee71dab59b332a486b391babf26a1b884825"
+        }
+      ],
+      "name": "path_provider",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider@2.1.6",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.6"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "69cbd515a62b94d32a7944f086b2f82b4ac40a1d45bebfc00813a430ab2dabcd"
+        }
+      ],
+      "name": "path_provider_android",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider_android@2.3.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.3.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2a376b7d6392d80cd3705782d2caa734ca4727776db0b6ec36ef3f1855197699"
+        }
+      ],
+      "name": "path_provider_foundation",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider_foundation@2.6.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.6.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "58c2005f147315b11e9b4a7bc889cd5203e250cba8e3f012dae259b4972b5c16"
+        }
+      ],
+      "name": "path_provider_linux",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider_linux@2.2.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "484838772624c3a4b94f1e44a3e19897fee738f2d5c4ce448443b0417f7c9dda"
+        }
+      ],
+      "name": "path_provider_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct dev"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider_platform_interface@2.1.3",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bd6f00dbd873bfb70d0761682da2b3a2c2fccc2b9e84c495821639601d81afe7"
+        }
+      ],
+      "name": "path_provider_windows",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/path_provider_windows@2.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a36d119c13416516a7b5913fbe8af8531e11633d784c550b2125f76c758524ec"
+        }
+      ],
+      "name": "platform",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/platform@3.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
+        }
+      ],
+      "name": "plugin_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/plugin_platform_interface@2.1.8",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.8"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
+        }
+      ],
+      "name": "pointycastle",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/pointycastle@4.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "4.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "261236774e8b1d69cfc6b9eabbc96c40f25e7a2d6b171f3385d4f65d5734fb24"
+        }
+      ],
+      "name": "pub_semver",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/pub_semver@2.2.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2c0189dca64a3ab08dda7acd7911c89af2374f08eb4eaded3e8ef4609f3b9c8b"
+        }
+      ],
+      "name": "qr",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/qr@3.0.3",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5095f0fc6e3f71d08adef8feccc8cea4f12eec18a2e31c2e8d82cb6019f4b097"
+        }
+      ],
+      "name": "qr_flutter",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/qr_flutter@4.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "4.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1cb8564af8d43b464294411db9217f5ec04891c6f22ee2c32d73ae05e88a6bd2"
+        }
+      ],
+      "name": "record_use",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/record_use@1.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "52a93800943642e0b5225408d0973a1837e2452b9aa8a501fdfbc8e76b6ac135"
+        }
+      ],
+      "name": "sec",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/sec@1.1.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1e85e0dccf5b4a016077fea7dfbb4a7cb39c759ac1596fcf60c06deadb7da91f"
+        }
+      ],
+      "name": "shared_preferences",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences@2.5.6",
+      "scope": "required",
+      "type": "library",
+      "version": "2.5.6"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "33b38b07d9ac7d16aff0426c61418752fd3e7a8c7dc8be786c875d6ce673b002"
+        }
+      ],
+      "name": "shared_preferences_android",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_android@2.5.4",
+      "scope": "required",
+      "type": "library",
+      "version": "2.5.4"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4e396ac6f8751ab7d2d6e27f22f32c8350b07006028d534f5221503382f1fa69"
+        }
+      ],
+      "name": "shared_preferences_foundation",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_foundation@2.6.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.6.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "580abfd40f415611503cae30adf626e6656dfb2f0cee8f465ece7b6defb40f2f"
+        }
+      ],
+      "name": "shared_preferences_linux",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_linux@2.4.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "649dc798a33931919ea356c4305c2d1f81619ea6e92244070b520187b5140ef9"
+        }
+      ],
+      "name": "shared_preferences_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_platform_interface@2.4.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c49bd060261c9a3f0ff445892695d6212ff603ef3115edbb448509d407600019"
+        }
+      ],
+      "name": "shared_preferences_web",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_web@2.4.3",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "94ef0f72b2d71bc3e700e025db3710911bd51a71cefb65cc609dd0d9a982e3c1"
+        }
+      ],
+      "name": "shared_preferences_windows",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/shared_preferences_windows@2.4.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.1"
+    },
+    {
+      "name": "sky_engine",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": ""
+        }
+      ],
+      "purl": "pkg:dart/sky_engine@0.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a4b95506cbd962fa403e862777432671d36511230c4aedd125a28ddb922e6399"
+        }
+      ],
+      "name": "socks5_proxy",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/socks5_proxy@2.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "56a02f1f4cd1a2d96303c0144c93bd6d909eea6bee6bf5a0e0b685edbd4c47ab"
+        }
+      ],
+      "name": "source_span",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/source_span@1.10.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.10.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "277654b3034d17ac6f9f1cb5595db011b1d5d41e8806866db28e0abaa101c490"
+        }
+      ],
+      "name": "stack_trace",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/stack_trace@1.12.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.12.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "969e04c80b8bcdf826f8f16579c7b14d780458bd97f56d107d3950fdbeef059d"
+        }
+      ],
+      "name": "stream_channel",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/stream_channel@2.1.4",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.4"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a00e5f18bffc764f923e7dec1038527f7fe7a1791361a7117f0358193f13d53a"
+        }
+      ],
+      "name": "stream_transform",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/stream_transform@2.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "921cd31725b72fe181906c6a94d987c78e3b98c2e205b397ea399d4054872b43"
+        }
+      ],
+      "name": "string_scanner",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/string_scanner@1.4.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0ce4712bd3be1fccfab14458059baebb400ba6c6239b65398e3464945fabbae7"
+        }
+      ],
+      "name": "synchronized",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/synchronized@3.6.1",
+      "scope": "required",
+      "type": "library",
+      "version": "3.6.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7f554798625ea768a7518313e58f83891c7f5024f88e46e7182a4558850a4b8e"
+        }
+      ],
+      "name": "term_glyph",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/term_glyph@1.2.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2a122cbe059f8b610d3a5415f42e255b6c17b1f21eee1d960f31080237fb4f11"
+        }
+      ],
+      "name": "test_api",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/test_api@0.7.12",
+      "scope": "required",
+      "type": "library",
+      "version": "0.7.12"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f9049c039ebfeb4cf7a7104a675823cd72dba8297f264b6637062516699fa006"
+        }
+      ],
+      "name": "typed_data",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/typed_data@1.4.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b4f4d2aff27d65a5fc37f400d4c09e55d7535359315acbe3b895a9add4de3a23"
+        }
+      ],
+      "name": "unorm_dart",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/unorm_dart@0.3.3",
+      "scope": "required",
+      "type": "library",
+      "version": "0.3.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e8cc955c97e06df9879140a1fe301f3d493f01b7c62dec7f46834be31d7e9fda"
+        }
+      ],
+      "name": "url_launcher",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher@6.3.3",
+      "scope": "required",
+      "type": "library",
+      "version": "6.3.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "611e87fb320b70d1dd721dc46af89c98aceccea9b31fde49e084591414e0c610"
+        }
+      ],
+      "name": "url_launcher_android",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_android@6.3.33",
+      "scope": "required",
+      "type": "library",
+      "version": "6.3.33"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8faa1aab294f1ab4040b43660c887b0418d5fa4f0cffef76a484e6aa1092eb4a"
+        }
+      ],
+      "name": "url_launcher_ios",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_ios@6.4.2",
+      "scope": "required",
+      "type": "library",
+      "version": "6.4.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "10f86fef4c2c43563fa6c211ff9cf757adf4d3ab762c56bd430664a947d70cd0"
+        }
+      ],
+      "name": "url_launcher_linux",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_linux@3.2.3",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5e835a3b869c2d70325349c81c5a45c28e20791265b67b2669da6b08c5cd5201"
+        }
+      ],
+      "name": "url_launcher_macos",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_macos@3.2.6",
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.6"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
+        }
+      ],
+      "name": "url_launcher_platform_interface",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_platform_interface@2.3.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.3.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "85c81589622fbc87c1c683aaea164d3604a7777495a79d91e39ffcdec39ddb34"
+        }
+      ],
+      "name": "url_launcher_web",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_web@2.4.3",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6c5ad3f22cd4c38e089b81963b3cd7bb83b111b2df5dce008bb066162f42e429"
+        }
+      ],
+      "name": "url_launcher_windows",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/url_launcher_windows@3.1.6",
+      "scope": "required",
+      "type": "library",
+      "version": "3.1.6"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9b129329f58692f6e6578329498a8fe9fbe98f090beb764ffbb8ee2eadd01dcd"
+        }
+      ],
+      "name": "uuid",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/uuid@4.6.0",
+      "scope": "required",
+      "type": "library",
+      "version": "4.6.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fa49e1674cb84acb900141714e6c6e1f9ae099827c24d141430ff6819db4e1bc"
+        }
+      ],
+      "name": "vector_math",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/vector_math@2.4.4",
+      "scope": "required",
+      "type": "library",
+      "version": "2.4.4"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "89b11d62e1040ee681af3b4f1c97a803ecbf010c6e8b9c5896ee5b08c3bf7b78"
+        }
+      ],
+      "name": "vm_service",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/vm_service@15.4.0",
+      "scope": "required",
+      "type": "library",
+      "version": "15.4.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "20b6d8440039726841bd23b2bac64f888ec1ce1509edcc3ed2ad1753f613521e"
+        }
+      ],
+      "name": "wallet",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/wallet@0.0.18",
+      "scope": "required",
+      "type": "library",
+      "version": "0.0.18"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7abaef6dde8f8d8c53ed06129e897f58be4e337aed171a11251db94a62fb0b43"
+        }
+      ],
+      "name": "web3dart",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/web3dart@3.0.3",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e119e82ac4795c7925103b7cf3768191f33941b99e7ccffbd6c645201d9f606b"
+        }
+      ],
+      "name": "web",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/web@1.1.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a0b93865d5644f11cf6a8c3f6db909f1ec168958b5805f6cc684adea957cd63d"
+        }
+      ],
+      "name": "win32",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/win32@6.4.0",
+      "scope": "required",
+      "type": "library",
+      "version": "6.4.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7a3f37b05d989967cdddcbb571f1ea834867ae2faa29725fd085180e0883aa15"
+        }
+      ],
+      "name": "xdg_directories",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/xdg_directories@1.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f67cdd8e07d3c6329146aaef1ba043542b3134c12489f553ca9a7435d1068aea"
+        }
+      ],
+      "name": "yaml",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/yaml@3.1.4",
+      "scope": "required",
+      "type": "library",
+      "version": "3.1.4"
+    },
+    {
+      "licenses": [
+        {
+          "license": {
+            "name": "CC0-1.0 OR Apache-2.0"
+          }
+        }
+      ],
+      "name": "argon2",
+      "properties": [
+        {
+          "name": "vendored_path",
+          "value": "android/app/src/main/cpp/argon2"
+        },
+        {
+          "name": "purpose",
+          "value": "Native Argon2id KDF for Android (offline, no network)"
+        }
+      ],
+      "purl": "pkg:generic/argon2@reference-20190702",
+      "scope": "required",
+      "type": "library",
+      "version": "reference-20190702"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "9e1081577aae1207acb9fedceca61fa5eaea492d784fc6d8baf27c3dc2c9a7ace7919a4573402e5b8a81b6bf1e295c8f3deffc452afbb2094258f53979ac7029"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "@adraffy/ens-normalize",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/@adraffy/ens-normalize/-/ens-normalize-1.11.1.tgz"
+        }
+      ],
+      "purl": "pkg:npm/@adraffy/ens-normalize@1.11.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.11.1"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "a18725acd81168cf52b0150155b6fc33a0d357b6474532ae82eadea18127718e5ceb91ce991cef4a24c4df2e4261a3d8240fc6564ae15c4a05d0cdd86bd3cc9f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "@noble/curves",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/@noble/curves/-/curves-1.2.0.tgz"
+        }
+      ],
+      "purl": "pkg:npm/@noble/curves@1.2.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "3150bc100429eccbc4726df429610d163811f8c9267fe0f5f3d5c94e4148970a2153985c05b9f56642aaeca5538b61e67b73cc185dfdd0368be766de56b22285"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "@noble/hashes",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/@noble/hashes/-/hashes-1.3.2.tgz"
+        }
+      ],
+      "purl": "pkg:npm/@noble/hashes@1.3.2",
+      "scope": "required",
+      "type": "library",
+      "version": "1.3.2"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "8cc2fbb36340ccc59cfff4122756b7a6ba64efc70e3dc846bd726c0b70ba47a3d2328a28cedbd1550133f3d826053058d523cc6aaa39b5e078b8d1cf75eb5285"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "@types/node",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/@types/node/-/node-22.7.5.tgz"
+        }
+      ],
+      "purl": "pkg:npm/@types/node@22.7.5",
+      "scope": "required",
+      "type": "library",
+      "version": "22.7.5"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "1bdeb916a6a5b0dcab3ea80418e37b9c8c757bf39510d4a0884233c82eb785a50cbaf367c088088ccb39da195308a864067cbb0363913657d8f59bbe8e61a4d5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "aes-js",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/aes-js/-/aes-js-4.0.0-beta.5.tgz"
+        }
+      ],
+      "purl": "pkg:npm/aes-js@4.0.0-beta.5",
+      "scope": "required",
+      "type": "library",
+      "version": "4.0.0-beta.5"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "069caba483c9df2744568c3ccc66b3d43b8f4bb614f03716c6e06763d6b4500fe5bc03f0accafe10f5ec7ebba5eb6f1245a7a43cd78833850587ff7519665a9e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "ethers",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/ethers/-/ethers-6.17.0.tgz"
+        }
+      ],
+      "purl": "pkg:npm/ethers@6.17.0",
+      "scope": "required",
+      "type": "library",
+      "version": "6.17.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "80b5c229d375fe3e3b0221e23a424debd84999c6c64c72342262e66d82c7ca486078dd23546a256bdc958c5833094925b1940c5b9e68f9d5bb217bf74425c3cc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "0BSD"
+          }
+        }
+      ],
+      "name": "tslib",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/tslib/-/tslib-2.7.0.tgz"
+        }
+      ],
+      "purl": "pkg:npm/tslib@2.7.0",
+      "scope": "required",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "bded8a3fa7ff2676cf045ca86c61ee7ab0bd8351581a7fc5f27d4b593c0dc4213377a21fa93c1441c357804b66990e83951ac2d61ad2ac19c264fa2446b0c78f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "undici-types",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/undici-types/-/undici-types-6.19.8.tgz"
+        }
+      ],
+      "purl": "pkg:npm/undici-types@6.19.8",
+      "scope": "required",
+      "type": "library",
+      "version": "6.19.8"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA512",
+          "content": "56ca76f1bec345c8a6150bebaaed967a4df3d626310c25aa1d807c42c9e4fd2e117da090ccf18fc8136e563255ddc77a5222ad52da7ab0d33bee05afcdc087fa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "ws",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "transitive verification"
+        },
+        {
+          "name": "download_source",
+          "value": "https://registry.npmjs.org/ws/-/ws-8.21.0.tgz"
+        }
+      ],
+      "purl": "pkg:npm/ws@8.21.0",
+      "scope": "required",
+      "type": "library",
+      "version": "8.21.0"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "description": "Local, non-custodial EVM wallet (deb).",
+      "name": "bnb_wallet_gui",
+      "type": "application",
+      "version": "1.5.3"
+    },
+    "properties": [
+      {
+        "name": "generated_from",
+        "value": "pubspec.lock, verification/package-lock.json"
+      },
+      {
+        "name": "deterministic",
+        "value": "no-timestamp -- same lock, same bytes"
+      }
+    ]
+  },
+  "serialNumber": "urn:uuid:8bb94457-abdf-5851-a3b5-09c150aebfb6",
+  "specVersion": "1.5",
+  "version": 1
+}

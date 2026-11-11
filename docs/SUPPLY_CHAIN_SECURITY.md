@@ -15,7 +15,7 @@
 | Dependency review | `actions/dependency-review-action` | PR `review` |
 | Advisory audit | `scripts/dependency-audit.py` | CI `flutter` job |
 | License inventory | `scripts/license-check.py` | CI |
-| SBOM | `scripts/sbom.py` (116 packages) | `docs/SBOM.json` |
+| SBOM | `scripts/sbom.py` (126 CycloneDX components) | `docs/SBOM.json` |
 | Provenance | `actions/attest-build-provenance` + `attest-sbom` on tag builds | `.github/workflows/release-build.yml` |
 | Reproducibility | Fixed-path two-build comparison | `scripts/reproducibility-check.sh` |
 | Release gate | `scripts/release-gate.py` | local/CI |
