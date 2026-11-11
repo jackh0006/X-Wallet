@@ -11,7 +11,7 @@ repository-code: "https://github.com/jackh0006/X-Wallet"
 url: "https://github.com/jackh0006/X-Wallet"
 license: "AGPL-3.0-or-later"
 version: "1.5.5"
-date-released: "2026-11-13"
+date-released: "2026-11-12"
 keywords:
   - wallet
   - evm
