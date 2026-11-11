@@ -1,7 +1,7 @@
-# Security scorecard — X Wallet 1.5.3
+# Security scorecard — X Wallet 1.5.5
 
-**Date:** 2026-11-10
-**Release:** X Wallet `1.5.3+15`
+**Date:** 2026-11-12
+**Release:** X Wallet `1.5.5+17`
 **Status:** internal self-assessment. **This is not an independent audit.**
 A score never overrides a release blocker.
 
@@ -22,20 +22,23 @@ A score never overrides a release blocker.
 | Category | Weight | Score | Evidence |
 |---|---:|---:|---|
 | Cryptography and key protection | 20 | 13 | Argon2id 64 MiB/t=3/p=4, XChaCha20-Poly1305, authenticated header, KDF floors, v1 read, portable backups. The device secret is defense-in-depth, not a required second factor; no zeroisation; official BIP-32/39 vector files are still missing. |
-| Transaction and blockchain security | 15 | 11 | Exact review binding, chain ID, EIP-1559, hold-to-confirm, ERC-20 spender/unlimited decoding, cancel fix, uncertain-broadcast persistence. Nonce is not part of `SendIntent.verify`; the cold path does not consult the spending policy. |
-| Testing, fuzzing and reliability | 15 | 12 | 67 test files / 382 declarations, deterministic fuzz/property tests, real Anvil integration, vault tamper and backup tests, new hardening regressions. No coverage-guided fuzzer or 30–60 min soak. |
-| Supply chain and CI/CD | 10 | 8 | Pinned action SHAs, CodeQL (no Dart), secret scan, dependency advisory audit, licence inventory, CycloneDX SBOM, least privilege. Android CI still uses a debug signing config; the release gate is not strict. |
-| Reproducible builds and release integrity | 10 | 6 | Signed `.deb`/APKs and matching hashes. Fixed-path reproducibility only; no independent-machine rebuild; release gate accepts `INCOMPLETE`. |
+| Transaction and blockchain security | 15 | 11 | Exact review binding now includes nonce and sender, chain ID, EIP-1559, hold-to-confirm, ERC-20 spender/unlimited decoding, cancel fix, uncertain-broadcast persistence. The cold path still does not consult the spending policy. |
+| Testing, fuzzing and reliability | 15 | 12 | 69 test files / 395 declarations, deterministic fuzz/property tests, real Anvil integration, vault tamper and backup tests, new hardening regressions. No coverage-guided fuzzer or 30–60 min soak. |
+| Supply chain and CI/CD | 10 | 8 | Pinned action SHAs, CodeQL (no Dart), secret scan, dependency advisory audit, licence inventory, CycloneDX SBOM, least privilege, strict source gate and post-release asset verification. Android CI still uses a debug signing config. |
+| Reproducible builds and release integrity | 10 | 6 | Signed `.deb`/APKs and matching hashes. Strict `--require-source` gate, post-release asset verifier, fixed-path reproducibility only; no independent-machine rebuild. |
 | Backup, recovery and operational safety | 10 | 8 | Portable `BNBBKP01` backup restores on a fresh device; wrong-password/tamper/truncation tests; atomic writes and rollback. No crash/ENOSPC fault injection. |
-| Privacy and network security | 5 | 3 | Startup transport rebuild, cold-mode gate, prices off by default, node credentials in secure storage, 2 MiB cap and method allowlist. No packet capture or OS-enforced air gap in CI. |
-| Platform compatibility and performance | 5 | 2 | Ubuntu 24.04 build and package smoke. Android 1.5.3 APK is signed but not run on a device; no Debian/Fedora clean-install CI. |
+| Privacy and network security | 5 | 3 | Startup transport rebuild, cold-mode gate, prices off by default, node credentials in secure storage, 2 MiB cap and method allowlist, stricter custom-header rejection. No packet capture or OS-enforced air gap in CI. |
+| Platform compatibility and performance | 5 | 2 | Ubuntu 24.04 build and package smoke. Android 1.5.5 APK is signed but not run on a device; no Debian/Fedora clean-install CI. |
 | UI, accessibility and user safety | 5 | 3 | Hold-to-confirm, full-address review, donation separation, vault manager. No real screen-reader session and no anti-phishing phrase. |
-| Documentation, transparency and governance | 5 | 4 | Claim register, proof matrix, honest limitations, threat model, SBOM. Some older documents still contain stale counts and claims. |
+| Documentation, transparency and governance | 5 | 4 | Claim register, proof matrix, honest limitations, threat model, SBOM, release evidence. Some older documents still contain stale counts and claims. |
 | **Total** | **100** | **70** | |
 
 The previous 91/100 was not supportable: it counted unproven offline,
 device-binding and backup claims, stale test counts, and a non-strict release
-gate. The evidence-backed score before this release was approximately 58.
+gate. The evidence-backed score before this release was approximately 58. The
+1.5.5 changes close the nonce-binding and strict-gate gaps; the total stays
+70/100 because no independent audit, independent rebuild or physical-device
+test was added.
 
 ## Release blockers regardless of score
 
@@ -45,9 +48,9 @@ gate. The evidence-backed score before this release was approximately 58.
 4. No real screen-reader/assistive-technology session.
 5. Android 1.5.3 has not been run on a physical device (only built and
    signature-verified).
-6. Cold-path spending-policy enforcement and nonce binding in
-   `SendIntent.verify` remain open.
-7. The release gate and Android CI signing path are not strict yet.
+6. Cold-path spending-policy enforcement remains open.
+7. The release gate is strict, but Android CI still uses a debug signing config
+   and the release assets are built locally, not by CI.
 
 ## What would raise the score further
 

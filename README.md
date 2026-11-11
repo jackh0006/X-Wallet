@@ -10,7 +10,7 @@
   [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
   [![Platform](https://img.shields.io/badge/platform-Linux%20amd64%20%7C%20Android-lightgrey)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/jackh0006/X-Wallet?label=OpenSSF%20Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/jackh0006/X-Wallet)
-  [![Tests](https://img.shields.io/badge/tests-67%20files%20%7C%20382%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
+  [![Tests](https://img.shields.io/badge/tests-69%20files%20%7C%20395%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
 </div>
 
 <!-- BEGIN GENERATED:status -->
@@ -20,7 +20,7 @@
 <!-- END GENERATED:status -->
 
 > **Security status:** internal self-assessment, not an independent audit.
-> 1.5.3 is **not approved for large amounts**. The evidence and the remaining
+> 1.5.5 is **not approved for large amounts**. The evidence and the remaining
 > gaps are listed in [the claim register](docs/CLAIM_REGISTER.md).
 >
 > **AI reviewers:** start with [AI_REVIEW_PACKET.md](AI_REVIEW_PACKET.md).
@@ -28,7 +28,7 @@
 > rate limits are not required. A one-file bundle is
 > [docs/REVIEW_BUNDLE.md](docs/REVIEW_BUNDLE.md).
 
-![X Wallet 1.5.3 on Linux](docs/screenshots/linux-home-1.5.0.png)
+![X Wallet on Linux](docs/screenshots/linux-home-1.5.0.png)
 
 
 ## Contents
@@ -74,7 +74,7 @@ phone and on their desktop, without an account or a cloud.
   at rest with Argon2id and XChaCha20-Poly1305.
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
-- **Evidence, not slogans.** 67 test files, 382 test declarations, mutation
+- **Evidence, not slogans.** 69 test files, 395 test declarations, mutation
   testing, CodeQL, SBOM, a reproducible build, and an independent ethers.js
   cross-check.
 - **Android hardening.** Native Argon2id, background/idle vault lock, 6-digit
@@ -83,8 +83,9 @@ phone and on their desktop, without an account or a cloud.
 
 ## Supported networks
 
-Version **1.5.3** enables **BNB Smart Chain** mainnet (56) and testnet (97).
-The codebase uses EVM address, transaction, and signing primitives. Additional
+Version **1.5.5** keeps **BNB Smart Chain** mainnet (56) and testnet (97),
+introduced in 1.5.3. The codebase uses EVM address, transaction, and signing
+primitives. Additional
 EVM networks are planned; support begins only when a release documents it.
 
 ## Download, verify, install
@@ -96,14 +97,14 @@ Get the latest release from:
 ```bash
 # 1. Download the package and checksums from the release page.
 # 2. Verify the download.
-sha256sum x-wallet-1.5.3-amd64.deb
+sha256sum x-wallet-1.5.5-amd64.deb
 sha256sum -c SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
 # 3. Install.
-sudo apt install ./x-wallet-1.5.3-amd64.deb
+sudo apt install ./x-wallet-1.5.5-amd64.deb
 ```
 
 The Debian package is `x-wallet`. It replaces `bnb-wallet`, preserves the
@@ -118,17 +119,17 @@ independent channel before trusting it.
 
 Download the APK that matches the phone:
 
-- `x-wallet-1.5.3-android-arm64.apk` — almost every modern Android phone,
+- `x-wallet-1.5.5-android-arm64.apk` — almost every modern Android phone,
   including the Huawei Y9 2019.
-- `x-wallet-1.5.3-android-universal.apk` — ARM 32-bit and 64-bit phones if you
+- `x-wallet-1.5.5-android-universal.apk` — ARM 32-bit and 64-bit phones if you
   are not sure about the CPU. It no longer carries the x86_64 emulator slice,
   so it is smaller than the 1.5.1 universal build.
 
-**1.5.3 uses a new Android signing identity**
+**Android releases since 1.5.3 use the same signing identity**
 (`2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a`).
 Android will not install it as an in-place upgrade over a 1.5.1 build signed
 by `db12869c…9748d3`. Export a portable backup first, then uninstall the old
-app and install 1.5.3. Uninstalling removes app data; the backup is the
+app and install 1.5.5. Uninstalling removes app data; the backup is the
 recovery path.
 
 The Android app uses the same logo, label, vault, tokens, spending controls,
@@ -213,9 +214,9 @@ Actions run. No new tests were invented for this page.
 |---|---|---|---|
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
-| ✅ PASS | Default test suite | `bash scripts/test-suite.sh` — 66/66 files, 0 failed, 0 timed out | Unit, widget, vault, network, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 67 files / 382 declarations | Every test file is accounted for; none is silently missing. |
-| ✅ PASS | Mutation testing | `python3 scripts/security_mutation_check.py` — 5/5 killed, 97 s | Deliberately broken security checks are caught. |
+| ✅ PASS | Default test suite | `bash scripts/test-suite-fast.sh` — 68/68 non-integration files, 0 failed | Unit, widget, vault, network, and security tests pass. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 69 files / 395 declarations | Every test file is accounted for; none is silently missing. |
+| ⚠️ NOT RE-RUN | Mutation testing | Last recorded 1.5.3 run: 5/5 killed, 97 s | Not re-run for the 1.5.5 tree; do not treat the old result as 1.5.5 evidence. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
 
@@ -245,17 +246,17 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.5.3-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.5.5-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
-| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `40ce258c…` | Two builds produce the identical archive and manifest. |
-| ⚠️ NOT TESTED | Cross-runner reproducibility | Fixed-path same-host run only | No independent runner rebuild for 1.5.3. |
+| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `440aff80…` | Two builds at the same fixed path produce the identical archive and manifest. |
+| ⚠️ NOT TESTED | Cross-runner reproducibility | Fixed-path same-host run only | No independent runner rebuild for 1.5.5. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | No current advisory flags for the locked dependencies. |
 | ✅ PASS | License inventory | `python3 scripts/license-check.py` | Every dependency license is inventoried. |
-| ✅ PASS | SBOM | `python3 scripts/sbom.py` — 126 CycloneDX components | The full dependency inventory is published and hashed. |
+| ✅ PASS | SBOM | `python3 scripts/sbom.py` — 116 packages | The full dependency inventory is published and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
-| ✅ PASS | Release identity negative tests | `scripts/test_release_identity.py` — 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |
+| ✅ PASS | Release identity negative tests | `python3 scripts/test_release_identity.py` | Stale, tampered, malformed, and ambiguous identities are rejected. |
 | ✅ PASS | Localization | `test/localization_test.dart` | English is the only supported language; translations are not shipped. |
 | ✅ PASS | Spending safety | `test/spending_policy_test.dart` — 5/5 | Freeze signing, allowlist, and native per-transaction limit are enforced before signing. |
 | ✅ PASS | Data boundary | `test/data_boundary_test.dart` — 4/4 | No telemetry/AI SDK; no network in key modules; a single HTTP choke point. |
@@ -285,7 +286,7 @@ local key custody, and a built-in cold-signing workflow.
 | **No account, no KYC, no ads** | No sign-up, no subscription, no paywall, and no analytics SDK in the locked dependency inventory. |
 | **Open source and reproducible** | AGPL-3.0-or-later, SBOM, checksums, and a fixed-path reproducible build. |
 | **Data-preserving package migration** | Upgrading from the previous package keeps existing wallet data and compatibility aliases. |
-| **382 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
+| **395 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
 
 ### Compared by wallet style
 

@@ -1,5 +1,11 @@
 # PROJECT_STATUS.md — Current Project State
 
+> **Historical snapshot — not current.** The current release is
+> **X Wallet 1.5.5+17** (`v1.5.5`). Use `docs/GENERATED_STATUS.md`,
+> `release/evidence.json`, `docs/releases/1.5.5.md` and
+> `IMPLEMENTATION_STATUS.md` for the current state. The text below is kept as
+> an audit trail from earlier milestones.
+
 **Last Updated**: 2026-11-06
 **Current release line**: `1.1.0+5` on `release/1.0.10`
 **Current milestone**: release-candidate verification
