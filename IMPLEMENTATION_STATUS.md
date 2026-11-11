@@ -1,6 +1,6 @@
 # Implementation Status
 
-**Last updated:** 2026-11-10
+**Last updated:** 2026-11-12
 **Source of truth:** `release/manifest.json`, `docs/testing/test-inventory.json`,
 `docs/GENERATED_STATUS.md`, `release/evidence.json`, and the GitHub Actions
 runs. This file is a human-readable index, not a second source of truth.
@@ -9,24 +9,24 @@ runs. This file is a human-readable index, not a second source of truth.
 
 | Item | Value |
 |---|---|
-| Version | `1.5.3+15` |
+| Version | `1.5.5+17` |
 | Branch | `main` (use `git rev-parse HEAD` for the exact checkout) |
-| Tested source commit | recorded in `release/evidence.json` for the 1.5.0 candidate |
-| Release source commit | recorded in `release/evidence.json` (`sourceCommit`) |
-| Evidence bundle | `release/evidence.json` (release-approved, signed) |
-| Pull requests | merged through the 1.2.0 release PR |
+| Tested source commit | `32b0aad3c296b52e2bfd4d84929c09de5c67eb0d` (tag `tested-1.5.5`) |
+| Release source commit | `e59124eee13c06d4d79b242396caccc79f43f2a5`; tag `v1.5.5` adds docs/evidence |
+| Evidence bundle | `release/evidence.json` (RELEASE APPROVED for recorded checks) |
+| Pull requests | merged through the 1.5.5 release/evidence PRs (#54, #55) |
 | Hosted CI | All required `main` workflows pass |
-| Release status | **RELEASE CANDIDATE / local artifacts, pending final gate** |
-| Final package | `x-wallet-1.5.3-amd64.deb` (hash recorded in `release/evidence.json`) |
-| Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
+| Release status | **RELEASE APPROVED for recorded internal checks; independent audit NOT PERFORMED** |
+| Final package | `x-wallet-1.5.5-amd64.deb` (hash recorded in `release/evidence.json`) |
+| Signing fingerprint | GPG `CC819EF5E109A1518E840379D8C0CEC84BCCE06B`; Android `2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a` |
 
 ## Verified
 
 - Native Argon2id (`lib/kdf.dart`) with fixed 64 MiB / t=3 / p=4; measured
   **347 ms** vs ~110 s for the debug pure-Dart fallback.
 - Exact ERC-20 transfer calldata in `SendIntent`; trailing bytes rejected.
-- 67 test files / 382 declarations; the 1.5.3 additions cover portable backups, multi-vault, proxy startup, approvals and node credentials;
-  3 real-Anvil tests; mutation score 5/5; backup E2E 4/4; localization,
+- 69 test files / 395 declarations; 1.5.5 adds nonce/sender binding and cold-pairing fingerprint regressions; the 1.5.3 additions cover portable backups, multi-vault, proxy startup, approvals and node credentials;
+  3 real-Anvil tests; mutation score 5/5 (not re-run for 1.5.5); backup E2E 4/4; localization,
   spending-safety, data-boundary, multi-wallet, password-strength, default-token, legacy-migration, public-default, and private-key cold tests pass.
 - Independent ethers.js cold-signature verification; 8 substitutions rejected.
 - Android native Argon2 (`libargon2-arm.so`) is present in the release APK
@@ -38,7 +38,7 @@ runs. This file is a human-readable index, not a second source of truth.
   inventory, generated-doc drift, dependency review, CodeQL, and Scorecard pass.
 - Reproducibility: two clean builds at fixed path `/tmp/bnb-repro-build` with
   `SOURCE_DATE_EPOCH=0` and `gzip -n` produced archive
-  `3107e9c44e5271a3dc0a00219b3c8948899e04a1966770e68f6376c0b518fa91` with
+  `440aff802239b4968ace7b0f9a66c9f8f7d000de2082024e871c679b4aac8e08` with
   identical file manifests. Different absolute paths are not guaranteed to
   match because Flutter embeds the path in `libapp.so` and plugin libraries.
 - Clean install/launch/upgrade/uninstall smoke: GitHub `ubuntu-24.04`
@@ -51,9 +51,9 @@ runs. This file is a human-readable index, not a second source of truth.
 
 | Item | Status | Detail |
 |---|---|---|
-| Android signing key rotation | **RELEASE SIGNER VERIFIED** | Current APKs use `db1286…`; the historical `10c13a…` is denylisted. Offline backup of the new key remains an owner action. |
+| Android signing key rotation | **RELEASE SIGNER VERIFIED** | Current APKs use `2a96a384…3ba9a`; the historical `10c13a…` is denylisted. Offline backup of the key remains an owner action. |
 | Linux `.deb` GPG signature | **PASS** | Signed with `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
-| Independent security audit | **NOT CLAIMED** | Internal self-audit only |
+| Independent security audit | **NOT PERFORMED** | Internal self-audit only; no third-party report exists |
 | Real EVM integration | **PASS (local Anvil)** | Native transfer, wrong chain, ERC-20 deploy/transfer/approve/revoke/revert on chain 97 |
 | Windows / macOS / ARM64 | **NOT TESTED** | No builds for these platforms |
 | Android device runtime | **NOT TESTED** | No physical Huawei Y9 2019 or emulator run in this environment |

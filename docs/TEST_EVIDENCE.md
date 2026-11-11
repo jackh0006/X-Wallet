@@ -1,9 +1,9 @@
 # X Wallet Test Evidence
 
-> **1.5.3 update:** the current counts and the new regression tests are in
-> `docs/HARDENING_BASELINE.md`, `docs/CLAIM_REGISTER.md`, and
-> `docs/PROOF_MATRIX.md`. Older figures below are historical and must not be
-> read as evidence for the 1.5.3 tree.
+> **1.5.5 update:** the current release evidence is `release/evidence.json`
+> and `docs/releases/1.5.5.md`. Counts: 69 test files / 395 declarations;
+> 68 non-integration files pass. Older figures below are historical and must
+> not be read as evidence for the 1.5.5 tree.
 
 This page collects the checks that have already passed for X Wallet. Every
 entry names the command or evidence source so the result can be inspected.

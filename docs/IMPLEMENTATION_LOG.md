@@ -115,3 +115,36 @@ entries and mark superseded claims.
 - **CI:** Anvil, signing, inventory, mutation, identity, package-smoke,
   two-runner reproducibility and startup/RSS workflows.
 - Current scorecard: **79/100**, unsigned and unsigned-for-release.
+
+## 2026-11-12 — X Wallet 1.5.5 release
+
+- **Version:** `1.5.5+17`; release tag `v1.5.5` at
+  `cd2f8e69b88a9ab8cd86da985b4d091621458652`.
+- **Tested code:** `32b0aad3c296b52e2bfd4d84929c09de5c67eb0d`, preserved by the
+  signed tag `tested-1.5.5`; tooling commit `95e34ed` adds passphrase-aware
+  release scripts.
+- **Squash merge:** `e59124eee13c06d4d79b242396caccc79f43f2a5` from reviewed
+  branch head `2b1d192`; evidence PR merged as `cd2f8e6`.
+- **Security changes:** reviewed nonce and sender are bound to the exact signed
+  transaction; cold-pairing fingerprint covers the chain and every paired
+  address; erase-all includes pre-1.2 data directories; Android imports are
+  capped at 8 MiB; custom RPC headers reject cookies/referer/origin/
+  authorization/API keys/host/framing headers/CRLF/oversized values.
+- **Release tooling:** `release-gate.py --require-source` is used by CI;
+  `release-verify.yml` downloads the published assets, imports the committed
+  public key, verifies `SHA256SUMS`/GPG and the APK signer, then runs
+  `--require-verified --artifacts-dir`.
+- **Checks:** formatting/analyze PASS; fast suite PASS (68 non-integration
+  files); inventory 69 files / 395 declarations; audit regressions 12/12; cold
+  oracle PASS; secret/dependency/licence/SBOM PASS; `.deb` build + GPG PASS;
+  Android arm64/universal signed with `2a96a384…3ba9a`; package-smoke run
+  `43103453990` PASS; fixed-path reproducibility PASS
+  (`440aff80…8e08`).
+- **Artifacts:** `.deb` `2f8ef873…c77298`; arm64 APK `6978de80…7a16`;
+  universal APK `eb6772b3…c186b`; source archive `891b7b41…48436`; SBOM
+  `1e9946ed…672a14`; signed `SHA256SUMS` `b7d46b85…2015f`.
+- **Status:** `RELEASE APPROVED` for the recorded internal checks. Independent
+  audit, independent-machine rebuild, physical Android run, two-device cold
+  signing and screen-reader session remain **NOT PERFORMED**. The first
+  post-release verifier runs exposed tooling-only bugs; the fixed verifier was
+  merged in `4ec8cad`/`eb73927` and re-run against the published assets.

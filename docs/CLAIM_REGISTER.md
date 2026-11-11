@@ -1,4 +1,4 @@
-# Claim register — X Wallet 1.5.3
+# Claim register — X Wallet 1.5.5
 
 Status: internal, evidence-based review. This is **not** an independent audit.
 A claim is marked **PROVEN** only when a test, script, or CI job fails if the
@@ -7,7 +7,7 @@ the whole claim. **DOWNGRADED** means the wording was changed to what the
 evidence supports. **UNPROVEN** means no evidence exists here.
 **DISPROVEN** means the code contradicted the claim before this release.
 
-| ID | Claim | Source | Evidence (1.5.3) | Status |
+| ID | Claim | Source | Evidence (1.5.5) | Status |
 |---|---|---|---|---|
 | C1 | Vault uses Argon2id 64 MiB, t=3, p=4 | README, CRYPTO | `test/kdf_production_test.dart`; `lib/vault.dart`; floor enforced on read | PROVEN |
 | C2 | Vault encrypts with XChaCha20-Poly1305 and an authenticated header | README, CRYPTO | `test/vault_test.dart`, `test/vault_header_validation_test.dart` | PROVEN |
@@ -25,8 +25,8 @@ evidence supports. **UNPROVEN** means no evidence exists here.
 | C14 | BIP-39/32/44 derivation is correct | README | Known junk-mnemonic vector, path tests, EIP-55 vectors; no official BIP-39/32 JSON vectors | PARTLY |
 | C15 | ECDSA uses RFC-6979 and low-s | CRYPTO | web3dart/pointycastle; cold codec high-s test; one ethers.js fixture | PARTLY |
 | C16 | Cold signed bytes are independently cross-checked | README | `verification/verify.cjs` validates one static fixture and 8 substitutions; it does not execute the Dart codec | PARTLY |
-| C17 | Transaction review binds recipient, value, chain, fees and calldata | README | `test/send_intent_test.dart`; `test/cold_wallet_protocol_test.dart` | PROVEN |
-| C18 | Transaction review checks the nonce | README | `SendIntent.verify` has no nonce parameter; UI shows the same local | DOWNGRADED (removed from the claim) |
+| C17 | Transaction review binds recipient, value, chain, fees, calldata, nonce and sender | README | `test/send_intent_test.dart`; `test/audit_regressions_test.dart` (nonce and sender substitutions refused) | PROVEN |
+| C18 | Transaction review checks the nonce and sender | README | `lib/send_intent.dart` compares the reviewed nonce/sender with the exact signed object; `test/audit_regressions_test.dart` | PROVEN |
 | C19 | An uncertain broadcast cannot be retried into a second payment | new | Signed bytes persisted before broadcast; unknown rows block sends; `test/hardening_regressions_test.dart` covers the state model | PROVEN (state model) |
 | C20 | Cancel works | README | Explicit zero value; `test/hardening_regressions_test.dart` verifies the signature check | PROVEN |
 | C21 | Freeze/allowlist applies to every signing path | README | Send and speed-up/cancel call the policy; the cold path does not yet | PARTLY |
@@ -45,12 +45,16 @@ evidence supports. **UNPROVEN** means no evidence exists here.
 | C34 | Erase-all removes every vault, the log and orphaned temp files | README | `test/erase_flow_test.dart` now includes log and `.dest-<hex>` files | PROVEN |
 | C35 | Up to three independent vaults, each with its own password | new | `test/multi_vault_test.dart` | PROVEN |
 | C36 | Pending transactions are scoped to the active vault | new | `test/multi_vault_test.dart` | PROVEN |
-| C37 | Release artifacts are signed and hashes match | README | `.deb`/APK GPG signatures verified; `SHA256SUMS` matches assets | PROVEN (1.5.3 artifacts) |
-| C38 | The build is reproducible | README | Fixed-path reproducibility only; no independent-machine rebuild | PARTLY |
+| C37 | Release artifacts are signed and hashes match | README | `.deb`/APK GPG signatures verified; `SHA256SUMS` matches assets; post-release verifier imports the published key | PROVEN (1.5.5 artifacts) |
+| C38 | The build is reproducible | README | Two clean builds at the same fixed path match (`440aff80…8e08`); no independent-machine rebuild | PARTLY |
 | C39 | Android hardening (FLAG_SECURE, R8, native Argon2) | README | Source/CI greps; no physical-device run | PARTLY |
-| C40 | Android 1.5.3 uses a new signing key | new | `apksigner` fingerprint recorded below | PROVEN (artifact) |
-| C41 | No independent audit exists | SECURITY | Stated plainly | PROVEN (disclaimer) |
+| C40 | Android 1.5.3 and later use a new signing key | new | `apksigner` fingerprint recorded below | PROVEN (artifact) |
+| C41 | No independent audit exists | SECURITY | Stated plainly in the release notes, evidence and handoff | PROVEN (disclaimer) |
 | C42 | Large amounts are safe | README/risk | No evidence; explicitly not claimed | DISPROVEN as a claim; removed |
+| C43 | “Erase all data” removes pre-1.2 data directories | README | `lib/storage.dart` includes legacy application-data directories and their vault/device secret; no dedicated regression test yet | PARTLY |
+| C44 | Cold pairing fingerprint binds the chain and every address | README | `WalletCore.computeFingerprint`; `test/audit_regressions_test.dart` shows a substituted address changes it | PROVEN |
+| C45 | Custom RPC headers cannot add tracking or credentials | README | `lib/net/privacy_client.dart` rejects cookies, referer/origin, authorization, API keys, host/framing headers, CR/LF and oversized values; no dedicated regression test yet | PARTLY |
+| C46 | Android file import is bounded | README | `MainActivity.kt` caps imports at 8 MiB; built and signed, but no physical-device test | PARTLY |
 
 ## Android signer
 

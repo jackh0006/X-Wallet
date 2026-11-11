@@ -6,9 +6,9 @@ This page states plainly what the wallet protects against, what it does not,
 and where it fails. Nothing here should be read as "unhackable" or "military
 grade". Software carries risk; this document describes ours.
 
-**Current release:** 1.5.3+15 (tag `v1.5.3`). Internal self-assessment 70/100;
-release gate PARTIALLY VERIFIED; **not independently audited and not approved
-for large amounts**. The exact claim status is in
+**Current release:** 1.5.5+17 (tag `v1.5.5`). Internal self-assessment 70/100;
+release gate RELEASE APPROVED for the recorded checks; **not independently
+audited and not approved for large amounts**. The exact claim status is in
 [`CLAIM_REGISTER.md`](CLAIM_REGISTER.md).
 
 ## Assets
@@ -83,7 +83,7 @@ fingerprint and reviewing the transaction on the cold screen.
 
 | Threat | Control | Residual risk |
 |---|---|---|
-| Malicious pairing replaces the recipient addresses | Pairing is public data; the fingerprint is derived from the first address and must be compared on both devices out-of-band | If the user skips the fingerprint comparison, a substituted pairing is accepted |
+| Malicious pairing replaces the recipient addresses | Pairing is public data; the fingerprint binds the chain and every paired address and must be compared on both devices out-of-band | If the user skips the fingerprint comparison, a substituted pairing is accepted |
 | Online companion prepares a dishonest request (wrong recipient/fee) | Cold device decodes and displays the exact request; the user must approve it | A user who does not review the cold screen can sign a dishonest request |
 | Signed response substitutes fields | Full field-by-field comparison, request hash, raw parse, `r`/`s`/`yParity`, transaction hash, signer recovery | A bug in the shared codec could affect both sides; the independent ethers.js check is the cross-check |
 | Replay of a signed response | Single-use request id, pending-request requirement, broadcast-hash burn list | Reinstalling the app clears local replay state; the chain nonce still prevents a second valid transaction with the same nonce |
@@ -159,8 +159,8 @@ Honesty section. These are real limits, not corner cases.
 
 ## Risk register (continuous self-assessment)
 
-Reviewed on 2026-11-11 against `1.5.3+15` (tag `v1.5.3`, commit
-`34d31e1`). The exact identity is in `release/evidence.json`. This is an
+Reviewed on 2026-11-12 against `1.5.5+17` (tag `v1.5.5`, commit
+`cd2f8e6`). The exact identity is in `release/evidence.json`. This is an
 internal assessment, not an independent audit.
 
 | Risk | Attack scenario | Impact | Likelihood | Mitigations | Residual risk | Test evidence |
@@ -170,7 +170,7 @@ internal assessment, not an independent audit.
 | Malicious token contract | Non-standard `transfer`, hidden fee, fake metadata | Loss or misleading review | Medium | Exact 4+32+32 calldata, contract address shown, decimals bounded, simulation, fee-on-transfer log check | A contract can still behave unexpectedly on-chain | `send_intent_test`, `fuzz_and_property_test`, `tx_lifecycle_test` |
 | Address poisoning | Lookalike prefix/suffix address in history/clipboard | Loss | Medium | Full checksummed address, grouped display, affix warning, clipboard guard | User can still confirm the wrong valid address | `wallet_core_test`, `clipboard_guard_test`, `send_intent_test` |
 | Supply-chain compromise | Malicious dependency or GitHub Action | Total loss | Medium | Lockfiles, pinned action SHAs, SBOM, dependency advisory audit, license inventory, CodeQL, secret scan | No formal reproducibility proof yet; upstream compromise remains possible | `verify` workflow, `dependency-audit.py`, `sbom.py`, `license-check.py` |
-| Historical Android signing key | Forged APK carrying the exposed `10c13a…25b85` identity | Distribution authenticity loss | **Confirmed exposure** | Removed from tree, history scan, denylisted, 1.5.3 uses a new certificate `2a96a384…3ba9a`; the 1.5.1 certificate `db12869c…9748d3` is distinct | Users who skip signature verification can still install a forged APK; 1.5.3 is not an in-place upgrade over 1.5.1 | `docs/security/INCIDENT_2026-11-KEYSTORE.md`, `scripts/verify-android-signer.sh` |
+| Historical Android signing key | Forged APK carrying the exposed `10c13a…25b85` identity | Distribution authenticity loss | **Confirmed exposure** | Removed from tree, history scan, denylisted, 1.5.3 and later use the certificate `2a96a384…3ba9a`; the 1.5.1 certificate `db12869c…9748d3` is distinct | Users who skip signature verification can still install a forged APK; 1.5.5 is not an in-place upgrade over 1.5.1 | `docs/security/INCIDENT_2026-11-KEYSTORE.md`, `scripts/verify-android-signer.sh` |
 | Vault/backup theft | Copy vault file or backup | Loss if password weak | Low–Medium | Argon2id 64 MiB/t=3/p=4, double wrapper, device secret, fixed header policy | Weak password remains weak; device secret is a local drawer, not hardware | `vault_test`, `kdf_production_test`, `vault_import_rollback_kdf_test` |
 | Clipboard substitution | Malware replaces copied address | Loss | Medium | Secret detection, auto-clear, full address review, affix warning | Clipboard is inherently untrusted | `clipboard_guard_test` |
 | Phishing / social engineering | Fake support, fake site, seed request | Total loss | Medium | No dapp browser, no remote seed entry, plain-language warnings | User can still be tricked into revealing the seed | UI tests, documentation |
@@ -186,7 +186,7 @@ evidence index.
 ## Android-specific threats
 
 Android adds attack surfaces that a Linux desktop does not have. These are the
-controls and the honest limits in 1.5.3.
+controls and the honest limits in 1.5.5.
 
 | Threat | Control | Residual risk |
 |---|---|---|
@@ -200,7 +200,7 @@ controls and the honest limits in 1.5.3.
 | Malicious RPC / price / IP service | Fixed hosts, HTTPS, system CAs only, no wallet data in price requests; IP echo only on route test | Those services still see the request and the public IP |
 | Fake APK | Approved signer gate, old certificate denylisted, signed checksums | Users who skip signature verification can install a fake build |
 | Intent spoofing / deep links | Only the launcher activity is exported; no deep links | A malicious app can still show a fake UI and phish the user |
-| Offline signing on Android | Cold mode sets the RPC offline; QR/file/paste protocol with field verification | No camera QR scanner in 1.5.3; no two-device physical test |
+| Offline signing on Android | Cold mode sets the RPC offline; QR/file/paste protocol with field verification | No camera QR scanner in 1.5.5; no two-device physical test |
 | Native KDF | Android ships `libargon2-arm.so`; 64 MiB/t=3/p=4 unchanged | Device timing and low-memory behavior are **NOT TESTED** on a physical phone |
 
 ## When Tor mode is useful, and when it is not
