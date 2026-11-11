@@ -496,6 +496,11 @@ Future<String> probePublicIp(
   GlobalProxyConfig config, {
   Duration timeout = const Duration(seconds: 12),
 }) async {
+  if (AppStorage.walletModeIndex == 1) {
+    throw StateError(
+      'This device is in cold-signer mode: all network access is disabled.',
+    );
+  }
   final inner = HttpClient()
     ..userAgent = null
     ..idleTimeout = const Duration(seconds: 10);
@@ -523,6 +528,11 @@ Future<String> probeProxyRoute(
   String rpcUrl, {
   Duration timeout = const Duration(seconds: 20),
 }) async {
+  if (AppStorage.walletModeIndex == 1) {
+    throw StateError(
+      'This device is in cold-signer mode: all network access is disabled.',
+    );
+  }
   if (!config.enabled) {
     throw StateError('Enter a proxy host and port first.');
   }

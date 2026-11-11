@@ -43,8 +43,8 @@ jobs:
           grep -q 'lib/arm64-v8a/libapp.so' arm64-files.txt
           grep -q 'lib/arm64-v8a/libargon2-arm.so' arm64-files.txt
           ! grep -q 'lib/x86_64/libapp.so' arm64-files.txt
-      - name: Build universal release APK
-        run: flutter build apk --release --no-pub
+      - name: Build universal release APK (ARM 32/64, no x86_64)
+        run: flutter build apk --release --target-platform android-arm,android-arm64 --no-pub
       - name: Save universal APK and check ABIs
         run: |
           set -euo pipefail
@@ -53,19 +53,17 @@ jobs:
           grep -q 'lib/arm64-v8a/libapp.so' universal-files.txt
           grep -q 'lib/arm64-v8a/libargon2-arm.so' universal-files.txt
           grep -q 'lib/armeabi-v7a/libapp.so' universal-files.txt
-          grep -q 'lib/x86_64/libapp.so' universal-files.txt
+          ! grep -q 'lib/x86_64/libapp.so' universal-files.txt
       - name: Verify the manifest label and identity
         run: |
           set -euo pipefail
           grep -q 'android:label="X Wallet"' android/app/src/main/AndroidManifest.xml
           grep -q 'applicationId = "com.jackh0006.xwallet"' android/app/build.gradle.kts
           grep -q 'com.jackh0006.xwallet' android/app/src/main/kotlin/com/jackh0006/xwallet/MainActivity.kt
-      - name: Upload APKs
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: x-wallet-android-apks
-          path: |
-            x-wallet-android-arm64.apk
-            x-wallet-android-universal.apk
-          if-no-files-found: error
-          retention-days: 30
+      # These Gradle outputs are DEBUG-SIGNED. They are deliberately not
+      # uploaded as release artifacts. The publishable APKs are produced and
+      # pinned by scripts/build-apk.sh with the owner keystore and signer gate.
+      - name: State that these are not release artifacts
+        run: |
+          echo "Gradle release output is debug-signed and is NOT a publishable APK."
+          echo "Publish only artifacts produced by scripts/build-apk.sh."

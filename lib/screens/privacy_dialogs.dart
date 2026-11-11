@@ -664,13 +664,16 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
         _busy = false;
       });
     } catch (error) {
-      // A failed connection must not leave the wallet pointing at a dead
-      // port: stop the daemon and turn the route off.
+      // Keep the route selected. A transient Tor failure must fail closed, not
+      // silently switch the wallet to direct HTTPS. The user can explicitly
+      // choose Direct in the route selector.
       await _tor.stop();
-      await appState.setTorEnabled(false);
       if (!mounted) return;
       setState(() {
-        _error = '$error';
+        _error =
+            '$error\n'
+            'The Tor route remains selected and will fail closed. Choose '
+            'Direct explicitly if you want to leave it.';
         _status = null;
         _busy = false;
       });
@@ -760,12 +763,12 @@ class _TorSettingsDialogState extends State<_TorSettingsDialog> {
         _busy = false;
       });
     } catch (error) {
-      await appState.setTorEnabled(false);
       if (!mounted) return;
       setState(() {
         _error =
             'Could not connect through $host:$port: $error\n'
-            'The Tor route is off, so the wallet is using direct HTTPS.';
+            'The Tor route remains selected and fails closed. Choose Direct '
+            'explicitly if you want to leave it.';
         _status = null;
         _busy = false;
       });

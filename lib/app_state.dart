@@ -2310,16 +2310,16 @@ class AppState extends ChangeNotifier {
   /// the restored first-run state is clean. Funds recover only with the seed
   /// phrase. Returns anything the wipe could NOT remove (empty = clean).
   Future<List<String>> eraseAll() async {
+    // The encrypted-log clear takes the same non-reentrant process lock used
+    // by withVaultOperationLock. Doing it inside that wrapper deadlocks on
+    // Linux, so the log is cleared first, then the vault transaction starts.
+    try {
+      await EncryptedLogStore.clear();
+    } catch (_) {
+      // The storage pass below removes the file even if the store was not
+      // initialised.
+    }
     return withVaultOperationLock(() async {
-      // Remove the encrypted activity log before preferences (and therefore
-      // its key material) are cleared, then let the storage wipe handle the
-      // vault, receipts, drawer, log file and atomic temporaries.
-      try {
-        await EncryptedLogStore.clear();
-      } catch (_) {
-        // The storage pass below removes the file even if the store was not
-        // initialised.
-      }
       final leftovers = await AppStorage.eraseAllData();
       _key = null;
       _mnemonic = null;

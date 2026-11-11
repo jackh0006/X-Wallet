@@ -1370,6 +1370,17 @@ class AppStorage {
 
   static const String _nodeSecretsKey = 'node_secrets_v1';
 
+  /// Wipes the node-credential blob from secure storage and memory. Called by
+  /// "Erase all data"; otherwise a deleted wallet would leave the user's
+  /// proxy/bearer credentials behind.
+  static Future<void> clearNodeSecrets() async {
+    _nodeSecretsCache = {};
+    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    try {
+      await _secure.delete(key: _nodeSecretsKey).timeout(_keyringTimeout);
+    } catch (_) {}
+  }
+
   static Future<void> setNodes(List<RpcNode> nodes) async {
     final secrets = <String, Map<String, dynamic>>{};
     for (final node in nodes) {
@@ -2076,6 +2087,7 @@ class AppStorage {
       clearPinHash,
       clearDeviceSecret,
       clearBackoffState,
+      clearNodeSecrets,
       () => _secure.delete(key: 'proxy_password'),
       () => _secure.delete(key: 'tor_upstream_password'),
     ]) {
@@ -2139,11 +2151,10 @@ class AppStorage {
   /// fail-closed when a vault depends on a stuck keyring.
   static Future<String> _viaKeyring() async {
     String? keyring;
-    var keyringStuck = false;
     try {
       keyring = await _secure.read(key: _deviceKey).timeout(_keyringTimeout);
     } on Exception {
-      keyringStuck = true;
+      keyring = null;
     }
     if (keyring != null && keyring.isNotEmpty) {
       try {
@@ -2168,11 +2179,11 @@ class AppStorage {
       return drawer;
     }
 
-    // Nothing readable anywhere yet. A stuck keyring is only fatal when a
-    // vault already depends on its secret living inside the keyring — in
-    // that case retry once, then fail closed. Minting here would lock the
-    // user out of their own vault forever.
-    if (keyringStuck && await vaultExists()) {
+    // Nothing readable anywhere yet. If a vault already exists, a missing,
+    // empty, malformed or unreadable keyring must FAIL CLOSED. Minting a new
+    // secret here would silently orphan the existing vault and show the user
+    // "wrong password" forever.
+    if (await vaultExists()) {
       try {
         final retry = await _secure
             .read(key: _deviceKey)
@@ -2189,9 +2200,9 @@ class AppStorage {
       throw const DeviceKeyException('Device key unavailable.');
     }
 
-    // Fresh situation (no vault, or keyring alive but empty): mint a new
-    // secret. Prefer the keyring; if its write hangs or is refused, keep
-    // the secret in the locked drawer instead of freezing the app.
+    // Fresh situation (no vault): mint a new secret. Prefer the keyring; if
+    // its write hangs or is refused, keep the secret in the locked drawer
+    // instead of freezing the app.
     final encoded = base64Encode(_osRandom32());
     try {
       await _secure

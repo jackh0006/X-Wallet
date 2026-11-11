@@ -282,6 +282,21 @@ class WalletCore {
     }
   }
 
+  /// True when a mixed-case address carries the correct EIP-55 checksum.
+  /// All-lowercase and all-uppercase forms are accepted (they are not
+  /// checksummed); a mixed-case typo is rejected instead of being silently
+  /// "repaired" into a different valid-looking address.
+  static bool isChecksumValid(String input) {
+    final body = _strip0x(input.trim());
+    if (body.length != 40 || !RegExp(r'^[0-9a-fA-F]{40}$').hasMatch(body)) {
+      return false;
+    }
+    final hasLower = RegExp(r'[a-f]').hasMatch(body);
+    final hasUpper = RegExp(r'[A-F]').hasMatch(body);
+    if (!hasLower || !hasUpper) return true;
+    return checksumAddress('0x$body').substring(2) == body;
+  }
+
   /// True when [input] is the all-zero address.
   static bool isZeroAddress(String input) =>
       _strip0x(input.trim()).toLowerCase() == _strip0x(zeroAddress);
@@ -383,6 +398,19 @@ class WalletCore {
       throw ArgumentError('ERC-20 calldata has a truncated address word');
     }
     return '0x${body.substring(body.length - 40)}';
+  }
+
+  /// A token call must target the contract the review claims it targets.
+  /// `assetInfo` is attacker-supplied; without this check a request can show
+  /// canonical USDT metadata while the signed call targets another token.
+  static void _requireTokenContract(ColdTxRequest request) {
+    final contract = request.assetInfo.contractAddress?.toLowerCase();
+    if (contract == null) return;
+    if (contract != request.to.toLowerCase()) {
+      throw ArgumentError(
+        'Token contract does not match the transaction recipient',
+      );
+    }
   }
 
   /// Encodes a non-negative BigInt as big-endian unsigned bytes.
@@ -563,6 +591,7 @@ class WalletCore {
             'Token contract does not match the transaction recipient',
           );
         }
+        _requireTokenContract(request);
         if (fields.value != BigInt.zero) {
           throw ArgumentError(
             'ERC-20 transfer must not also carry a native value',
@@ -580,6 +609,7 @@ class WalletCore {
           _addressFromAbiWord(dataHex.substring(8, 72)),
         );
         decodedValue = BigInt.parse(dataHex.substring(72, 136), radix: 16);
+        _requireTokenContract(request);
         warning =
             'This is an APPROVE transaction: the spender can move the '
             'allowance you grant. Verify the spender address.';
@@ -594,6 +624,7 @@ class WalletCore {
           _addressFromAbiWord(dataHex.substring(8, 72)),
         );
         decodedValue = BigInt.parse(dataHex.substring(72, 136), radix: 16);
+        _requireTokenContract(request);
         warning =
             'This INCREASES an existing allowance. Verify the spender and '
             'the added amount.';
@@ -609,6 +640,7 @@ class WalletCore {
           _addressFromAbiWord(dataHex.substring(72, 136)),
         );
         decodedValue = BigInt.parse(dataHex.substring(136, 200), radix: 16);
+        _requireTokenContract(request);
         warning =
             'This is a TRANSFER-FROM: it moves tokens from another address. '
             'Verify the recipient and amount.';

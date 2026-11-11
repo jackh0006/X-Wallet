@@ -79,8 +79,8 @@ chmod 0644 "$STAGE/usr/share/applications/x-wallet.desktop"
 cat > "$STAGE/usr/share/applications/x-wallet-offline.desktop" <<'DESKTOP'
 [Desktop Entry]
 Type=Application
-Name=X Wallet
-Comment=X Wallet (cold signer, no network namespace)
+Name=X Wallet (Cold)
+Comment=X Wallet cold signer (no network namespace)
 Exec=x-wallet-offline
 Icon=x-wallet
 Terminal=false
@@ -114,7 +114,7 @@ Section: finance
 Priority: optional
 Architecture: amd64
 Maintainer: jackh0006 <jackh109867@gmail.com>
-Depends: libgtk-3-0, libsecret-1-0, liblzma5, libstdc++6, libc6
+Depends: libgtk-3-0, libsecret-1-0, liblzma5, libstdc++6, libc6, util-linux
 Description: X Wallet — local, non-custodial EVM wallet
  GUI port of the v1 terminal wallet. Local, non-custodial: create or
  import BIP-39 wallets, manage native and EVM tokens, send with live EIP-1559

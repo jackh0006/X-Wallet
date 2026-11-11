@@ -467,6 +467,18 @@ class RpcService extends ChangeNotifier {
     }
   }
 
+  bool get _perNodeTransportPinned {
+    final node = _poolNode(_activeRpc) ?? _poolNode(_configuredRpc);
+    return node != null && node.transport != NodeTransport.inherit;
+  }
+
+  List<String> get _publicFallbacks {
+    if (_strictFlag || _perNodeTransportPinned) return const [];
+    return _network == 'testnet'
+        ? BnbNetworks.testnetFallbacks
+        : BnbNetworks.mainnetFallbacks;
+  }
+
   Future<void> connect({bool allowFallback = true}) async {
     if (_offline) {
       throw StateError(
@@ -474,14 +486,9 @@ class RpcService extends ChangeNotifier {
       );
     }
     if (_client != null) return;
-    final fallbacks = _network == 'testnet'
-        ? BnbNetworks.testnetFallbacks
-        : BnbNetworks.mainnetFallbacks;
+    final fallbacks = _publicFallbacks;
     final seen = <String>{};
-    final urls = <String>[
-      _configuredRpc,
-      if (allowFallback && !_strictFlag) ...fallbacks,
-    ];
+    final urls = <String>[_configuredRpc, if (allowFallback) ...fallbacks];
     Object? lastError;
     for (final url in urls) {
       if (!seen.add(url)) continue;
@@ -1006,6 +1013,7 @@ class RpcService extends ChangeNotifier {
   // ---- fee engine ----------------------------------------------------------
 
   Future<FeeQuote> feeQuote() async {
+    _ensureOnline();
     final candidates = _feeCandidates();
     if (candidates.isEmpty) {
       throw StateError(
@@ -1028,6 +1036,7 @@ class RpcService extends ChangeNotifier {
   /// One node's raw, live fee picture. Falls back to that node's gas-price
   /// quote when it has no fee history, and to null when it cannot answer.
   Future<FeeSourceSnapshot?> _feeSnapshot(RpcNode node) async {
+    _ensureOnline();
     final url = node.url;
     http.Client? transport;
     Web3Client? wc;
@@ -1251,9 +1260,7 @@ class RpcService extends ChangeNotifier {
       active: activeNode,
       configured: configuredNode,
       userPool: _userNodePool,
-      builtInFallbacks: _network == 'testnet'
-          ? BnbNetworks.testnetFallbacks
-          : BnbNetworks.mainnetFallbacks,
+      builtInFallbacks: _publicFallbacks,
       strict: _strictFlag,
       selectionMode: _selectionMode,
     );
@@ -1308,9 +1315,7 @@ class RpcService extends ChangeNotifier {
     return independentNodeList(
       active: activeNode,
       userPool: _userNodePool,
-      builtInFallbacks: _network == 'testnet'
-          ? BnbNetworks.testnetFallbacks
-          : BnbNetworks.mainnetFallbacks,
+      builtInFallbacks: _publicFallbacks,
       strict: _strictFlag,
     );
   }

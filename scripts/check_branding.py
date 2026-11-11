@@ -85,7 +85,12 @@ def main() -> int:
     build_deb = (ROOT / "scripts" / "build-deb.sh").read_text(encoding="utf-8")
     for line in build_deb.splitlines():
         stripped = line.strip()
-        if stripped.startswith("Name=") and stripped != "Name=X Wallet":
+        if stripped.startswith("Name=") and stripped not in {
+            "Name=X Wallet",
+            "Name=X Wallet (Cold)",
+        }:
+            errors.append(f"scripts/build-deb.sh: unexpected display name: {stripped}")
+        if stripped.startswith("Name=") and any(ch.isdigit() for ch in stripped):
             errors.append(f"scripts/build-deb.sh: display name carries a version: {stripped}")
         if stripped.startswith("Description:") and not stripped.startswith(
             "Description: X Wallet —"
