@@ -342,7 +342,7 @@
     }
   ],
   "checksCommit": "32b0aad3c296b52e2bfd4d84929c09de5c67eb0d",
-  "identityNote": "1.5.5 code and tests were recorded against 32b0aad; the release tooling commit 95e34ed and evidence commit follow it.",
+  "identityNote": "The reviewed branch head 2b1d192 was squash-merged as e59124e. The squash tree is content-identical to the reviewed branch. Tests were recorded against code commit 32b0aad; the squash includes only release/docs/evidence changes.",
   "notes": [
     "1.5.5 binds reviewed nonce/sender to the signed transaction, strengthens cold pairing fingerprints, erases legacy data dirs, bounds Android imports and tightens custom headers.",
     "Linux package and Android APKs are signed with owner key CC819EF5\u202606B; APKs use 2a96a384\u20263ba9a.",
@@ -372,7 +372,12 @@
     "verified": true,
     "verifiedAt": "2026-11-11T21:15:49.920950Z"
   },
-  "sourceCommit": "95e34ed66424e075a2e79f2dbe9f0f6b836de047",
+  "sourceCommit": "e59124eee13c06d4d79b242396caccc79f43f2a5",
+  "squashMerge": {
+    "branchHead": "2b1d192659048aa476aa429ad15e4945142bcb04",
+    "mergeCommit": "e59124eee13c06d4d79b242396caccc79f43f2a5",
+    "testedCommit": "32b0aad3c296b52e2bfd4d84929c09de5c67eb0d"
+  },
   "status": "RELEASE APPROVED",
   "version": "1.5.5+17"
 }
