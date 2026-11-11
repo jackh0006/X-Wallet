@@ -8,6 +8,12 @@
 #   scripts/sign-release.sh --deb <path> --key <fingerprint-or-uid> [--outdir DIR]
 set -euo pipefail
 
+# Optional non-interactive signing for a passphrase-protected key.
+GPG_EXTRA=()
+if [ -n "${BNB_GPG_PASSPHRASE_FILE:-}" ]; then
+  GPG_EXTRA=(--pinentry-mode loopback --passphrase-file "$BNB_GPG_PASSPHRASE_FILE")
+fi
+
 DEB=""
 KEY=""
 OUTDIR=""
@@ -62,7 +68,7 @@ SIG="$OUTDIR/SHA256SUMS.asc"
   cd "$(dirname "$DEB")"
   sha256sum "$(basename "$DEB")" >"$SUMS"
 )
-gpg --batch --yes --armor --detach-sign --local-user "$FPR" \
+gpg "${GPG_EXTRA[@]}" --batch --yes --armor --detach-sign --local-user "$FPR" \
   --output "$SIG" "$SUMS"
 gpg --batch --verify "$SIG" "$SUMS" >/dev/null
 

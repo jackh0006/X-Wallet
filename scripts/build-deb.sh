@@ -8,6 +8,12 @@
 #   GPG detached signature (.asc).
 set -euo pipefail
 
+# Optional non-interactive signing for a passphrase-protected key.
+GPG_EXTRA=()
+if [ -n "${BNB_GPG_PASSPHRASE_FILE:-}" ]; then
+  GPG_EXTRA=(--pinentry-mode loopback --passphrase-file "$BNB_GPG_PASSPHRASE_FILE")
+fi
+
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUTDIR="${BNB_OUTDIR:-$HOME/Downloads/X Wallet}"
 VERSION="$(sed -n 's/^version:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' "$ROOT/pubspec.yaml" | head -1)"
@@ -181,7 +187,7 @@ if [ -n "${BNB_GPG_KEY:-}" ]; then
     echo "ERROR: BNB_GPG_KEY does not identify an available secret signing key." >&2
     exit 1
   fi
-  gpg --batch --yes --digest-algo SHA256 --default-key "$BNB_GPG_KEY" \
+  gpg "${GPG_EXTRA[@]}" --batch --yes --digest-algo SHA256 --default-key "$BNB_GPG_KEY" \
       --detach-sign --armor "$DEB"
   echo "GPG signature: $DEB.asc"
 else
