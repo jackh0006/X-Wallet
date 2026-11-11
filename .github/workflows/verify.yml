@@ -105,6 +105,13 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
           fetch-tags: true
+      - name: Fetch the tested commit
+        run: |
+          # The tested code commit predates the squash merge. Keep its signed
+          # tag as a permanent, fetchable ref so the identity check can diff
+          # the tested tree against the release tree.
+          git fetch --no-tags origin \
+            '+refs/tags/tested-*:refs/tags/tested-*' || true
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           channel: stable

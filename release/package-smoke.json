@@ -1,15 +1,16 @@
 {
-  "durationSeconds": 159,
+  "durationSeconds": 144,
   "limitations": [
     "Xvfb smoke only; no full interactive UI walkthrough",
     "No Debian/Fedora install test",
     "No code-signature verification in this workflow"
   ],
-  "runId": 43079746222,
+  "note": "GitHub Actions run 43103453990 built and installed the .deb from branch head 2b1d192.",
+  "runId": 43103453990,
   "runner": "GitHub Actions ubuntu-24.04",
   "schemaVersion": 1,
   "script": "scripts/package-smoke.sh",
-  "sourceCommit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
+  "sourceCommit": "2b1d192659048aa476aa429ad15e4945142bcb04",
   "status": "PASS",
   "steps": {
     "buildDeb": "PASS",
