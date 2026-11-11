@@ -34,12 +34,12 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| deb-build | 0 | 180 | yes | fcf53b842b95bc8b |
-| full-test-suite | 0 | 420 | yes | a89e4e3496f599be |
 | cold-signature | 0 | 10.401 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 180 | yes | fcf53b842b95bc8b |
 | deb-signature | 0 | 1.463 | yes | 9ecac5f2c77f81df |
 | dependency-audit | 0 | 5.833 | yes | 531db7f60a49620c |
-| install-smoke | 0 | 11.254 | yes | 2d0a18668930212e |
+| full-test-suite | 0 | 420 | yes | a89e4e3496f599be |
+| install-smoke | 0 | 159 | yes | — |
 | license-inventory | 0 | 0.518 | yes | cc8e41a55e00cdea |
 | release-evidence | 0 | 0.103 | yes | b7e51fceb05d75e0 |
 | reproducibility | 0 | 300 | yes | 65709b6c1be76f6e |
@@ -103,7 +103,7 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 ## Open gate problems
 
 - No independent professional audit.
-- No independent-machine rebuild.
+- No independent-machine rebuild; package smoke is CI-only.
 - No physical two-device cold-signing test.
 - No real screen-reader/assistive-technology session.
 - Android APKs are built and signature-verified but not installed on a device.
