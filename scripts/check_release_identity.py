@@ -89,6 +89,7 @@ SQUASH_ALLOWED_PATHS = {
     ".github/workflows/android-build.yml",
     "android/gradle.properties",
     ".github/workflows/benchmark.yml",
+    ".github/workflows/release-verify.yml",
     "scripts/check_branding.py",
     "scripts/check_free_product.py",
     "scripts/check_release_evidence.py",
