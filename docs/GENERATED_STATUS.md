@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.3+15`
+- Version: `1.5.4+16`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **PARTIALLY VERIFIED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | c6887bdd1a37aaf87c5caa1b6371a79e6025e27def90f125eeb248389682aafa |
+| SBOM SHA-256 | b52f77cb504c9ece59a6db494c178f2609deb1113c346314516e3b3059a65077 |
 
 ## Test inventory
 
-- Test files: **67**
-- Test/testWidgets declarations: **382**
+- Test files: **69**
+- Test/testWidgets declarations: **391**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,19 +34,19 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| cold-signature | 0 | 8.836 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 0 | yes | 630fe4544913f132 |
-| deb-signature | 0 | 0.679 | yes | b55cb588d28a4284 |
-| dependency-audit | 0 | 9.921 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 0 | yes | ddce10d94ba7deea |
-| install-smoke | 0 | 10 | yes | 36b74acc4773bd0e |
-| license-inventory | 0 | 0.07 | yes | cc8e41a55e00cdea |
-| release-evidence | 0 | 0.075 | yes | a30b128592220404 |
-| reproducibility | 0 | 233.888 | yes | 28eb2e9864343a12 |
-| sbom | 0 | 0.144 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 6.721 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 34.631 | yes | 3a362fb04b3f537c |
-| test-inventory | 0 | 0.147 | yes | e3dbf8643e593822 |
+| deb-build | 0 | 180 | yes | fcf53b842b95bc8b |
+| full-test-suite | 0 | 420 | yes | a89e4e3496f599be |
+| cold-signature | 0 | 10.401 | yes | 5575c271e9b604d3 |
+| deb-signature | 0 | 1.463 | yes | 9ecac5f2c77f81df |
+| dependency-audit | 0 | 5.833 | yes | 531db7f60a49620c |
+| install-smoke | 0 | 11.254 | yes | 2d0a18668930212e |
+| license-inventory | 0 | 0.518 | yes | cc8e41a55e00cdea |
+| release-evidence | 0 | 0.103 | yes | b7e51fceb05d75e0 |
+| reproducibility | 0 | 300 | yes | 65709b6c1be76f6e |
+| sbom | 0 | 0.594 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 10.158 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 30.426 | yes | 397b5b586c54a54d |
+| test-inventory | 0 | 0.535 | yes | c0ff3aa60b74ad81 |
 
 ## Artifacts
 
@@ -103,9 +103,10 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 ## Open gate problems
 
 - No independent professional audit.
-- No independent-machine rebuild or external attestation.
+- No independent-machine rebuild.
 - No physical two-device cold-signing test.
 - No real screen-reader/assistive-technology session.
-- Android 1.5.3 APKs are built and signature-verified but not installed on a device.
-- Cold-path spending-policy enforcement and nonce binding in SendIntent.verify remain open.
-- Release gate and Android CI signing path are not strict yet.
+- Android APKs are built and signature-verified but not installed on a device.
+- Cold custom derivation/passphrase and pairing authentication remain open.
+- Nonce/from binding and some unknown-broadcast/limit edge cases remain.
+- Release gate is evidence-backed but independent review is absent.
