@@ -22,6 +22,11 @@
 > **Security status:** internal self-assessment, not an independent audit.
 > 1.5.3 is **not approved for large amounts**. The evidence and the remaining
 > gaps are listed in [the claim register](docs/CLAIM_REGISTER.md).
+>
+> **AI reviewers:** start with [AI_REVIEW_PACKET.md](AI_REVIEW_PACKET.md).
+> It is self-contained and uses raw links, so the GitHub code browser and its
+> rate limits are not required. A one-file bundle is
+> [docs/REVIEW_BUNDLE.md](docs/REVIEW_BUNDLE.md).
 
 ![X Wallet 1.5.3 on Linux](docs/screenshots/linux-home-1.5.0.png)
 

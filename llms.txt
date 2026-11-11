@@ -1,0 +1,24 @@
+# X Wallet
+
+> Self-custodial EVM wallet for Linux and Android (BNB Smart Chain). Current
+> version 1.5.3+15. Not independently audited; not approved for large amounts.
+
+If you are an AI or automated reviewer and the GitHub code browser is blocked,
+use these immutable raw files:
+
+- AI review packet (start here): https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/AI_REVIEW_PACKET.md
+- One-file review bundle: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/REVIEW_BUNDLE.md
+- Source map with raw URLs: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/SOURCE_MAP.md
+- Claim register: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/CLAIM_REGISTER.md
+- Proof matrix: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/PROOF_MATRIX.md
+- Threat model: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/THREAT_MODEL.md
+- Network guide: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/network/NETWORK_GUIDE.md
+- Dependency lock: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/pubspec.lock
+- SBOM: https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/SBOM.json
+
+## Status
+
+- Internal self-assessment: 70/100, not an audit.
+- Release gate: PARTIALLY VERIFIED.
+- Large amounts: NOT APPROVED until an independent audit, independent
+  rebuild, physical cold-device test and Android device run are complete.
