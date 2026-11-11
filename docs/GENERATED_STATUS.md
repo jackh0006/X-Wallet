@@ -5,9 +5,9 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.4+16`
+- Version: `1.5.5+17`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **PARTIALLY VERIFIED**
+- Status: **RELEASE APPROVED**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | b52f77cb504c9ece59a6db494c178f2609deb1113c346314516e3b3059a65077 |
+| SBOM SHA-256 | 1e9946ed5ccd8f78db7dc4035901f033c43cf6cb0fb31c9ca33a26a8a5672a14 |
 
 ## Test inventory
 
 - Test files: **69**
-- Test/testWidgets declarations: **391**
+- Test/testWidgets declarations: **395**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,23 +34,29 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| cold-signature | 0 | 10.401 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 180 | yes | fcf53b842b95bc8b |
-| deb-signature | 0 | 1.463 | yes | 9ecac5f2c77f81df |
-| dependency-audit | 0 | 5.833 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 420 | yes | a89e4e3496f599be |
-| install-smoke | 0 | 159 | yes | — |
-| license-inventory | 0 | 0.518 | yes | cc8e41a55e00cdea |
-| release-evidence | 0 | 0.103 | yes | b7e51fceb05d75e0 |
-| reproducibility | 0 | 300 | yes | 65709b6c1be76f6e |
-| sbom | 0 | 0.594 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 10.158 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 30.426 | yes | 397b5b586c54a54d |
-| test-inventory | 0 | 0.535 | yes | c0ff3aa60b74ad81 |
+| cold-signature | 0 | 43.525 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 30 | yes | 7bdf533c0ebca50a |
+| deb-signature | 0 | 0.762 | yes | c6b9e064495af852 |
+| dependency-audit | 0 | 4.286 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 420 | yes | 4abbd03453fa1c16 |
+| install-smoke | 0 | 12.542 | yes | 2d0a18668930212e |
+| license-inventory | 0 | 0.697 | yes | cc8e41a55e00cdea |
+| release-evidence | 0 | 0.1 | yes | 139876833bc8529b |
+| reproducibility | 0 | 420 | yes | 13c6eae43a89446d |
+| sbom | 0 | 0.218 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 5.237 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 34.41 | yes | afa4a2e7bfb84e47 |
+| test-inventory | 0 | 0.211 | yes | 971e7b9afe0038b7 |
 
 ## Artifacts
 
-No release artifact is recorded for this commit. **NOT TESTED.**
+| Artifact | SHA-256 | Signed | Signature verified |
+|---|---|---|---|
+|  | 2f8ef8734bf06bce34d67dab6d83c66fa0bde83106bcb8b1a588ec3531c77298 | yes | yes |
+|  | 6978de809944dc682db73ce8f9fe5202160ac186b9829e5f759ca91986327a16 | yes | yes |
+|  | eb6772b39ca62832b5f7c110dbb390c63360222ab8cf1b91de81202c589c186b | yes | yes |
+|  | 891b7b410eab07c2ad22a1986fdb3d67bf8520000a1eb8b167c46d4432748436 | no | NO |
+|  | 1e9946ed5ccd8f78db7dc4035901f033c43cf6cb0fb31c9ca33a26a8a5672a14 | no | NO |
 
 ## Android signing incident
 
@@ -103,10 +109,10 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 ## Open gate problems
 
 - No independent professional audit.
-- No independent-machine rebuild; package smoke is CI-only.
+- No independent-machine rebuild.
 - No physical two-device cold-signing test.
 - No real screen-reader/assistive-technology session.
 - Android APKs are built and signature-verified but not installed on a device.
-- Cold custom derivation/passphrase and pairing authentication remain open.
-- Nonce/from binding and some unknown-broadcast/limit edge cases remain.
+- Cold custom derivation/passphrase and strong pairing authentication remain open.
+- Nonce/from binding is now enforced for the hot path; other signing routes need continued review.
 - Release gate is evidence-backed but independent review is absent.

@@ -132,7 +132,7 @@ jobs:
       - name: Android signer inventory test
         run: bash scripts/test_android_inventory.sh
       - name: Release gate summary
-        run: python3 scripts/release-gate.py
+        run: python3 scripts/release-gate.py --require-source
       - run: python3 scripts/sbom.py --out docs/SBOM.json
       - name: SBOM must be committed and current
         run: |

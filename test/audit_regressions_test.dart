@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bip39_mnemonic/bip39_mnemonic.dart';
 
 import 'package:bnb_wallet_gui/cold_wallet.dart';
 import 'package:bnb_wallet_gui/security.dart';
+import 'package:bnb_wallet_gui/send_intent.dart';
 import 'package:bnb_wallet_gui/wallet_core.dart';
 
 void main() {
@@ -80,6 +83,73 @@ void main() {
       expect(AppSecurity.backoffSecondsForCount(11), 900);
       expect(AppSecurity.backoffSecondsForCount(64), 900);
       expect(AppSecurity.backoffSecondsForCount(100), 900);
+    });
+  });
+
+  group('send intent nonce and sender binding', () {
+    final self = '0x1111111111111111111111111111111111111111';
+    final other = '0x2222222222222222222222222222222222222222';
+
+    void verify({
+      int reviewNonce = 7,
+      int txNonce = 7,
+      String from = '0x1111111111111111111111111111111111111111',
+      String txFrom = '0x1111111111111111111111111111111111111111',
+    }) {
+      SendIntent.verify(
+        chainId: 56,
+        intendedChainId: 56,
+        native: true,
+        intendedRecipient: self,
+        intendedAmount: BigInt.one,
+        tokenAddress: '',
+        txTo: self,
+        txValue: BigInt.one,
+        txData: Uint8List(0),
+        txGasLimit: BigInt.from(21000),
+        txGasPrice: BigInt.from(3),
+        txMaxFeePerGas: null,
+        txMaxPriorityFeePerGas: null,
+        feeMode: 'legacy',
+        expectedGasPrice: BigInt.from(3),
+        expectedMaxFee: BigInt.zero,
+        expectedPriority: BigInt.zero,
+        nonce: reviewNonce,
+        txNonce: txNonce,
+        from: from,
+        txFrom: txFrom,
+      );
+    }
+
+    test('matching nonce and sender pass', () => verify());
+    test('changed nonce is refused', () {
+      expect(() => verify(txNonce: 8), throwsStateError);
+    });
+    test('changed sender is refused', () {
+      expect(() => verify(txFrom: other), throwsStateError);
+    });
+  });
+
+  group('cold pairing fingerprint', () {
+    test('binds every address and the chain', () {
+      final a = WalletCore.computeFingerprint(
+        '0x1111111111111111111111111111111111111111',
+        addresses: const [
+          '0x1111111111111111111111111111111111111111',
+          '0x2222222222222222222222222222222222222222',
+        ],
+        chainId: 56,
+      );
+      final b = WalletCore.computeFingerprint(
+        '0x1111111111111111111111111111111111111111',
+        addresses: const [
+          '0x1111111111111111111111111111111111111111',
+          '0x3333333333333333333333333333333333333333',
+        ],
+        chainId: 56,
+      );
+      expect(a, isNot(b));
+      expect(a.split(' ').first.length, 16);
     });
   });
 

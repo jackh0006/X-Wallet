@@ -21,6 +21,12 @@
 # upgraded over previous installs and would hide a lost release key.
 set -euo pipefail
 
+# Optional non-interactive signing for a passphrase-protected key.
+GPG_EXTRA=()
+if [ -n "${BNB_GPG_PASSPHRASE_FILE:-}" ]; then
+  GPG_EXTRA=(--pinentry-mode loopback --passphrase-file "$BNB_GPG_PASSPHRASE_FILE")
+fi
+
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
@@ -161,7 +167,7 @@ echo "[5/5] Done"
 
 if [ -n "${BNB_GPG_KEY:-}" ]; then
   for apk in "$ARM_APK" "$UNIVERSAL_APK"; do
-    gpg --batch --yes --digest-algo SHA256 \
+    gpg "${GPG_EXTRA[@]}" --batch --yes --digest-algo SHA256 \
       --default-key "$BNB_GPG_KEY" \
       --detach-sign --armor "$apk"
     echo "      $apk.asc"

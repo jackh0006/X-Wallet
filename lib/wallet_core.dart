@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart' as crypto;
 
 import 'package:bip32_plus/bip32_plus.dart';
 import 'package:bip39_mnemonic/bip39_mnemonic.dart';
@@ -508,15 +511,24 @@ class WalletCore {
     return addresses;
   }
 
-  /// Computes the cold pairing fingerprint: first 4 bytes of keccak256
-  /// of the first address (lowercase, no 0x), returned as 8 hex chars
-  /// plus 4 shape codes for visual verification.
-  static String computeFingerprint(String firstAddress) {
-    final body = _strip0x(firstAddress).toLowerCase();
-    final hash = keccak256(Uint8List.fromList(body.codeUnits));
-    final first4 = hash.take(4).toList();
-    final hex = bytesToHex(Uint8List.fromList(first4));
-    final shapes = first4.map((b) => _shapeForByte(b)).join(' ');
+  /// Computes the cold pairing fingerprint over the chain and EVERY paired
+  /// address, not just the first one. 16 hex chars (64 bits) plus shape codes
+  /// make accidental collisions vanishingly unlikely; a substituted address
+  /// list changes the fingerprint.
+  static String computeFingerprint(
+    String firstAddress, {
+    List<String>? addresses,
+    int chainId = 56,
+  }) {
+    final list = (addresses == null || addresses.isEmpty)
+        ? <String>[firstAddress]
+        : addresses;
+    final canonical =
+        '$chainId|${list.map((a) => _strip0x(a).toLowerCase()).join('|')}';
+    final hash = crypto.sha256.convert(utf8.encode(canonical)).bytes;
+    final first8 = hash.take(8).toList();
+    final hex = bytesToHex(Uint8List.fromList(first8));
+    final shapes = hash.take(4).map((b) => _shapeForByte(b)).join(' ');
     return '$hex $shapes';
   }
 

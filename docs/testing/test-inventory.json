@@ -9,11 +9,11 @@
       "tests": 3
     },
     {
-      "lines": 152,
+      "lines": 222,
       "path": "test/audit_regressions_test.dart",
-      "sha256": "e7ba92246270a07b9c4c6059cc12c7f97216290ed963112a9609265b35db0d9c",
+      "sha256": "f3e38f4afb2a7af39f63d695b804714565a1af5b890c5e244902bbd9306d4fbc",
       "tags": [],
-      "tests": 8
+      "tests": 12
     },
     {
       "lines": 70,
@@ -505,5 +505,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 391
+  "testCount": 395
 }

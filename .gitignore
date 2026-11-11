@@ -99,3 +99,6 @@ keys/
 /test_*.dart
 /bin/investigate*.dart
 /bin/verify_signature.dart
+
+# Kotlin/Gradle local build cache
+android/.kotlin/

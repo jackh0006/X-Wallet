@@ -1600,6 +1600,20 @@ class AppStorage {
     return _legacyVaultFile();
   }
 
+  /// Known pre-1.2 application-data directories on Linux.
+  static List<Directory> _legacyDataDirectories() {
+    if (!Platform.isLinux) return const [];
+    final home = Platform.environment['HOME'];
+    if (home == null || home.isEmpty) return const [];
+    final dataHome =
+        Platform.environment['XDG_DATA_HOME'] ?? '$home/.local/share';
+    return [
+      Directory('$dataHome/com.jackh0006.bnb_wallet_gui'),
+      Directory('$dataHome/com.jackh0006.bnb-wallet'),
+      Directory('$dataHome/bnb_wallet_gui'),
+    ];
+  }
+
   static Future<File> _legacyVaultFile() async {
     final customPath = getVaultPath();
     if (customPath != null) {
@@ -1982,6 +1996,11 @@ class AppStorage {
     for (final vault in vaults) {
       dirs.add(vault.parent.path);
     }
+    // Pre-1.2 releases used different application IDs. Their vault and
+    // plaintext device secret must not survive "erase all data".
+    for (final legacy in _legacyDataDirectories()) {
+      if (await legacy.exists()) dirs.add(legacy.path);
+    }
 
     final paths = <String>[];
     for (final vault in vaults) {
@@ -1994,7 +2013,11 @@ class AppStorage {
         ..add('$dir/bnb-wallet-receipts.bin')
         ..add('$dir/bnb-wallet-receipts.bin.tmp')
         ..add('$dir/bnb-wallet-log.bin')
-        ..add('$dir/bnb-wallet-log.bin.tmp');
+        ..add('$dir/bnb-wallet-log.bin.tmp')
+        ..add('$dir/bnb-wallet-vault.bnb')
+        ..add('$dir/bnb-wallet-vault.bnb.tmp')
+        ..add('$dir/device_secret_v2.drawer')
+        ..add('$dir/device_secret_v2.drawer.tmp');
     }
     for (final path in paths) {
       if (!await _shredAndUnlink(path)) {
@@ -2011,6 +2034,8 @@ class AppStorage {
             if (vault.parent.path == dir) '.${_basenameOf(vault.path)}-',
           '.bnb-wallet-receipts.bin-',
           '.bnb-wallet-log.bin-',
+          '.bnb-wallet-vault.bnb-',
+          '.device_secret_v2.drawer-',
         ];
         await for (final entity in Directory(dir).list(followLinks: false)) {
           if (entity is! File) continue;

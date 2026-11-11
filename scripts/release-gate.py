@@ -200,6 +200,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--require-verified", action="store_true")
+    parser.add_argument("--require-source", action="store_true")
+    parser.add_argument("--artifacts-dir", default=None)
     args = parser.parse_args()
 
     problems: list[str] = []
@@ -252,12 +254,22 @@ def main() -> int:
         problems.append("test inventory file count does not match the test tree")
 
     for artifact in artifacts:
-        path = ROOT / artifact.get("path", "")
-        if not path.is_file():
-            problems.append(f"artifact missing: {artifact.get('path')}")
-            continue
-        if sha256(path) != artifact.get("sha256"):
-            problems.append(f"artifact hash mismatch: {artifact.get('path')}")
+        name = str(artifact.get("name") or artifact.get("path") or "")
+        rel = str(artifact.get("path") or name)
+        if args.artifacts_dir:
+            path = Path(args.artifacts_dir) / Path(rel).name
+        elif artifact.get("path"):
+            path = ROOT / rel
+        else:
+            path = None
+        if path is not None:
+            if not path.is_file():
+                problems.append(f"artifact missing: {rel}")
+                continue
+            if sha256(path) != artifact.get("sha256"):
+                problems.append(f"artifact hash mismatch: {rel}")
+        elif args.require_verified:
+            problems.append(f"artifact has no path/name: {artifact}")
         if artifact.get("kind") == "android":
             signing = manifest.get("androidSigning", {})
             if not signing.get("rotationVerified") or not signing.get("denylistedFingerprints"):
@@ -265,7 +277,7 @@ def main() -> int:
                     "Android artifact present but key rotation/denylist is not verified"
                 )
         if artifact.get("signed") and not artifact.get("signatureVerified"):
-            problems.append(f"artifact signature not verified: {artifact.get('path')}")
+            problems.append(f"artifact signature not verified: {rel}")
 
     source_ok = not any(
         problem.startswith(("missing source check:", "failed source check:"))
@@ -320,6 +332,8 @@ def main() -> int:
             print(f"  - {problem}")
 
     if args.require_verified and status != "VERIFIED":
+        return 1
+    if args.require_source and not source_ok:
         return 1
     return 0 if status != "FAILED" else 1
 
