@@ -45,6 +45,8 @@ paying for repeated 64 MiB derivations.
 | `portable_backup_test.dart` | 5 | (light) | ✅ PASS | Round-trip, wrong password, tamper, truncation, fresh-device restore |
 | `privacy_startup_test.dart` | 2 | (light) | ✅ PASS | Tor transport rebuilt after init, USD prices off by default |
 | `node_secret_storage_test.dart` | 3 | (light) | ✅ PASS | Node credentials absent from plain prefs, export strips them, PIN fails closed |
+| `audit_regressions_test.dart` | 8 | (light) | ✅ PASS | Official BIP-39 vector, EIP-55 input validation, PIN backoff overflow, cold ERC-20 contract binding |
+| `erase_all_appstate_test.dart` | 1 | (light) | ✅ PASS | AppState.eraseAll completes without the process-lock deadlock and removes vault/log/drawer |
 
 ### Real EVM Integration (tag: `integration`)
 

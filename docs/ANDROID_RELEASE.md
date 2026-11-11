@@ -79,7 +79,8 @@ recovery words are safe).
 
 ## Release evidence
 
-Every published APK is covered by `SHA256SUMS` and a detached GPG signature.
+Every published APK has a per-file `.sha256` and a detached GPG signature.
+The release page also carries a signed `SHA256SUMS` covering the assets.
 The exact hashes and source commit are in `release/evidence.json` and
 `release/manifest.json`. Do not call an APK verified unless the signer check
 and the hash check both pass.

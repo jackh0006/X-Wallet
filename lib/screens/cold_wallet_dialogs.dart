@@ -430,6 +430,8 @@ Future<void> coldSignPendingRequest(
       'Network: BSC chain ${decoded.chainId}',
       'From: ${decoded.from}',
       'To: ${decoded.decodedTo ?? decoded.to}',
+      if (!decoded.assetInfo.isNative)
+        'Token contract: ${decoded.assetInfo.contractAddress ?? decoded.to}',
       if (decoded.functionName != null) 'Function: ${decoded.functionName}',
       'Amount: ${_amountLine(decoded)}',
       'Nonce: ${decoded.nonce}',
@@ -437,8 +439,18 @@ Future<void> coldSignPendingRequest(
       'Max fee: ${WalletCore.formatEther(decoded.totalPossibleFee)} BNB',
       'Request expires: ${decoded.expiresAt.toIso8601String()}',
       'Request hash: ${ColdWalletProtocol.requestHash(incoming)}',
+      if (decoded.assetInfo.isUnknown)
+        '⚠ Token not recognized on this device. Verify the contract address.',
       if (decoded.warning != null) '⚠ ${decoded.warning}',
     ].join('\n');
+    final policyRejection = appState.spendingPolicy.rejection(
+      nativeAmountWei: decoded.assetInfo.isNative ? decoded.value : BigInt.zero,
+      recipient: decoded.decodedTo ?? decoded.to,
+    );
+    if (policyRejection != null) {
+      if (context.mounted) showError(context, policyRejection);
+      return;
+    }
     final held = await showHoldToConfirm(
       context,
       title: 'Review offline signing',
@@ -562,13 +574,28 @@ Future<void> coldImportAndBroadcastSignature(BuildContext context) async {
       coldAddresses: pairing.addresses,
       knownTokens: _knownTokens(),
     );
+    if (request.chainId != appState.rpc.chainId) {
+      throw StateError(
+        'The request is for chain ${request.chainId}, but this device is '
+        'connected to chain ${appState.rpc.chainId}. Switch network first.',
+      );
+    }
+    final policyRejection = appState.spendingPolicy.rejection(
+      nativeAmountWei: decoded.assetInfo.isNative ? decoded.value : BigInt.zero,
+      recipient: decoded.decodedTo ?? decoded.to,
+    );
+    if (policyRejection != null) {
+      throw StateError(policyRejection);
+    }
     if (!context.mounted) return;
     final ok = await confirmDialog(
       context,
       title: 'Broadcast this signed transfer?',
       message:
           'Verified signer: ${verified.from}\n'
+          'Network: BSC chain ${request.chainId}\n'
           'To: ${decoded.decodedTo ?? decoded.to}\n'
+          '${decoded.assetInfo.isNative ? '' : 'Token contract: ${decoded.assetInfo.contractAddress ?? decoded.to}\n'}'
           'Amount: ${_amountLine(decoded)}\n'
           'Nonce: ${decoded.nonce}\n'
           'Tx hash: ${verified.txHash}\n\n'

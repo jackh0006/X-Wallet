@@ -1,5 +1,5 @@
 {
-  "fileCount": 67,
+  "fileCount": 69,
   "files": [
     {
       "lines": 101,
@@ -7,6 +7,13 @@
       "sha256": "0e6dec617dd399d960634317ccd987b06b2eae3e7b454225d02ca3aaf011de49",
       "tags": [],
       "tests": 3
+    },
+    {
+      "lines": 152,
+      "path": "test/audit_regressions_test.dart",
+      "sha256": "e7ba92246270a07b9c4c6059cc12c7f97216290ed963112a9609265b35db0d9c",
+      "tags": [],
+      "tests": 8
     },
     {
       "lines": 70,
@@ -107,6 +114,13 @@
       "sha256": "03198e6d5cb389aefe4b8a8f84d7bffd2cbdd35ff937692bca28d05cedeb9bc8",
       "tags": [],
       "tests": 4
+    },
+    {
+      "lines": 74,
+      "path": "test/erase_all_appstate_test.dart",
+      "sha256": "b65e843cedfbcc9c873d18f64c23f551d88aece773adbea5989d35a40b7bd597",
+      "tags": [],
+      "tests": 1
     },
     {
       "lines": 88,
@@ -491,5 +505,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 382
+  "testCount": 391
 }

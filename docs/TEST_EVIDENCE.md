@@ -18,7 +18,7 @@ reading the source or testing the wallet yourself.
 | Tag | `v1.5.0` (candidate) |
 | Package | `x-wallet-1.5.0-amd64.deb` |
 | SHA-256 | `cd4e2fef17c907a88fa5e1dde96efc5f30bcc9ee7775157b7295a71097c8b0ec` |
-| SBOM | `docs/SBOM.json` — 116 packages |
+| SBOM | `docs/SBOM.json` — 126 CycloneDX components |
 | Signature | `SHA256SUMS.asc` — EdDSA |
 | Signing fingerprint | `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` |
 | Evidence bundle | `release/evidence.json` |
@@ -97,11 +97,11 @@ reading the source or testing the wallet yourself.
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | PASS | All native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | PASS: install, upgrade from `bnb-wallet` 1.0.9 with data preserved, launch, uninstall, reinstall | The real package lifecycle works and existing data survives the rename. |
 | ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` | PASS: identical archive `3107e9c4…` and manifests, 247 s | Two builds at the same path produce the same archive. |
-| ✅ PASS | Cross-runner reproducibility | GitHub Actions `reproducibility` workflow, release commit | PASS | Separate runners reproduce the same fixed-path archive. |
+| ⚠️ NOT TESTED | Cross-runner reproducibility | No independent runner for 1.5.3 | NOT TESTED | Fixed-path same-host only. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | PASS, 1.8 s | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | PASS, 4.6 s | No current advisory flags for the locked dependencies. |
 | ✅ PASS | License inventory | `python3 scripts/license-check.py` | PASS, 0.4 s | Every dependency license is inventoried. |
-| ✅ PASS | SBOM | `python3 scripts/sbom.py --out docs/SBOM.json` | PASS: 116 packages | The complete dependency inventory is generated and hashed. |
+| ✅ PASS | SBOM | `python3 scripts/sbom.py --out docs/SBOM.json` | PASS: 126 CycloneDX components | The complete dependency inventory is generated and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | PASS | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `python3 scripts/test_release_identity.py` | PASS: 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |
 | ✅ PASS | Published artifact signature | `scripts/verify-release-signature.sh` in a clean GNUPGHOME | PASS: `SHA256SUMS.asc` verified; fingerprint `CC819EF5E109A1518E840379D8C0CEC84BCCE06B` | The exact published `.deb` checksum is covered by a detached owner signature and verified independently. |

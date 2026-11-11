@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart' show compute;
+import 'package:flutter/foundation.dart' show compute, visibleForTesting;
 import 'package:local_auth/local_auth.dart';
 
 import 'storage.dart';
@@ -112,32 +112,39 @@ class AppSecurity {
   static Future<Duration> backoffRemaining() async {
     final state = await AppStorage.getBackoffState();
     if (state == null) return Duration.zero;
-    final (count, untilMs) = state;
+    final (_, untilMs) = state;
     final until = DateTime.fromMillisecondsSinceEpoch(untilMs);
     final remaining = until.difference(DateTime.now());
-    if (remaining.isNegative) return Duration.zero;
-    if (count > 0) {
-      // Refresh the stored window so calendar skips do not help.
-      final scaled = remaining;
-      await AppStorage.setBackoffState(
-        count,
-        DateTime.now().millisecondsSinceEpoch + scaled.inMilliseconds,
-      );
-    }
-    return remaining;
+    return remaining.isNegative ? Duration.zero : remaining;
   }
 
   static Future<void> registerFailedAttempt() async {
     final state = await AppStorage.getBackoffState();
     final count = (state?.$1 ?? 0) + 1;
-    final seconds = min(1 << (count - 1), 900);
+    final seconds = backoffSecondsForCount(count);
     final until = DateTime.now().millisecondsSinceEpoch + seconds * 1000;
     await AppStorage.setBackoffState(count, until);
+  }
+
+  /// Pure backoff schedule: 1, 2, 4, …, capped at 15 minutes. Clamped so a
+  /// long failure streak cannot overflow Dart's shift and expire the cooldown.
+  @visibleForTesting
+  static int backoffSecondsForCount(int count) {
+    final exponent = (count - 1).clamp(0, 30);
+    return min(1 << exponent, 900);
   }
 
   static Future<void> clearBackoff() => AppStorage.clearBackoffState();
 
   static Future<bool> verifyPin(String pin) async {
+    // Defense in depth: the lock screen also checks this, but a future caller
+    // must not be able to bypass the persisted cooldown.
+    try {
+      if (await backoffRemaining() > Duration.zero) return false;
+    } catch (_) {
+      // An unreadable keyring must never unlock the app.
+      return false;
+    }
     final String? stored;
     try {
       stored = await AppStorage.getPinHash();

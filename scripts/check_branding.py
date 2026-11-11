@@ -85,7 +85,12 @@ def main() -> int:
     build_deb = (ROOT / "scripts" / "build-deb.sh").read_text(encoding="utf-8")
     for line in build_deb.splitlines():
         stripped = line.strip()
-        if stripped.startswith("Name=") and stripped != "Name=X Wallet":
+        if stripped.startswith("Name=") and stripped not in {
+            "Name=X Wallet",
+            "Name=X Wallet (Cold)",
+        }:
+            errors.append(f"scripts/build-deb.sh: unexpected display name: {stripped}")
+        if stripped.startswith("Name=") and any(ch.isdigit() for ch in stripped):
             errors.append(f"scripts/build-deb.sh: display name carries a version: {stripped}")
         if stripped.startswith("Description:") and not stripped.startswith(
             "Description: X Wallet —"
@@ -119,16 +124,16 @@ def main() -> int:
         (ROOT / "pubspec.yaml").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
-    if not version or version.group(1) != "1.5.3+15":
-        errors.append(f"pubspec version is not 1.5.3+15: {version.group(1) if version else 'missing'}")
-    if not (ROOT / "docs" / "releases" / "1.5.3.md").is_file():
-        errors.append("missing docs/releases/1.5.3.md")
+    if not version or version.group(1) != "1.5.4+16":
+        errors.append(f"pubspec version is not 1.5.4+16: {version.group(1) if version else 'missing'}")
+    if not (ROOT / "docs" / "releases" / "1.5.4.md").is_file():
+        errors.append("missing docs/releases/1.5.4.md")
 
     version_file = ROOT / "VERSION"
     if not version_file.is_file() or version_file.read_text(encoding="utf-8").strip() != version.group(1):
         errors.append("VERSION is missing or does not match pubspec.yaml")
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    if 'version: "1.5.3"' not in citation:
+    if 'version: "1.5.4"' not in citation:
         errors.append("CITATION.cff version is not 1.5.3")
 
     app_version_file = ROOT / "lib" / "app_version.dart"

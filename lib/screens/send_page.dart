@@ -1048,6 +1048,14 @@ class _SendPageState extends State<SendPage>
       showError(context, 'Enter a valid 0x recipient address.');
       return;
     }
+    if (!WalletCore.isChecksumValid(to)) {
+      showError(
+        context,
+        'The mixed-case checksum is invalid. Re-copy the address; a '
+        'single changed letter is a different address.',
+      );
+      return;
+    }
     if (WalletCore.isZeroAddress(to)) {
       showError(context, 'The zero address cannot receive a transfer.');
       return;
@@ -1312,6 +1320,28 @@ class _SendPageState extends State<SendPage>
                   'From: ${_groupAddress(from)}',
                   style: const TextStyle(fontSize: 12),
                 ),
+                if (!_asset.native) ...[
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Token contract (verify this, not only the symbol):',
+                    style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
+                  ),
+                  SelectableText(
+                    _groupAddress(_asset.address),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  if (TokenRegistry.of(_asset).warning != null)
+                    Text(
+                      '⚠ ${TokenRegistry.of(_asset).warning}',
+                      style: const TextStyle(
+                        color: Colors.orangeAccent,
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
                 Text(
                   'Amount: ${WalletCore.formatUnits(amount, assetDecimals)} $_assetDisplaySymbol',
                 ),
@@ -2094,7 +2124,12 @@ class _SendPageState extends State<SendPage>
     final at = DateTime.tryParse(tx.sentAt);
     final age = at == null ? Duration.zero : DateTime.now().difference(at);
     final long = age.inSeconds > 120;
-    final status = replaced ? 'replaced' : (long ? 'taking long' : 'waiting');
+    final unknown = tx.status == 'unknown' || tx.status == 'signed';
+    final status = replaced
+        ? 'replaced'
+        : unknown
+        ? 'unconfirmed'
+        : (long ? 'taking long' : 'waiting');
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Column(
@@ -2149,7 +2184,7 @@ class _SendPageState extends State<SendPage>
                   label: const Text('Cancel'),
                 ),
               ],
-              if (replaced || long)
+              if (replaced || (long && !unknown))
                 TextButton.icon(
                   onPressed: () => _removePending(tx),
                   icon: const Icon(Icons.delete_outline, size: 15),

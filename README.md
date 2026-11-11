@@ -14,7 +14,7 @@
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.5.3+15** · 67 test files · 382 test declarations
+> **X Wallet 1.5.4+16** · 69 test files · 391 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
@@ -83,7 +83,7 @@ phone and on their desktop, without an account or a cloud.
 
 ## Supported networks
 
-Version **1.5.1** enables **BNB Smart Chain** mainnet (56) and testnet (97).
+Version **1.5.3** enables **BNB Smart Chain** mainnet (56) and testnet (97).
 The codebase uses EVM address, transaction, and signing primitives. Additional
 EVM networks are planned; support begins only when a release documents it.
 
@@ -96,14 +96,14 @@ Get the latest release from:
 ```bash
 # 1. Download the package and checksums from the release page.
 # 2. Verify the download.
-sha256sum x-wallet-1.5.1-amd64.deb
+sha256sum x-wallet-1.5.3-amd64.deb
 sha256sum -c SHA256SUMS
 gpg --import x-wallet-signing-key.asc
 gpg --fingerprint CC819EF5E109A1518E840379D8C0CEC84BCCE06B
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
 # 3. Install.
-sudo apt install ./x-wallet-1.5.1-amd64.deb
+sudo apt install ./x-wallet-1.5.3-amd64.deb
 ```
 
 The Debian package is `x-wallet`. It replaces `bnb-wallet`, preserves the
@@ -245,15 +245,15 @@ Actions run. No new tests were invented for this page.
 | Mark | Test | Command / evidence | What it proves |
 |---|---|---|---|
 | ✅ PASS | Linux release build | `flutter build linux --release` | The desktop release bundle builds successfully. |
-| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.5.1-amd64.deb` is produced. |
+| ✅ PASS | Debian package build | `bash scripts/build-deb.sh` | A real `x-wallet-1.5.3-amd64.deb` is produced. |
 | ✅ PASS | Package sanity | `dpkg-deb -x` + `ldd` + secret-name scan | Native libraries resolve and no secret-bearing filenames are packaged. |
 | ✅ PASS | Install / launch / upgrade / uninstall | `scripts/package-smoke.sh` on Ubuntu 24.04 | Install, launch, upgrade from `bnb-wallet` 1.0.9 with data preserved, uninstall, and reinstall all work. |
-| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `dffb5b35…` | Two builds produce the identical archive and manifest. |
-| ✅ PASS | Cross-runner reproducibility | CI workflow run `42315071276` | Separate runners reproduce the same fixed-path archive. |
+| ✅ PASS | Fixed-path reproducibility | `bash scripts/reproducibility-check.sh` — archive `40ce258c…` | Two builds produce the identical archive and manifest. |
+| ⚠️ NOT TESTED | Cross-runner reproducibility | Fixed-path same-host run only | No independent runner rebuild for 1.5.3. |
 | ✅ PASS | Secret scan | `bash scripts/secret-scan.sh` | No secrets in the current tree. |
 | ✅ PASS | Dependency advisory audit | `python3 scripts/dependency-audit.py` | No current advisory flags for the locked dependencies. |
 | ✅ PASS | License inventory | `python3 scripts/license-check.py` | Every dependency license is inventoried. |
-| ✅ PASS | SBOM | `python3 scripts/sbom.py` — 116 packages | The full dependency inventory is published and hashed. |
+| ✅ PASS | SBOM | `python3 scripts/sbom.py` — 126 CycloneDX components | The full dependency inventory is published and hashed. |
 | ✅ PASS | Release evidence identity | `python3 scripts/check_release_identity.py` | Manifest, SBOM, evidence, and artifact hashes bind to one source commit. |
 | ✅ PASS | Release identity negative tests | `scripts/test_release_identity.py` — 15/15 | Stale, tampered, malformed, and ambiguous identities are rejected. |
 | ✅ PASS | Localization | `test/localization_test.dart` | English is the only supported language; translations are not shipped. |
