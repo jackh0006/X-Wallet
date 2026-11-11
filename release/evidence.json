@@ -1,5 +1,6 @@
 {
   "artifactPathRecord": "x-wallet-1.5.5-amd64.deb; signed Android arm64 and ARM-only universal APKs; source archive; SBOM",
+  "artifactProvenance": "Binaries (deb/APKs) were built from the tested code commit 32b0aad; the source snapshot x-wallet-1.5.5-source.tar.gz was archived from 95e34ed, which adds only the passphrase-aware release scripts and .gitignore entry. The final release tag adds docs/evidence only.",
   "artifactSha256": "2f8ef8734bf06bce34d67dab6d83c66fa0bde83106bcb8b1a588ec3531c77298",
   "artifactSigned": true,
   "artifactSourceCommit": "32b0aad3c296b52e2bfd4d84929c09de5c67eb0d",
@@ -373,6 +374,7 @@
     "verifiedAt": "2026-11-11T21:15:49.920950Z"
   },
   "sourceCommit": "e59124eee13c06d4d79b242396caccc79f43f2a5",
+  "sourceSnapshotCommit": "95e34ed66424e075a2e79f2dbe9f0f6b836de047",
   "squashMerge": {
     "branchHead": "2b1d192659048aa476aa429ad15e4945142bcb04",
     "mergeCommit": "e59124eee13c06d4d79b242396caccc79f43f2a5",
