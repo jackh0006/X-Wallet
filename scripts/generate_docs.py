@@ -98,6 +98,7 @@ RELEASE_TOOLING_PATHS = {
     "scripts/check_release_evidence.py",
     "scripts/build-deb.sh",
     ".gitignore",
+    "scripts/verify-release-assets.sh",
     "scripts/build-apk.sh",
     "scripts/sign-release.sh",
     "scripts/check_release_identity.py",

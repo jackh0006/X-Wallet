@@ -7,6 +7,20 @@ ASSETS="${2:-release-assets}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EXPECTED_SIGNER="${EXPECTED_ANDROID_SIGNER:-2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a}"
 
+EXPECTED_GPG="${EXPECTED_GPG_FINGERPRINT:-CC819EF5E109A1518E840379D8C0CEC84BCCE06B}"
+
+# Verify against the repository's published public key only. A clean runner has
+# no owner keyring; importing the committed public key keeps the check
+# reproducible without trusting a keyserver.
+if ! gpg --batch --list-keys "$EXPECTED_GPG" >/dev/null 2>&1; then
+  gpg --batch --import "$ROOT/docs/keys/x-wallet-signing-key.asc" >/dev/null 2>&1
+fi
+actual_fpr="$(gpg --batch --with-colons --fingerprint "$EXPECTED_GPG" 2>/dev/null | sed -n 's/^fpr:::::::::\([^:]*\):/\1/p' | head -1)"
+[ "$actual_fpr" = "$EXPECTED_GPG" ] || {
+  echo "ERROR: signing key fingerprint $actual_fpr != $EXPECTED_GPG" >&2
+  exit 1
+}
+
 mkdir -p "$ASSETS"
 gh release download "$TAG" --dir "$ASSETS" --clobber
 
@@ -22,10 +36,15 @@ gh release download "$TAG" --dir "$ASSETS" --clobber
     gpg --batch --verify "$sig" "${sig%.asc}"
   done
   echo "== deb identity =="
-  DEB="$(ls ./*.deb | head -1)"
-  dpkg-deb -f "$DEB" Package Version Description | head -3
-  dpkg-deb -f "$DEB" Package | grep -qx 'Package: x-wallet'
-  dpkg-deb -f "$DEB" Description | grep -q '^Description: X Wallet —'
+  DEB="$(find . -maxdepth 1 -name '*.deb' -print -quit)"
+  dpkg-deb -f "$DEB" Package Version Description >/dev/null
+  echo "package: $(dpkg-deb -f "$DEB" Package) $(dpkg-deb -f "$DEB" Version)"
+  [ "$(dpkg-deb -f "$DEB" Package)" = "x-wallet" ]
+  desc="$(dpkg-deb -f "$DEB" Description)"
+  case "$desc" in
+    "X Wallet —"*) ;;
+    *) echo "ERROR: unexpected deb description: $desc" >&2; exit 1 ;;
+  esac
   echo "== APK signer =="
   if command -v apksigner >/dev/null 2>&1; then
     for apk in ./*.apk; do

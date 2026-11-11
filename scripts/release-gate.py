@@ -141,6 +141,8 @@ RELEASE_TOOLING_PATHS = {
     "scripts/test-suite-fast.sh",
     "scripts/package-launch-smoke.sh",
     "scripts/build_review_bundle.py",
+    "scripts/verify-release-assets.sh",
+    ".github/workflows/release-verify.yml",
 }
 
 
