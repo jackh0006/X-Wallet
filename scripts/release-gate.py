@@ -162,6 +162,7 @@ def evidence_commit_ok(source_commit: str) -> bool:
     return all(
         path in {"README.md", "AGENTS.md", "IMPLEMENTATION_STATUS.md"}
         or path in RELEASE_TOOLING_PATHS
+        or path in EVIDENCE_ONLY_PATHS
         or path.startswith("docs/")
         or path.startswith("release/")
         for path in changed
