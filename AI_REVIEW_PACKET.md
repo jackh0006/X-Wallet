@@ -23,32 +23,32 @@ not depend on the GitHub UI or its rate-limited code browser.
 
 | What | Raw URL |
 |---|---|
-| README | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/README.md |
-| `pubspec.yaml` | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/pubspec.yaml |
-| `pubspec.lock` | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/pubspec.lock |
-| Threat model | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/THREAT_MODEL.md |
-| Cryptography | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/CRYPTO.md |
-| Network guide | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/network/NETWORK_GUIDE.md |
-| Claim register | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/CLAIM_REGISTER.md |
-| Proof matrix | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/PROOF_MATRIX.md |
-| Hardening report | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/HARDENING_REPORT.md |
-| Security scorecard | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/SECURITY_SCORECARD.md |
-| Known limitations | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/KNOWN_LIMITATIONS.md |
-| Privacy | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/PRIVACY.md |
-| Data control | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/DATA_CONTROL.md |
-| SBOM (CycloneDX) | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/SBOM.json |
-| Vault code | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/lib/vault.dart |
-| RPC code | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/lib/rpc_service.dart |
-| HTTP/proxy/TLS code | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/lib/net/privacy_client.dart |
-| Send/review code | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/lib/screens/send_page.dart |
-| Crypto/address code | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/lib/wallet_core.dart |
-| Test inventory | https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/testing/test-inventory.json |
+| README | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/README.md |
+| `pubspec.yaml` | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/pubspec.yaml |
+| `pubspec.lock` | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/pubspec.lock |
+| Threat model | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/THREAT_MODEL.md |
+| Cryptography | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/CRYPTO.md |
+| Network guide | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/network/NETWORK_GUIDE.md |
+| Claim register | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/CLAIM_REGISTER.md |
+| Proof matrix | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/PROOF_MATRIX.md |
+| Hardening report | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/HARDENING_REPORT.md |
+| Security scorecard | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/SECURITY_SCORECARD.md |
+| Known limitations | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/KNOWN_LIMITATIONS.md |
+| Privacy | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/PRIVACY.md |
+| Data control | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/DATA_CONTROL.md |
+| SBOM (CycloneDX) | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/SBOM.json |
+| Vault code | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/lib/vault.dart |
+| RPC code | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/lib/rpc_service.dart |
+| HTTP/proxy/TLS code | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/lib/net/privacy_client.dart |
+| Send/review code | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/lib/screens/send_page.dart |
+| Crypto/address code | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/lib/wallet_core.dart |
+| Test inventory | https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/testing/test-inventory.json |
 
 One-file bundle of the key design docs:
-<https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/REVIEW_BUNDLE.md>
+<https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/REVIEW_BUNDLE.md>
 
 Source map with per-file raw URLs and blob SHA-1:
-<https://raw.githubusercontent.com/jackh0006/X-Wallet/34d31e1cc8375b5bbd491edba751c9f1760b9df0/docs/SOURCE_MAP.md>
+<https://raw.githubusercontent.com/jackh0006/X-Wallet/main/docs/SOURCE_MAP.md>
 
 ## What X Wallet is
 
