@@ -306,7 +306,7 @@
     }
   ],
   "checksCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84",
-  "identityNote": "1.5.3 code and tests were recorded against b84c6feeeb1a7feb2aa7123939b206606adbec84. The release evidence commit follows it; sourceCommit is an ancestor of the tagged commit.",
+  "identityNote": "The reviewed branch head 2e4c4c2 was squash-merged as 4867ff1. The squash tree is identical to the reviewed branch tree. Source checks were recorded against the tested code commit b84c6fe; the squash source commit is its content-identical successor plus documentation, evidence and release tooling.",
   "notes": [
     "Linux package and Android APKs are signed with owner key CC819EF5E109A1518E840379D8C0CEC84BCCE06B.",
     "Android 1.5.3 uses a new certificate 2a96a384eb0db55bb4fb0fb2107df386ecc595b38bc46225ef9b18309d93ba9a; it cannot upgrade 1.5.1 in place.",
@@ -335,10 +335,10 @@
     "verified": true,
     "verifiedAt": "2026-11-10T23:10:55.469512Z"
   },
-  "sourceCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84",
+  "sourceCommit": "4867ff1e9e19fd49d39345a0481acfe5a154d6f4",
   "squashMerge": {
-    "branchHead": "b84c6feeeb1a7feb2aa7123939b206606adbec84",
-    "mergeCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84",
+    "branchHead": "2e4c4c23e16bdfd2171993eaaa6e4adeb91e1280",
+    "mergeCommit": "4867ff1e9e19fd49d39345a0481acfe5a154d6f4",
     "testedCommit": "b84c6feeeb1a7feb2aa7123939b206606adbec84"
   },
   "status": "PARTIALLY VERIFIED",
