@@ -72,7 +72,21 @@ class SendIntent {
     required BigInt expectedGasPrice, // legacy preset
     required BigInt expectedMaxFee, // eip1559 preset
     required BigInt expectedPriority, // eip1559 preset
+    int? nonce, // reviewed nonce
+    String? from, // reviewed sender
+    int? txNonce, // nonce in the exact signed object
+    String? txFrom, // sender in the exact signed object
   }) {
+    if (nonce != null && txNonce != nonce) {
+      throw StateError(
+        'Transaction nonce changed after review. Refusing to sign.',
+      );
+    }
+    if (from != null && txFrom != null && !_sameAddress(from, txFrom)) {
+      throw StateError(
+        'Transaction sender changed after review. Refusing to sign.',
+      );
+    }
     if (chainId != intendedChainId) {
       throw StateError(
         'Transaction chain id changed after review. Refusing to sign.',

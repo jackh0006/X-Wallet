@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream
 
 class MainActivity : FlutterFragmentActivity() {
     private val channelName = "com.jackh0006.xwallet/files"
+    private val maxImportBytes = 8 * 1024 * 1024
     private var pendingSave: MethodChannel.Result? = null
     private var pendingSaveBytes: ByteArray? = null
     private var pendingOpen: MethodChannel.Result? = null
@@ -49,7 +50,17 @@ class MainActivity : FlutterFragmentActivity() {
             try {
                 val bytes = contentResolver.openInputStream(uri)?.use { stream ->
                     val out = ByteArrayOutputStream()
-                    stream.copyTo(out)
+                    val buffer = ByteArray(8192)
+                    var total = 0
+                    while (true) {
+                        val read = stream.read(buffer)
+                        if (read < 0) break
+                        total += read
+                        if (total > maxImportBytes) {
+                            throw IllegalArgumentException("Selected file is larger than 8 MiB.")
+                        }
+                        out.write(buffer, 0, read)
+                    }
                     out.toByteArray()
                 } ?: throw IllegalStateException("Cannot open the selected file.")
                 result.success(bytes)

@@ -148,7 +148,11 @@ class ColdWalletProtocol {
       walletName: walletName.trim(),
       chainId: chainId,
       addresses: normalized,
-      fingerprint: WalletCore.computeFingerprint(normalized.first),
+      fingerprint: WalletCore.computeFingerprint(
+        normalized.first,
+        addresses: normalized,
+        chainId: chainId,
+      ),
       exportedAt: DateTime.now().toUtc().toIso8601String(),
       xpub: includeXpub ? xpub : null,
       includeXpub: includeXpub,
@@ -220,7 +224,11 @@ class ColdWalletProtocol {
       addresses.add(address);
     }
     final fingerprint = _asString(payload['fingerprint'], 'fingerprint');
-    final expectedFingerprint = WalletCore.computeFingerprint(addresses.first);
+    final expectedFingerprint = WalletCore.computeFingerprint(
+      addresses.first,
+      addresses: addresses,
+      chainId: chainId,
+    );
     if (fingerprint != expectedFingerprint) {
       throw const ColdProtocolException('Pairing fingerprint mismatch');
     }

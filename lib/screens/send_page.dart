@@ -1605,6 +1605,10 @@ class _SendPageState extends State<SendPage>
         expectedGasPrice: selected.gasPrice ?? BigInt.zero,
         expectedMaxFee: selected.maxFeePerGas,
         expectedPriority: selected.priorityFeePerGas,
+        nonce: nonce,
+        from: from,
+        txNonce: transaction.nonce,
+        txFrom: transaction.from?.eip55With0x,
       );
       if (appState.onlineMode) {
         if (selected.mode != 'eip1559') {
@@ -2364,6 +2368,10 @@ class _SendPageState extends State<SendPage>
         expectedGasPrice: eip ? BigInt.zero : newPrice,
         expectedMaxFee: eip ? newMax : newPrice,
         expectedPriority: eip ? newPriority : BigInt.zero,
+        nonce: tx.nonce,
+        from: self,
+        txNonce: transaction.nonce,
+        txFrom: transaction.from?.eip55With0x,
       );
       final signed = await rpc.signOnly(transaction, key);
       if (mounted) setState(() => _stage = TxStage.broadcast);

@@ -465,23 +465,36 @@ class _AuthenticatingHttpClient extends http.BaseClient {
 
   void _addCustomHeaders(http.BaseRequest request) {
     // R4: Block headers that could identify the app/device
-    const blockedHeaders = {
+    const blockedExact = {
       'user-agent',
+      'accept-language',
+      'accept-encoding',
+      'cookie',
+      'set-cookie',
+      'referer',
+      'origin',
+      'host',
+      'content-length',
+      'authorization',
+      'x-api-key',
       'x-forwarded-for',
       'x-real-ip',
-      'x-client-',
-      'x-dev-',
-      'x-app-',
-      'x-wallet-',
     };
+    const blockedPrefixes = {'x-client-', 'x-dev-', 'x-app-', 'x-wallet-'};
 
     for (final entry in node.customHeaders.entries) {
       final lowerKey = entry.key.toLowerCase();
-      if (blockedHeaders.any((b) => lowerKey.startsWith(b))) {
-        // Silently drop identifying headers
+      if (blockedExact.contains(lowerKey) ||
+          blockedPrefixes.any(lowerKey.startsWith)) {
+        // Never let a custom header add tracking, credentials, cookies or a
+        // transport framing header. Node auth is added by the dedicated path.
         continue;
       }
-      request.headers[entry.key] = entry.value;
+      final value = entry.value;
+      if (value.length > 4096 || value.contains('\r') || value.contains('\n')) {
+        continue;
+      }
+      request.headers[entry.key] = value;
     }
   }
 }
