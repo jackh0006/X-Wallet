@@ -6,52 +6,6 @@
   "artifacts": [],
   "checks": [
     {
-      "command": "env BNB_OUTDIR=/tmp/xw-1.5.4-deb BNB_GPG_KEY=CC819EF5E109A1518E840379D8C0CEC84BCCE06B bash scripts/build-deb.sh",
-      "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
-      "durationSeconds": 180,
-      "exitCode": 0,
-      "finishedAt": "2026-11-11T17:57:04.416785Z",
-      "id": "deb-build",
-      "log": "/tmp/xw-1.5.4-deb/build.log",
-      "logSha256": "fcf53b842b95bc8bc711757e00c190fa52e75585faedfc36d8cbc900dd1ef519",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": null,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-11T17:57:04.416785Z",
-      "toolchain": {
-        "dart": "Dart 3.13.5",
-        "flutter": "Flutter 3.47.6"
-      }
-    },
-    {
-      "command": "bash scripts/test-suite-fast.sh",
-      "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
-      "durationSeconds": 420,
-      "exitCode": 0,
-      "finishedAt": "2026-11-11T18:28:13.965575Z",
-      "id": "full-test-suite",
-      "log": "/tmp/xw-1.5.4-ev/full-suite.log",
-      "logSha256": "a89e4e3496f599bea9a1c6ee032e662c11af17ec5cebd7ead0f4b7f42b344cf6",
-      "machine": {
-        "architecture": "x86_64",
-        "cpuCount": 2,
-        "kernel": "7.0.0-42-generic",
-        "memoryBytes": null,
-        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
-      },
-      "required": true,
-      "startedAt": "2026-11-11T18:28:13.965575Z",
-      "toolchain": {
-        "dart": "Dart 3.13.5",
-        "flutter": "Flutter 3.47.6"
-      }
-    },
-    {
       "command": "bash -lc cd verification && npm ci --silent && node verify.cjs",
       "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
       "durationSeconds": 10.401,
@@ -72,6 +26,29 @@
       "toolchain": {
         "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
         "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
+      }
+    },
+    {
+      "command": "env BNB_OUTDIR=/tmp/xw-1.5.4-deb BNB_GPG_KEY=CC819EF5E109A1518E840379D8C0CEC84BCCE06B bash scripts/build-deb.sh",
+      "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
+      "durationSeconds": 180,
+      "exitCode": 0,
+      "finishedAt": "2026-11-11T17:57:04.416785Z",
+      "id": "deb-build",
+      "log": "/tmp/xw-1.5.4-deb/build.log",
+      "logSha256": "fcf53b842b95bc8bc711757e00c190fa52e75585faedfc36d8cbc900dd1ef519",
+      "machine": {
+        "architecture": "x86_64",
+        "cpuCount": 2,
+        "kernel": "7.0.0-42-generic",
+        "memoryBytes": null,
+        "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
+      },
+      "required": true,
+      "startedAt": "2026-11-11T17:57:04.416785Z",
+      "toolchain": {
+        "dart": "Dart 3.13.5",
+        "flutter": "Flutter 3.47.6"
       }
     },
     {
@@ -121,26 +98,49 @@
       }
     },
     {
-      "command": "bash -lc XVFB_BIN=/tmp/xvfb-root/usr/bin/Xvfb bash scripts/package-launch-smoke.sh /tmp/xw-1.5.4-deb/x-wallet-1.5.4-amd64.deb 8",
+      "command": "bash scripts/test-suite-fast.sh",
       "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
-      "durationSeconds": 11.254,
+      "durationSeconds": 420,
       "exitCode": 0,
-      "finishedAt": "2026-11-11T18:31:10.102323Z",
-      "id": "install-smoke",
-      "log": "/tmp/xw-1.5.4-ev/launch.log",
-      "logSha256": "2d0a18668930212e8507332fed6e56924dda4d2d3134a937fc071280edc8b9f0",
+      "finishedAt": "2026-11-11T18:28:13.965575Z",
+      "id": "full-test-suite",
+      "log": "/tmp/xw-1.5.4-ev/full-suite.log",
+      "logSha256": "a89e4e3496f599bea9a1c6ee032e662c11af17ec5cebd7ead0f4b7f42b344cf6",
       "machine": {
         "architecture": "x86_64",
         "cpuCount": 2,
         "kernel": "7.0.0-42-generic",
-        "memoryBytes": 4042977280,
+        "memoryBytes": null,
         "os": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39"
       },
       "required": true,
-      "startedAt": "2026-11-11T18:30:58.848425Z",
+      "startedAt": "2026-11-11T18:28:13.965575Z",
       "toolchain": {
-        "dart": "Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on \"linux_x64\"",
-        "flutter": "Flutter 3.47.6 \u2022 channel stable \u2022 https://github.com/flutter/flutter.git"
+        "dart": "Dart 3.13.5",
+        "flutter": "Flutter 3.47.6"
+      }
+    },
+    {
+      "command": "GitHub Actions package-smoke run 43079746222: install, launch, upgrade from 1.0.9, uninstall, reinstall",
+      "commit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
+      "durationSeconds": 159,
+      "exitCode": 0,
+      "finishedAt": "2026-11-11T18:48:23.042652Z",
+      "id": "install-smoke",
+      "log": "release/package-smoke.json",
+      "logSha256": null,
+      "machine": {
+        "architecture": "x86_64",
+        "cpuCount": 4,
+        "kernel": "runner",
+        "memoryBytes": null,
+        "os": "GitHub Actions ubuntu-24.04"
+      },
+      "required": true,
+      "startedAt": "2026-11-11T18:48:23.042621Z",
+      "toolchain": {
+        "dart": "Dart 3.13.5",
+        "flutter": "Flutter 3.47.6"
       }
     },
     {
@@ -306,17 +306,17 @@
     }
   ],
   "checksCommit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
-  "identityNote": "1.5.4 code and tests were recorded against 0a49a0c. The evidence commit follows it and is included in the release tag.",
+  "identityNote": "The reviewed 1.5.4 branch head fb9f530 was squash-merged as 8adeea7. The squash tree is content-identical to the reviewed branch. Tests were recorded against the code commit 0a49a0c; the squash source commit includes only the release evidence/docs changes.",
   "notes": [
     "1.5.4 incorporates the 1.5.3 self-audit fixes: erase deadlock, cold ERC-20 contract binding, cold policy/chain, Tor fallback/fail-closed, PIN backoff, mobile re-key, node-secret erase, EIP-55 validation.",
     "Linux package and Android APKs are signed with owner key CC819EF5E109A1518E840379D8C0CEC84BCCE06B; APKs use 2a96a384\u20263ba9a.",
-    "Android universal is ARM-only (arm64-v8a + armeabi-v7a); x86_64 excluded.",
+    "Linux install, launch, upgrade from 1.0.9, uninstall and reinstall passed in GitHub Actions package-smoke run 43079746222.",
     "Physical Android, independent rebuild, independent audit, two-device cold signing and screen-reader session are NOT TESTED.",
     "69 test files / 391 declarations; 68 non-integration files passed."
   ],
   "problems": [
     "No independent professional audit.",
-    "No independent-machine rebuild.",
+    "No independent-machine rebuild; package smoke is CI-only.",
     "No physical two-device cold-signing test.",
     "No real screen-reader/assistive-technology session.",
     "Android APKs are built and signature-verified but not installed on a device.",
@@ -336,7 +336,12 @@
     "verified": true,
     "verifiedAt": "2026-11-11T18:32:09.406793Z"
   },
-  "sourceCommit": "0a49a0cbfed5f3a20865fc506967c1053a210076",
+  "sourceCommit": "8adeea758ae45934d893aaa4f8494cd1ac8f63f3",
+  "squashMerge": {
+    "branchHead": "fb9f5305c29eddb6b358cd8da28b462efe190545",
+    "mergeCommit": "8adeea758ae45934d893aaa4f8494cd1ac8f63f3",
+    "testedCommit": "0a49a0cbfed5f3a20865fc506967c1053a210076"
+  },
   "status": "PARTIALLY VERIFIED",
   "version": "1.5.4+16"
 }
