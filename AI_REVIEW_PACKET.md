@@ -5,8 +5,8 @@ read this file first. It is self-contained and links to immutable raw files.**
 
 - Product: **X Wallet**
 - Current version: **1.5.3+15**
-- Current `main` commit: **`34d31e1cc8375b5bbd491edba751c9f1760b9df0`**
-- Release tag: **`v1.5.3`** (same commit)
+- Release tag: **`v1.5.3`** at **`34d31e1cc8375b5bbd491edba751c9f1760b9df0`**
+- Current `main` with the corrected metadata and review packet: **`8583393bf3dc98400bc772346ea7608ad1c104be`**
 - Release: <https://github.com/jackh0006/X-Wallet/releases/tag/v1.5.3>
 - Licence: AGPL-3.0-or-later
 - Platforms: Linux amd64, Android arm64/universal (BNB Smart Chain 56/97)
@@ -14,7 +14,7 @@ read this file first. It is self-contained and links to immutable raw files.**
 > **Why a review may show an old version:** GitHub pages and
 > `CITATION.cff` were previously stale (`1.1.0`). `CITATION.cff` is now
 > `1.5.3`. If a page still shows `v1.1.0+5` or 35 commits, it is a cache.
-> Use the raw URLs below; they are pinned to the release commit.
+> Use the raw `main` URLs below; they always point at the current corrected metadata. The release tag remains `v1.5.3` at `34d31e1`.
 
 ## Read this without the code browser
 
