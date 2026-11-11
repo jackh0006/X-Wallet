@@ -93,6 +93,8 @@ SQUASH_ALLOWED_PATHS = {
     "scripts/check_free_product.py",
     "scripts/check_release_evidence.py",
     "scripts/build-deb.sh",
+    "scripts/build-apk.sh",
+    "scripts/sign-release.sh",
     "scripts/check_release_identity.py",
     "scripts/generate_docs.py",
     "scripts/release-gate.py",
