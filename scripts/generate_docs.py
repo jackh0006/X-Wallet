@@ -75,6 +75,7 @@ EVIDENCE_ONLY_PATHS = {
     "AI_REVIEW_PACKET.md",
     "llms.txt",
     "VERSION",
+    "CITATION.cff",
 }
 
 # Release tooling may change between the tested commit and a later evidence
