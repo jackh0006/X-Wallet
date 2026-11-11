@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use or reference X Wallet, please cite this repository."
 title: "X Wallet"
-abstract: "A free, open-source, self-custodial EVM-compatible desktop wallet for Linux."
+abstract: "A free, open-source, self-custodial EVM wallet for Linux and Android (BNB Smart Chain), with an encrypted local vault, cold signing, and optional Tor/SOCKS routing."
 type: software
 authors:
   - family-names: "Hudson"
@@ -10,12 +10,13 @@ authors:
 repository-code: "https://github.com/jackh0006/X-Wallet"
 url: "https://github.com/jackh0006/X-Wallet"
 license: "AGPL-3.0-or-later"
-version: "1.1.0"
-date-released: "2026-11-06"
+version: "1.5.3"
+date-released: "2026-11-11"
 keywords:
   - wallet
   - evm
   - linux
+  - android
   - self-custody
   - privacy
   - cold-wallet

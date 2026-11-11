@@ -124,6 +124,13 @@ def main() -> int:
     if not (ROOT / "docs" / "releases" / "1.5.3.md").is_file():
         errors.append("missing docs/releases/1.5.3.md")
 
+    version_file = ROOT / "VERSION"
+    if not version_file.is_file() or version_file.read_text(encoding="utf-8").strip() != version.group(1):
+        errors.append("VERSION is missing or does not match pubspec.yaml")
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    if 'version: "1.5.3"' not in citation:
+        errors.append("CITATION.cff version is not 1.5.3")
+
     app_version_file = ROOT / "lib" / "app_version.dart"
     if not app_version_file.is_file():
         errors.append("missing lib/app_version.dart")

@@ -104,6 +104,10 @@ EVIDENCE_ONLY_PATHS = {
     "docs/RELEASE_EVIDENCE.md",
     "docs/HARDENING_REPORT.md",
     "README.md",
+    "AI_REVIEW_PACKET.md",
+    "llms.txt",
+    "VERSION",
+    "CITATION.cff",
 }
 
 # Release tooling may change between the tested commit and a later evidence
@@ -133,6 +137,7 @@ RELEASE_TOOLING_PATHS = {
     "scripts/test_release_identity.py",
     "scripts/test-suite-fast.sh",
     "scripts/package-launch-smoke.sh",
+    "scripts/build_review_bundle.py",
 }
 
 

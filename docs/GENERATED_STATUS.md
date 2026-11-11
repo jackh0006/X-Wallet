@@ -7,7 +7,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 - Version: `1.5.3+15`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **PARTIALLY VERIFIED**
+- Status: **INCOMPLETE**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -32,21 +32,7 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 ## Recorded checks for this commit
 
-| Check | Exit | Duration (s) | Required | Log SHA-256 |
-|---|---|---|---|---|
-| cold-signature | 0 | 8.836 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 0 | yes | 630fe4544913f132 |
-| deb-signature | 0 | 0.679 | yes | b55cb588d28a4284 |
-| dependency-audit | 0 | 9.921 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 0 | yes | ddce10d94ba7deea |
-| install-smoke | 0 | 10 | yes | 36b74acc4773bd0e |
-| license-inventory | 0 | 0.07 | yes | cc8e41a55e00cdea |
-| release-evidence | 0 | 0.075 | yes | a30b128592220404 |
-| reproducibility | 0 | 233.888 | yes | 28eb2e9864343a12 |
-| sbom | 0 | 0.144 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 6.721 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 34.631 | yes | 3a362fb04b3f537c |
-| test-inventory | 0 | 0.147 | yes | e3dbf8643e593822 |
+No committed evidence bundle names this commit. **NOT TESTED / INCOMPLETE.**
 
 ## Artifacts
 
@@ -102,10 +88,4 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 
 ## Open gate problems
 
-- No independent professional audit.
-- No independent-machine rebuild or external attestation.
-- No physical two-device cold-signing test.
-- No real screen-reader/assistive-technology session.
-- Android 1.5.3 APKs are built and signature-verified but not installed on a device.
-- Cold-path spending-policy enforcement and nonce binding in SendIntent.verify remain open.
-- Release gate and Android CI signing path are not strict yet.
+- no committed evidence bundle for this source commit
