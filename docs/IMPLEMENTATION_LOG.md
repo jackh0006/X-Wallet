@@ -148,3 +148,34 @@ entries and mark superseded claims.
   signing and screen-reader session remain **NOT PERFORMED**. The first
   post-release verifier runs exposed tooling-only bugs; the fixed verifier was
   merged in `4ec8cad`/`eb73927` and re-run against the published assets.
+
+## 2026-11-13 — X Wallet 1.6.0 release
+
+- **Version:** `1.6.0+18`; release tag `v1.6.0` at
+  `881e6b62c530ee7565fff947009d663cada5e596`.
+- **Tested code:** `5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c`, preserved by the
+  signed tag `tested-1.6.0`; squash merge `2cdbec7`.
+- **New chains:** Ethereum mainnet (1) and Sepolia (11155111) on the shared EVM
+  engine.
+- **Ethereum defaults:** USDT, USDC and XAUT (Tether Gold) with canonical
+  contracts and 6 decimals.
+- **Critical self-audit fix:** the selected RPC was stored once globally and
+  could be loaded as the Ethereum node after a restart. Node choice is now
+  stored as `rpc_<network>`; a BNB node cannot cross chains (SA-10).
+- **Per-chain explorer keys:** BscScan and Etherscan keys are isolated and
+  migrated from the legacy single BscScan key only for BNB mainnet.
+- **Price providers:** automatic, CoinMarketCap, CoinGecko or Binance; optional
+  secure API keys; a pinned provider never silently falls back.
+- **Cold signing:** every registered chain is accepted; EIP-155 official vector
+  and cold chain-1 binding tests pass.
+- **Checks:** analysis PASS; fast suite PASS (72 non-integration files);
+  inventory 73 files / 415 declarations; 13 new tests; package smoke run
+  `43139440335`; reproducibility `fcdf38ad…bc0d`; post-release verifier run
+  `43143272091` PASS including APK signer.
+- **Artifacts:** `.deb` `b55d1f03…688ef`; arm64 APK `35fd8243…1156`;
+  universal APK `cd55737c…0628`; source archive `cd09963a…71c9`; SBOM
+  `b561c668…533d`; signed `SHA256SUMS` `95ab87e6…db83`.
+- **Status:** `LIMITED REAL-WORLD USE` for small amounts. Independent audit,
+  independent rebuild, live Ethereum node run, physical Android, two-device
+  cold signing, screen-reader session, hardware wallet and multisig remain
+  **NOT PERFORMED / NOT IMPLEMENTED**.
