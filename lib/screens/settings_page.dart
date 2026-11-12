@@ -220,6 +220,41 @@ class _SettingsPageState extends State<SettingsPage> {
             'requests fail instead of revealing your IP address.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
+          const SizedBox(height: 10),
+          SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Network kill switch'),
+            subtitle: const Text(
+              'Blocks every RPC, explorer and price request. Nothing is sent '
+              'until you turn it off. This is a real fail-closed switch, not '
+              'a cosmetic label.',
+            ),
+            value: appState.networkKillSwitch,
+            onChanged: (value) async {
+              await appState.setNetworkKillSwitch(value);
+              if (!mounted) return;
+              setState(() {});
+              showInfo(
+                context,
+                value
+                    ? 'Network kill switch ON. All wallet requests are blocked.'
+                    : 'Network kill switch OFF. The selected privacy route is active again.',
+              );
+            },
+          ),
+          if (appState.networkKillSwitch)
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0x33D32F2F),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'KILL SWITCH ACTIVE — no balance, fee, history, price or '
+                'broadcast request can leave this device.',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5),
+              ),
+            ),
           if (Platform.isAndroid) ...[
             const SizedBox(height: 10),
             Container(
@@ -3131,11 +3166,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 label: const Text('Advantages'),
               ),
               OutlinedButton.icon(
-                onPressed: () => Process.run('xdg-open', const [
-                  'https://github.com/jackh0006/X-Wallet/blob/main/docs/HIGH_VALUE_CUSTODY.md',
-                ]),
+                onPressed: _showRisks,
                 icon: const Icon(Icons.shield_outlined),
-                label: const Text('Risk controls on GitHub'),
+                label: const Text('Risks & limitations'),
               ),
               OutlinedButton.icon(
                 onPressed: () => showDonationsDialog(context),
@@ -3143,6 +3176,42 @@ class _SettingsPageState extends State<SettingsPage> {
                 label: const Text('Project donations'),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showRisks() {
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Risks & limitations'),
+        content: const SizedBox(
+          width: 580,
+          child: SingleChildScrollView(
+            child: Text(
+              'No independent professional audit exists.\n\n'
+              'Not approved for large holdings. 1.6.0 is for small amounts.\n\n'
+              'BTC/LTC/DOGE have local signing and broadcast code, but no live '
+              'testnet send/receive evidence yet.\n\n'
+              'Litecoin MWEB is not implemented. Dogecoin is P2PKH only. '
+              'Taproot is key-path only.\n\n'
+              'PSBT, descriptors, xprv/xpub, watch-only, gap-limit recovery and '
+              'RBF are not implemented.\n\n'
+              'No physical Android, two-device offline, or real screen-reader '
+              'test has been performed.\n\n'
+              'RPC providers and indexers see queried public addresses and the '
+              'source IP unless Tor/proxy is used. Tor does not defeat every '
+              'correlation attack.\n\n'
+              'The full canonical risk register is RISKS.md in the repository.',
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
           ),
         ],
       ),

@@ -1246,6 +1246,13 @@ class AppStorage {
 
   // ---- public configuration ----
 
+  /// Global fail-closed network switch. It survives restarts and blocks every
+  /// RPC, explorer and price request until the user turns it off.
+  static bool get networkKillSwitch =>
+      prefs.getBool('network_kill_switch') ?? false;
+  static Future<void> setNetworkKillSwitch(bool value) =>
+      prefs.setBool('network_kill_switch', value);
+
   static String get network => prefs.getString('network') ?? 'mainnet';
   static Future<void> setNetwork(String value) =>
       prefs.setString('network', value);
@@ -2134,6 +2141,7 @@ class AppStorage {
     } catch (_) {}
     for (final key in const [
       'network',
+      'network_kill_switch',
       'rpc',
       'rpc_mainnet',
       'rpc_testnet',

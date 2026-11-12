@@ -25,6 +25,7 @@ import '../tx_lifecycle.dart';
 import '../wallet_core.dart';
 import '../widgets/hold_to_confirm.dart';
 import '../widgets/journey_map.dart';
+import '../widgets/network_badge.dart';
 import 'cold_wallet_dialogs.dart';
 import 'common.dart';
 import 'receipt_page.dart';
@@ -1405,7 +1406,15 @@ class _SendPageState extends State<SendPage>
                   'Actual paid fee appears on the receipt when the chain answers.',
                   style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                 ),
-                Text('Network: ${rpc.chain.name} · chain ${rpc.chainId}'),
+                Row(
+                  children: [
+                    NetworkBadge(network: rpc.network, compact: true),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text('${rpc.chain.name} · chain ${rpc.chainId}'),
+                    ),
+                  ],
+                ),
                 Text(
                   'Node for this send: $nodeHost',
                   style: const TextStyle(

@@ -20,8 +20,8 @@
 <!-- END GENERATED:status -->
 
 > **Security status:** internal self-assessment, not an independent audit.
-> 1.6.0 is **not approved for large amounts**. The evidence and the remaining
-> gaps are listed in [the claim register](docs/CLAIM_REGISTER.md).
+> 1.6.0 is **not approved for large amounts**. Read the single risk register:
+> [RISKS.md](RISKS.md).
 >
 > **AI reviewers:** start with [AI_REVIEW_PACKET.md](AI_REVIEW_PACKET.md).
 > It is self-contained and uses raw links, so the GitHub code browser and its

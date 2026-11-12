@@ -88,6 +88,16 @@ class PriceService extends ChangeNotifier {
       _fetchedAt == null ||
       DateTime.now().difference(_fetchedAt!) > const Duration(minutes: 15);
 
+  /// Drops prices immediately when the user turns on the network kill switch.
+  Future<void> clearForKillSwitch() async {
+    final had = _usd.isNotEmpty;
+    _usd.clear();
+    _fetchedAt = null;
+    _lastError = null;
+    _loading = false;
+    if (had) notifyListeners();
+  }
+
   Future<void> reloadKeys() async {
     try {
       _keys['coinmarketcap'] = await AppStorage.getPriceApiKey('coinmarketcap');
@@ -111,6 +121,11 @@ class PriceService extends ChangeNotifier {
   }
 
   Future<void> refresh({bool force = false}) async {
+    // A global kill switch is absolute: no price lookup may leave the device.
+    if (AppStorage.networkKillSwitch) {
+      await clearForKillSwitch();
+      return;
+    }
     // Cold-signer mode is absolute: no price lookup may leave the device,
     // even at startup or on resume. This used to bypass `RpcService.offline`.
     if (AppStorage.walletModeIndex == 1) {

@@ -22,3 +22,8 @@
 | LIM-019 | Ethereum history requires an Etherscan API key; BNB history requires a BscScan key. Keys are per chain and optional. | Documented |
 | LIM-020 | A pinned price provider that fails leaves the last prices visible and marks them stale; it never silently switches. | Documented behaviour |
 | LIM-021 | Default Ethereum token contracts are canonical at the time of writing; token metadata must still be verified by the user. | User verification required |
+| LIM-022 | BTC/LTC/DOGE UTXO support is implemented at the core and UI level, but no live testnet transaction has been performed. | NOT TESTED on live testnet |
+| LIM-023 | Taproot signing has build/determinism tests but no independent P2TR spend vector. | PARTLY verified |
+| LIM-024 | PSBT, output descriptors, xprv/xpub, watch-only, RBF bumping and gap-limit discovery are not implemented. | Not implemented |
+| LIM-025 | UTXO indexers (mempool.space, litecoinspace.org, BlockCypher) learn the public address and source IP unless Tor/proxy is used. | Documented privacy residual |
+| LIM-026 | The UTXO UI derives only from a wallet with a recovery phrase; raw-key-only wallets cannot open it. | Scope limitation |

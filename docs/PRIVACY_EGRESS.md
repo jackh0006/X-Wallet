@@ -15,6 +15,11 @@ link.
 | Binance spot ticker | USD prices for BNB/ETH | Fixed pair symbol | Price | No | No | Only if USD display is on and chosen/auto |
 | Tor SOCKS proxy | Transport for the above | TLS bytes | TLS bytes | The destination sees the exit IP, not the user IP | No | Optional |
 | User HTTP/SOCKS proxy | Transport | TLS bytes | TLS bytes | Proxy sees destination and source IP | No | Optional |
+| mempool.space API | BTC UTXOs, fees, broadcast, confirmation status | Public BTC address or signed tx hex | UTXO/fee/status JSON | Yes, to that indexer | No | Only when the user opens/refreshes/sends BTC |
+| litecoinspace.org API | LTC UTXOs, fees, broadcast, confirmation status | Public LTC address or signed tx hex | UTXO/fee/status JSON | Yes, to that indexer | No | Only when the user opens/refreshes/sends LTC |
+| BlockCypher Dogecoin API | DOGE UTXOs, broadcast, confirmations | Public DOGE address or signed tx hex | UTXO/status JSON | Yes, to that indexer | No | Only when the user opens/refreshes/sends DOGE |
+| mempool.space / litecoinspace.org / dogechain.info explorer page | User-opened transaction/address page | URL path with txid/address | HTML | Yes | Browser-dependent | User-initiated only |
+| — | Network kill switch | Nothing | Nothing | — | — | Blocks all of the above |
 
 ## What is never sent
 

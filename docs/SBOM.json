@@ -121,6 +121,52 @@
       "hashes": [
         {
           "alg": "SHA-256",
+          "content": "6a419a007727295ca612a1ad0d3034795512615591f6e06a2d10d441c6dbbb95"
+        }
+      ],
+      "name": "bitcoin_base",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/bitcoin_base@7.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "7.3.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "81ed3cdea69e0a1be27f17aaa137186afa893025a1fde210be32348764082e4e"
+        }
+      ],
+      "name": "blockchain_utils",
+      "properties": [
+        {
+          "name": "dependency_class",
+          "value": "direct main"
+        },
+        {
+          "name": "download_source",
+          "value": "https://pub.dev"
+        }
+      ],
+      "purl": "pkg:dart/blockchain_utils@7.1.0",
+      "scope": "required",
+      "type": "library",
+      "version": "7.1.0"
+    },
+    {
+      "hashes": [
+        {
+          "alg": "SHA-256",
           "content": "8aab1771e1243a5063b8b0ff68042d67334e3feab9e95b9490f9a6ebf73b42ea"
         }
       ],
@@ -2953,7 +2999,7 @@
       }
     ]
   },
-  "serialNumber": "urn:uuid:8bb94457-abdf-5851-a3b5-09c150aebfb6",
+  "serialNumber": "urn:uuid:7e6742ec-d23a-5cd8-9354-589d91e300d0",
   "specVersion": "1.5",
   "version": 1
 }

@@ -704,7 +704,8 @@ class _HomePageState extends State<HomePage>
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  appState.rpc.chain.shortName.toUpperCase(),
+                  '${appState.rpc.chain.shortName.toUpperCase()} · '
+                  '${appState.rpc.chain.isTestnet ? 'TESTNET' : 'MAINNET'}',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10,

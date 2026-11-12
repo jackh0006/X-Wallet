@@ -19,6 +19,7 @@ import '../widgets/seed_picker.dart';
 import 'backup_quiz_dialog.dart';
 import 'common.dart';
 import 'receipt_page.dart';
+import 'utxo_page.dart';
 import 'vault_password_dialog.dart';
 
 /// Tile for a single vault account with unlock/delete/rename actions.
@@ -402,15 +403,46 @@ class _WalletPageState extends State<WalletPage>
                 animation: PriceService.instance,
                 builder: (context, _) => _androidDashboard(),
               ),
+              const SizedBox(height: 14),
+              _utxoCard(),
             ] else ...[
               _unlockedCard(),
               const SizedBox(height: 14),
               _walletsCard(),
               const SizedBox(height: 14),
               _historyCard(),
+              const SizedBox(height: 14),
+              _utxoCard(),
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _utxoCard() {
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('Bitcoin, Litecoin & Dogecoin'),
+          const SizedBox(height: 6),
+          const Text(
+            'UTXO chains are separate from EVM accounts. Derive a Bitcoin, '
+            'Litecoin or Dogecoin address from this wallet’s recovery phrase, '
+            'check confirmed UTXOs, review the exact fee and change, then sign '
+            'locally.',
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
+          ),
+          const SizedBox(height: 10),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute<void>(builder: (_) => const UtxoPage())),
+            icon: const Icon(Icons.currency_bitcoin),
+            label: const Text('Open UTXO wallet'),
+          ),
+        ],
       ),
     );
   }

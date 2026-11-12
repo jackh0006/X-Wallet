@@ -19,6 +19,9 @@ not proof of security.
 | SAC-10 | SBOM, manifest, evidence and docs are generated and committed | generators |
 | SAC-11 | Release identity and strict source gate pass | scripts |
 | SAC-12 | Signed artifacts verify after publication | `verify-release-assets.sh` |
+| SAC-13 | UTXO derivation matches official BIP44/49/84/86 vectors | `utxo_wallet_test.dart` |
+| SAC-14 | BTC/LTC/DOGE build/sign and fee/change balance | `utxo_transaction_test.dart` |
+| SAC-15 | UTXO indexer parsing and kill switch | `utxo_service_test.dart` |
 
 ## Cannot be met in this session
 
@@ -31,6 +34,8 @@ not proof of security.
 | SAC-24 | Screen-reader session | NOT PERFORMED |
 | SAC-25 | Packet capture of every egress | NOT PERFORMED |
 | SAC-26 | Hardware-wallet integration | NOT IMPLEMENTED |
+| SAC-29 | BTC/LTC/DOGE live testnet send/receive | NOT PERFORMED |
+| SAC-30 | PSBT and two-device offline signing | NOT IMPLEMENTED / NOT PERFORMED |
 | SAC-27 | Multisig / threshold custody | NOT IMPLEMENTED |
 | SAC-28 | Large-holding approval | NEVER GRANTED BY SELF-ASSESSMENT |
 
