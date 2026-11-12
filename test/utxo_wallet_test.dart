@@ -82,6 +82,19 @@ void main() {
       expect(account.path, "m/44'/3'/0'/0/0");
     });
 
+    test('Bitcoin testnet Taproot uses coin type 1', () {
+      final account = UtxoWallet.derive(
+        phrase: _phrase,
+        network: UtxoNetworks.btcTestnet,
+        kind: UtxoAddressKind.p2tr,
+      );
+      expect(
+        account.address,
+        'tb1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqlqt9zj',
+      );
+      expect(account.path, "m/86'/1'/0'/0/0");
+    });
+
     test('each generated address validates on its own network only', () {
       for (final network in UtxoNetworks.all) {
         final kind = network.addressKinds.first;

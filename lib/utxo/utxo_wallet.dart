@@ -98,7 +98,7 @@ class UtxoWallet {
       44 => Bip44.fromSeed(seed, _bip44Coin(network)),
       49 => Bip49.fromSeed(seed, _bip49Coin(network)),
       84 => Bip84.fromSeed(seed, _bip84Coin(network)),
-      86 => Bip86.fromSeed(seed, Bip86Coins.bitcoin),
+      86 => Bip86.fromSeed(seed, _bip86Coin(network)),
       _ => throw UtxoWalletException('Unsupported purpose $purpose'),
     };
     final path = network.pathFor(
@@ -256,6 +256,10 @@ class UtxoWallet {
       (UtxoChain.litecoin, true) => Bip49Coins.litecoinTestnet,
       _ => throw UtxoWalletException('${network.name} does not support BIP49.'),
     };
+  }
+
+  static Bip86Coins _bip86Coin(UtxoNetworkSpec network) {
+    return network.isTestnet ? Bip86Coins.bitcoinTestnet : Bip86Coins.bitcoin;
   }
 
   static Bip84Coins _bip84Coin(UtxoNetworkSpec network) {

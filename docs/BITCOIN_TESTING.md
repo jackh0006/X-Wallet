@@ -46,6 +46,19 @@ Mock HTTP only:
 - Network kill switch blocks before any request.
 - Esplora transaction status and BlockCypher confirmation count parsing.
 
+## Independent comparison
+
+Using Node 24, `bitcoinjs-lib` 6.1.7, `bip32` 4.0.0 and `tiny-secp256k1` 2.2.3:
+
+- 16/16 derived addresses matched for BTC/LTC/DOGE mainnet/testnet and all
+  supported address kinds after fixing the BTC-testnet BIP86 coin-type bug.
+- 4/4 raw transactions matched for version, inputs, output set, output sum,
+  and TxID.
+- See `docs/audits/UTXO_INDEPENDENT_VERIFICATION.md`.
+
+Signature validity and live testnet inclusion were **not** independently
+verified.
+
 ## Evidence level
 
 - **B** automated unit tests.

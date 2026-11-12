@@ -488,11 +488,11 @@
       "tests": 9
     },
     {
-      "lines": 161,
+      "lines": 174,
       "path": "test/utxo_wallet_test.dart",
-      "sha256": "b8874b87b4560f10323bcf3c6ad4b1c85ced25f8c59cad810f2a7a7cad731c03",
+      "sha256": "63a3733a56ee2408c8f856d38986613a686983eafa20a7e013cbeb8a7b5889da",
       "tags": [],
-      "tests": 12
+      "tests": 13
     },
     {
       "lines": 55,
@@ -575,5 +575,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 452
+  "testCount": 453
 }
