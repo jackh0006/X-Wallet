@@ -3,6 +3,21 @@
 All notable changes to this wallet. Dates in 2026; releases identify their
 supported artifacts explicitly.
 
+## 1.5.5+17 — hardening and verifiable release
+
+- `SendIntent.verify` compares the reviewed nonce and sender with the exact
+  transaction object before signing.
+- `WalletCore.computeFingerprint` covers the chain and every paired address;
+  a substituted address changes the fingerprint.
+- Erase-all includes legacy Linux application-data directories and their
+  plaintext secret.
+- Android `MainActivity` caps imported files at 8 MiB.
+- `privacy_client` rejects tracking/credential/cookie/framing headers and
+  CR/LF or oversized values.
+- `release-gate.py --require-source`, `release-verify.yml` and
+  `verify-release-assets.sh` make the published assets re-checkable.
+- Version `1.5.5+17`; regression tests for nonce/sender and fingerprint.
+
 ## 1.4.0+9 — Android release, same wallet everywhere
 
 - **Android arm64 and universal APKs** with the same logo, label, colors,
