@@ -104,6 +104,7 @@ EVIDENCE_ONLY_PATHS = {
     "docs/RELEASE_EVIDENCE.md",
     "docs/HARDENING_REPORT.md",
     "README.md",
+    "CHANGELOG.md",
     "AI_REVIEW_PACKET.md",
     "llms.txt",
     "VERSION",
