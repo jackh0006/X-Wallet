@@ -343,7 +343,7 @@
     }
   ],
   "checksCommit": "5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c",
-  "identityNote": "1.6.0 code and tests were recorded against 5ff0f0a; 8d7ec12 adds documentation/generated files only.",
+  "identityNote": "The reviewed branch head 4646f28 was squash-merged as 2cdbec7. Tests were recorded against code commit 5ff0f0a; later reviewed commits add documentation and evidence only.",
   "notes": [
     "1.6.0 adds Ethereum mainnet/Sepolia, per-chain RPC and explorer-key isolation, canonical Ethereum USDT/USDC/XAUT defaults and user-selectable price providers.",
     "The selected RPC is stored per chain; a BNB node cannot become the Ethereum node after a restart.",
@@ -372,12 +372,12 @@
     "verified": true,
     "verifiedAt": "2026-11-12T02:13:12.863451Z"
   },
-  "sourceCommit": "5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c",
+  "sourceCommit": "2cdbec70b1601aa6d02ea8e0a6bc8c0e425589ab",
   "sourceSnapshotCommit": "5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c",
   "squashMerge": {
-    "branchHead": "2b1d192659048aa476aa429ad15e4945142bcb04",
-    "mergeCommit": "e59124eee13c06d4d79b242396caccc79f43f2a5",
-    "testedCommit": "32b0aad3c296b52e2bfd4d84929c09de5c67eb0d"
+    "branchHead": "4646f28a8787dd4530b7ff636cde03ad1f84a5ba",
+    "mergeCommit": "2cdbec70b1601aa6d02ea8e0a6bc8c0e425589ab",
+    "testedCommit": "5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c"
   },
   "status": "RELEASE APPROVED",
   "version": "1.6.0+18"
