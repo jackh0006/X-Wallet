@@ -17,7 +17,7 @@ Last updated: 2026-11-12
 | Price provider selection | `lib/price_service.dart`, `lib/storage.dart`, `lib/screens/settings_page.dart`; `test/price_provider_test.dart` |
 | Dynamic chain UI | `lib/screens/home_page.dart`, `send_page.dart`, `wallet_page.dart`, `receipt_page.dart`, `activity_page.dart`, `inspect_page.dart`, `settings_page.dart` |
 | Custom token duplicate check scoped by chain | `lib/app_state.dart` |
-| Tests added | 4 new test files |
+| Tests added | 4 new test files (13 tests) |
 
 ## Commands and results
 
@@ -31,6 +31,23 @@ flutter test --concurrency=1 \
   test/price_provider_test.dart \
   test/ethereum_signing_test.dart
 # PASS — see the run log in /tmp/xw-1.6.0-newtests.log
+```
+
+## Verified
+
+```bash
+flutter analyze --no-pub
+# PASS — no issues
+
+flutter test --concurrency=1   test/chains_test.dart test/explorer_history_test.dart   test/price_provider_test.dart test/ethereum_signing_test.dart
+# PASS — all new tests
+
+bash scripts/test-suite-fast.sh
+# PASS — 72 non-integration files
+
+BNB_REPRO_PATH=/tmp/bnb-repro-1.6.0 \
+  bash scripts/reproducibility-check.sh 5ff0f0a
+# PASS — archive fcdf38ad…bc0d
 ```
 
 ## In progress / not done

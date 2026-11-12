@@ -7,7 +7,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 - Version: `1.6.0+18`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
-- Status: **INCOMPLETE**
+- Status: **RELEASE APPROVED**
 
 Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY VERIFIED` means source checks passed but a release-only check is missing; `INCOMPLETE` means a required result is absent; `FAILED` means a recorded check or artifact failed.
 
@@ -32,11 +32,31 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 ## Recorded checks for this commit
 
-No committed evidence bundle names this commit. **NOT TESTED / INCOMPLETE.**
+| Check | Exit | Duration (s) | Required | Log SHA-256 |
+|---|---|---|---|---|
+| cold-signature | 0 | 6.091 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 17.512 | yes | 23dcf8eeac3f5dab |
+| deb-signature | 0 | 0.112 | yes | f1ce2d2116953833 |
+| dependency-audit | 0 | 4.324 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 276.279 | yes | 2689d6d7394e227b |
+| install-smoke | 0 | 13.453 | yes | 2d0a18668930212e |
+| license-inventory | 0 | 0.061 | yes | cc8e41a55e00cdea |
+| release-evidence | 0 | 0.053 | yes | 3beab56311d33e80 |
+| reproducibility | 0 | 420 | yes | 99f8d0d69376f19f |
+| sbom | 0 | 0.127 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 4.942 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 18.603 | yes | 8fe365348f7141b3 |
+| test-inventory | 0 | 0.106 | yes | 0f59b7dd55eabbaa |
 
 ## Artifacts
 
-No release artifact is recorded for this commit. **NOT TESTED.**
+| Artifact | SHA-256 | Signed | Signature verified |
+|---|---|---|---|
+|  | b55d1f037c3bf71557878329252a57142c782d54aa870d674be0d8e78f6688ef | yes | yes |
+|  | 35fd8243140b867acd6a105b664de35cd0adbaaf95025d4219a68013a9eb1156 | yes | yes |
+|  | cd55737cdb4be2c04a52cbfb1c67a79318a4345184d8df559f5970bee7e70628 | yes | yes |
+|  | cd09963aa5d5dc56cdaf06a6154fc4ac549ba539e7f4b3ac08626de3163471c9 | no | NO |
+|  | b561c6680ae3618023fc060fd5ae8c529e68c002364fb53b1ca842624b4a533d | no | NO |
 
 ## Android signing incident
 
@@ -88,4 +108,11 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 
 ## Open gate problems
 
-- no committed evidence bundle for this source commit
+- No independent professional audit.
+- No independent-machine rebuild.
+- No live Ethereum node round-trip or physical Android run.
+- No two-device cold-signing test.
+- No real screen-reader session.
+- Hardware-wallet and multisig custody are not implemented.
+- Cold path supports EIP-1559 type-2 only; hot path also supports legacy fees.
+- Price/explorer providers still see source IP and queried public addresses.

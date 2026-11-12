@@ -1,6 +1,6 @@
 {
-  "archiveSha256": "440aff802239b4968ace7b0f9a66c9f8f7d000de2082024e871c679b4aac8e08",
-  "buildPath": "/tmp/bnb-repro-1.5.5 (fixed path, same host)",
+  "archiveSha256": "fcdf38ad6a65e42c27d288169abe5e964bb34d0c88f4c8ab11b173da7be6bc0d",
+  "buildPath": "/tmp/bnb-repro-1.6.0 (fixed path, same host)",
   "constraint": "Two clean builds in the SAME fixed absolute path with SOURCE_DATE_EPOCH=0 and gzip -n produced identical archive hashes and file manifests. Different absolute paths are NOT guaranteed to match.",
   "environment": {
     "architecture": "x86_64",
@@ -10,9 +10,9 @@
     "os": "Ubuntu 24.04",
     "sourceDateEpoch": 0
   },
-  "evidence": "/tmp/xw-1.5.5-ev/repro.log",
+  "evidence": "/tmp/xw-1.6.0-ev/repro.log",
   "fileManifestsIdentical": true,
   "schemaVersion": 1,
-  "sourceCommit": "32b0aad3c296b52e2bfd4d84929c09de5c67eb0d",
+  "sourceCommit": "5ff0f0a1cc1bd315d80ba55ade4ee0b92dc0720c",
   "status": "PASS_FIXED_PATH"
 }
