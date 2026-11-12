@@ -13,7 +13,7 @@ flutter test --concurrency=1 \
   test/utxo_page_test.dart
 ```
 
-Result: **30/30 passed**.
+Result: **32/32 passed**.
 
 ### Vectors
 
@@ -44,6 +44,7 @@ Mock HTTP only:
 - BlockCypher Dogecoin `txrefs` and `/txs/push`.
 - Malformed responses and invalid raw hex are refused.
 - Network kill switch blocks before any request.
+- Esplora transaction status and BlockCypher confirmation count parsing.
 
 ## Evidence level
 

@@ -20,6 +20,7 @@ Evidence levels: **A** source inspection, **B** automated unit tests,
 | Vault rename | `lib/app_state.dart` | — | `vault_rename_test` | B | Working |
 | BTC P2PKH/P2SH/P2WPKH/P2TR derivation/addresses | `lib/utxo/utxo_wallet.dart` | BIP44/49/84/86 | `utxo_wallet_test` official vectors | B | Working |
 | BTC transaction build/sign/broadcast | `lib/utxo/utxo_transaction.dart`, `utxo_service.dart` | Bitcoin tx, ECDSA/Schnorr | `utxo_transaction_test`, `utxo_service_test` | B (mocks) | Working; no testnet D |
+| BTC/LTC/DOGE confirmation status | `lib/utxo/utxo_service.dart`, `utxo_page.dart` | Esplora/BlockCypher status | `utxo_service_test` | B | Working; no live D |
 | BTC PSBT/descriptors/offline | — | BIP174/380 | none | — | **NOT IMPLEMENTED** |
 | BTC PSBT/descriptors | — | BIP174/BIP380 | none | — | **NOT IMPLEMENTED** |
 | LTC mainnet/testnet | `lib/utxo/utxo_network.dart`, `utxo_wallet.dart` | BIP44/49/84, coin type 2' | `utxo_wallet_test`, `utxo_transaction_test` | B | Working; no testnet D |

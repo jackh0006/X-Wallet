@@ -17,7 +17,7 @@ Last updated: 2026-11-12
 | Price provider selection | `lib/price_service.dart`, `lib/storage.dart`, `lib/screens/settings_page.dart`; `test/price_provider_test.dart` |
 | Dynamic chain UI | `lib/screens/home_page.dart`, `send_page.dart`, `wallet_page.dart`, `receipt_page.dart`, `activity_page.dart`, `inspect_page.dart`, `settings_page.dart` |
 | Custom token duplicate check scoped by chain | `lib/app_state.dart` |
-| Tests added | 8 new test files (43 tests) |
+| Tests added | 8 new test files (45 tests) |
 
 ## Commands and results
 

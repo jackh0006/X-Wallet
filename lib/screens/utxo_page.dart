@@ -29,6 +29,7 @@ class _UtxoPageState extends State<UtxoPage> {
   bool _loading = false;
   String? _error;
   String? _lastTxid;
+  UtxoTransactionStatus? _lastStatus;
   final _to = TextEditingController();
   final _amount = TextEditingController();
   final _feeRate = TextEditingController(text: '2');
@@ -74,6 +75,7 @@ class _UtxoPageState extends State<UtxoPage> {
         _utxos = const [];
         _error = null;
         _lastTxid = null;
+        _lastStatus = null;
       });
     } catch (error) {
       setState(() => _error = '$error');
@@ -194,10 +196,12 @@ class _UtxoPageState extends State<UtxoPage> {
       if (!mounted) return;
       setState(() {
         _lastTxid = txid;
+        _lastStatus = null;
         _loading = false;
       });
       showInfo(context, 'Broadcast accepted by the node. TxID: $txid');
       await _refresh();
+      await _checkStatus(txid);
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -205,6 +209,15 @@ class _UtxoPageState extends State<UtxoPage> {
           _loading = false;
         });
       }
+    }
+  }
+
+  Future<void> _checkStatus(String txid) async {
+    try {
+      final status = await _service.transactionStatus(_network, txid);
+      if (mounted) setState(() => _lastStatus = status);
+    } catch (error) {
+      if (mounted) setState(() => _error = '$error');
     }
   }
 
@@ -255,6 +268,7 @@ class _UtxoPageState extends State<UtxoPage> {
                         _change = null;
                         _utxos = const [];
                         _lastTxid = null;
+                        _lastStatus = null;
                       });
                       _derive();
                     },
@@ -378,12 +392,28 @@ class _UtxoPageState extends State<UtxoPage> {
                     if (_lastTxid != null) ...[
                       const SizedBox(height: 8),
                       Text('Last TxID: $_lastTxid'),
-                      TextButton(
-                        onPressed: () => launchUrl(
-                          Uri.parse(_network.explorerTx(_lastTxid!)),
-                          mode: LaunchMode.externalApplication,
+                      if (_lastStatus != null)
+                        Text(
+                          _lastStatus!.confirmed
+                              ? 'Confirmed in block ${_lastStatus!.blockHeight}'
+                              : 'Not yet confirmed in a block',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        child: const Text('Open in explorer'),
+                      Wrap(
+                        spacing: 8,
+                        children: [
+                          TextButton(
+                            onPressed: () => _checkStatus(_lastTxid!),
+                            child: const Text('Check confirmations'),
+                          ),
+                          TextButton(
+                            onPressed: () => launchUrl(
+                              Uri.parse(_network.explorerTx(_lastTxid!)),
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            child: const Text('Open in explorer'),
+                          ),
+                        ],
                       ),
                     ],
                   ],

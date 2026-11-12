@@ -68,6 +68,11 @@ class UtxoTransactionEngine {
     if (amountSatoshi <= 0) {
       throw const UtxoTransactionException('Amount must be greater than zero.');
     }
+    if (amountSatoshi < account.network.dustSatoshi) {
+      throw UtxoTransactionException(
+        'Amount is below the ${account.network.name} dust threshold.',
+      );
+    }
     if (feeRateSatPerVbyte <= 0 || feeRateSatPerVbyte > 100000) {
       throw const UtxoTransactionException('Invalid fee rate.');
     }

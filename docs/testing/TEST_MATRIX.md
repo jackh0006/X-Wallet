@@ -259,5 +259,5 @@ All jobs must pass for merge.
 | `network_badge_test.dart` | 1 | (light) | ✅ PASS | MAINNET, TESTNET and CUSTOM labels are textual, not colour-only |
 | `utxo_wallet_test.dart` | 12 | (light) | ✅ PASS | BIP44/49/84/86 official vectors; LTC/DOGE addresses; WIF round-trip |
 | `utxo_transaction_test.dart` | 9 | (light) | ✅ PASS | BTC/LTC/DOGE build/sign; fee/change; wrong-network refusal |
-| `utxo_service_test.dart` | 7 | (light) | ✅ PASS | Esplora/BlockCypher UTXO, fee, broadcast; kill switch |
+| `utxo_service_test.dart` | 9 | (light) | ✅ PASS | Esplora/BlockCypher UTXO, fee, broadcast; kill switch |
 | `utxo_page_test.dart` | 2 | (light) | ✅ PASS | UTXO screen warning states and TESTNET label |

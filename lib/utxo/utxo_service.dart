@@ -14,6 +14,17 @@ class UtxoServiceException implements Exception {
   String toString() => message;
 }
 
+class UtxoTransactionStatus {
+  const UtxoTransactionStatus({
+    required this.confirmed,
+    required this.blockHeight,
+    required this.confirmations,
+  });
+  final bool confirmed;
+  final int blockHeight;
+  final int confirmations;
+}
+
 class UtxoFeeQuote {
   const UtxoFeeQuote({
     required this.satPerVbyte,
@@ -86,7 +97,11 @@ class UtxoService {
       final txid = '${item['txid'] ?? ''}';
       final vout = (item['vout'] as num?)?.toInt();
       final value = (item['value'] as num?)?.toInt();
-      if (txid.length != 64 || vout == null || value == null || value <= 0) {
+      if (!RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(txid) ||
+          vout == null ||
+          vout < 0 ||
+          value == null ||
+          value <= 0) {
         throw const UtxoServiceException('Malformed UTXO entry.');
       }
       final status = item['status'];
@@ -138,7 +153,11 @@ class UtxoService {
       final txid = '${item['tx_hash'] ?? ''}';
       final vout = (item['tx_output_n'] as num?)?.toInt();
       final value = (item['value'] as num?)?.toInt();
-      if (txid.length != 64 || vout == null || value == null || value <= 0) {
+      if (!RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(txid) ||
+          vout == null ||
+          vout < 0 ||
+          value == null ||
+          value <= 0) {
         throw const UtxoServiceException('Malformed UTXO entry.');
       }
       final confirmations = (item['confirmations'] as num?)?.toInt() ?? 0;
@@ -190,6 +209,61 @@ class UtxoService {
       }
     }
     throw const UtxoServiceException('No usable fee estimate returned.');
+  }
+
+  Future<UtxoTransactionStatus> transactionStatus(
+    UtxoNetworkSpec network,
+    String txid,
+  ) async {
+    _guard();
+    if (!RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(txid)) {
+      throw const UtxoServiceException('Invalid transaction ID.');
+    }
+    if (network.indexerKind == UtxoIndexerKind.esplora) {
+      final response = await _transport
+          .get(Uri.parse('${network.indexerBase}/tx/$txid/status'))
+          .timeout(const Duration(seconds: 20));
+      if (response.statusCode == 404) {
+        return const UtxoTransactionStatus(
+          confirmed: false,
+          blockHeight: 0,
+          confirmations: 0,
+        );
+      }
+      if (response.statusCode != 200) {
+        throw UtxoServiceException(
+          'Status lookup failed (HTTP ${response.statusCode}).',
+        );
+      }
+      final decoded = jsonDecode(response.body);
+      if (decoded is! Map) {
+        throw const UtxoServiceException('Status response is not an object.');
+      }
+      final confirmed = decoded['confirmed'] == true;
+      return UtxoTransactionStatus(
+        confirmed: confirmed,
+        blockHeight: (decoded['block_height'] as num?)?.toInt() ?? 0,
+        confirmations: confirmed ? 1 : 0,
+      );
+    }
+    final response = await _transport
+        .get(Uri.parse('${network.indexerBase}/txs/$txid'))
+        .timeout(const Duration(seconds: 20));
+    if (response.statusCode != 200) {
+      throw UtxoServiceException(
+        'Status lookup failed (HTTP ${response.statusCode}).',
+      );
+    }
+    final decoded = jsonDecode(response.body);
+    if (decoded is! Map) {
+      throw const UtxoServiceException('Status response is not an object.');
+    }
+    final confirmations = (decoded['confirmations'] as num?)?.toInt() ?? 0;
+    return UtxoTransactionStatus(
+      confirmed: confirmations > 0,
+      blockHeight: (decoded['block_height'] as num?)?.toInt() ?? 0,
+      confirmations: confirmations,
+    );
   }
 
   Future<String> broadcast(UtxoNetworkSpec network, String rawHex) async {

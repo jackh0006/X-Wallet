@@ -125,6 +125,42 @@ void main() {
     expect(await service.broadcast(UtxoNetworks.dogeMainnet, '0200'), txid);
   });
 
+  test('Esplora transaction status is parsed', () async {
+    final service = UtxoService(
+      client: MockClient((request) async {
+        expect(request.url.path, '/api/tx/$txid/status');
+        return http.Response(
+          jsonEncode({'confirmed': true, 'block_height': 800001}),
+          200,
+        );
+      }),
+    );
+    final status = await service.transactionStatus(
+      UtxoNetworks.btcMainnet,
+      txid,
+    );
+    expect(status.confirmed, isTrue);
+    expect(status.blockHeight, 800001);
+  });
+
+  test('BlockCypher confirmation count is parsed', () async {
+    final service = UtxoService(
+      client: MockClient((request) async {
+        expect(request.url.path, '/v1/doge/main/txs/$txid');
+        return http.Response(
+          jsonEncode({'confirmations': 6, 'block_height': 5000001}),
+          200,
+        );
+      }),
+    );
+    final status = await service.transactionStatus(
+      UtxoNetworks.dogeMainnet,
+      txid,
+    );
+    expect(status.confirmations, 6);
+    expect(status.confirmed, isTrue);
+  });
+
   test('invalid raw hex and malformed responses are refused', () async {
     final service = UtxoService(
       client: MockClient((_) async => http.Response('{"status":"bad"}', 200)),

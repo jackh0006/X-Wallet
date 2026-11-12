@@ -89,7 +89,18 @@ void main() {
   });
 
   test('Dogecoin legacy builds', () {
-    final p = plan(UtxoNetworks.dogeMainnet, UtxoAddressKind.p2pkh);
+    final account = accountFor(UtxoNetworks.dogeMainnet, UtxoAddressKind.p2pkh);
+    final change = changeFor(UtxoNetworks.dogeMainnet, UtxoAddressKind.p2pkh);
+    final p = UtxoTransactionEngine.planAndSign(
+      account: account,
+      changeAccount: change,
+      recipient: change.address,
+      amountSatoshi: 2000000,
+      feeRateSatPerVbyte: 100,
+      available: const [
+        Utxo(txid: _txid, vout: 0, valueSatoshi: 10000000, confirmed: true),
+      ],
+    );
     expect(p.rawHex, isNotEmpty);
   });
 

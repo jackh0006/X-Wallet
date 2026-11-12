@@ -474,16 +474,16 @@
       "tests": 2
     },
     {
-      "lines": 141,
+      "lines": 177,
       "path": "test/utxo_service_test.dart",
-      "sha256": "637534f0e92c23790ef37f492f1fc11969cff8619eaff038c8c947a277dd5c20",
+      "sha256": "bf8e3f32a593d4c8553b9c7e643a13b29ed0843be09f71830da16cd0c8e40f0b",
       "tags": [],
-      "tests": 7
+      "tests": 9
     },
     {
-      "lines": 173,
+      "lines": 184,
       "path": "test/utxo_transaction_test.dart",
-      "sha256": "80b9214eec02bde668e5363f87bc6541791595b5bda7580042eb62390726d4a6",
+      "sha256": "ef0baf40440fa1fd5c4c373764bc7c88a3ef320710d6b8759bbcc5175b292ce7",
       "tags": [],
       "tests": 9
     },
@@ -575,5 +575,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 450
+  "testCount": 452
 }
