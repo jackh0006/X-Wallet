@@ -58,10 +58,15 @@ found.
 - Mainnet sync was at ~39k headers of ~2.8M; testnet DNS peers were not
   reachable from this environment.
 - No MWEB UTXO scan, send, receive, peg or confirmation was proven.
-- Litecoin Core 0.21.4 regtest advertises `MWEB`/`MWEB_LIGHT_CLIENT`, but
-  `getblockchaininfo` reports the MWEB softfork as `defined` and `active: false`.
-- `mwebd -c regtest -p 127.0.0.1:19444` connected but the peer disconnected
-  during MWEB sync. No regtest MWEB transaction was possible.
+- Litecoin Core 0.21.4 regtest advertises `MWEB`/`MWEB_LIGHT_CLIENT`. With
+  `-vbparams=mweb:0:9223372036854775807:0` and mining, the softfork reached
+  `active: true` at height 432.
+- `mwebd -c regtest -p 127.0.0.1:19444` then connected and began syncing from
+  the local Core node.
+- The test chain then failed block creation with
+  `bad-txns-vin-empty` at height 431, so a clean MWEB transaction could not be
+  completed. A fresh regtest chain would be required.
+- No MWEB transaction was broadcast or confirmed.
 - The `mweb_client`/`googleapis_auth` dependency was removed after the probe;
   it is not shipped.
 
