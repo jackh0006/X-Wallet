@@ -465,6 +465,25 @@ class _UtxoPageState extends State<UtxoPage> {
                       _derive();
                     },
                   ),
+                  if (_network.isLitecoin)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: const Color(0x33F9A825),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'MWEB is NOT supported. This wallet handles transparent '
+                        'Litecoin only. Do not send MWEB funds to these '
+                        'addresses. Use Litecoin Core or a wallet with MWEB '
+                        'support for MWEB.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
                   if (_network.isTestnet)
                     const Padding(
                       padding: EdgeInsets.only(top: 8),

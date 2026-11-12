@@ -20,8 +20,10 @@ Values checked against Litecoin Core `chainparams.cpp`:
 
 ## MWEB
 
-**NOT IMPLEMENTED.** The wallet does not discover, receive, spend or recover
-MWEB funds. Ordinary LTC UTXO support is not full Litecoin support.
+**NOT IMPLEMENTED.** Litecoin Core 0.21.4 exposes an `mweb` address type in
+its own wallet, but the Esplora/indexer path used by X-Wallet does not expose
+MWEB outputs or MWEB transaction construction. Ordinary LTC UTXO support is
+not full Litecoin support. The UI warns explicitly.
 
 ## Regtest evidence (Litecoin Core v0.21.4)
 

@@ -25,6 +25,18 @@ void main() {
     expect(find.text('Bitcoin, Litecoin & Dogecoin'), findsOneWidget);
   });
 
+  testWidgets('selecting Litecoin states that MWEB is unsupported', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: UtxoPage()));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(DropdownButtonFormField<String>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Litecoin · MAINNET').last);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('MWEB is NOT supported'), findsOneWidget);
+  });
+
   testWidgets('switching to a test network shows an unmistakable warning', (
     tester,
   ) async {

@@ -260,5 +260,5 @@ All jobs must pass for merge.
 | `utxo_wallet_test.dart` | 13 | (light) | ✅ PASS | BIP44/49/84/86 official vectors; LTC/DOGE addresses; WIF round-trip |
 | `utxo_transaction_test.dart` | 9 | (light) | ✅ PASS | BTC/LTC/DOGE build/sign; fee/change; wrong-network refusal |
 | `utxo_service_test.dart` | 9 | (light) | ✅ PASS | Esplora/BlockCypher UTXO, fee, broadcast; kill switch |
-| `utxo_page_test.dart` | 2 | (light) | ✅ PASS | UTXO screen warning states and TESTNET label |
+| `utxo_page_test.dart` | 3 | (light) | ✅ PASS | UTXO screen warning states and TESTNET label |
 | `utxo_chain_config_test.dart` | 5 | (light) | ✅ PASS | BTC/LTC/DOGE genesis, magic, port, PoW and network isolation |

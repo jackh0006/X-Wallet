@@ -474,11 +474,11 @@
       "tests": 5
     },
     {
-      "lines": 45,
+      "lines": 57,
       "path": "test/utxo_page_test.dart",
-      "sha256": "04e8bd94fb75d6bd22c63322b09758f6ca6fbdb3eb383fff619a58e7a62db4b5",
+      "sha256": "200c1b29267353c65f1068160aa74a06308b28fca7a4df4e700154cfba78547b",
       "tags": [],
-      "tests": 2
+      "tests": 3
     },
     {
       "lines": 177,
@@ -582,5 +582,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 458
+  "testCount": 459
 }
