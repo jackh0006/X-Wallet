@@ -37,6 +37,12 @@ Branch: `release/2.0.0`; starting commit `db656915`.
   evidence.
 - No claim that Litecoin MWEB, Dogecoin SegWit/Taproot or RBF are supported.
 
+## Build evidence
+
+- Linux release build: **PASS** (`flutter build linux --release`) on 2026-11-13.
+- Android build: **NOT RUN** on this weak machine.
+- Clean install/migration of this branch: **NOT TESTED**.
+
 ## Release decision
 
 **DEVELOPMENT — NOT READY.** Stable 1.6.0 remains the only stable release.
