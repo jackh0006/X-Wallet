@@ -17,7 +17,7 @@ Branch: `release/2.0.0`; starting commit `db656915`.
 | U-01 | High | Generic BIP32 path produced a wrong BTC Taproot key | Fixed; official BIP86 vector passes |
 | U-09 | High | BTC testnet P2TR used mainnet coin type | Fixed; regression test + independent comparison |
 | U-02 | High | UTXO client path evaded the data-boundary detector | Fixed by using the privacy client factory and an audited allowlist |
-| U-08 | High | No live testnet transaction | **Blocked**: no funded testnet UTXOs |
+| U-08 | High | No live testnet transaction | **BTC/LTC/DOGE regtest PASS**; live BTC/LTC/DOGE testnet still **blocked**: no funded testnet UTXOs |
 | U-10 | Medium | No independent signature verification | **Closed for 4 key-path/legacy fixtures**; script-path and exhaustive sighash matrix still open |
 | U-11 | Medium | No PSBT/descriptors/watch-only/RBF | **Not implemented** |
 

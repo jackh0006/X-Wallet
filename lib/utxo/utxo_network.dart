@@ -1,5 +1,7 @@
 import 'package:bitcoin_base/bitcoin_base.dart';
 
+import 'dogecoin_regtest.dart';
+
 /// UTXO blockchains supported by the wallet. EVM chains stay in [Chains].
 enum UtxoChain { bitcoin, litecoin, dogecoin }
 
@@ -252,6 +254,30 @@ class UtxoNetworks {
     consensusNotes: 'Dogecoin testnet; AuxPoW merged mining; no SegWit/Taproot',
   );
 
+  static const dogeRegtest = UtxoNetworkSpec(
+    key: 'doge-regtest',
+    chain: UtxoChain.dogecoin,
+    network: DogecoinRegtestNetwork(),
+    coinType: 1,
+    name: 'Dogecoin Regtest',
+    shortName: 'DOGE Regtest',
+    nativeSymbol: 'tDOGE',
+    isTestnet: true,
+    explorerBase: 'https://blockexplorer.one/dogecoin/testnet',
+    indexerBase: 'http://127.0.0.1:18443',
+    indexerKind: UtxoIndexerKind.blockCypher,
+    addressKinds: [UtxoAddressKind.p2pkh],
+    dustSatoshi: 1000000,
+    supportsRbf: false,
+    genesisHash:
+        '3d2160a3b5dc4a9d62e7e66a295f70313ac808440ef7400d6c0772171ce973a5',
+    magicHex: 'fabfb5da',
+    defaultPort: 18444,
+    powAlgorithm: 'Scrypt',
+    difficultyRule: 'DigiShield per-block retarget',
+    consensusNotes: 'Dogecoin regtest; local-only; no public indexer',
+  );
+
   static const List<UtxoNetworkSpec> all = [
     btcMainnet,
     btcTestnet,
@@ -259,6 +285,7 @@ class UtxoNetworks {
     ltcTestnet,
     dogeMainnet,
     dogeTestnet,
+    dogeRegtest,
   ];
 
   static UtxoNetworkSpec byKey(String key) {

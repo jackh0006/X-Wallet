@@ -9,7 +9,6 @@ import '../utxo/utxo_transaction.dart';
 import '../utxo/utxo_logos.dart';
 import '../utxo/utxo_wallet.dart';
 import '../wallet_core.dart';
-import '../widgets/network_badge.dart';
 import 'common.dart';
 
 /// Bitcoin / Litecoin / Dogecoin screen. EVM chains stay on the existing
@@ -117,7 +116,26 @@ class _UtxoPageState extends State<UtxoPage> {
                       ),
                     ),
                     const SizedBox(height: 2),
-                    NetworkBadge(network: _network.key, compact: true),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        '${_network.shortName} · '
+                        '${_network.isTestnet ? 'TESTNET' : 'MAINNET'}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -288,7 +306,11 @@ class _UtxoPageState extends State<UtxoPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  NetworkBadge(network: _network.key),
+                  Text(
+                    '${_network.shortName} · '
+                    '${_network.isTestnet ? 'TESTNET' : 'MAINNET'}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
                   Text('Network: ${_network.name} (${_network.chain.name})'),
                   Text('From: ${account.address}'),

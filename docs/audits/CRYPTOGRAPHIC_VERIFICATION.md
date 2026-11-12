@@ -19,11 +19,19 @@
 
 ## Independent signature verification
 
-Using `bitcoinjs-lib` 6.1.7 + `bip66` 1.1.5 + `tiny-secp256k1` 2.2.3:
+Using `bitcoinjs-lib` 6.1.7 + `bip66` 1.1.5 + `tiny-secp256k1` 2.2.3.
+
+Synthetic fixtures:
 
 - BTC P2WPKH ECDSA: **PASS**
 - BTC P2TR Schnorr: **PASS**
 - LTC P2WPKH ECDSA: **PASS**
+- DOGE P2PKH ECDSA: **PASS**
+
+Real regtest transactions:
+
+- BTC P2PKH ECDSA: **PASS**
+- LTC P2PKH ECDSA: **PASS**
 - DOGE P2PKH ECDSA: **PASS**
 
 The verifier rebuilt the BIP143 scriptCode from the witness pubkey, not from

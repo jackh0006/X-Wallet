@@ -59,6 +59,13 @@ Using Node 24, `bitcoinjs-lib` 6.1.7, `bip32` 4.0.0 and `tiny-secp256k1` 2.2.3:
 Signature validity and live testnet inclusion were **not** independently
 verified.
 
+## Regtest evidence
+
+- Bitcoin Core v32.1.0: TxID `4214819c…`, 1 confirmation, restart verified.
+- Litecoin Core v0.21.4: TxID `444770b0…`, 1 confirmation, restart verified.
+- Dogecoin Core v1.14.9: TxID `fdcddc05…`, 1 confirmation, restart verified.
+- All three signatures verified by independent `tiny-secp256k1`.
+
 ## Evidence level
 
 - **B** automated unit tests.
