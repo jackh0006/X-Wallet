@@ -23,6 +23,13 @@ class UtxoNetworkSpec {
     required this.addressKinds,
     required this.dustSatoshi,
     required this.supportsRbf,
+    required this.genesisHash,
+    required this.magicHex,
+    required this.defaultPort,
+    required this.powAlgorithm,
+    required this.difficultyRule,
+    required this.consensusNotes,
+    this.supportsMweb = false,
   });
 
   final String key;
@@ -39,6 +46,13 @@ class UtxoNetworkSpec {
   final List<UtxoAddressKind> addressKinds;
   final int dustSatoshi;
   final bool supportsRbf;
+  final String genesisHash;
+  final String magicHex;
+  final int defaultPort;
+  final String powAlgorithm;
+  final String difficultyRule;
+  final String consensusNotes;
+  final bool supportsMweb;
 
   String get explorerTxBase => '$explorerBase/tx/';
   String get explorerAddressBase => '$explorerBase/address/';
@@ -93,6 +107,13 @@ class UtxoNetworks {
     ],
     dustSatoshi: 546,
     supportsRbf: true,
+    genesisHash:
+        '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f',
+    magicHex: 'f9beb4d9',
+    defaultPort: 8333,
+    powAlgorithm: 'SHA-256d',
+    difficultyRule: '2016-block retarget; 10-minute target',
+    consensusNotes: 'Bitcoin Core consensus; no MWEB',
   );
 
   static const btcTestnet = UtxoNetworkSpec(
@@ -115,6 +136,13 @@ class UtxoNetworks {
     ],
     dustSatoshi: 546,
     supportsRbf: true,
+    genesisHash:
+        '000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943',
+    magicHex: '0b110907',
+    defaultPort: 18333,
+    powAlgorithm: 'SHA-256d',
+    difficultyRule: '2016-block retarget; testnet rules',
+    consensusNotes: 'Bitcoin testnet; no MWEB',
   );
 
   static const ltcMainnet = UtxoNetworkSpec(
@@ -136,6 +164,14 @@ class UtxoNetworks {
     ],
     dustSatoshi: 1000,
     supportsRbf: true,
+    genesisHash:
+        '12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2',
+    magicHex: 'fbc0b6db',
+    defaultPort: 9333,
+    powAlgorithm: 'Scrypt',
+    difficultyRule: '2016-block retarget; 2.5-minute target',
+    consensusNotes: 'Litecoin Core consensus; MWEB not implemented',
+    supportsMweb: false,
   );
 
   static const ltcTestnet = UtxoNetworkSpec(
@@ -157,6 +193,14 @@ class UtxoNetworks {
     ],
     dustSatoshi: 1000,
     supportsRbf: true,
+    genesisHash:
+        '4966625a4b2851d9fdee139e56211a0d88575f59ed816ff5e6a63deb4e3e29a0',
+    magicHex: 'fdd2c8f1',
+    defaultPort: 19335,
+    powAlgorithm: 'Scrypt',
+    difficultyRule: '2016-block retarget; testnet rules',
+    consensusNotes: 'Litecoin testnet; MWEB not implemented',
+    supportsMweb: false,
   );
 
   static const dogeMainnet = UtxoNetworkSpec(
@@ -174,6 +218,14 @@ class UtxoNetworks {
     addressKinds: [UtxoAddressKind.p2pkh],
     dustSatoshi: 1000000,
     supportsRbf: false,
+    genesisHash:
+        '1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691',
+    magicHex: 'c0c0c0c0',
+    defaultPort: 22556,
+    powAlgorithm: 'Scrypt',
+    difficultyRule: 'DigiShield per-block retarget',
+    consensusNotes:
+        'Dogecoin Core consensus; AuxPoW merged mining; no SegWit/Taproot',
   );
 
   static const dogeTestnet = UtxoNetworkSpec(
@@ -191,6 +243,13 @@ class UtxoNetworks {
     addressKinds: [UtxoAddressKind.p2pkh],
     dustSatoshi: 1000000,
     supportsRbf: false,
+    genesisHash:
+        'bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e',
+    magicHex: 'fcc1b7dc',
+    defaultPort: 44556,
+    powAlgorithm: 'Scrypt',
+    difficultyRule: 'DigiShield per-block retarget',
+    consensusNotes: 'Dogecoin testnet; AuxPoW merged mining; no SegWit/Taproot',
   );
 
   static const List<UtxoNetworkSpec> all = [

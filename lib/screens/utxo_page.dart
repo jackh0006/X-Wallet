@@ -34,6 +34,8 @@ class _UtxoPageState extends State<UtxoPage> {
   final _amount = TextEditingController();
   final _feeRate = TextEditingController(text: '2');
 
+  final _sendKey = GlobalKey();
+
   UtxoService get _service =>
       UtxoService(killSwitch: () => appState.networkKillSwitch);
 
@@ -49,6 +51,137 @@ class _UtxoPageState extends State<UtxoPage> {
     _amount.dispose();
     _feeRate.dispose();
     super.dispose();
+  }
+
+  String get _glyph => switch (_network.chain) {
+    UtxoChain.bitcoin => '₿',
+    UtxoChain.litecoin => 'Ł',
+    UtxoChain.dogecoin => 'Ð',
+  };
+
+  Widget _heroCard(UtxoAccount? account) {
+    final colors = switch (_network.chain) {
+      UtxoChain.bitcoin => const [Color(0xFFF7931A), Color(0xFFB45309)],
+      UtxoChain.litecoin => const [Color(0xFF345D9D), Color(0xFF1E3A8A)],
+      UtxoChain.dogecoin => const [Color(0xFFC2A633), Color(0xFF7C5E10)],
+    };
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: colors,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  _glyph,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _network.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    NetworkBadge(network: _network.key, compact: true),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Text(
+            account == null
+                ? 'Unlock a wallet to receive ${_network.nativeSymbol}'
+                : '${WalletCore.formatUnits(BigInt.from(_balanceSatoshi), 8)} ${_network.nativeSymbol}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.5,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            account == null
+                ? 'Derived locally from your recovery phrase.'
+                : account.address,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.82),
+              fontFamily: 'monospace',
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 48),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black87,
+                  ),
+                  onPressed: account == null
+                      ? null
+                      : () => showQrDialog(context, account.address),
+                  icon: const Icon(Icons.qr_code),
+                  label: const Text('Receive'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 48),
+                    backgroundColor: Colors.black.withValues(alpha: 0.22),
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: account == null
+                      ? null
+                      : () => Scrollable.ensureVisible(
+                          _sendKey.currentContext!,
+                          duration: const Duration(milliseconds: 250),
+                        ),
+                  icon: const Icon(Icons.send),
+                  label: const Text('Send'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   void _derive() {
@@ -327,6 +460,8 @@ class _UtxoPageState extends State<UtxoPage> {
                 ),
               ),
             if (_error != null) const SizedBox(height: 14),
+            _heroCard(_account),
+            const SizedBox(height: 14),
             if (account != null)
               InfoCard(
                 child: Column(
@@ -421,6 +556,7 @@ class _UtxoPageState extends State<UtxoPage> {
               ),
             const SizedBox(height: 14),
             InfoCard(
+              key: _sendKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -18,6 +18,7 @@ Evidence levels: **A** source inspection, **B** automated unit tests,
 | Vault encryption | `lib/vault.dart`, `lib/kdf.dart` | Argon2id, XChaCha20-Poly1305 | `vault_test`, `kdf_production_test` | B | Working |
 | Multi-vault isolation | `lib/vault.dart`, `lib/app_state.dart` | — | `multi_vault_test` | B | Working |
 | Vault rename | `lib/app_state.dart` | — | `vault_rename_test` | B | Working |
+| BTC/LTC/DOGE chain identity (genesis, magic, port, PoW) | `lib/utxo/utxo_network.dart` | Core `chainparams.cpp` | `utxo_chain_config_test` | B | Verified against official source |
 | BTC P2PKH/P2SH/P2WPKH/P2TR derivation/addresses | `lib/utxo/utxo_wallet.dart` | BIP44/49/84/86 | `utxo_wallet_test` official vectors | B | Working |
 | BTC transaction build/sign/broadcast | `lib/utxo/utxo_transaction.dart`, `utxo_service.dart` | Bitcoin tx, ECDSA/Schnorr | `utxo_transaction_test`, `utxo_service_test` | B (mocks) | Working; no testnet D |
 | BTC/LTC/DOGE confirmation status | `lib/utxo/utxo_service.dart`, `utxo_page.dart` | Esplora/BlockCypher status | `utxo_service_test` | B | Working; no live D |

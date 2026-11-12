@@ -1,5 +1,5 @@
 {
-  "fileCount": 79,
+  "fileCount": 80,
   "files": [
     {
       "lines": 101,
@@ -467,6 +467,13 @@
       "tests": 1
     },
     {
+      "lines": 98,
+      "path": "test/utxo_chain_config_test.dart",
+      "sha256": "6e02c5e913afe23fc39745f4bf69e22372307a1b2c920edfe1e09a0a3749cdcd",
+      "tags": [],
+      "tests": 5
+    },
+    {
       "lines": 45,
       "path": "test/utxo_page_test.dart",
       "sha256": "04e8bd94fb75d6bd22c63322b09758f6ca6fbdb3eb383fff619a58e7a62db4b5",
@@ -575,5 +582,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 453
+  "testCount": 458
 }
