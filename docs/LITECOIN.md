@@ -32,6 +32,7 @@ Investigation on Litecoin Core 0.21.4:
 - X-Wallet therefore handles **transparent LTC only**.
 - The UI now shows an explicit warning when Litecoin is selected: do not send
   MWEB funds to these addresses.
+- Full feasibility record: `docs/audits/MWEB_FEASIBILITY.md`.
 
 ## NOT implemented / NOT tested
 
