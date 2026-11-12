@@ -3,6 +3,12 @@
 All notable user-facing changes to X Wallet are recorded here. The detailed
 engineering history is in [docs/CHANGELOG.md](docs/CHANGELOG.md).
 
+## 2.0.0-rc.1 — 2026-11-13
+
+- Pre-release with BTC/LTC/DOGE transparent UTXO support.
+- Real regtest transactions and independent signature verification.
+- MWEB and PSBT are not included; see `RISKS.md`.
+
 ## 1.6.0 — 2026-11-13
 
 - Add Ethereum mainnet (1) and Sepolia (11155111) alongside BNB Smart Chain.

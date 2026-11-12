@@ -14,7 +14,7 @@
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.6.0+18** · 73 test files · 415 test declarations
+> **X Wallet 2.0.0-rc.1+19** · 80 test files · 459 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
