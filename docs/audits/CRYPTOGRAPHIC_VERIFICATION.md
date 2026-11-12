@@ -17,10 +17,22 @@
 - 4/4 transactions matched for input/output set, sums and TxID.
 - One defect found: BTC testnet BIP86 used coin type 0. Fixed.
 
+## Independent signature verification
+
+Using `bitcoinjs-lib` 6.1.7 + `bip66` 1.1.5 + `tiny-secp256k1` 2.2.3:
+
+- BTC P2WPKH ECDSA: **PASS**
+- BTC P2TR Schnorr: **PASS**
+- LTC P2WPKH ECDSA: **PASS**
+- DOGE P2PKH ECDSA: **PASS**
+
+The verifier rebuilt the BIP143 scriptCode from the witness pubkey, not from
+the witness program. This caught a verifier mistake, not a wallet defect.
+
 ## Not verified
 
-- ECDSA and Schnorr signature validity against an independent verifier.
 - Taproot script-path spending.
+- Exhaustive sighash flag matrix.
 - Malformed signature/script fuzzing.
 - Side-channel behaviour of the underlying libraries.
 - Independent review of `bitcoin_base`/`blockchain_utils`.

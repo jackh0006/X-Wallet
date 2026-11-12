@@ -22,6 +22,8 @@ class TokenLogos {
 
   static const Map<String, String> _bySymbol = {
     'BNB': 'assets/tokens/bnb.png',
+    'BTC': 'assets/tokens/btc.png',
+    'LTC': 'assets/tokens/ltc.png',
     'USDT': 'assets/tokens/usdt.png',
     'USDC': 'assets/tokens/usdc.png',
     'BUSD': 'assets/tokens/busd.png',

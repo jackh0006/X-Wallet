@@ -60,9 +60,22 @@ Each raw transaction was decoded with `bitcoinjs-lib`.
 
 Example BTC P2WPKH TxID: `2b4d00280b99da48a1f88cb75f2c539302b5089674da9e4ac3c1a482e5b1e045`.
 
+## Signature verification
+
+The raw transaction `input` witness/scriptSig was parsed with `bitcoinjs-lib` and
+the DER signature converted with `bip66`. The BIP143 scriptCode was rebuilt as
+the P2PKH script of the witness pubkey. `tiny-secp256k1` verified:
+
+- BTC P2WPKH: ECDSA **PASS**
+- BTC P2TR: Schnorr **PASS**
+- LTC P2WPKH: ECDSA **PASS**
+- DOGE P2PKH: legacy ECDSA **PASS**
+
+All four signatures verified. This does **not** cover Taproot script-path
+spending or every sighash flag.
+
 ## What was not verified
 
-- ECDSA/Schnorr signature validity against an independent verifier.
 - Live testnet inclusion, confirmation or block height.
 - Taproot script-path spending (only key-path).
 - PSBT, descriptors, xprv/xpub, watch-only, RBF.

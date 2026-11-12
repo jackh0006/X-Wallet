@@ -16,7 +16,7 @@ their tests and network call paths.
 | U-07 | Low | P2TR signing had no direct signature-verification test; only build/deterministic tests. | **Open**: needs an independent P2TR spend vector. | — |
 | U-08 | High | No live testnet transaction was performed. | **Blocked**: no funded testnet UTXOs. | — |
 | U-09 | **High** | BTC testnet P2TR used mainnet BIP86 coin type 0. | Select `Bip86Coins.bitcoinTestnet` when `isTestnet`; regression test added. | `utxo_wallet_test.dart` + independent 16/16 comparison |
-| U-10 | Medium | Signature validity was not checked by an independent verifier. | **Open**: independent ECDSA/Schnorr verification still required. | — |
+| U-10 | Medium | Signature validity was not checked by an independent verifier. | **Closed for 4 fixtures** (BTC P2WPKH, BTC P2TR, LTC P2WPKH, DOGE P2PKH); script-path open. | independent `tiny-secp256k1` verification |
 
 ## Spending-path review
 

@@ -7,7 +7,7 @@ Decision: **DEVELOPMENT — NOT READY**.
 | Implemented | Yes | Yes (no MWEB) | Yes (P2PKH only) | Yes |
 | Unit-tested | Yes | Yes | Yes | Yes |
 | Independently compared | Addresses/tx | Addresses/tx | Address/tx | Partial |
-| Signatures independently verified | **No** | **No** | **No** | Partial |
+| Signatures independently verified | **4/4 key-path/legacy fixtures** | **P2WPKH PASS** | **P2PKH PASS** | Partial |
 | Regtest | **No** | **No** | **No** | Anvil tests |
 | Live testnet | **No** | **No** | **No** | BSC tests only |
 | Mainnet-compatible claim | **No** | **No** | **No** | Limited |

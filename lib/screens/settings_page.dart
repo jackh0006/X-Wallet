@@ -3166,11 +3166,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 label: const Text('Advantages'),
               ),
               OutlinedButton.icon(
-                onPressed: () => Process.run('xdg-open', const [
-                  'https://github.com/jackh0006/X-Wallet/blob/main/docs/HIGH_VALUE_CUSTODY.md',
-                ]),
+                onPressed: _showRisks,
                 icon: const Icon(Icons.shield_outlined),
-                label: const Text('Risk controls on GitHub'),
+                label: const Text('Risks & limitations'),
               ),
               OutlinedButton.icon(
                 onPressed: () => showDonationsDialog(context),
@@ -3178,6 +3176,42 @@ class _SettingsPageState extends State<SettingsPage> {
                 label: const Text('Project donations'),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showRisks() {
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Risks & limitations'),
+        content: const SizedBox(
+          width: 580,
+          child: SingleChildScrollView(
+            child: Text(
+              'No independent professional audit exists.\n\n'
+              'Not approved for large holdings. 1.6.0 is for small amounts.\n\n'
+              'BTC/LTC/DOGE have local signing and broadcast code, but no live '
+              'testnet send/receive evidence yet.\n\n'
+              'Litecoin MWEB is not implemented. Dogecoin is P2PKH only. '
+              'Taproot is key-path only.\n\n'
+              'PSBT, descriptors, xprv/xpub, watch-only, gap-limit recovery and '
+              'RBF are not implemented.\n\n'
+              'No physical Android, two-device offline, or real screen-reader '
+              'test has been performed.\n\n'
+              'RPC providers and indexers see queried public addresses and the '
+              'source IP unless Tor/proxy is used. Tor does not defeat every '
+              'correlation attack.\n\n'
+              'The full canonical risk register is RISKS.md in the repository.',
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
           ),
         ],
       ),

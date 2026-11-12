@@ -6,6 +6,7 @@ import '../app_state.dart';
 import '../utxo/utxo_network.dart';
 import '../utxo/utxo_service.dart';
 import '../utxo/utxo_transaction.dart';
+import '../utxo/utxo_logos.dart';
 import '../utxo/utxo_wallet.dart';
 import '../wallet_core.dart';
 import '../widgets/network_badge.dart';
@@ -88,12 +89,17 @@ class _UtxoPageState extends State<UtxoPage> {
                   color: Colors.white.withValues(alpha: 0.18),
                   shape: BoxShape.circle,
                 ),
-                child: Text(
-                  _glyph,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
+                child: Image.asset(
+                  UtxoLogos.assetFor(_network.chain),
+                  width: 30,
+                  height: 30,
+                  errorBuilder: (_, _, _) => Text(
+                    _glyph,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:bnb_wallet_gui/utxo/utxo_network.dart';
 import 'package:bnb_wallet_gui/utxo/utxo_transaction.dart';
 import 'package:bnb_wallet_gui/utxo/utxo_wallet.dart';
+import 'package:bitcoin_base/bitcoin_base.dart';
 
 const _phrase =
     'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
@@ -47,9 +48,16 @@ void main() {
         Utxo(txid: _txid, vout: 0, valueSatoshi: spec.$3, confirmed: true),
       ],
     );
+    final ownerAddress = BitcoinAddressUtils.decodeAddress(
+      account.address,
+      network.network,
+    );
     out.add({
       'network': network.key,
       'kind': kind.name,
+      'ownerAddress': account.address,
+      'prevoutScript': ownerAddress.toScriptPubKey().toHex(),
+      'prevoutValue': spec.$3,
       'raw': plan.rawHex,
       'txid': plan.txId,
       'fee': plan.feeSatoshi,
