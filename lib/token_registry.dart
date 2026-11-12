@@ -1,6 +1,7 @@
+import 'chains.dart';
 import 'models.dart';
 
-/// Canonical names for well-known BNB Smart Chain tokens.
+/// Canonical names for well-known BNB Smart Chain and Ethereum tokens.
 ///
 /// Some contracts return symbols like `USDT-2878723`. A wallet must not
 /// silently present an unknown contract as the real USDT. Known addresses are
@@ -47,6 +48,21 @@ class TokenRegistry {
     ),
   };
 
+  static const Map<String, ({String symbol, String name})> _ethereum = {
+    '0xdac17f958d2ee523a2206206994597c13d831ec7': (
+      symbol: 'USDT',
+      name: 'Tether USD',
+    ),
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': (
+      symbol: 'USDC',
+      name: 'USD Coin',
+    ),
+    '0x68749665ff8d2d112fa859aa293f07a622782f38': (
+      symbol: 'XAUT',
+      name: 'Tether Gold',
+    ),
+  };
+
   static const Set<String> _knownSymbols = {
     'BNB',
     'USDT',
@@ -58,25 +74,27 @@ class TokenRegistry {
     'XRP',
     'ADA',
     'DOGE',
+    'XAUT',
   };
 
   static String networkLabel(String network) {
-    if (network == 'mainnet') return 'BSC';
-    if (network == 'testnet') return 'BSC Testnet';
-    return network;
+    return Chains.byKey(network).shortName;
   }
 
   static TokenPresentation of(TokenInfo token) {
     if (token.native) {
+      final chain = Chains.byKey(token.network);
       return TokenPresentation(
-        symbol: 'BNB',
-        name: 'BNB',
+        symbol: chain.nativeSymbol,
+        name: chain.nativeName,
         network: networkLabel(token.network),
         canonical: true,
         warning: null,
       );
     }
-    final canonical = _bsc[token.address.toLowerCase()];
+    final canonical = (Chains.isEthereum(token.network)
+        ? _ethereum
+        : _bsc)[token.address.toLowerCase()];
     if (canonical != null) {
       return TokenPresentation(
         symbol: canonical.symbol,

@@ -6,6 +6,7 @@ import '../localized_text.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../chains.dart';
 import '../models.dart';
 import '../receipt_image.dart';
 import '../wallet_core.dart';
@@ -147,7 +148,7 @@ class ReceiptPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   _row(
                     'Network',
-                    'BSC ${receipt.network} · chain ${receipt.chainId}',
+                    '${Chains.byKey(receipt.network).name} · chain ${receipt.chainId}',
                   ),
                   _row(
                     'Block',
@@ -306,7 +307,7 @@ class ReceiptPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   _row(
                     'Charged fee',
-                    '${WalletCore.formatEther(BigInt.parse(receipt.feeWei))} BNB',
+                    '${WalletCore.formatEther(BigInt.parse(receipt.feeWei))} ${Chains.byKey(receipt.network).nativeSymbol}',
                   ),
                   _row(
                     'Gas used / limit',
@@ -354,7 +355,7 @@ class ReceiptPage extends StatelessWidget {
                     if (receipt.balanceBeforeWei != null &&
                         receipt.balanceAfterWei != null)
                       Text(
-                        'BNB balance at review: '
+                        '${Chains.byKey(receipt.network).nativeSymbol} balance at review: '
                         '${WalletCore.formatEther(BigInt.parse(receipt.balanceBeforeWei!))} · '
                         'right after the receipt: '
                         '${WalletCore.formatEther(BigInt.parse(receipt.balanceAfterWei!))} '
@@ -490,12 +491,12 @@ class ReceiptPage extends StatelessWidget {
       'Status: ${receipt.status}${receipt.finalized ? ' (final)' : ''}',
       'To: ${receipt.to}',
       'From: ${receipt.from}',
-      'Network: BSC ${receipt.network} · chain ${receipt.chainId}',
+      'Network: ${Chains.byKey(receipt.network).name} · chain ${receipt.chainId}',
       'Block: ${receipt.blockNumber}',
       'Transaction: ${receipt.hash}',
       if (receipt.blockHash != null) 'Block hash: ${receipt.blockHash}',
       'Charged fee: '
-          '${WalletCore.formatEther(BigInt.parse(receipt.feeWei))} BNB',
+          '${WalletCore.formatEther(BigInt.parse(receipt.feeWei))} ${Chains.byKey(receipt.network).nativeSymbol}',
       'Saved: ${_timestamp(receipt.savedAt)}',
     ];
     return lines.join('\n');

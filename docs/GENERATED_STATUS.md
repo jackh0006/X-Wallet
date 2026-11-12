@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.5+17`
+- Version: `1.6.0+18`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 1e9946ed5ccd8f78db7dc4035901f033c43cf6cb0fb31c9ca33a26a8a5672a14 |
+| SBOM SHA-256 | b561c6680ae3618023fc060fd5ae8c529e68c002364fb53b1ca842624b4a533d |
 
 ## Test inventory
 
-- Test files: **69**
-- Test/testWidgets declarations: **395**
+- Test files: **73**
+- Test/testWidgets declarations: **415**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 
@@ -34,29 +34,29 @@ A declaration count is not a pass count. Pass/fail evidence comes only from a co
 
 | Check | Exit | Duration (s) | Required | Log SHA-256 |
 |---|---|---|---|---|
-| cold-signature | 0 | 43.525 | yes | 5575c271e9b604d3 |
-| deb-build | 0 | 30 | yes | 7bdf533c0ebca50a |
-| deb-signature | 0 | 0.762 | yes | c6b9e064495af852 |
-| dependency-audit | 0 | 4.286 | yes | 531db7f60a49620c |
-| full-test-suite | 0 | 420 | yes | 4abbd03453fa1c16 |
-| install-smoke | 0 | 12.542 | yes | 2d0a18668930212e |
-| license-inventory | 0 | 0.697 | yes | cc8e41a55e00cdea |
-| release-evidence | 0 | 0.1 | yes | 139876833bc8529b |
-| reproducibility | 0 | 420 | yes | 13c6eae43a89446d |
-| sbom | 0 | 0.218 | yes | 2eae3b70d7706078 |
-| secret-scan | 0 | 5.237 | yes | 7ff728a5877b4846 |
-| static-analysis | 0 | 34.41 | yes | afa4a2e7bfb84e47 |
-| test-inventory | 0 | 0.211 | yes | 971e7b9afe0038b7 |
+| cold-signature | 0 | 6.091 | yes | 5575c271e9b604d3 |
+| deb-build | 0 | 17.512 | yes | 23dcf8eeac3f5dab |
+| deb-signature | 0 | 0.112 | yes | f1ce2d2116953833 |
+| dependency-audit | 0 | 4.324 | yes | 531db7f60a49620c |
+| full-test-suite | 0 | 276.279 | yes | 2689d6d7394e227b |
+| install-smoke | 0 | 13.453 | yes | 2d0a18668930212e |
+| license-inventory | 0 | 0.061 | yes | cc8e41a55e00cdea |
+| release-evidence | 0 | 0.053 | yes | 3beab56311d33e80 |
+| reproducibility | 0 | 420 | yes | 99f8d0d69376f19f |
+| sbom | 0 | 0.127 | yes | 2eae3b70d7706078 |
+| secret-scan | 0 | 4.942 | yes | 7ff728a5877b4846 |
+| static-analysis | 0 | 18.603 | yes | 8fe365348f7141b3 |
+| test-inventory | 0 | 0.106 | yes | 0f59b7dd55eabbaa |
 
 ## Artifacts
 
 | Artifact | SHA-256 | Signed | Signature verified |
 |---|---|---|---|
-|  | 2f8ef8734bf06bce34d67dab6d83c66fa0bde83106bcb8b1a588ec3531c77298 | yes | yes |
-|  | 6978de809944dc682db73ce8f9fe5202160ac186b9829e5f759ca91986327a16 | yes | yes |
-|  | eb6772b39ca62832b5f7c110dbb390c63360222ab8cf1b91de81202c589c186b | yes | yes |
-|  | 891b7b410eab07c2ad22a1986fdb3d67bf8520000a1eb8b167c46d4432748436 | no | NO |
-|  | 1e9946ed5ccd8f78db7dc4035901f033c43cf6cb0fb31c9ca33a26a8a5672a14 | no | NO |
+|  | b55d1f037c3bf71557878329252a57142c782d54aa870d674be0d8e78f6688ef | yes | yes |
+|  | 35fd8243140b867acd6a105b664de35cd0adbaaf95025d4219a68013a9eb1156 | yes | yes |
+|  | cd55737cdb4be2c04a52cbfb1c67a79318a4345184d8df559f5970bee7e70628 | yes | yes |
+|  | cd09963aa5d5dc56cdaf06a6154fc4ac549ba539e7f4b3ac08626de3163471c9 | no | NO |
+|  | b561c6680ae3618023fc060fd5ae8c529e68c002364fb53b1ca842624b4a533d | no | NO |
 
 ## Android signing incident
 
@@ -110,9 +110,9 @@ Measured on: architecture=x86_64, cpuCount=2, dart=3.13.5, flutter=3.47.6 stable
 
 - No independent professional audit.
 - No independent-machine rebuild.
-- No physical two-device cold-signing test.
-- No real screen-reader/assistive-technology session.
-- Android APKs are built and signature-verified but not installed on a device.
-- Cold custom derivation/passphrase and strong pairing authentication remain open.
-- Nonce/from binding is now enforced for the hot path; other signing routes need continued review.
-- Release gate is evidence-backed but independent review is absent.
+- No live Ethereum node round-trip or physical Android run.
+- No two-device cold-signing test.
+- No real screen-reader session.
+- Hardware-wallet and multisig custody are not implemented.
+- Cold path supports EIP-1559 type-2 only; hot path also supports legacy fees.
+- Price/explorer providers still see source IP and queried public addresses.

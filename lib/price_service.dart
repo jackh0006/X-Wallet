@@ -29,20 +29,75 @@ class PriceService extends ChangeNotifier {
     'CAKE': 'pancakeswap-token',
     'BTCB': 'bitcoin',
     'ETH': 'ethereum',
+    'XAUT': 'tether-gold',
     'XRP': 'ripple',
     'ADA': 'cardano',
     'DOGE': 'dogecoin',
   };
 
+  static const List<String> providers = [
+    'auto',
+    'coinmarketcap',
+    'coingecko',
+    'binance',
+  ];
+
+  static String providerLabel(String provider) {
+    switch (provider) {
+      case 'coinmarketcap':
+        return 'CoinMarketCap';
+      case 'coingecko':
+        return 'CoinGecko';
+      case 'binance':
+        return 'Binance';
+      default:
+        return 'Automatic (CMC → CoinGecko → Binance)';
+    }
+  }
+
   final Map<String, double> _usd = {};
+  final Map<String, String?> _keys = {};
   DateTime? _fetchedAt;
   bool _loading = false;
   String _sourceLabel = 'market';
+  String? _lastError;
 
   Map<String, double> get usd => Map.unmodifiable(_usd);
   bool get loading => _loading;
   DateTime? get fetchedAt => _fetchedAt;
   String get sourceLabel => _sourceLabel;
+  String? get lastError => _lastError;
+  String get selectedProvider => AppStorage.priceProvider;
+
+  /// Test seam: a mock client keeps provider-selection tests offline.
+  @visibleForTesting
+  http.Client? debugClient;
+
+  @visibleForTesting
+  void resetForTest() {
+    _usd.clear();
+    _keys.clear();
+    _fetchedAt = null;
+    _lastError = null;
+    _sourceLabel = 'market';
+    _loading = false;
+    debugClient = null;
+  }
+
+  bool get stale =>
+      _fetchedAt == null ||
+      DateTime.now().difference(_fetchedAt!) > const Duration(minutes: 15);
+
+  Future<void> reloadKeys() async {
+    try {
+      _keys['coinmarketcap'] = await AppStorage.getPriceApiKey('coinmarketcap');
+      _keys['coingecko'] = await AppStorage.getPriceApiKey('coingecko');
+    } catch (_) {
+      // A keyring-less test or desktop session must not break price display.
+      _keys['coinmarketcap'] = null;
+      _keys['coingecko'] = null;
+    }
+  }
 
   double? price(String symbol) => _usd[symbol.toUpperCase()];
 
@@ -79,13 +134,36 @@ class PriceService extends ChangeNotifier {
       return;
     }
     _loading = true;
+    _lastError = null;
     notifyListeners();
-    final client = createRpcClient();
+    if (_keys.isEmpty) await reloadKeys();
+    final client = debugClient ?? createRpcClient();
     var ok = false;
     try {
-      ok = await _loadCoinMarketCap(client);
-      if (!ok) ok = await _loadCoinGecko(client);
-      if (!ok) ok = await _loadBinance(client);
+      final provider = AppStorage.priceProvider;
+      switch (provider) {
+        case 'coinmarketcap':
+          _sourceLabel = 'CoinMarketCap';
+          ok = await _loadCoinMarketCap(client);
+          break;
+        case 'coingecko':
+          _sourceLabel = 'CoinGecko';
+          ok = await _loadCoinGecko(client);
+          break;
+        case 'binance':
+          _sourceLabel = 'Binance';
+          ok = await _loadBinance(client);
+          break;
+        default:
+          ok = await _loadCoinMarketCap(client);
+          if (!ok) ok = await _loadCoinGecko(client);
+          if (!ok) ok = await _loadBinance(client);
+      }
+      if (!ok) {
+        _lastError = 'The selected price provider did not answer.';
+        notifyListeners();
+        return;
+      }
       if (ok && _usd.isNotEmpty) {
         // Stablecoins are pegged; if a source omitted one, use a neutral
         // fallback rather than hiding the row's USD value.
@@ -97,19 +175,23 @@ class PriceService extends ChangeNotifier {
     } catch (_) {
       // Offline or rate-limited: keep the last known prices and stay silent.
     } finally {
-      client.close();
+      if (debugClient == null) client.close();
       _loading = false;
       notifyListeners();
     }
   }
 
   Future<bool> _loadCoinMarketCap(http.Client client) async {
+    final key = _keys['coinmarketcap'];
     final response = await client
         .get(
           Uri.parse(
             'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing'
             '?start=1&limit=500&sortBy=market_cap&sortType=desc&convert=USD',
           ),
+          headers: {
+            if (key != null && key.isNotEmpty) 'X-CMC_PRO_API_KEY': key,
+          },
         )
         .timeout(const Duration(seconds: 15));
     if (response.statusCode != 200) return false;
@@ -124,12 +206,16 @@ class PriceService extends ChangeNotifier {
   }
 
   Future<bool> _loadCoinGecko(http.Client client) async {
+    final key = _keys['coingecko'];
     final response = await client
         .get(
           Uri.parse(
             'https://api.coingecko.com/api/v3/simple/price'
             '?ids=${_geckoIds.values.join(',')}&vs_currencies=usd',
           ),
+          headers: {
+            if (key != null && key.isNotEmpty) 'x-cg-demo-api-key': key,
+          },
         )
         .timeout(const Duration(seconds: 12));
     if (response.statusCode != 200) return false;

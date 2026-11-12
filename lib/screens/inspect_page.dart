@@ -140,7 +140,11 @@ class _InspectPageState extends State<InspectPage>
                     ],
                   ),
                   const SizedBox(height: 10),
-                  _row('BNB · BSC', _balances!['BNB'] ?? BigInt.zero, 18),
+                  _row(
+                    '${appState.rpc.chain.nativeSymbol} · ${appState.rpc.chain.shortName}',
+                    _balances![appState.rpc.chain.nativeSymbol] ?? BigInt.zero,
+                    18,
+                  ),
                   for (final token in appState.tokensForNetwork.where(
                     (t) => !t.native,
                   ))

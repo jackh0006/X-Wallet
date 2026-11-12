@@ -2940,7 +2940,7 @@
       "description": "Local, non-custodial EVM wallet (deb).",
       "name": "bnb_wallet_gui",
       "type": "application",
-      "version": "1.5.5"
+      "version": "1.6.0"
     },
     "properties": [
       {

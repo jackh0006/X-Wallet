@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage>
               children: [
                 const Text('X Wallet'),
                 Text(
-                  'BSC Mainnet · chain 56',
+                  '${appState.rpc.chain.name} · chain ${appState.rpc.chain.chainId}',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
@@ -307,7 +307,7 @@ class _HomePageState extends State<HomePage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${rpc.network == 'mainnet' ? 'BNB Smart Chain' : 'BSC Testnet'} · chain ${rpc.chainId}',
+                      '${rpc.chain.name} · chain ${rpc.chainId}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 2),
@@ -524,7 +524,7 @@ class _HomePageState extends State<HomePage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Network: BSC ${rpc.network} · chain id ${rpc.chainId}\n'
+                  'Network: ${rpc.chain.name} · chain id ${rpc.chainId}\n'
                   'Endpoint: ${rpc.activeRpc.isEmpty ? 'none chosen' : rpc.activeRpc}\n'
                   'Route: ${rpc.routeDescription}\n'
                   'Strict mode: ${rpc.strictModeOn ? 'only this node may answer' : 'fallback nodes allowed'}\n'
@@ -648,7 +648,12 @@ class _HomePageState extends State<HomePage>
       }
     }
 
-    add('BNB', balances['BNB'], 18, 'BNB');
+    add(
+      appState.rpc.chain.nativeSymbol,
+      balances[appState.rpc.chain.nativeSymbol],
+      18,
+      appState.rpc.chain.nativeSymbol,
+    );
     for (final token in appState.tokensForNetwork.where(
       (token) => !token.native && !appState.isTokenHidden(token),
     )) {
@@ -666,7 +671,7 @@ class _HomePageState extends State<HomePage>
     final address = appState.address!;
     final scheme = Theme.of(context).colorScheme;
     final total = _totalUsd();
-    final bnb = _balances?['BNB'];
+    final native = _balances?[appState.rpc.chain.nativeSymbol];
     return Container(
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
@@ -698,8 +703,8 @@ class _HomePageState extends State<HomePage>
                   color: Colors.white.withValues(alpha: 0.16),
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: const Text(
-                  'BSC MAINNET',
+                child: Text(
+                  appState.rpc.chain.shortName.toUpperCase(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10,
@@ -740,10 +745,10 @@ class _HomePageState extends State<HomePage>
               letterSpacing: -1,
             ),
           ),
-          if (bnb != null && bnb >= BigInt.zero) ...[
+          if (native != null && native >= BigInt.zero) ...[
             const SizedBox(height: 4),
             Text(
-              '${formatToken(bnb, 18)} BNB',
+              '${formatToken(native, 18)} ${appState.rpc.chain.nativeSymbol}',
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.78),
                 fontSize: 14,
@@ -827,11 +832,12 @@ class _HomePageState extends State<HomePage>
   Widget _assetsCard() {
     final scheme = Theme.of(context).colorScheme;
     final tokens = [
-      const TokenInfo(
-        symbol: 'BNB',
-        name: 'BNB Smart Chain',
+      TokenInfo(
+        symbol: appState.rpc.chain.nativeSymbol,
+        name: appState.rpc.chain.nativeName,
         address: '',
         decimals: 18,
+        network: appState.rpc.network,
         native: true,
       ),
       ...appState.tokensForNetwork.where(

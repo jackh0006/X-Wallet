@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'chains.dart';
 import 'encrypted_log_store.dart';
 import 'fee_engine.dart';
 import 'models.dart';
@@ -15,43 +16,31 @@ import 'rpc_story.dart';
 import 'storage.dart';
 import 'tx_lifecycle.dart';
 
-/// Network constants for BNB Smart Chain, matching the v1 terminal wallet.
+/// Backwards-compatible network table. New code should use [Chains].
 class BnbNetworks {
   BnbNetworks._();
 
-  static const Map<String, int> chainIds = {'mainnet': 56, 'testnet': 97};
-
-  static const Map<String, String> explorers = {
-    'mainnet': 'https://bscscan.com',
-    'testnet': 'https://testnet.bscscan.com',
+  static final Map<String, int> chainIds = {
+    for (final chain in Chains.all) chain.key: chain.chainId,
   };
 
-  static const Map<String, String> apis = {
-    'mainnet': 'https://api.bscscan.com/v2/api',
-    'testnet': 'https://api.bscscan.com/v2/api',
+  static final Map<String, String> explorers = {
+    for (final chain in Chains.all) chain.key: chain.explorerBase,
+  };
+
+  static final Map<String, String> apis = {
+    for (final chain in Chains.all) chain.key: chain.apiBase,
   };
 
   /// Verified free public doors, default first. Every URL below answered
   /// `eth_chainId` with the correct chain ID when this list was updated.
   /// No API key is required.
-  static const List<String> mainnetFallbacks = [
-    'https://bsc-dataseed.bnbchain.org',
-    'https://bsc-dataseed-public.bnbchain.org',
-    'https://bsc-dataseed.nariox.org',
-    'https://bsc-rpc.publicnode.com',
-    'https://1rpc.io/bnb',
-    'https://bsc-mainnet.public.blastapi.io',
-    'https://rpc.48.club',
-  ];
+  static final List<String> mainnetFallbacks = Chains.bnbMainnet.fallbacks;
 
-  static const List<String> testnetFallbacks = [
-    'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
-    'https://bsc-testnet-rpc.publicnode.com',
-  ];
+  static final List<String> testnetFallbacks = Chains.bnbTestnet.fallbacks;
 
-  static const Map<String, String> defaultRpcs = {
-    'mainnet': 'https://bsc-dataseed.bnbchain.org',
-    'testnet': 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
+  static final Map<String, String> defaultRpcs = {
+    for (final chain in Chains.all) chain.key: chain.defaultRpcs.first,
   };
 }
 
@@ -141,6 +130,7 @@ class RpcService extends ChangeNotifier {
   String _network = 'mainnet';
   String _configuredRpc = BnbNetworks.defaultRpcs['mainnet']!;
   String? _bscscanKey;
+  String? _etherscanKey;
   List<TokenInfo> _customTokens = const [];
 
   /// Doors the node manager hands over (enabled, current side, safe URL,
@@ -208,9 +198,9 @@ class RpcService extends ChangeNotifier {
   }
 
   String get network => _network;
-  int get chainId => BnbNetworks.chainIds[_network] ?? 56;
-  String get explorer =>
-      BnbNetworks.explorers[_network] ?? BnbNetworks.explorers['mainnet']!;
+  ChainSpec get chain => Chains.byKey(_network);
+  int get chainId => chain.chainId;
+  String get explorer => chain.explorerBase;
   String get activeRpc => _activeRpc ?? '';
   String get configuredRpc => _configuredRpc;
   Web3Client? get client => _client;
@@ -418,6 +408,24 @@ class RpcService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Explorer keys are isolated by chain family. A BscScan key is never sent
+  /// to Etherscan and vice versa.
+  void setExplorerKey(String network, String? key) {
+    if (Chains.byKey(network).isEthereum) {
+      _etherscanKey = key;
+    } else {
+      _bscscanKey = key;
+    }
+    notifyListeners();
+  }
+
+  String? get _explorerKey => chain.isEthereum ? _etherscanKey : _bscscanKey;
+
+  String? explorerKeyFor(String network) {
+    final target = Chains.byKey(network);
+    return target.isEthereum ? _etherscanKey : _bscscanKey;
+  }
+
   /// Picks the HTTP transport for a URL: the node's own settings when it is
   /// in the phone book, otherwise the global transport.
   (http.Client, bool) _transportFor(String url) {
@@ -474,9 +482,7 @@ class RpcService extends ChangeNotifier {
 
   List<String> get _publicFallbacks {
     if (_strictFlag || _perNodeTransportPinned) return const [];
-    return _network == 'testnet'
-        ? BnbNetworks.testnetFallbacks
-        : BnbNetworks.mainnetFallbacks;
+    return chain.fallbacks;
   }
 
   Future<void> connect({bool allowFallback = true}) async {
@@ -655,7 +661,7 @@ class RpcService extends ChangeNotifier {
     _ensureOnline();
     final host = Uri.tryParse(url)?.host ?? url;
     final side = expectedNetwork ?? _network;
-    final expected = BnbNetworks.chainIds[side] ?? 56;
+    final expected = Chains.byKey(side).chainId;
     const zero = '0x0000000000000000000000000000000000000000';
     if (!nodeUrlAllowed(url)) {
       _tell(
@@ -1611,15 +1617,16 @@ class RpcService extends ChangeNotifier {
   /// Public BscScan history rows. Needs the user's own API key (Settings).
   Future<List<HistoryTx>> history(String address) async {
     _ensureOnline();
-    final key = _bscscanKey;
+    final key = _explorerKey;
     if (key == null || key.isEmpty) {
       throw StateError(
-        'Transaction history needs a BscScan API key. Add one in Settings.',
+        'Transaction history needs an ${chain.apiKeyHost} API key. '
+        'Add one in Settings for ${chain.name}.',
       );
     }
-    final uri = Uri.parse(BnbNetworks.apis[_network]!).replace(
+    final uri = Uri.parse(chain.apiBase).replace(
       queryParameters: {
-        'chainid': '${BnbNetworks.chainIds[_network]}',
+        'chainid': '${chain.chainId}',
         'module': 'account',
         'action': 'txlist',
         'address': address,

@@ -16,6 +16,8 @@ class TokenLogos {
     '0x1d2f0da169ceb9fc7b3144628db156f3f6c60dbe': 'assets/tokens/xrp.png',
     '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47': 'assets/tokens/ada.png',
     '0xba2ae424d960c26247dd6c32edc70b295c744c43': 'assets/tokens/doge.png',
+    '0xdac17f958d2ee523a2206206994597c13d831ec7': 'assets/tokens/usdt.png',
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': 'assets/tokens/usdc.png',
   };
 
   static const Map<String, String> _bySymbol = {

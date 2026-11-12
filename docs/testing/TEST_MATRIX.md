@@ -121,7 +121,7 @@ These tests are excluded from the default 47-file suite and run in the
 | `default_tokens_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC USDT/USDC contracts and one-time default merge |
 | `cold_private_key_test.dart` | 3 | (light) | ✅ PASS | Private-key cold signing, wrong-key refusal, replay safety |
 | `legacy_migration_test.dart` | 2 | (light) | ✅ PASS | Legacy app-directory copy, no overwrite, 0600 device secret |
-| `public_defaults_test.dart` | 3 | (light) | ✅ PASS | HTTPS public RPC defaults, independent operators, defaults present |
+| `public_defaults_test.dart` | 4 | (light) | ✅ PASS | HTTPS public RPC defaults, independent operators, defaults present |
 | `token_registry_test.dart` | 3 | (light) | ✅ PASS | Canonical BSC names, BNB · BSC, lookalike unverified warning |
 | `create_wallet_dialog_test.dart` | 3 | (light) | ✅ PASS | Creation flow, seed entry, backup quiz |
 | `backup_quiz_test.dart` | 5 | (light) | ✅ PASS | 3-word verification, creation + settings |
@@ -251,3 +251,7 @@ All jobs must pass for merge.
 ---
 
 *This matrix is updated at every test run. Green = automated test passes; Yellow = implemented but not auto-tested; Red = not implemented.*
+| `chains_test.dart` | 8 | (light) | ✅ PASS | BNB/Ethereum chain IDs, native symbols, default tokens, explorer-key isolation |
+| `explorer_history_test.dart` | 4 | (light) | ✅ PASS | Etherscan v2 / BscScan host, chain ID and per-chain key isolation |
+| `price_provider_test.dart` | 4 | (light) | ✅ PASS | Pinned provider is the only call; no silent fallback; auto order |
+| `ethereum_signing_test.dart` | 3 | (light) | ✅ PASS | Official EIP-155 vector; Sepolia binding; cold chain-1 signing |

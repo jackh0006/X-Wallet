@@ -12,12 +12,12 @@ import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../app_state.dart';
+import '../chains.dart';
 import '../cold_wallet.dart';
 import '../cold_wallet_protocol.dart';
 import '../cold_wallet_service.dart';
 import '../fee_engine.dart';
 import '../models.dart';
-import '../rpc_service.dart';
 import '../send_intent.dart';
 import '../token_logos.dart';
 import '../token_registry.dart';
@@ -50,20 +50,30 @@ class _SendPageState extends State<SendPage>
   /// One canonical instance for the native token: the dropdown compares values by identity,
   /// so the initial selection must be the very same object the item list
   /// carries (round-7 bug: two equal-looking consts still failed the check).
-  static const _nativeAsset = TokenInfo(
-    symbol: 'BNB',
-    name: 'BNB (native gas token)',
-    address: '',
-    decimals: 18,
-    native: true,
-  );
+  TokenInfo? _nativeCache;
+  TokenInfo get _nativeAsset {
+    final chain = appState.rpc.chain;
+    if (_nativeCache?.network != chain.key) {
+      _nativeCache = TokenInfo(
+        symbol: chain.nativeSymbol,
+        name: '${chain.nativeName} (native gas token)',
+        address: '',
+        decimals: 18,
+        network: chain.key,
+        native: true,
+      );
+    }
+    return _nativeCache!;
+  }
+
   final _to = TextEditingController();
   final _amount = TextEditingController();
   final _suffix = TextEditingController();
   BigInt? _available;
   bool _availableLoading = false;
   String? _availableKey;
-  TokenInfo _asset = _nativeAsset;
+  late TokenInfo _asset;
+  String _lastNetwork = appState.rpc.network;
   bool _sending = false;
   TxStage? _stage;
   String _flowError = '';
@@ -109,6 +119,7 @@ class _SendPageState extends State<SendPage>
     // The gate and the form are two faces of the same page: unlocking from
     // the gate (or anywhere else) must repaint this page the moment the key
     // lands in memory — the Shell's const children never rebuild themselves.
+    _asset = _nativeAsset;
     appState.addListener(_onAppStateChanged);
     _refreshColdDesk();
     _loadAvailable();
@@ -116,6 +127,12 @@ class _SendPageState extends State<SendPage>
 
   void _onAppStateChanged() {
     if (!mounted) return;
+    if (_lastNetwork != appState.rpc.network) {
+      _lastNetwork = appState.rpc.network;
+      if (_asset.native) _asset = _nativeAsset;
+      _available = null;
+      _availableKey = null;
+    }
     setState(() {});
     _refreshColdDesk();
     _loadAvailable();
@@ -439,7 +456,7 @@ class _SendPageState extends State<SendPage>
           const Text(
             'The transaction is rehearsed on the chain first, then reviewed — '
             'recipient, raw units, fees measured from live nodes, and exactly '
-            'what the node sees. BNB always pays the network fee.',
+            'what the node sees. The chain native coin always pays the network fee.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 12),
@@ -486,7 +503,7 @@ class _SendPageState extends State<SendPage>
                       const SizedBox(width: 8),
                       Text(
                         token.native
-                            ? 'BNB · BSC (native gas token)'
+                            ? '${TokenRegistry.of(token).symbol} · ${TokenRegistry.of(token).network} (native gas token)'
                             : '${TokenRegistry.label(token)} — ${shortAddress(token.address)}',
                       ),
                     ],
@@ -776,7 +793,7 @@ class _SendPageState extends State<SendPage>
         label: 'Network',
         plainStatus: confirmed ? 'in a block' : 'waiting',
         technical:
-            'Network: BSC ${rpc.network} · chain id ${rpc.chainId}\n'
+            'Network: ${rpc.chain.name} · chain id ${rpc.chainId}\n'
             'The chain, not the node, decides whether the transaction is '
             'included. Finality is read from the chain.',
       ),
@@ -1037,7 +1054,7 @@ class _SendPageState extends State<SendPage>
     final rate = preset.maxFeePerGas;
     final expectedFee = gasEstimate * preset.expectedFeePerGas;
     final response =
-        '${WalletCore.formatUnits(rate, 9)} gwei · ~${WalletCore.formatEther(expectedFee)} BNB · ${preset.target}';
+        '${WalletCore.formatUnits(rate, 9)} gwei · ~${WalletCore.formatEther(expectedFee)} ${appState.rpc.chain.nativeSymbol} · ${preset.target}';
     return response;
   }
 
@@ -1128,11 +1145,11 @@ class _SendPageState extends State<SendPage>
       if (_asset.native) {
         final balance = await rpc.getNativeBalance(from);
         _nodeSees.add(
-          'eth_getBalance — is your BNB enough for the amount and its gas?',
+          'eth_getBalance — is your ${rpc.chain.nativeSymbol} enough for the amount and its gas?',
         );
         if (balance < amount) {
           throw StateError(
-            'Insufficient BNB balance for this amount (gas also requires BNB).',
+            'Insufficient ${rpc.chain.nativeSymbol} balance for this amount (gas also requires ${rpc.chain.nativeSymbol}).',
           );
         }
         balanceBefore = balance;
@@ -1195,17 +1212,18 @@ class _SendPageState extends State<SendPage>
       rpc.note(picked.text, kind: picked.kind);
       final expectedFee = gasEstimate * selected.expectedFeePerGas;
       final maxFee = gasLimit * selected.maxFeePerGas;
-      // Required-BNB gate: amount (when native) plus the maximum reserved gas
-      // cap — the terminal refuses here, before anything gets signed.
-      final requiredBnb = (_asset.native ? amount : BigInt.zero) + maxFee;
-      final bnbBalance = await rpc.getNativeBalance(from);
-      if (bnbBalance < requiredBnb) {
+      // Required-native gate: amount (when native) plus the maximum reserved
+      // gas cap — refuse before anything gets signed.
+      final requiredNative = (_asset.native ? amount : BigInt.zero) + maxFee;
+      final nativeBalance = await rpc.getNativeBalance(from);
+      if (nativeBalance < requiredNative) {
         throw StateError(
-          'Insufficient BNB for this transfer and its maximum gas cap '
-          '(${WalletCore.formatEther(requiredBnb)} BNB required).',
+          'Insufficient ${rpc.chain.nativeSymbol} for this transfer and its '
+          'maximum gas cap (${WalletCore.formatEther(requiredNative)} '
+          '${rpc.chain.nativeSymbol} required).',
         );
       }
-      balanceBefore ??= bnbBalance;
+      balanceBefore ??= nativeBalance;
       // Contract-recipient warning: the send flow is for user-controlled
       // addresses; sending tokens directly to a contract can swallow them.
       var contractWarning = '';
@@ -1357,10 +1375,10 @@ class _SendPageState extends State<SendPage>
                   'Gas simulation: ${gasEstimate.toString()} units · limit: ${gasLimit.toString()} (20% buffer)',
                 ),
                 Text(
-                  'Expected fee: ~${WalletCore.formatEther(expectedFee)} BNB',
+                  'Expected fee: ~${WalletCore.formatEther(expectedFee)} ${rpc.chain.nativeSymbol}',
                 ),
                 Text(
-                  'Maximum reserved fee: ${WalletCore.formatEther(maxFee)} BNB',
+                  'Maximum reserved fee: ${WalletCore.formatEther(maxFee)} ${rpc.chain.nativeSymbol}',
                 ),
                 if (maxFee != expectedFee)
                   const Text(
@@ -1387,7 +1405,7 @@ class _SendPageState extends State<SendPage>
                   'Actual paid fee appears on the receipt when the chain answers.',
                   style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
                 ),
-                Text('Network: BSC ${rpc.network} · chain ${rpc.chainId}'),
+                Text('Network: ${rpc.chain.name} · chain ${rpc.chainId}'),
                 Text(
                   'Node for this send: $nodeHost',
                   style: const TextStyle(
@@ -1975,9 +1993,7 @@ class _SendPageState extends State<SendPage>
             ? (isFinalized ? TxStage.finalized : TxStage.included)
             : TxStage.included,
       );
-      final explorerUrl = rpc.network == 'testnet'
-          ? 'https://testnet.bscscan.com/tx/$hash'
-          : 'https://bscscan.com/tx/$hash';
+      final explorerUrl = rpc.chain.explorerTx(hash);
       final summary = StringBuffer()
         ..writeln(
           '${WalletCore.formatUnits(amount, assetDecimals)} ${TokenRegistry.of(_asset).symbol} → ${shortAddress(checksummed)}',
@@ -1986,7 +2002,7 @@ class _SendPageState extends State<SendPage>
           'Block $blockNumber · ${confirmations > 0 ? '$confirmations confirmations' : 'confirmations being counted'}',
         )
         ..writeln(
-          'Charged fee: ${WalletCore.formatEther(feeWei)} BNB'
+          'Charged fee: ${WalletCore.formatEther(feeWei)} ${rpc.chain.nativeSymbol}'
           '${feeFromNode ? '' : ' (the node did not report the effective price; this is the fee you approved)'}',
         )
         ..writeln('Tx hash: $hash')
@@ -2350,7 +2366,7 @@ class _SendPageState extends State<SendPage>
       );
       SendIntent.verify(
         chainId: rpc.chainId,
-        intendedChainId: BnbNetworks.chainIds[tx.network] ?? rpc.chainId,
+        intendedChainId: Chains.byKey(tx.network).chainId,
         native: cancel || tx.native,
         intendedRecipient: cancel ? self : tx.to,
         intendedAmount: cancel ? BigInt.zero : amountRaw,
@@ -2408,7 +2424,7 @@ class _SendPageState extends State<SendPage>
           from: tx.from,
           to: cancel ? self : tx.to,
           native: cancel || tx.native,
-          assetSymbol: cancel ? 'BNB' : tx.assetSymbol,
+          assetSymbol: cancel ? rpc.chain.nativeSymbol : tx.assetSymbol,
           assetAddress: cancel ? '' : tx.assetAddress,
           amountRaw: cancel ? '0' : tx.amountRaw,
           amountHuman: cancel ? '0' : tx.amountHuman,

@@ -1,3 +1,5 @@
+import 'chains.dart';
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -121,7 +123,7 @@ class ColdWalletProtocol {
     if (walletName.trim().isEmpty || walletName.length > 64) {
       throw const ColdProtocolException('Wallet name must be 1–64 characters');
     }
-    if (chainId != 56 && chainId != 97) {
+    if (Chains.byChainId(chainId) == null) {
       throw const ColdProtocolException(
         'Only BSC mainnet/testnet pairing is supported',
       );
@@ -205,7 +207,7 @@ class ColdWalletProtocol {
       throw const ColdProtocolException('Invalid wallet name');
     }
     final chainId = _asInt(payload['chainId'], 'chainId');
-    if (chainId != 56 && chainId != 97) {
+    if (Chains.byChainId(chainId) == null) {
       throw const ColdProtocolException('Unsupported pairing chain');
     }
     final rawAddresses = payload['addresses'];
@@ -333,7 +335,7 @@ class ColdWalletProtocol {
     if (request.version != version) {
       throw const ColdProtocolException('Unsupported request version');
     }
-    if (request.chainId != 56 && request.chainId != 97) {
+    if (Chains.byChainId(request.chainId) == null) {
       throw const ColdProtocolException('Unsupported request chain');
     }
     final id = request.id ?? '';
@@ -482,7 +484,7 @@ class ColdWalletProtocol {
     if (!RegExp(r'^[A-Za-z0-9_-]{8,64}$').hasMatch(signature.requestId)) {
       throw const ColdProtocolException('Invalid request ID in signature');
     }
-    if (signature.chainId != 56 && signature.chainId != 97) {
+    if (Chains.byChainId(signature.chainId) == null) {
       throw const ColdProtocolException('Unsupported signature chain');
     }
     if (signature.r.length != 66 ||

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:bnb_wallet_gui/chains.dart';
 import 'package:bnb_wallet_gui/rpc_service.dart';
 
 void main() {
@@ -18,10 +19,21 @@ void main() {
 
   test('every network default is present in its fallback list', () {
     for (final entry in BnbNetworks.defaultRpcs.entries) {
-      final fallbacks = entry.key == 'testnet'
-          ? BnbNetworks.testnetFallbacks
-          : BnbNetworks.mainnetFallbacks;
-      expect(fallbacks, contains(entry.value));
+      expect(
+        Chains.byKey(entry.key).fallbacks,
+        contains(entry.value),
+        reason: entry.key,
+      );
+    }
+  });
+
+  test('all supported chains have HTTPS, unique defaults', () {
+    for (final chain in Chains.all) {
+      expect(chain.defaultRpcs, isNotEmpty, reason: chain.key);
+      expect(chain.fallbacks.toSet(), hasLength(chain.fallbacks.length));
+      for (final url in chain.fallbacks) {
+        expect(url.startsWith('https://'), isTrue, reason: url);
+      }
     }
   });
 

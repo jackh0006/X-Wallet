@@ -1,3 +1,5 @@
+import 'chains.dart';
+
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -551,7 +553,7 @@ class WalletCore {
         'Unsupported cold request version: ${request.version}',
       );
     }
-    if (request.chainId != 56 && request.chainId != 97) {
+    if (Chains.byChainId(request.chainId) == null) {
       throw ArgumentError('Unsupported chainId: ${request.chainId}');
     }
 
@@ -755,7 +757,7 @@ class WalletCore {
     if (request.id == null || request.id!.isEmpty) {
       throw ArgumentError('Cold request is missing its unique ID');
     }
-    if (request.chainId != 56 && request.chainId != 97) {
+    if (Chains.byChainId(request.chainId) == null) {
       throw ArgumentError('Unsupported chainId: ${request.chainId}');
     }
     final expiresAt = DateTime.tryParse(request.expiresAt);

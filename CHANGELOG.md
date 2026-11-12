@@ -3,6 +3,16 @@
 All notable user-facing changes to X Wallet are recorded here. The detailed
 engineering history is in [docs/CHANGELOG.md](docs/CHANGELOG.md).
 
+## 1.6.0 — 2026-11-13
+
+- Add Ethereum mainnet (1) and Sepolia (11155111) alongside BNB Smart Chain.
+- Ship canonical Ethereum USDT, USDC and XAUT (Tether Gold) defaults.
+- Keep explorer API keys separate per chain: BscScan for BNB, Etherscan for
+  Ethereum.
+- Add a user-selectable USD price provider with optional secure API keys.
+- Make Home, Send, Wallet, Receipt, Activity and Settings chain-aware.
+- Cold signer accepts every registered chain and rejects unknown chain IDs.
+
 ## 1.5.5 — 2026-11-12
 
 - Transaction review now binds the **nonce and sender** to the exact signed

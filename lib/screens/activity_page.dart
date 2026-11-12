@@ -185,7 +185,7 @@ class _ActivityPageState extends State<ActivityPage>
             ),
             const SizedBox(height: 6),
             Text(
-              'When you send BNB or a token, its status and receipt appear '
+              'When you send the native coin or a token, its status and receipt appear '
               'here — offline, on this device.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
@@ -240,7 +240,10 @@ class _ActivityPageState extends State<ActivityPage>
     final scheme = Theme.of(context).colorScheme;
     final receipt = row.receipt;
     final pending = row.pending;
-    final symbol = receipt?.assetSymbol ?? pending?.assetSymbol ?? 'BNB';
+    final symbol =
+        receipt?.assetSymbol ??
+        pending?.assetSymbol ??
+        appState.rpc.chain.nativeSymbol;
     final amount = receipt?.amountHuman ?? pending?.amountHuman ?? '—';
     final isPending = pending != null;
     final unknown =

@@ -6,12 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'chains.dart';
 import 'cold_wallet.dart' hide WalletMode, WalletModeLabel;
 import 'cold_wallet_service.dart';
 import 'default_tokens.dart';
 import 'encrypted_log_store.dart';
 import 'models.dart';
 import 'portable_backup.dart';
+import 'price_service.dart';
 import 'receipt_store.dart';
 import 'rpc_service.dart';
 import 'spending_policy.dart';
@@ -102,6 +104,7 @@ class AppState extends ChangeNotifier {
   Set<String> _hiddenTokens = {};
   bool _liteMode = false;
   String? _bscscanKey;
+  String? _etherscanKey;
   String? _watchAddress;
   bool _unlocked = false;
   bool _initialised = false;
@@ -302,6 +305,12 @@ class AppState extends ChangeNotifier {
   }
 
   String? get bscscanKey => _bscscanKey;
+  String? get etherscanKey => _etherscanKey;
+
+  /// Explorer key for the currently selected chain. Never reused across chains.
+  String? get explorerKey => rpc.chain.isEthereum ? _etherscanKey : _bscscanKey;
+
+  String? explorerKeyFor(String network) => rpc.explorerKeyFor(network);
   bool get hasVault => _vaultExists;
   bool _vaultExists = false;
 
@@ -353,10 +362,12 @@ class AppState extends ChangeNotifier {
     // the very first request instead of silently sending it direct.
     rpc.rebuildTransport();
     rpc.setNetwork(AppStorage.network);
-    rpc.setConfiguredRpc(AppStorage.rpc);
+    rpc.setConfiguredRpc(AppStorage.getRpcFor(AppStorage.network));
     rpc.setCustomTokens(AppStorage.customTokens);
     _bscscanKey = await AppStorage.getBscscanKey();
+    _etherscanKey = await AppStorage.getExplorerKey('ethereum');
     rpc.setBscscanKey(_bscscanKey);
+    rpc.setExplorerKey('ethereum', _etherscanKey);
     _profiles = AppStorage.profiles;
     await AppStorage.loadNodeSecrets();
     _nodes = AppStorage.nodes;
@@ -507,8 +518,10 @@ class AppState extends ChangeNotifier {
 
   Future<void> setNetwork(String network) async {
     rpc.setNetwork(network); // notifies right away: UI flips immediately
+    // Restore this chain's own saved node. A BNB node must never become the
+    // Ethereum node merely because it was the last one used.
+    rpc.setConfiguredRpc(AppStorage.getRpcFor(network));
     await AppStorage.setNetwork(network);
-    await AppStorage.setRpc(rpc.configuredRpc);
     notifyListeners();
     try {
       await rpc.connect();
@@ -520,7 +533,7 @@ class AppState extends ChangeNotifier {
 
   Future<void> setRpc(String url) async {
     rpc.setConfiguredRpc(url);
-    await AppStorage.setRpc(url);
+    await AppStorage.setRpc(url, rpc.network);
     notifyListeners();
     try {
       await rpc.connect(allowFallback: false);
@@ -956,28 +969,24 @@ class AppState extends ChangeNotifier {
         '48.club public',
       ],
       'testnet': ['BNB Chain official testnet', 'PublicNode testnet'],
+      'ethereum': [
+        'PublicNode Ethereum',
+        'LlamaRPC',
+        'Cloudflare Ethereum',
+        '1RPC Ethereum',
+      ],
+      'sepolia': ['PublicNode Sepolia', 'rpc.sepolia.org', 'dRPC Sepolia'],
     };
     _nodes = [
-      for (final entry in BnbNetworks.defaultRpcs.entries)
-        RpcNode(
-          label: official[entry.key]!.first,
-          url: entry.value,
-          network: entry.key,
-        ),
-      ...[
-        for (var i = 1; i < BnbNetworks.mainnetFallbacks.length; i++)
+      for (final chain in Chains.all)
+        for (var i = 0; i < chain.fallbacks.length; i++)
           RpcNode(
-            label: official['mainnet']![i],
-            url: BnbNetworks.mainnetFallbacks[i],
-            network: 'mainnet',
+            label: (official[chain.key]?.length ?? 0) > i
+                ? official[chain.key]![i]
+                : '${chain.shortName} public ${i + 1}',
+            url: chain.fallbacks[i],
+            network: chain.key,
           ),
-        for (var i = 1; i < BnbNetworks.testnetFallbacks.length; i++)
-          RpcNode(
-            label: official['testnet']![i],
-            url: BnbNetworks.testnetFallbacks[i],
-            network: 'testnet',
-          ),
-      ],
     ];
     await AppStorage.setNodes(_nodes);
     _syncNodePool();
@@ -987,7 +996,9 @@ class AppState extends ChangeNotifier {
 
   Future<void> addToken(TokenInfo token) async {
     if (_customTokens.any(
-      (t) => t.address.toLowerCase() == token.address.toLowerCase(),
+      (t) =>
+          t.address.toLowerCase() == token.address.toLowerCase() &&
+          t.network == token.network,
     )) {
       return;
     }
@@ -1037,15 +1048,30 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setBscscanKey(String? key) async {
-    if (key == null || key.trim().isEmpty) {
-      await AppStorage.clearBscscanKey();
-      _bscscanKey = null;
+  Future<void> setBscscanKey(String? key) => setExplorerKey('mainnet', key);
+
+  /// Persists an explorer key for one chain only. A key entered for Ethereum
+  /// is never sent to BscScan and vice versa.
+  Future<void> setExplorerKey(String network, String? key) async {
+    final target = Chains.byKey(network);
+    final trimmed = key?.trim();
+    final empty = trimmed == null || trimmed.isEmpty;
+    if (empty) {
+      await AppStorage.clearExplorerKey(target.key);
+      if (target.isEthereum) {
+        _etherscanKey = null;
+      } else {
+        _bscscanKey = null;
+      }
     } else {
-      await AppStorage.setBscscanKey(key.trim());
-      _bscscanKey = key.trim();
+      await AppStorage.setExplorerKey(target.key, trimmed);
+      if (target.isEthereum) {
+        _etherscanKey = trimmed;
+      } else {
+        _bscscanKey = trimmed;
+      }
     }
-    rpc.setBscscanKey(_bscscanKey);
+    rpc.setExplorerKey(target.key, empty ? null : trimmed);
     notifyListeners();
   }
 
@@ -1139,7 +1165,7 @@ class AppState extends ChangeNotifier {
   /// Returns [tokens] plus any missing built-in BSC defaults.
   List<TokenInfo> withDefaultTokens(List<TokenInfo> tokens) {
     final result = [...tokens];
-    for (final token in DefaultTokens.bsc) {
+    for (final token in DefaultTokens.all) {
       final exists = result.any(
         (item) =>
             item.address.toLowerCase() == token.address.toLowerCase() &&
@@ -1590,6 +1616,26 @@ class AppState extends ChangeNotifier {
   bool get showUsd => AppStorage.showUsd;
   Future<void> setShowUsd(bool value) async {
     await AppStorage.setShowUsd(value);
+    notifyListeners();
+  }
+
+  String get priceProvider => AppStorage.priceProvider;
+  Future<void> setPriceProvider(String value) async {
+    await AppStorage.setPriceProvider(value);
+    notifyListeners();
+    if (showUsd) unawaited(PriceService.instance.refresh(force: true));
+  }
+
+  Future<String?> priceApiKey(String provider) =>
+      AppStorage.getPriceApiKey(provider);
+  Future<void> setPriceApiKey(String provider, String? key) async {
+    final trimmed = key?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      await AppStorage.clearPriceApiKey(provider);
+    } else {
+      await AppStorage.setPriceApiKey(provider, trimmed);
+    }
+    await PriceService.instance.reloadKeys();
     notifyListeners();
   }
 
@@ -2325,8 +2371,9 @@ class AppState extends ChangeNotifier {
       _mnemonic = null;
       _profiles = [];
       _nodes = [];
-      _customTokens = [...DefaultTokens.bsc];
+      _customTokens = [...DefaultTokens.all];
       _bscscanKey = null;
+      _etherscanKey = null;
       _vaultSessionPassword = null;
       _vaultAccountsCache = null;
       _vaultKnownAddresses = {};
@@ -2340,6 +2387,7 @@ class AppState extends ChangeNotifier {
       _drawerNoteShown = false;
       AppStorage.resetDeviceSecretMemo();
       rpc.setBscscanKey(null);
+      rpc.setExplorerKey('ethereum', null);
       rpc.setCustomTokens(_customTokens);
       rpc.clearStory();
       await rpc.privacyChanged();
