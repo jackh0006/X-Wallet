@@ -75,8 +75,8 @@ phone and on their desktop, without an account or a cloud.
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
 - **Evidence, not slogans.** 69 test files, 395 test declarations, mutation
-  testing, CodeQL, SBOM, a reproducible build, and an independent ethers.js
-  cross-check.
+  testing, CodeQL, SBOM, a fixed-path reproducible build, and an independent
+  ethers.js cross-check.
 - **Android hardening.** Native Argon2id, background/idle vault lock, 6-digit
   PIN rules, optional wipe-after-failures, FLAG_SECURE, obscured-touch
   rejection, R8/obfuscation, and a verified signer gate.

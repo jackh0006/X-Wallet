@@ -3,6 +3,19 @@
 All notable user-facing changes to X Wallet are recorded here. The detailed
 engineering history is in [docs/CHANGELOG.md](docs/CHANGELOG.md).
 
+## 1.5.5 — 2026-11-12
+
+- Transaction review now binds the **nonce and sender** to the exact signed
+  transaction; a change after review refuses the signature.
+- Cold pairing fingerprints cover the chain and **every** paired address.
+- “Erase all data” removes known pre-1.2 application-data directories,
+  including their vault and plaintext device secret.
+- Android file import is capped at 8 MiB.
+- Custom RPC headers cannot add cookies, referer/origin, authorization, API
+  keys, host/framing headers, CR/LF or oversized values.
+- The release gate has a strict source mode and a post-release verifier that
+  re-downloads the published assets and checks their signatures and APK signer.
+
 ## 1.5.0 — 2026-11-10
 
 - Android ships the native reference Argon2id library; the 64 MiB/t=3/p=4

@@ -97,8 +97,14 @@ artifact as production-ready.
 
 ## Publication (owner only)
 
-1. Tag the exact commit with a signed tag.
+1. Tag the exact commit with a signed tag. Keep the tested code commit
+   fetchable with a signed `tested-x.y.z` tag; the evidence ancestry check
+   needs it.
 2. Upload the `.deb`, `.asc`, `SHA256SUMS`, SBOM, manifest, test summary, and
    known limitations together.
 3. State the reproducibility constraint and independent-audit status.
 4. Publish the signing-key fingerprint through an independent channel.
+5. Re-verify the published assets:
+   `bash scripts/verify-release-assets.sh vX.Y.Z /tmp/assets`.
+6. Move `stable` to the release commit, or to a later commit whose only
+   differences are docs/release tooling; never move a published tag.
