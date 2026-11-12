@@ -1,5 +1,9 @@
 # Release Security
 
+> **Current release: X Wallet 1.5.5+17.** Some examples below name older
+> versions. Use `docs/releases/1.5.5.md`, `release/evidence.json` and the
+> signed release assets for the current procedure.
+
 ## Linux
 
 - Built from the tagged source archive.
