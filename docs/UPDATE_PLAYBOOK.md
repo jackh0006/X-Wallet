@@ -217,3 +217,17 @@ When a new feature or test is added:
 4. Update the baseline table after the version is published.
 
 This file is referenced from `AGENTS.md` so future sessions load it first.
+
+## Evidence ancestry after a squash merge
+
+GitHub squash-merges a release PR into a new commit, so the tested commit is
+not an ancestor of the release commit. Keep the tested commit fetchable (a
+signed `tested-x.y.z` tag) and record `squashMerge` in
+`release/evidence.json`.
+
+The identity/gate generators accept differences between the tested commit and
+`sourceCommit` only in `docs/`, `release/`, and an explicit release-tooling
+allowlist (`scripts/generate_docs.py`, `scripts/release-gate.py`,
+`scripts/check_release_identity.py`). If a later commit changes another root
+file, add that path to all three allowlists deliberately — never whitelist
+wallet code or tests.

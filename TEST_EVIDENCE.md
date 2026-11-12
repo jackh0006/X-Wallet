@@ -1,5 +1,9 @@
 # Test Evidence — X Wallet 1.5.0
 
+> **Historical snapshot.** Current evidence for 1.5.5 is in
+> [`docs/TEST_EVIDENCE.md`](docs/TEST_EVIDENCE.md) and
+> [`docs/releases/1.5.5.md`](docs/releases/1.5.5.md).
+
 Canonical command-by-command evidence: [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md).
 
 ## Executed at `6778a6f51800ff2b9a519a05a8396da6efd4eec2`
