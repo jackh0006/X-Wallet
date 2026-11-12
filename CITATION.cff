@@ -10,7 +10,7 @@ authors:
 repository-code: "https://github.com/jackh0006/X-Wallet"
 url: "https://github.com/jackh0006/X-Wallet"
 license: "AGPL-3.0-or-later"
-version: "2.0.0-rc.1"
+version: "2.0.0-rc.2"
 date-released: "2026-11-13"
 keywords:
   - wallet
