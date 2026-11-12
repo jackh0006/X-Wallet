@@ -1,7 +1,7 @@
 # X Wallet Test Evidence
 
 > **1.6.0 update:** the current release evidence is `release/evidence.json`
-> and `docs/releases/1.6.0.md`. Counts: 73 test files / 414 declarations.
+> and `docs/releases/1.6.0.md`. Counts: 73 test files / 415 declarations.
 > Older figures below are historical and must not be read as evidence for the
 > 1.6.0 tree.
 

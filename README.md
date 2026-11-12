@@ -10,11 +10,11 @@
   [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
   [![Platform](https://img.shields.io/badge/platform-Linux%20amd64%20%7C%20Android-lightgrey)](https://github.com/jackh0006/X-Wallet/releases/latest)
   [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/jackh0006/X-Wallet?label=OpenSSF%20Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/jackh0006/X-Wallet)
-  [![Tests](https://img.shields.io/badge/tests-73%20files%20%7C%20414%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
+  [![Tests](https://img.shields.io/badge/tests-73%20files%20%7C%20415%20declarations-brightgreen)](docs/TEST_EVIDENCE.md)
 </div>
 
 <!-- BEGIN GENERATED:status -->
-> **X Wallet 1.6.0+18** · 73 test files · 414 test declarations
+> **X Wallet 1.6.0+18** · 73 test files · 415 test declarations
 >
 > [Download the latest release](https://github.com/jackh0006/X-Wallet/releases/latest) · [Full test evidence](docs/TEST_EVIDENCE.md) · [Release status](docs/GENERATED_STATUS.md)
 <!-- END GENERATED:status -->
@@ -74,7 +74,7 @@ phone and on their desktop, without an account or a cloud.
   at rest with Argon2id and XChaCha20-Poly1305.
 - **Free and open source.** AGPL-3.0-or-later, no subscription, no paywall, no
   ads, and no analytics SDK in the locked dependency inventory.
-- **Evidence, not slogans.** 73 test files, 414 test declarations, mutation
+- **Evidence, not slogans.** 73 test files, 415 test declarations, mutation
   testing, CodeQL, SBOM, a fixed-path reproducible build, and an independent
   ethers.js cross-check.
 - **Ethereum and BNB.** One EVM engine, explicit chain IDs, independent nodes, explorers and token lists.
@@ -218,7 +218,7 @@ Actions run. No new tests were invented for this page.
 | ✅ PASS | Formatting | `dart format --output=none --set-exit-if-changed lib test tool` | Source is consistently formatted and easier to review. |
 | ✅ PASS | Static analysis | `flutter analyze --no-pub` | No analyzer issues in the wallet code. |
 | ✅ PASS | Default test suite | `bash scripts/test-suite-fast.sh` — 68/68 non-integration files, 0 failed | Unit, widget, vault, network, and security tests pass. |
-| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 73 files / 414 declarations | Every test file is accounted for; none is silently missing. |
+| ✅ PASS | Test inventory | `python3 scripts/test_inventory.py --check` — 73 files / 415 declarations | Every test file is accounted for; none is silently missing. |
 | ⚠️ NOT RE-RUN | Mutation testing | Last recorded 1.5.3 run: 5/5 killed, 97 s | Not re-run for the 1.6.0 tree; do not treat the old result as 1.6.0 evidence. |
 | ✅ PASS | Branding validator | `python3 scripts/check_branding.py` | User-facing product identity is consistent. |
 | ✅ PASS | Free-use validator | `python3 scripts/check_free_product.py` | No subscription, paywall, ads, or payment SDK. |
@@ -289,7 +289,7 @@ local key custody, and a built-in cold-signing workflow.
 | **No account, no KYC, no ads** | No sign-up, no subscription, no paywall, and no analytics SDK in the locked dependency inventory. |
 | **Open source and reproducible** | AGPL-3.0-or-later, SBOM, checksums, and a fixed-path reproducible build. |
 | **Data-preserving package migration** | Upgrading from the previous package keeps existing wallet data and compatibility aliases. |
-| **414 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
+| **415 test declarations** | Evidence is published: unit, widget, security, mutation, integration, and release tests. |
 
 ### Compared by wallet style
 

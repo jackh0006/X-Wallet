@@ -32,11 +32,11 @@
       "tests": 4
     },
     {
-      "lines": 108,
+      "lines": 128,
       "path": "test/chains_test.dart",
-      "sha256": "1267e2f28e454590634463de7999799347d7b1bc0ce0d8511c53d0d55fe78199",
+      "sha256": "49597c56915147ed6bcf575c8d626f702ecb13ca1f3343d365ebd72e0fbbbf30",
       "tags": [],
-      "tests": 7
+      "tests": 8
     },
     {
       "lines": 70,
@@ -533,5 +533,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 414
+  "testCount": 415
 }

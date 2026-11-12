@@ -251,7 +251,7 @@ All jobs must pass for merge.
 ---
 
 *This matrix is updated at every test run. Green = automated test passes; Yellow = implemented but not auto-tested; Red = not implemented.*
-| `chains_test.dart` | 7 | (light) | ✅ PASS | BNB/Ethereum chain IDs, native symbols, default tokens, explorer-key isolation |
+| `chains_test.dart` | 8 | (light) | ✅ PASS | BNB/Ethereum chain IDs, native symbols, default tokens, explorer-key isolation |
 | `explorer_history_test.dart` | 4 | (light) | ✅ PASS | Etherscan v2 / BscScan host, chain ID and per-chain key isolation |
 | `price_provider_test.dart` | 4 | (light) | ✅ PASS | Pinned provider is the only call; no silent fallback; auto order |
 | `ethereum_signing_test.dart` | 3 | (light) | ✅ PASS | Official EIP-155 vector; Sepolia binding; cold chain-1 signing |
