@@ -48,6 +48,19 @@ found.
 ### C. Implement MWEB from scratch (not recommended)
 - Reimplementing MWEB cryptography and slates is high-risk and out of scope.
 
+## Probe performed
+
+- Built `mwebd` from `github.com/ltcmweb/mwebd/cmd/mwebd@latest` with Go 1.22.2.
+- Started it on `127.0.0.1:12347` against mainnet.
+- Used `mweb_client` 0.2.0 to call `Status` and `Addresses`.
+- Result: `blockHeaderHeight: 39420`, MWEB address
+  `ltcmweb1qqw8xawh8m5qrkdaw3sx3mhycrraqt9djvrnhf7yxtfykuhl7nuanvqa6909hkvx8vgqlx82c59chdn0uuzlmt3pl6yk59dafqpqavdrnlgzu996x`.
+- Mainnet sync was at ~39k headers of ~2.8M; testnet DNS peers were not
+  reachable from this environment.
+- No MWEB UTXO scan, send, receive, peg or confirmation was proven.
+- The `mweb_client`/`googleapis_auth` dependency was removed after the probe;
+  it is not shipped.
+
 ## Decision
 
 **Do not add MWEB to X-Wallet 2.0.0.**
