@@ -48,6 +48,8 @@ dependencies:
   asn1lib: ^1.6.8
   ffi: ^2.2.0
   synchronized: ^3.1.0
+  bitcoin_base: 7.3.0
+  blockchain_utils: 7.1.0
 
 dev_dependencies:
   flutter_test:

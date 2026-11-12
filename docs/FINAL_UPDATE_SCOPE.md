@@ -10,7 +10,12 @@ Development branch: `release/2.0.0`.
 - A real, persisted **network kill switch** that blocks RPC, explorer and
   price requests before any socket is opened. It is enforced in
   `RpcService._ensureOnline`, `RpcService.connect` and `PriceService.refresh`.
-- Four regression tests in `test/network_kill_switch_test.dart`.
+- **Bitcoin/Litecoin/Dogecoin core:** BIP44/49/84/86 derivation, P2PKH,
+  P2SH-P2WPKH, P2WPKH and P2TR addresses, WIF/raw key import/export, UTXO
+  discovery, fee estimate, coin selection, change, signing, serialization,
+  TxID and broadcast. UI at `lib/screens/utxo_page.dart`.
+- Official BIP44/49/84/86 address vectors, transaction build/sign tests,
+  UTXO/fee/broadcast parsing tests and kill-switch tests.
 - Documentation of the exact scope and the remaining gaps.
 
 ## What is NOT implemented
@@ -21,11 +26,12 @@ an independent audit. None of these are implemented on this branch.
 
 | Requested item | Status | Why it is not claimed |
 |---|---|---|
-| BTC P2PKH/P2SH/P2WPKH/P2TR | **NOT IMPLEMENTED** | Requires a reviewed UTXO library, address/script codec, coin selection, PSBT and testnet evidence. Adding it without those would be unsafe. |
-| BTC PSBT / descriptors | **NOT IMPLEMENTED** | Same. |
-| LTC mainnet/testnet | **NOT IMPLEMENTED** | Requires chain-specific prefixes, WIF, script and network parameters plus testnet evidence. |
-| DOGE mainnet/testnet | **NOT IMPLEMENTED** | Requires chain-specific prefixes, WIF and serialization plus testnet evidence. |
-| Custom UTXO networks | **NOT IMPLEMENTED** | No UTXO engine exists. |
+| BTC derivation/addresses/transactions | **IMPLEMENTED (core)** | `lib/utxo/`; official vectors and transaction tests pass. |
+| BTC PSBT / descriptors / xprv | **NOT IMPLEMENTED** | Requires BIP174/BIP380 integration and physical two-device evidence. |
+| LTC mainnet/testnet | **IMPLEMENTED (core)** | Derivation, addresses, WIF, UTXO fetch, build/sign/broadcast. No live testnet evidence. |
+| DOGE mainnet/testnet | **IMPLEMENTED (core)** | P2PKH, WIF, UTXO fetch, build/sign/broadcast. No live testnet evidence. |
+| Live testnet send/receive | **NOT PERFORMED** | Requires funded testnet UTXOs and a controlled node. |
+| Custom UTXO networks | **NOT IMPLEMENTED** | No custom UTXO parameter UI. |
 | Hardware wallet | **NOT IMPLEMENTED** | No standard protocol integration was added. |
 | Multisig/threshold custody | **NOT IMPLEMENTED** | No reviewed standard contract/descriptor was added. |
 | Independent audit | **NOT PERFORMED** | Cannot be produced by the development agent. |

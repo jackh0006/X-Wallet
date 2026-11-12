@@ -18,10 +18,15 @@ Evidence levels: **A** source inspection, **B** automated unit tests,
 | Vault encryption | `lib/vault.dart`, `lib/kdf.dart` | Argon2id, XChaCha20-Poly1305 | `vault_test`, `kdf_production_test` | B | Working |
 | Multi-vault isolation | `lib/vault.dart`, `lib/app_state.dart` | — | `multi_vault_test` | B | Working |
 | Vault rename | `lib/app_state.dart` | — | `vault_rename_test` | B | Working |
-| BTC P2PKH/P2SH/P2WPKH/P2TR | — | BIP44/49/84/86, BIP173/350 | none | — | **NOT IMPLEMENTED** |
+| BTC P2PKH/P2SH/P2WPKH/P2TR derivation/addresses | `lib/utxo/utxo_wallet.dart` | BIP44/49/84/86 | `utxo_wallet_test` official vectors | B | Working |
+| BTC transaction build/sign/broadcast | `lib/utxo/utxo_transaction.dart`, `utxo_service.dart` | Bitcoin tx, ECDSA/Schnorr | `utxo_transaction_test`, `utxo_service_test` | B (mocks) | Working; no testnet D |
+| BTC PSBT/descriptors/offline | — | BIP174/380 | none | — | **NOT IMPLEMENTED** |
 | BTC PSBT/descriptors | — | BIP174/BIP380 | none | — | **NOT IMPLEMENTED** |
-| LTC support | — | — | none | — | **NOT IMPLEMENTED** |
-| DOGE support | — | — | none | — | **NOT IMPLEMENTED** |
+| LTC mainnet/testnet | `lib/utxo/utxo_network.dart`, `utxo_wallet.dart` | BIP44/49/84, coin type 2' | `utxo_wallet_test`, `utxo_transaction_test` | B | Working; no testnet D |
+| LTC PSBT/offline | — | — | none | — | **NOT IMPLEMENTED** |
+| DOGE mainnet/testnet | `lib/utxo/utxo_network.dart`, `utxo_wallet.dart` | BIP44, coin type 3' | `utxo_wallet_test`, `utxo_transaction_test` | B | Working; no testnet D |
+| DOGE PSBT/offline | — | — | none | — | **NOT IMPLEMENTED** |
+| UTXO send/receive UI | `lib/screens/utxo_page.dart` | — | `utxo_page_test` | B | Working; no physical E |
 | Custom UTXO networks | — | — | none | — | **NOT IMPLEMENTED** |
 | Hardware wallet | — | — | none | — | **NOT IMPLEMENTED** |
 | Multisig/threshold | — | — | none | — | **NOT IMPLEMENTED** |

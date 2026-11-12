@@ -1,5 +1,5 @@
 {
-  "fileCount": 75,
+  "fileCount": 79,
   "files": [
     {
       "lines": 101,
@@ -88,9 +88,9 @@
       "tests": 3
     },
     {
-      "lines": 160,
+      "lines": 161,
       "path": "test/data_boundary_test.dart",
-      "sha256": "bb9116bd31fe7d84c2f81643ccdb382bf71e76075e1773128a4b64790a179122",
+      "sha256": "e348845fb2d46e9b757d73e5b9696e051745c859c1de3b31049234967063a195",
       "tags": [],
       "tests": 5
     },
@@ -467,6 +467,34 @@
       "tests": 1
     },
     {
+      "lines": 45,
+      "path": "test/utxo_page_test.dart",
+      "sha256": "04e8bd94fb75d6bd22c63322b09758f6ca6fbdb3eb383fff619a58e7a62db4b5",
+      "tags": [],
+      "tests": 2
+    },
+    {
+      "lines": 141,
+      "path": "test/utxo_service_test.dart",
+      "sha256": "637534f0e92c23790ef37f492f1fc11969cff8619eaff038c8c947a277dd5c20",
+      "tags": [],
+      "tests": 7
+    },
+    {
+      "lines": 173,
+      "path": "test/utxo_transaction_test.dart",
+      "sha256": "80b9214eec02bde668e5363f87bc6541791595b5bda7580042eb62390726d4a6",
+      "tags": [],
+      "tests": 9
+    },
+    {
+      "lines": 161,
+      "path": "test/utxo_wallet_test.dart",
+      "sha256": "b8874b87b4560f10323bcf3c6ad4b1c85ced25f8c59cad810f2a7a7cad731c03",
+      "tags": [],
+      "tests": 12
+    },
+    {
       "lines": 55,
       "path": "test/vault_header_validation_test.dart",
       "sha256": "ce9638b64bb38cd1527446ceaa13645bf825dec7583ec35a33283917ec0e916a",
@@ -547,5 +575,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 420
+  "testCount": 450
 }

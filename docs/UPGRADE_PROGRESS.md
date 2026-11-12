@@ -17,7 +17,7 @@ Last updated: 2026-11-12
 | Price provider selection | `lib/price_service.dart`, `lib/storage.dart`, `lib/screens/settings_page.dart`; `test/price_provider_test.dart` |
 | Dynamic chain UI | `lib/screens/home_page.dart`, `send_page.dart`, `wallet_page.dart`, `receipt_page.dart`, `activity_page.dart`, `inspect_page.dart`, `settings_page.dart` |
 | Custom token duplicate check scoped by chain | `lib/app_state.dart` |
-| Tests added | 4 new test files (13 tests) |
+| Tests added | 8 new test files (43 tests) |
 
 ## Commands and results
 
@@ -32,6 +32,15 @@ flutter test --concurrency=1 \
   test/ethereum_signing_test.dart
 # PASS — see the run log in /tmp/xw-1.6.0-newtests.log
 ```
+
+## UTXO milestone
+
+- BTC/LTC/DOGE network registry, BIP44/49/84/86 derivation and P2PKH,
+  P2SH-P2WPKH, P2WPKH, P2TR addresses.
+- WIF/raw key import/export, UTXO discovery, fee estimate, coin selection,
+  change, dust handling, signing, serialization, TxID and broadcast.
+- UI at `lib/screens/utxo_page.dart`.
+- 30 UTXO tests pass, including official BIP44/49/84/86 vectors.
 
 ## Verified
 

@@ -257,3 +257,7 @@ All jobs must pass for merge.
 | `ethereum_signing_test.dart` | 3 | (light) | ✅ PASS | Official EIP-155 vector; Sepolia binding; cold chain-1 signing |
 | `network_kill_switch_test.dart` | 4 | (light) | ✅ PASS | RPC, explorer and price requests blocked before any socket |
 | `network_badge_test.dart` | 1 | (light) | ✅ PASS | MAINNET, TESTNET and CUSTOM labels are textual, not colour-only |
+| `utxo_wallet_test.dart` | 12 | (light) | ✅ PASS | BIP44/49/84/86 official vectors; LTC/DOGE addresses; WIF round-trip |
+| `utxo_transaction_test.dart` | 9 | (light) | ✅ PASS | BTC/LTC/DOGE build/sign; fee/change; wrong-network refusal |
+| `utxo_service_test.dart` | 7 | (light) | ✅ PASS | Esplora/BlockCypher UTXO, fee, broadcast; kill switch |
+| `utxo_page_test.dart` | 2 | (light) | ✅ PASS | UTXO screen warning states and TESTNET label |

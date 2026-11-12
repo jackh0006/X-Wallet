@@ -128,6 +128,7 @@ void main() {
       'lib/screens/send_page.dart',
       'lib/screens/settings_page.dart',
       'lib/screens/receipt_page.dart',
+      'lib/screens/utxo_page.dart',
     };
     final offenders = <String>[];
     for (final entity in Directory('lib').listSync(recursive: true)) {
