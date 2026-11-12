@@ -337,7 +337,12 @@ class _WalletPageState extends State<WalletPage>
       }
     }
 
-    add('BNB', balances['BNB'], 18, 'BNB');
+    add(
+      appState.rpc.chain.nativeSymbol,
+      balances[appState.rpc.chain.nativeSymbol],
+      18,
+      appState.rpc.chain.nativeSymbol,
+    );
     for (final token in appState.tokensForNetwork.where(
       (token) => !token.native && !appState.isTokenHidden(token),
     )) {
@@ -354,7 +359,7 @@ class _WalletPageState extends State<WalletPage>
   Future<void> _loadHistory() async {
     if (!appState.unlocked ||
         appState.address == null ||
-        appState.bscscanKey == null) {
+        appState.explorerKey == null) {
       setState(() {
         _history = null;
         _historyError = null;
@@ -413,7 +418,7 @@ class _WalletPageState extends State<WalletPage>
   Widget _androidDashboard() {
     final address = appState.address!;
     final label = _currentWalletLabel(appState.profiles, address);
-    final bnb = _balances?['BNB'];
+    final native = _balances?[appState.rpc.chain.nativeSymbol];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -463,7 +468,7 @@ class _WalletPageState extends State<WalletPage>
               ),
               const SizedBox(height: 18),
               Text(
-                'BNB balance',
+                '${appState.rpc.chain.nativeSymbol} balance',
                 style: TextStyle(
                   fontSize: 13,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -471,9 +476,9 @@ class _WalletPageState extends State<WalletPage>
               ),
               const SizedBox(height: 4),
               Text(
-                bnb == null || bnb < BigInt.zero
+                native == null || native < BigInt.zero
                     ? '—'
-                    : '${WalletCore.formatUnits(bnb, 18)} BNB',
+                    : '${WalletCore.formatUnits(native, 18)} ${appState.rpc.chain.nativeSymbol}',
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w800,
@@ -483,15 +488,20 @@ class _WalletPageState extends State<WalletPage>
               const SizedBox(height: 4),
               Builder(
                 builder: (context) {
-                  final usd = bnb == null || bnb < BigInt.zero
+                  final usd = native == null || native < BigInt.zero
                       ? null
                       : PriceService.instance.usdValue(
-                          bnb,
+                          native,
                           18,
-                          PriceService.instance.price('BNB'),
+                          PriceService.instance.price(
+                            appState.rpc.chain.priceSymbol,
+                          ),
                         );
+                  final chain = appState.rpc.chain;
                   return Text(
-                    usd == null ? 'BNB · BSC' : '${usdLabel(usd)} · BNB on BSC',
+                    usd == null
+                        ? '${chain.nativeSymbol} · ${chain.shortName}'
+                        : '${usdLabel(usd)} · ${chain.nativeSymbol} on ${chain.shortName}',
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -646,11 +656,12 @@ class _WalletPageState extends State<WalletPage>
       animation: PriceService.instance,
       builder: (context, _) {
         final tokens = [
-          const TokenInfo(
-            symbol: 'BNB',
-            name: 'BNB',
+          TokenInfo(
+            symbol: appState.rpc.chain.nativeSymbol,
+            name: appState.rpc.chain.nativeName,
             address: '',
             decimals: 18,
+            network: appState.rpc.network,
             native: true,
           ),
           ...appState.tokensForNetwork.where(
@@ -1066,11 +1077,12 @@ class _WalletPageState extends State<WalletPage>
             )
           else
             for (final token in [
-              const TokenInfo(
-                symbol: 'BNB',
-                name: 'BNB Smart Chain',
+              TokenInfo(
+                symbol: appState.rpc.chain.nativeSymbol,
+                name: appState.rpc.chain.nativeName,
                 address: '',
                 decimals: 18,
+                network: appState.rpc.network,
                 native: true,
               ),
               ...appState.tokensForNetwork,
@@ -1472,10 +1484,10 @@ class _WalletPageState extends State<WalletPage>
               ),
             const Divider(),
           ],
-          if (appState.bscscanKey == null)
-            const Text(
-              'Add a BscScan API key in Settings to enable full history. '
-              'Balances and transfers do not need it.',
+          if (appState.explorerKey == null)
+            Text(
+              'Add an ${appState.rpc.chain.apiKeyHost} API key in Settings to '
+              'enable full history. Balances and transfers do not need it.',
               style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
             )
           else if (_loadingHistory)

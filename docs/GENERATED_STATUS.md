@@ -5,7 +5,7 @@ Regenerate with `python3 scripts/generate_docs.py`.
 
 ## Release status
 
-- Version: `1.5.5+17`
+- Version: `1.6.0+18`
 - Exact source commit: recorded in `release/evidence.json` when a release bundle is published. It is deliberately not embedded here, because a document cannot contain the hash of the commit that contains it.
 - Status: **RELEASE APPROVED**
 
@@ -19,12 +19,12 @@ Status meanings: `VERIFIED` requires every source and release check; `PARTIALLY 
 | Dart | Dart SDK version: 3.13.5 (stable) (Tue Sep 29 01:00:52 2026 -0700) on "linux_x64" |
 | pubspec.lock SHA-256 | c1c31c95438e44de4172d2b27a759bda13fd305981a0bf0dbac32d2868d49e24 |
 | verification/package-lock.json SHA-256 | ad659384d423e91d21aab1d3f7b32d73eb78f6019effa9f6c6b638031363e5e7 |
-| SBOM SHA-256 | 1e9946ed5ccd8f78db7dc4035901f033c43cf6cb0fb31c9ca33a26a8a5672a14 |
+| SBOM SHA-256 | b561c6680ae3618023fc060fd5ae8c529e68c002364fb53b1ca842624b4a533d |
 
 ## Test inventory
 
-- Test files: **69**
-- Test/testWidgets declarations: **395**
+- Test files: **73**
+- Test/testWidgets declarations: **414**
 - Real-KDF files: **7**
 - Inventory: `docs/testing/test-inventory.json`
 

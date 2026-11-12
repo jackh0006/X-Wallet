@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app_state.dart';
+import '../chains.dart';
 import '../models.dart';
-import '../rpc_service.dart';
 import '../wallet_core.dart';
 import '../platform_files.dart';
 
@@ -233,25 +233,24 @@ Future<void> showMessage(BuildContext context, String title, String message) {
   );
 }
 
-/// Loads native BNB and every configured token balance for [address].
+/// Loads the selected chain's native balance and every configured token.
 Future<Map<String, BigInt>> loadBalances(String address) async {
   final rpc = appState.rpc;
   await rpc.ensureConnected();
-  final tokens = <TokenInfo>[
-    const TokenInfo(
-      symbol: 'BNB',
-      name: 'BNB Smart Chain',
-      address: '',
-      decimals: 18,
-      native: true,
-    ),
-    ...appState.tokensForNetwork,
-  ];
+  final native = TokenInfo(
+    symbol: rpc.chain.nativeSymbol,
+    name: rpc.chain.nativeName,
+    address: '',
+    decimals: 18,
+    network: rpc.network,
+    native: true,
+  );
+  final tokens = <TokenInfo>[native, ...appState.tokensForNetwork];
   final out = <String, BigInt>{};
   for (final token in tokens) {
     try {
       if (token.native) {
-        out['BNB'] = await rpc.getNativeBalance(address);
+        out[token.symbol] = await rpc.getNativeBalance(address);
       } else {
         out[token.symbol] = await rpc.getTokenBalance(token.address, address);
       }
@@ -263,7 +262,7 @@ Future<Map<String, BigInt>> loadBalances(String address) async {
 }
 
 String explorerUrl(String network, String path) =>
-    '${BnbNetworks.explorers[network] ?? BnbNetworks.explorers['mainnet']}$path';
+    '${Chains.byKey(network).explorerBase}$path';
 
 /// Writes a secret to a file for the user to export. Used only for explicit
 /// backup actions; the file is never uploaded.

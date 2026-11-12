@@ -1,22 +1,22 @@
 [
   {
-    "name": "Tether — official site",
+    "name": "Tether \u2014 official site",
     "description": "Issuer of USDT. Confirm the token's name and that a contract exists for BNB Chain on the issuer's own pages.",
     "url": "https://tether.to/en/supported-protocols/"
   },
   {
-    "name": "Circle — USDC contract addresses",
+    "name": "Circle \u2014 USDC contract addresses",
     "description": "Circle publishes official USDC contract addresses per chain, including BNB Chain.",
     "url": "https://developers.circle.com/stablecoins/usdc-contract-addresses"
   },
   {
-    "name": "BscScan — token explorer",
-    "description": "Search a symbol, open the token page and read the contract marked with a blue verification check. NOTE: BscScan sits behind a bot-protection wall that refuses scripted probes (403) — the CI checker marks it SKIP, not FAIL; verify it once yourself in a real browser.",
+    "name": "BscScan \u2014 token explorer",
+    "description": "Search a symbol, open the token page and read the contract marked with a blue verification check. NOTE: BscScan sits behind a bot-protection wall that refuses scripted probes (403) \u2014 the CI checker marks it SKIP, not FAIL; verify it once yourself in a real browser.",
     "url": "https://bscscan.com/tokens",
     "bot_protected": true
   },
   {
-    "name": "BscScan — contract lookup",
+    "name": "BscScan \u2014 contract lookup",
     "description": "Paste the address you copied and confirm name, symbol and decimals before adding it here. Also bot-protected against scripted probes (see the note above).",
     "url": "https://bscscan.com/address",
     "bot_protected": true
@@ -33,7 +33,7 @@
   },
   {
     "name": "DefiLlama",
-    "description": "Open-source aggregator of on-chain tokens — useful as a neutral cross-check point.",
+    "description": "Open-source aggregator of on-chain tokens \u2014 useful as a neutral cross-check point.",
     "url": "https://defillama.com/"
   },
   {
@@ -45,5 +45,22 @@
     "name": "PancakeSwap extended token list",
     "description": "Plain-JSON extended list with on-chain-verified entries; the raw file shows contract addresses.",
     "url": "https://tokens.pancakeswap.finance/pancakeswap-extended.json"
+  },
+  {
+    "name": "Etherscan \u2014 token explorer",
+    "description": "Search an Ethereum token symbol, open the token page and read the contract marked with a verification badge. Bot-protected against scripted probes; verify once in a real browser.",
+    "url": "https://etherscan.io/tokens",
+    "bot_protected": true
+  },
+  {
+    "name": "Etherscan \u2014 contract lookup",
+    "description": "Paste the Ethereum address you copied and confirm name, symbol and decimals before adding it.",
+    "url": "https://etherscan.io/address",
+    "bot_protected": true
+  },
+  {
+    "name": "Tether Gold \u2014 official token information",
+    "description": "Issuer page for XAUT (Tether Gold). Confirm the Ethereum contract on Tether's own pages; XAUTUSDT is a market pair, not an ERC-20 address.",
+    "url": "https://gold.tether.to/"
   }
 ]

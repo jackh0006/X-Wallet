@@ -12,6 +12,7 @@ import 'package:synchronized/synchronized.dart';
 
 import 'models.dart';
 import 'posix_fs.dart';
+import 'chains.dart';
 import 'rpc_service.dart';
 
 /// A lock to prevent concurrent vault operations (export/import/move/password change).
@@ -1281,7 +1282,26 @@ class AppStorage {
   static Future<void> setLocale(String value) =>
       prefs.setString('locale', value);
 
-  static Future<void> setRpc(String value) => prefs.setString('rpc', value);
+  static String _rpcKey(String network) => 'rpc_$network';
+
+  /// Returns the saved node for one chain only. The legacy single `rpc` key
+  /// is read for BNB mainnet migration, never for another chain.
+  static String getRpcFor(String network) {
+    final saved = prefs.getString(_rpcKey(network));
+    if (saved != null && saved.startsWith('https://')) return saved;
+    if (network == 'mainnet') {
+      final legacy = prefs.getString('rpc');
+      if (legacy != null && legacy.startsWith('https://')) return legacy;
+    }
+    return BnbNetworks.defaultRpcs[network] ??
+        BnbNetworks.defaultRpcs['mainnet']!;
+  }
+
+  static Future<void> setRpc(String value, [String? network]) async {
+    final key = network ?? AppStorage.network;
+    await prefs.setString(_rpcKey(key), value);
+    if (key == 'mainnet') await prefs.setString('rpc', value);
+  }
 
   static List<RpcNode> get nodes {
     final raw = prefs.getString('nodes');
@@ -1459,14 +1479,51 @@ class AppStorage {
   static Future<void> setPendingTxsJson(String value) =>
       prefs.setString('pending_txs', value);
 
-  // ---- BscScan API key (secret, secure storage only) ----
+  // ---- Explorer API keys (secret, secure storage only, isolated per chain) ----
+
+  static String _explorerKeyName(String network) =>
+      'explorer_api_key_${Chains.byKey(network).chainId}';
 
   static Future<String?> getBscscanKey() =>
       _secure.read(key: 'bscscan_api_key');
-  static Future<void> setBscscanKey(String value) =>
-      _secure.write(key: 'bscscan_api_key', value: value);
-  static Future<void> clearBscscanKey() =>
-      _secure.delete(key: 'bscscan_api_key');
+
+  static Future<void> setBscscanKey(String value) async {
+    await _secure.write(key: 'bscscan_api_key', value: value);
+    await _secure.write(key: _explorerKeyName('mainnet'), value: value);
+  }
+
+  static Future<void> clearBscscanKey() async {
+    await _secure.delete(key: 'bscscan_api_key');
+    await _secure.delete(key: _explorerKeyName('mainnet'));
+  }
+
+  static Future<String?> getExplorerKey(String network) async {
+    final key = _explorerKeyName(network);
+    final value = await _secure.read(key: key);
+    if (value != null && value.isNotEmpty) return value;
+    // One-time migration from the single BscScan key used through 1.5.5.
+    if (Chains.byKey(network).chainId == 56) {
+      return _secure.read(key: 'bscscan_api_key');
+    }
+    return null;
+  }
+
+  static Future<void> setExplorerKey(String network, String value) async {
+    await _secure.write(key: _explorerKeyName(network), value: value);
+    if (Chains.byKey(network).chainId == 56) {
+      await _secure.write(key: 'bscscan_api_key', value: value);
+    }
+  }
+
+  static Future<void> clearExplorerKey(String network) =>
+      _secure.delete(key: _explorerKeyName(network));
+
+  static Future<void> clearAllExplorerKeys() async {
+    await _secure.delete(key: 'bscscan_api_key');
+    for (final chain in Chains.all) {
+      await _secure.delete(key: _explorerKeyName(chain.key));
+    }
+  }
 
   // ---- vault path management (M3) ----
 
@@ -2078,6 +2135,10 @@ class AppStorage {
     for (final key in const [
       'network',
       'rpc',
+      'rpc_mainnet',
+      'rpc_testnet',
+      'rpc_ethereum',
+      'rpc_sepolia',
       'nodes',
       'tokens',
       'profiles',
@@ -2085,6 +2146,10 @@ class AppStorage {
       'auto_lock_seconds',
       'wipe_after_failures',
       'show_usd',
+      'price_provider',
+      'theme_mode',
+      'wallet_mode',
+      'selection_mode',
       'tor_enabled',
       'tor_host',
       'tor_port',
@@ -2108,7 +2173,8 @@ class AppStorage {
     _proxyPasswordCache = null;
     _torUpstreamPasswordCache = null;
     for (final task in [
-      clearBscscanKey,
+      clearAllExplorerKeys,
+      clearAllPriceApiKeys,
       clearPinHash,
       clearDeviceSecret,
       clearBackoffState,
@@ -2445,6 +2511,27 @@ class AppStorage {
   static bool get showUsd => prefs.getBool('show_usd') ?? false;
   static Future<void> setShowUsd(bool value) =>
       prefs.setBool('show_usd', value);
+
+  /// Preferred public price provider. 'auto' keeps the deliberate fallback
+  /// order; any other value pins one provider and never silently switches.
+  static String get priceProvider =>
+      prefs.getString('price_provider') ?? 'auto';
+  static Future<void> setPriceProvider(String value) =>
+      prefs.setString('price_provider', value);
+
+  static String _priceKeyName(String provider) => 'price_api_key_$provider';
+
+  static Future<String?> getPriceApiKey(String provider) =>
+      _secure.read(key: _priceKeyName(provider));
+  static Future<void> setPriceApiKey(String provider, String value) =>
+      _secure.write(key: _priceKeyName(provider), value: value);
+  static Future<void> clearPriceApiKey(String provider) =>
+      _secure.delete(key: _priceKeyName(provider));
+  static Future<void> clearAllPriceApiKeys() async {
+    for (final provider in const ['coinmarketcap', 'coingecko']) {
+      await _secure.delete(key: _priceKeyName(provider));
+    }
+  }
 
   static bool get torEnabled => prefs.getBool('tor_enabled') ?? false;
   static Future<void> setTorEnabled(bool value) =>

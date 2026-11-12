@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'chains.dart';
+
 import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -23,7 +25,9 @@ class ColdTxCodec {
 
   static const int maxDataBytes = 128 * 1024;
   static const int maxGasLimit = 30000000;
-  static const Set<int> supportedChainIds = {56, 97};
+  static final Set<int> supportedChainIds = Set.unmodifiable({
+    for (final chain in Chains.all) chain.chainId,
+  });
 
   /// Validate the common EIP-1559 field bounds.  Throws [ColdTxFormatException]
   /// with a stable reason instead of silently signing nonsense.

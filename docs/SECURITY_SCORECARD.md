@@ -1,7 +1,7 @@
-# Security scorecard — X Wallet 1.5.5
+# Security scorecard — X Wallet 1.6.0
 
 **Date:** 2026-11-12
-**Release:** X Wallet `1.5.5+17`
+**Release:** X Wallet `1.6.0+18`
 **Status:** internal self-assessment. **This is not an independent audit.**
 A score never overrides a release blocker.
 
@@ -22,13 +22,13 @@ A score never overrides a release blocker.
 | Category | Weight | Score | Evidence |
 |---|---:|---:|---|
 | Cryptography and key protection | 20 | 13 | Argon2id 64 MiB/t=3/p=4, XChaCha20-Poly1305, authenticated header, KDF floors, v1 read, portable backups. The device secret is defense-in-depth, not a required second factor; no zeroisation; official BIP-32/39 vector files are still missing. |
-| Transaction and blockchain security | 15 | 11 | Exact review binding now includes nonce and sender, chain ID, EIP-1559, hold-to-confirm, ERC-20 spender/unlimited decoding, cancel fix, uncertain-broadcast persistence. The cold path still does not consult the spending policy. |
-| Testing, fuzzing and reliability | 15 | 12 | 69 test files / 395 declarations, deterministic fuzz/property tests, real Anvil integration, vault tamper and backup tests, new hardening regressions. No coverage-guided fuzzer or 30–60 min soak. |
+| Transaction and blockchain security | 15 | 11 | Exact review binding now includes nonce and sender, chain ID, EIP-1559, hold-to-confirm, ERC-20 spender/unlimited decoding, cancel fix, uncertain-broadcast persistence, BNB/Ethereum chain binding. The cold path still does not consult the spending policy; Ethereum has no live-node run yet. |
+| Testing, fuzzing and reliability | 15 | 12 | 73 test files / 395 declarations, deterministic fuzz/property tests, real Anvil integration, vault tamper and backup tests, new hardening regressions. No coverage-guided fuzzer or 30–60 min soak. |
 | Supply chain and CI/CD | 10 | 8 | Pinned action SHAs, CodeQL (no Dart), secret scan, dependency advisory audit, licence inventory, CycloneDX SBOM, least privilege, strict source gate and post-release asset verification. Android CI still uses a debug signing config. |
 | Reproducible builds and release integrity | 10 | 6 | Signed `.deb`/APKs and matching hashes. Strict `--require-source` gate, post-release asset verifier, fixed-path reproducibility only; no independent-machine rebuild. |
 | Backup, recovery and operational safety | 10 | 8 | Portable `BNBBKP01` backup restores on a fresh device; wrong-password/tamper/truncation tests; atomic writes and rollback. No crash/ENOSPC fault injection. |
 | Privacy and network security | 5 | 3 | Startup transport rebuild, cold-mode gate, prices off by default, node credentials in secure storage, 2 MiB cap and method allowlist, stricter custom-header rejection. No packet capture or OS-enforced air gap in CI. |
-| Platform compatibility and performance | 5 | 2 | Ubuntu 24.04 build and package smoke. Android 1.5.5 APK is signed but not run on a device; no Debian/Fedora clean-install CI. |
+| Platform compatibility and performance | 5 | 2 | Ubuntu 24.04 build and package smoke. Android 1.6.0 APK is signed but not run on a device; no Debian/Fedora clean-install CI. |
 | UI, accessibility and user safety | 5 | 3 | Hold-to-confirm, full-address review, donation separation, vault manager. No real screen-reader session and no anti-phishing phrase. |
 | Documentation, transparency and governance | 5 | 4 | Claim register, proof matrix, honest limitations, threat model, SBOM, release evidence. Some older documents still contain stale counts and claims. |
 | **Total** | **100** | **70** | |
@@ -36,7 +36,7 @@ A score never overrides a release blocker.
 The previous 91/100 was not supportable: it counted unproven offline,
 device-binding and backup claims, stale test counts, and a non-strict release
 gate. The evidence-backed score before this release was approximately 58. The
-1.5.5 changes close the nonce-binding and strict-gate gaps; the total stays
+1.6.0 adds Ethereum and per-chain configuration; the total stays
 70/100 because no independent audit, independent rebuild or physical-device
 test was added.
 

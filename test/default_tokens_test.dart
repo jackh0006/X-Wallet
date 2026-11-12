@@ -31,13 +31,26 @@ void main() {
       ),
     ]);
 
-    expect(merged.map((t) => t.symbol), containsAll(['CAKE', 'USDT', 'USDC']));
-    expect(merged.where((t) => t.symbol == 'USDT'), hasLength(1));
-    expect(merged.where((t) => t.symbol == 'USDC'), hasLength(1));
+    expect(
+      merged.map((t) => t.symbol),
+      containsAll(['CAKE', 'USDT', 'USDC', 'XAUT']),
+    );
+    expect(
+      merged.where((t) => t.symbol == 'USDT' && t.network == 'mainnet'),
+      hasLength(1),
+    );
+    expect(
+      merged.where((t) => t.symbol == 'USDT' && t.network == 'ethereum'),
+      hasLength(1),
+    );
+    expect(
+      merged.where((t) => t.symbol == 'USDC' && t.network == 'mainnet'),
+      hasLength(1),
+    );
 
     final again = state.withDefaultTokens(merged);
-    expect(again.where((t) => t.symbol == 'USDT'), hasLength(1));
-    expect(again.where((t) => t.symbol == 'USDC'), hasLength(1));
+    expect(again.where((t) => t.symbol == 'USDT'), hasLength(2));
+    expect(again.where((t) => t.symbol == 'USDC'), hasLength(2));
     expect(again, hasLength(merged.length));
   });
 
@@ -51,7 +64,13 @@ void main() {
         decimals: 18,
       ),
     ]);
-    expect(merged.where((t) => t.symbol == 'USDT'), hasLength(1));
-    expect(merged.where((t) => t.symbol == 'USDC'), hasLength(1));
+    expect(
+      merged.where((t) => t.symbol == 'USDT' && t.network == 'mainnet'),
+      hasLength(1),
+    );
+    expect(
+      merged.where((t) => t.symbol == 'USDC' && t.network == 'mainnet'),
+      hasLength(1),
+    );
   });
 }

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart'
     show Clipboard, ClipboardData, rootBundle;
 
 import '../app_state.dart';
+import '../chains.dart';
 import '../app_version.dart';
 import '../models.dart';
 import '../platform_files.dart';
@@ -119,6 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
               KeyedSubtree(key: _tokensKey, child: _tokensSection()),
               const SizedBox(height: 18),
               _historyKeySection(),
+              const SizedBox(height: 18),
+              _priceSection(),
               const SizedBox(height: 18),
               KeyedSubtree(key: _vaultsKey, child: _vaultsSection()),
               const SizedBox(height: 18),
@@ -791,20 +794,30 @@ class _SettingsPageState extends State<SettingsPage> {
           SectionTitle('Network'),
           const SizedBox(height: 8),
           const Text(
-            'Switching networks verifies the chain ID before any RPC call.',
+            'Each chain has its own nodes, explorer key and tokens. Switching verifies the chain ID before any RPC call.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 10),
-          SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: 'mainnet', label: Text('Mainnet (56)')),
-              ButtonSegment(value: 'testnet', label: Text('Testnet (97)')),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final chain in Chains.all)
+                ChoiceChip(
+                  label: Text('${chain.name} · ${chain.chainId}'),
+                  selected: appState.rpc.network == chain.key,
+                  onSelected: (_) async {
+                    await appState.setNetwork(chain.key);
+                    _rpcController.text = appState.rpc.configuredRpc;
+                    if (mounted) {
+                      showInfo(
+                        context,
+                        'Switched to ${chain.name} (chain ${chain.chainId}).',
+                      );
+                    }
+                  },
+                ),
             ],
-            selected: {appState.rpc.network},
-            onSelectionChanged: (s) async {
-              await appState.setNetwork(s.first);
-              if (mounted) showInfo(context, 'Switched to ${s.first}.');
-            },
           ),
         ],
       ),
@@ -893,8 +906,9 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
           const Text(
             'These are the only computers I may ask about balances and blocks. '
-            'Each one is pinned to a side: mainnet (real money) or testnet '
-            '(practice coins). The switch on every row turns a door off — a '
+            'Each one is pinned to one chain: BNB mainnet/testnet or Ethereum '
+            'mainnet/Sepolia. A BNB node is never used as an Ethereum node. '
+            'The switch on every row turns a door off — a '
             'switched-off door is never asked anything. Book order is '
             'priority order: move doors with the ▲▼ actions.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
@@ -1667,16 +1681,17 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 4),
           const Text(
             'Hiding only changes this screen and the send picker; the token '
-            'and its on-chain balance stay exactly where they are. BNB is '
-            'always shown because it pays network fees.',
+            'and its on-chain balance stay exactly where they are. The chain '
+            'native coin is always shown because it pays network fees.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 12.5),
           ),
           for (final token in [
-            const TokenInfo(
-              symbol: 'BNB',
-              name: 'BNB Smart Chain',
+            TokenInfo(
+              symbol: appState.rpc.chain.nativeSymbol,
+              name: appState.rpc.chain.nativeName,
               address: '',
               decimals: 18,
+              network: appState.rpc.network,
               native: true,
             ),
             ...appState.tokensForNetwork,
@@ -1757,7 +1772,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 8),
         ],
         const Text(
-          '① Look the token up on BscScan or the issuer\'s OFFICIAL site and '
+          '① Look the token up on the chain explorer or the issuer\'s OFFICIAL site and '
           'copy the contract address.\n'
           '② Check the name, symbol and logo against the issuer\'s own page.\n'
           '③ Paste the address into the field above — the wallet verifies the '
@@ -1945,8 +1960,11 @@ class _SettingsPageState extends State<SettingsPage> {
       showError(context, 'Unlock or load a wallet address first.');
       return;
     }
-    if (appState.bscscanKey == null) {
-      showError(context, 'Add a BscScan API key first.');
+    if (appState.explorerKey == null) {
+      showError(
+        context,
+        'Add an ${appState.rpc.chain.apiKeyHost} API key first.',
+      );
       return;
     }
     final started = DateTime.now();
@@ -1954,10 +1972,12 @@ class _SettingsPageState extends State<SettingsPage> {
       final rows = await appState.rpc.history(wallet);
       final elapsed = DateTime.now().difference(started).inMilliseconds;
       final report = StringBuffer()
-        ..writeln('BscScan history test')
+        ..writeln('${appState.rpc.chain.apiKeyHost} history test')
         ..writeln('Wallet: $wallet')
-        ..writeln('Network: ${appState.rpc.network}')
-        ..writeln('API: BscScan V1 (Etherscan-compatible)')
+        ..writeln(
+          'Network: ${appState.rpc.chain.name} (${appState.rpc.chain.chainId})',
+        )
+        ..writeln('API: ${appState.rpc.chain.apiBase}')
         ..writeln('Rows returned: ${rows.length}')
         ..writeln('Elapsed: $elapsed ms')
         ..writeln('');
@@ -2017,14 +2037,14 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SectionTitle('Transaction history'),
           const SizedBox(height: 8),
-          const Text(
-            'History uses the public BscScan API V1 (Etherscan-compatible). '
-            'You need a free BscScan API key; the free tier is enough for '
-            'normal account history. Create one at bscscan.com/myapikey, then '
-            'paste it below. The key is stored in secure on-device storage. '
-            'Without a key, the wallet still works; only explorer history is '
-            'unavailable.',
-            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
+          Text(
+            'History uses the selected chain explorer API '
+            '(${appState.rpc.chain.apiKeyHost}). You need a free API key; the '
+            'free tier is enough for normal account history. Each chain keeps '
+            'its own key. The key is stored in secure on-device storage and is '
+            'never exported with the wallet. Without a key, the wallet still '
+            'works; only explorer history is unavailable.',
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -2032,11 +2052,10 @@ class _SettingsPageState extends State<SettingsPage> {
             runSpacing: 8,
             children: [
               OutlinedButton.icon(
-                onPressed: () => Process.run('xdg-open', const [
-                  'https://bscscan.com/myapikey',
-                ]),
+                onPressed: () =>
+                    Process.run('xdg-open', [appState.rpc.chain.apiKeyUrl]),
                 icon: const Icon(Icons.open_in_new, size: 16),
-                label: const Text('Open BscScan API keys'),
+                label: Text('Open ${appState.rpc.chain.apiKeyHost} API keys'),
               ),
               OutlinedButton.icon(
                 onPressed: _testHistory,
@@ -2046,17 +2065,17 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
           const SizedBox(height: 10),
-          if (appState.bscscanKey == null) ...[
+          if (appState.explorerKey == null) ...[
             OutlinedButton.icon(
               onPressed: () async {
                 final key = await promptText(
                   context,
-                  title: 'BscScan API key',
+                  title: '${appState.rpc.chain.apiKeyHost} API key',
                   label: 'API key (hidden)',
                   obscure: true,
                 );
                 if (key == null || key.isEmpty || !mounted) return;
-                await appState.setBscscanKey(key);
+                await appState.setExplorerKey(appState.rpc.network, key);
                 if (!mounted) return;
                 showInfo(context, 'API key saved.');
               },
@@ -2070,13 +2089,112 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const SizedBox(height: 8),
             FilledButton.icon(
-              onPressed: () => appState.setBscscanKey(null),
+              onPressed: () =>
+                  appState.setExplorerKey(appState.rpc.network, null),
               icon: const Icon(Icons.delete_outline),
               label: const Text('Remove API key'),
             ),
           ],
         ],
       ),
+    );
+  }
+
+  Widget _priceSection() {
+    return InfoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle('USD price source'),
+          const SizedBox(height: 8),
+          const Text(
+            'The provider receives only fixed coin symbols/IDs — never your '
+            'address, balance, vault, device model or timezone. Pinning one '
+            'provider means the wallet will not silently switch to another.',
+            style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
+          ),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            initialValue: appState.priceProvider,
+            decoration: const InputDecoration(
+              labelText: 'Preferred provider',
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              for (final provider in PriceService.providers)
+                DropdownMenuItem(
+                  value: provider,
+                  child: Text(PriceService.providerLabel(provider)),
+                ),
+            ],
+            onChanged: (value) {
+              if (value == null) return;
+              appState.setPriceProvider(value);
+              setState(() {});
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Last update: '
+            '${PriceService.instance.fetchedAt?.toLocal().toString() ?? 'not yet'}'
+            '${PriceService.instance.stale ? ' (stale)' : ''}'
+            '${PriceService.instance.lastError == null ? '' : ' · ${PriceService.instance.lastError}'}',
+            style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
+          ),
+          const SizedBox(height: 10),
+          _priceKeyRow('coinmarketcap', 'CoinMarketCap API key'),
+          const SizedBox(height: 6),
+          _priceKeyRow('coingecko', 'CoinGecko demo API key'),
+        ],
+      ),
+    );
+  }
+
+  Widget _priceKeyRow(String provider, String label) {
+    return FutureBuilder<String?>(
+      future: appState.priceApiKey(provider),
+      builder: (context, snapshot) {
+        final hasKey = (snapshot.data ?? '').isNotEmpty;
+        return Row(
+          children: [
+            Expanded(
+              child: Text(
+                hasKey ? '$label configured (hidden).' : '$label optional.',
+                style: const TextStyle(
+                  color: Color(0xFF6E6E6E),
+                  fontSize: 12.5,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final key = await promptText(
+                  context,
+                  title: label,
+                  label: 'API key (hidden)',
+                  obscure: true,
+                );
+                if (key == null || key.isEmpty || !context.mounted) return;
+                await appState.setPriceApiKey(provider, key);
+                if (!context.mounted) return;
+                setState(() {});
+                showInfo(context, 'Price API key saved.');
+              },
+              child: Text(hasKey ? 'Replace' : 'Add'),
+            ),
+            if (hasKey)
+              TextButton(
+                onPressed: () async {
+                  await appState.setPriceApiKey(provider, null);
+                  if (!context.mounted) return;
+                  setState(() {});
+                  showInfo(context, 'Price API key removed.');
+                },
+                child: const Text('Remove'),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -2718,7 +2836,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Text(
             'These limits apply before signing. A frozen wallet cannot sign at '
             'all. An allowlist restricts recipients. A per-transaction limit '
-            'applies to native BNB transfers. These are local safeguards, not '
+            'applies to native transfers. These are local safeguards, not '
             'a substitute for hardware or multisig custody.',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -2742,7 +2860,7 @@ class _SettingsPageState extends State<SettingsPage> {
             decoration: InputDecoration(
               labelText: tr(
                 context,
-                'Max native BNB per transaction (0 = no limit)',
+                'Max native ${appState.rpc.chain.nativeSymbol} per transaction (0 = no limit)',
               ),
               border: const OutlineInputBorder(),
             ),
@@ -2969,7 +3087,7 @@ class _SettingsPageState extends State<SettingsPage> {
             style: const TextStyle(color: Color(0xFF6E6E6E), fontSize: 12),
           ),
           Text(
-            'Local, non-custodial EVM wallet for BNB Smart Chain. '
+            'Local, non-custodial EVM wallet for BNB Smart Chain and Ethereum. '
             'More EVM networks are planned.',
           ),
           const SizedBox(height: 2),

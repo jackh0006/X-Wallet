@@ -1,5 +1,5 @@
 {
-  "fileCount": 69,
+  "fileCount": 73,
   "files": [
     {
       "lines": 101,
@@ -30,6 +30,13 @@
         "kdf"
       ],
       "tests": 4
+    },
+    {
+      "lines": 108,
+      "path": "test/chains_test.dart",
+      "sha256": "1267e2f28e454590634463de7999799347d7b1bc0ce0d8511c53d0d55fe78199",
+      "tags": [],
+      "tests": 7
     },
     {
       "lines": 70,
@@ -88,9 +95,9 @@
       "tests": 5
     },
     {
-      "lines": 57,
+      "lines": 76,
       "path": "test/default_tokens_test.dart",
-      "sha256": "f5280d6d475794998855d7a554a889b16491bc4fb1dba009ccbd9b57d2ac96af",
+      "sha256": "356233890c9e09c1a4720b5cf4e832d9aa70e6e96d2b7905e0464a885c767ebf",
       "tags": [],
       "tests": 3
     },
@@ -128,6 +135,20 @@
       "sha256": "313ff3477e72e1995f296081e474990d37d59003893eb9e5f532ef4403c46025",
       "tags": [],
       "tests": 1
+    },
+    {
+      "lines": 121,
+      "path": "test/ethereum_signing_test.dart",
+      "sha256": "aa98a2148e35cd6b2fcfb810383ce96394c5d1e28c8a6242d6094e753baafb04",
+      "tags": [],
+      "tests": 3
+    },
+    {
+      "lines": 92,
+      "path": "test/explorer_history_test.dart",
+      "sha256": "31fb27c4aa67ffb8002678e424b2bf9df7149d790fae0da093624eb2b7385305",
+      "tags": [],
+      "tests": 4
     },
     {
       "lines": 277,
@@ -290,6 +311,13 @@
       "tests": 5
     },
     {
+      "lines": 117,
+      "path": "test/price_provider_test.dart",
+      "sha256": "75e3bdda8f20c87c5d5ec0d75bfd84f9b0e1bbaa0514af38c3631406e9ffa97c",
+      "tags": [],
+      "tests": 4
+    },
+    {
       "lines": 76,
       "path": "test/price_service_test.dart",
       "sha256": "ba13c2a93952a35bd24137726b691d2fa577d8880c8e4b09bc454c54d78b837d",
@@ -318,11 +346,11 @@
       "tests": 2
     },
     {
-      "lines": 35,
+      "lines": 47,
       "path": "test/public_defaults_test.dart",
-      "sha256": "7563f4e227f22072cc21a57b123673cef60c3c4ebf168d8e59e4c63da8f6b9be",
+      "sha256": "d4fa8f61e03518a15b7b33676de669286f73fb6e3e811601d6e88b037e2af71d",
       "tags": [],
-      "tests": 3
+      "tests": 4
     },
     {
       "lines": 56,
@@ -369,9 +397,9 @@
       "tests": 19
     },
     {
-      "lines": 39,
+      "lines": 42,
       "path": "test/settings_state_test.dart",
-      "sha256": "ef73afb373b22e4af2800ea18d760aaf932a8520d03086ee6befe8743a219162",
+      "sha256": "3fdfd4d7776370129c62dec9653fb89ae624eeda16d7713c8530636949c4c8b1",
       "tags": [],
       "tests": 1
     },
@@ -505,5 +533,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 395
+  "testCount": 414
 }

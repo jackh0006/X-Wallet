@@ -1,4 +1,4 @@
-# Claim register — X Wallet 1.5.5
+# Claim register — X Wallet 1.6.0
 
 Status: internal, evidence-based review. This is **not** an independent audit.
 A claim is marked **PROVEN** only when a test, script, or CI job fails if the
@@ -7,7 +7,7 @@ the whole claim. **DOWNGRADED** means the wording was changed to what the
 evidence supports. **UNPROVEN** means no evidence exists here.
 **DISPROVEN** means the code contradicted the claim before this release.
 
-| ID | Claim | Source | Evidence (1.5.5) | Status |
+| ID | Claim | Source | Evidence (1.6.0) | Status |
 |---|---|---|---|---|
 | C1 | Vault uses Argon2id 64 MiB, t=3, p=4 | README, CRYPTO | `test/kdf_production_test.dart`; `lib/vault.dart`; floor enforced on read | PROVEN |
 | C2 | Vault encrypts with XChaCha20-Poly1305 and an authenticated header | README, CRYPTO | `test/vault_test.dart`, `test/vault_header_validation_test.dart` | PROVEN |
@@ -50,6 +50,12 @@ evidence supports. **UNPROVEN** means no evidence exists here.
 | C39 | Android hardening (FLAG_SECURE, R8, native Argon2) | README | Source/CI greps; no physical-device run | PARTLY |
 | C40 | Android 1.5.3 and later use a new signing key | new | `apksigner` fingerprint recorded below | PROVEN (artifact) |
 | C41 | No independent audit exists | SECURITY | Stated plainly in the release notes, evidence and handoff | PROVEN (disclaimer) |
+| C47 | Ethereum mainnet and Sepolia are supported | README | Chain registry, shared EVM path, explorer and signing tests; no live-node run yet | PARTLY |
+| C48 | Ethereum USDT, USDC and XAUT defaults use canonical contracts | README | `DefaultTokens.ethereum`; `test/chains_test.dart`; user must still verify the issuer page | PROVEN (constants) |
+| C49 | BscScan and Etherscan keys are isolated per chain | README | `test/chains_test.dart`, `test/explorer_history_test.dart` | PROVEN |
+| C50 | A pinned price provider never silently falls back | README | `test/price_provider_test.dart` | PROVEN |
+| C51 | Cold signing binds the Ethereum chain ID | README | `test/ethereum_signing_test.dart` (EIP-155 vector and cold chain-1) | PROVEN |
+| C52 | Hardware wallet and multisig custody exist | README | Not implemented; no claim is made | NOT IMPLEMENTED |
 | C42 | Large amounts are safe | README/risk | No evidence; explicitly not claimed | DISPROVEN as a claim; removed |
 | C43 | “Erase all data” removes pre-1.2 data directories | README | `lib/storage.dart` includes legacy application-data directories and their vault/device secret; no dedicated regression test yet | PARTLY |
 | C44 | Cold pairing fingerprint binds the chain and every address | README | `WalletCore.computeFingerprint`; `test/audit_regressions_test.dart` shows a substituted address changes it | PROVEN |

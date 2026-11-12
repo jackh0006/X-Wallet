@@ -22,15 +22,18 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    SegmentedButton<String> network = tester.widget(
-      find.byType(SegmentedButton<String>),
-    );
-    expect(network.selected, {'mainnet'});
+    ChoiceChip chipFor(String label) =>
+        tester.widget<ChoiceChip>(find.widgetWithText(ChoiceChip, label));
+    expect(chipFor('BNB Smart Chain · 56').selected, isTrue);
 
     appState.rpc.setNetwork('testnet');
     await tester.pump();
-    network = tester.widget(find.byType(SegmentedButton<String>));
-    expect(network.selected, {'testnet'});
+    expect(chipFor('BNB Smart Chain Testnet · 97').selected, isTrue);
+    expect(chipFor('BNB Smart Chain · 56').selected, isFalse);
+
+    appState.rpc.setNetwork('ethereum');
+    await tester.pump();
+    expect(chipFor('Ethereum · 1').selected, isTrue);
 
     expect(appState.liteMode, isFalse);
     await appState.setLiteMode(true);

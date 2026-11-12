@@ -3,6 +3,17 @@
 All notable changes to this wallet. Dates in 2026; releases identify their
 supported artifacts explicitly.
 
+## 1.6.0+18 — Ethereum and per-chain configuration
+
+- `lib/chains.dart` registry for BNB mainnet/testnet and Ethereum
+  mainnet/Sepolia.
+- Ethereum USDT/USDC/XAUT defaults with canonical contracts and decimals.
+- Per-chain explorer API keys and Etherscan v2 history.
+- Price provider selection with optional secure API keys; pinned providers do
+  not silently fall back.
+- Chain-aware UI labels, native symbols, explorer links and node defaults.
+- Cold EIP-1559 signing on chain 1 with chain-ID binding tests.
+
 ## 1.5.5+17 — hardening and verifiable release
 
 - `SendIntent.verify` compares the reviewed nonce and sender with the exact

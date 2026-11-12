@@ -9,12 +9,12 @@ runs. This file is a human-readable index, not a second source of truth.
 
 | Item | Value |
 |---|---|
-| Version | `1.5.5+17` |
+| Version | `1.6.0+18` |
 | Branch | `main` (use `git rev-parse HEAD` for the exact checkout) |
 | Tested source commit | `32b0aad3c296b52e2bfd4d84929c09de5c67eb0d` (tag `tested-1.5.5`) |
 | Release source commit | `e59124eee13c06d4d79b242396caccc79f43f2a5`; tag `v1.5.5` adds docs/evidence |
 | Evidence bundle | `release/evidence.json` (RELEASE APPROVED for recorded checks) |
-| Pull requests | merged through the 1.5.5 release/evidence PRs (#54, #55) |
+| Pull requests | merged through the 1.6.0 release/evidence PRs (#54, #55) |
 | Hosted CI | All required `main` workflows pass |
 | Release status | **RELEASE APPROVED for recorded internal checks; independent audit NOT PERFORMED** |
 | Final package | `x-wallet-1.5.5-amd64.deb` (hash recorded in `release/evidence.json`) |
@@ -25,7 +25,7 @@ runs. This file is a human-readable index, not a second source of truth.
 - Native Argon2id (`lib/kdf.dart`) with fixed 64 MiB / t=3 / p=4; measured
   **347 ms** vs ~110 s for the debug pure-Dart fallback.
 - Exact ERC-20 transfer calldata in `SendIntent`; trailing bytes rejected.
-- 69 test files / 395 declarations; 1.5.5 adds nonce/sender binding and cold-pairing fingerprint regressions; the 1.5.3 additions cover portable backups, multi-vault, proxy startup, approvals and node credentials;
+- 73 test files / 395 declarations; 1.5.5 adds nonce/sender binding and cold-pairing fingerprint regressions; the 1.5.3 additions cover portable backups, multi-vault, proxy startup, approvals and node credentials;
   3 real-Anvil tests; mutation score 5/5 (not re-run for 1.5.5); backup E2E 4/4; localization,
   spending-safety, data-boundary, multi-wallet, password-strength, default-token, legacy-migration, public-default, and private-key cold tests pass.
 - Independent ethers.js cold-signature verification; 8 substitutions rejected.
