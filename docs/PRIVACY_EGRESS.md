@@ -15,6 +15,7 @@ link.
 | Binance spot ticker | USD prices for BNB/ETH | Fixed pair symbol | Price | No | No | Only if USD display is on and chosen/auto |
 | Tor SOCKS proxy | Transport for the above | TLS bytes | TLS bytes | The destination sees the exit IP, not the user IP | No | Optional |
 | User HTTP/SOCKS proxy | Transport | TLS bytes | TLS bytes | Proxy sees destination and source IP | No | Optional |
+| — | Network kill switch | Nothing | Nothing | — | — | Blocks all of the above |
 
 ## What is never sent
 

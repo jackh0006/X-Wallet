@@ -220,6 +220,41 @@ class _SettingsPageState extends State<SettingsPage> {
             'requests fail instead of revealing your IP address.',
             style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 13),
           ),
+          const SizedBox(height: 10),
+          SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Network kill switch'),
+            subtitle: const Text(
+              'Blocks every RPC, explorer and price request. Nothing is sent '
+              'until you turn it off. This is a real fail-closed switch, not '
+              'a cosmetic label.',
+            ),
+            value: appState.networkKillSwitch,
+            onChanged: (value) async {
+              await appState.setNetworkKillSwitch(value);
+              if (!mounted) return;
+              setState(() {});
+              showInfo(
+                context,
+                value
+                    ? 'Network kill switch ON. All wallet requests are blocked.'
+                    : 'Network kill switch OFF. The selected privacy route is active again.',
+              );
+            },
+          ),
+          if (appState.networkKillSwitch)
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0x33D32F2F),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'KILL SWITCH ACTIVE — no balance, fee, history, price or '
+                'broadcast request can leave this device.',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5),
+              ),
+            ),
           if (Platform.isAndroid) ...[
             const SizedBox(height: 10),
             Container(

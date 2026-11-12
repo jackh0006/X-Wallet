@@ -255,3 +255,5 @@ All jobs must pass for merge.
 | `explorer_history_test.dart` | 4 | (light) | ✅ PASS | Etherscan v2 / BscScan host, chain ID and per-chain key isolation |
 | `price_provider_test.dart` | 4 | (light) | ✅ PASS | Pinned provider is the only call; no silent fallback; auto order |
 | `ethereum_signing_test.dart` | 3 | (light) | ✅ PASS | Official EIP-155 vector; Sepolia binding; cold chain-1 signing |
+| `network_kill_switch_test.dart` | 4 | (light) | ✅ PASS | RPC, explorer and price requests blocked before any socket |
+| `network_badge_test.dart` | 1 | (light) | ✅ PASS | MAINNET, TESTNET and CUSTOM labels are textual, not colour-only |

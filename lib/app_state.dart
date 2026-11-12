@@ -361,6 +361,7 @@ class AppState extends ChangeNotifier {
     // unavailable. Rebuild it now so a configured Tor/proxy route applies to
     // the very first request instead of silently sending it direct.
     rpc.rebuildTransport();
+    rpc.setKillSwitch(AppStorage.networkKillSwitch);
     rpc.setNetwork(AppStorage.network);
     rpc.setConfiguredRpc(AppStorage.getRpcFor(AppStorage.network));
     rpc.setCustomTokens(AppStorage.customTokens);
@@ -513,6 +514,19 @@ class AppState extends ChangeNotifier {
     _vaultSessionPassword = null;
     _vaultAccountsCache = null;
     _vaultKnownAddresses = {};
+    notifyListeners();
+  }
+
+  bool get networkKillSwitch => AppStorage.networkKillSwitch;
+
+  /// Turns every outbound wallet request off (RPC, explorer, prices) until the
+  /// user deliberately turns it back on.
+  Future<void> setNetworkKillSwitch(bool value) async {
+    await AppStorage.setNetworkKillSwitch(value);
+    rpc.setKillSwitch(value);
+    if (value) {
+      await PriceService.instance.clearForKillSwitch();
+    }
     notifyListeners();
   }
 
@@ -2388,6 +2402,7 @@ class AppState extends ChangeNotifier {
       AppStorage.resetDeviceSecretMemo();
       rpc.setBscscanKey(null);
       rpc.setExplorerKey('ethereum', null);
+      rpc.setKillSwitch(false);
       rpc.setCustomTokens(_customTokens);
       rpc.clearStory();
       await rpc.privacyChanged();

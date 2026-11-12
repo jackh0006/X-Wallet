@@ -148,6 +148,17 @@ class RpcService extends ChangeNotifier {
   bool _offline = false;
   bool get offline => _offline;
 
+  /// Global network kill switch. Unlike cold mode, this is a user preference
+  /// that survives restarts and blocks every RPC, explorer and price request.
+  bool _killSwitch = false;
+  bool get killSwitch => _killSwitch;
+
+  void setKillSwitch(bool value) {
+    _killSwitch = value;
+    if (value) _dropClient();
+    notifyListeners();
+  }
+
   void setOffline(bool value) {
     _offline = value;
     if (value) _dropClient();
@@ -468,6 +479,11 @@ class RpcService extends ChangeNotifier {
   /// Cold-signer mode is absolute: every network path checks it, not only
   /// `connect()`.
   void _ensureOnline() {
+    if (_killSwitch) {
+      throw StateError(
+        'The network kill switch is on: no network request is allowed.',
+      );
+    }
     if (_offline) {
       throw StateError(
         'This device is in cold-signer mode: all network access is disabled.',
@@ -486,6 +502,11 @@ class RpcService extends ChangeNotifier {
   }
 
   Future<void> connect({bool allowFallback = true}) async {
+    if (_killSwitch) {
+      throw StateError(
+        'The network kill switch is on: no network request is allowed.',
+      );
+    }
     if (_offline) {
       throw StateError(
         'This device is in cold-signer mode: all network access is disabled.',

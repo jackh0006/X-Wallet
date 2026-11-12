@@ -1,5 +1,5 @@
 {
-  "fileCount": 73,
+  "fileCount": 75,
   "files": [
     {
       "lines": 101,
@@ -276,6 +276,20 @@
       "tests": 3
     },
     {
+      "lines": 24,
+      "path": "test/network_badge_test.dart",
+      "sha256": "c1331b081d8b2df502b3cdc507be1cc995406e8110ca8768cddfb0bd0efde2bf",
+      "tags": [],
+      "tests": 1
+    },
+    {
+      "lines": 80,
+      "path": "test/network_kill_switch_test.dart",
+      "sha256": "7b222f4f76cbef9c26d32b64edbd05677733ba83686f99a8b5b3ca80366e09bb",
+      "tags": [],
+      "tests": 4
+    },
+    {
       "lines": 277,
       "path": "test/node_manager_test.dart",
       "sha256": "215783028213285ba3b3be72e0aee596005930db7922690b3909ceaefc0af12c",
@@ -533,5 +547,5 @@
   ],
   "kdfFileCount": 7,
   "schemaVersion": 1,
-  "testCount": 415
+  "testCount": 420
 }
